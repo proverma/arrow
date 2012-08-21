@@ -1,12 +1,11 @@
 {
-    "author": "Lego-QEP (http://twiki.corp.yahoo.com/view/Lego/TeamQEPlatform)",
-    "name": "arrow",
+    "name": "node-arrow",
     "description": "FrontEnd Testing Framework",
     "version": "0.0.58",
-    "homepage": "http://twiki.corp.yahoo.com/view/Lego/Arrow",
+    "homepage": "TBD",
     "repository": {
-        "type": "svn",
-        "url": "svn+ssh://svn.corp.yahoo.com/yahoo/media/common/tools/trunk/arrow/"
+        "type": "git",
+        "url": "git://github.com/yahoo/arrow.git"
     },
     "man": "../man/arrow.1",
     "main": "./index.js",
@@ -20,6 +19,11 @@
             "component": "Arrow"
         }
     },
+    "author": "Pranav Verma <vpranav@yahoo-inc.com>",
+    "contributors": [
+        "Sushant Kumar <sushantk@yahoo-inc.com>",
+        "Ivan Alonso <ivana@yahoo-inc.com>"
+    ],
     "bin": {
         "arrow": "./index.js",
         "arrow_server" : "arrow_server/server.js",
