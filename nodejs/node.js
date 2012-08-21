@@ -1,0 +1,87 @@
+/*jslint forin:true sub:true anon:true sloppy:true stupid:true nomen:true node:true continue:true*/
+/*jslint undef: true*/
+/*
+* Copyright (c) 2012, Yahoo! Inc.  All rights reserved.
+* Copyrights licensed under the New BSD License.
+* See the accompanying LICENSE file for terms.
+*/
+
+var fs = require('fs');
+var path = require('path');
+
+ARROW = {};
+var testReport = null;
+function getReportStatus() {
+    console.log("Waiting for the test report");
+    if ((null === ARROW.testReport) || (0 === ARROW.testReport.length)) {
+        return false;
+    }
+    return true;
+}
+
+function onReportReady(result) {
+    if ((null === ARROW.testReport) || (0 === ARROW.testReport.length)) {
+        console.log("Test failed to execute/timedout");
+    } else {
+        console.log("TEST RESULT: " + ARROW.testReport);
+    }
+}
+
+// Wait until the test condition is true or a timeout occurs.
+function waitFor(testFx, onReady, timeOutMillis) {
+    var timeoutInterval = 100,
+        maxtimeOutMillis = 2500,
+        start = (new Date()).getTime(),
+        interval;
+
+    interval = setInterval(function () {
+        if (testFx()) {
+            clearInterval(interval);
+            onReady(true);
+        } else if (((new Date()).getTime() - start) > maxtimeOutMillis) {
+            onReady(false); // timedout
+        }
+    }, timeoutInterval);
+}
+
+var args = process.argv;
+//console.log(args);
+var testSpecStr = decodeURI(args[2]);
+//console.log(testSpecStr);
+var testSpec = JSON.parse(testSpecStr);
+if (!testSpec) {
+    console.log("Invalid node test args: " + testSpecStr);
+    process.exit();
+}
+
+var seed = testSpec.seed;
+var runner = testSpec.runner;
+var libs = testSpec.libs;
+var testFile = testSpec.test;
+var testParams = decodeURI(args[3]);
+var depFiles = libs.split(",");
+
+function runTest() {
+    ARROW.testParams = JSON.parse(testParams);
+    ARROW.testLibs = [];
+    ARROW.testScript = "";
+    ARROW.scriptType = "test";
+    ARROW.onSeeded = function () {
+        var depFile,
+            i;
+        for (i in depFiles) {
+            depFile = depFiles[i];
+            if (0 === depFile.length) { continue; }
+            console.log("Loading dependency: " + depFile);
+            require(path.resolve("", depFile));
+        }
+        console.log("Executing test: " + testFile);
+        require(path.resolve("", testFile));
+        require(runner);
+        waitFor(getReportStatus, onReportReady);
+    };
+
+    require(seed);
+}
+runTest();
+

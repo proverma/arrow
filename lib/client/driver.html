@@ -1,0 +1,327 @@
+
+<html>
+<head>
+    <title>Browser driver</title>
+    <script src="../../node_modules/yui/yui/yui-min.js"></script>
+
+<script>
+
+function startAgent() {
+    var CONTENTWINDOW = "contentWindow",
+        testReport = null,
+        elementCache = {},
+        autw = getFrame();
+
+    var date = new Date();
+    var sessionId = "session-" + date.getTime();
+    var Y = YUI();
+    Y.use("node", "event", "node-event-simulate", "io", "json-parse", "json-stringify", function() { 
+        window.setTimeout(queryTask, 0);
+    });
+
+var task = null;
+
+function queryTask() {
+
+    if(task) delete task.params; // avoid posting back scripts etc to reduce payload
+    else task = {};
+
+    Y.io("/arrow/slave/" + sessionId, {
+        method: "POST",
+        headers: {"Connection": "keep-alive", "Content-Type": "application/json; charset=utf-8"},
+        data: Y.JSON.stringify(task),
+        on: {
+             success: function(id, o) {
+                task = Y.JSON.parse(o.responseText);
+                if(!task || !task.id) {
+                    task = null;
+                    window.setTimeout(queryTask, 0);
+                } else {
+                    window.setTimeout(runTask, 0);
+                }
+            },
+            failure: function(id, o) {
+                window.setTimeout(queryTask, 5000);
+            }
+        }
+    });
+
+    task = null;
+}
+
+function runTask() {
+    var taskDone = true;
+try {
+    
+    switch(task.params.type) {
+    case "title": {
+       task.result = (autw.document ? autw.document.title : "");
+    }
+    break;
+    case "url": {
+       task.result = autw.location.href;
+    }
+    break;
+    case "navigate": {
+       navigate(autw, task.params.url);
+       taskDone = false;
+    }
+    break;
+    case "execute": {
+        executeScript();
+    }
+    break;
+    case "element": {
+        findElement(false);
+    }
+    break;
+    case "elements": {
+        findElement(true);
+    }
+    break;
+    case "text": {
+       var autElement = getAUTElement(task.params.element);
+       if(autElement) task.result = autElement.get("text");
+    }
+    break;
+    case "name": {
+       var autElement = getAUTElement(task.params.element);
+       if(autElement) task.result = autElement.get("nodeName");
+    }
+    break;
+    case "attribute": {
+       var autElement = getAUTElement(task.params.element);
+       if(autElement) {
+           task.result = autElement.get(task.params.name);
+       }
+    }
+    break;
+    case "click": {
+       var autElement = getAUTElement(task.params.element);
+       if(autElement) {
+           autElement.simulate("click");
+       }
+    }
+    break;
+    case "submit": {
+       var autElement = getAUTElement(task.params.element);
+       if(autElement) {
+           autElement.submit();
+       }
+    }
+    break;
+    case "value": {
+       var autElement = getAUTElement(task.params.element);
+       if(autElement) {
+           autElement.set("value", task.params.value);
+       }
+    }
+    break;
+    default:
+    break;
+    }
+} catch(ex) {
+    console.log(ex);
+    task.result = { "message": ex };
+    task.statusCode = 13; // UnknownError
+    task.httpCode = 500;
+}
+
+    if(taskDone) {
+        queryTask();
+    }
+}
+
+function executeScript() {
+    try {
+        var tmpFunction = new autw['Function'](task.params.script);
+        task.result = tmpFunction.apply(null);
+    } catch(ex) {
+        console.log("Failed to execute script: " + task.params.script);
+        console.log(ex);
+        task.result = "Failed to execute injected script";
+        task.statusCode = 17; // JavaScriptError
+    }
+}
+
+function findElement(all) {
+    var start = task.params.element;
+    var startNode = null;
+    if(start) {
+        var startNode = getAUTElement(start);
+        if(!startNode) return;
+    } else {
+        startNode = Y.one(autw.document.body);
+    }
+
+    var strategy = task.params.using; 
+    var value = task.params.value;
+    var findFunction = all ? findAllElements : findSingleElement;
+
+    switch(strategy) {
+    case "id": {
+        findFunction(startNode, "#" + value);
+    }
+    break;
+    case "name": {
+        findFunction(startNode, "[name=" + value + "]");
+    }
+    break;
+    case "class name": {
+        findFunction(startNode, "." + value + (all ? "" : ":first-child"));
+    }
+    break;
+    case "css selector": {
+        findFunction(startNode, value);
+    }
+    break;
+    case "tag name": {
+        findFunction(startNode, value + (all ? "" : ":first-child"));
+    }
+    break;
+    case "link text": {
+        var resultNodes = [];
+        var nodes = startNode.all("a");
+        for(var i = 0; i < nodes.size(); i++) {
+            var node = nodes.item(i);
+            if(value == node.get("text")) {
+                resultNodes.push(node);
+                if(!all) break;
+            }
+        }
+
+        if(all) {
+            findAUTElements(resultNodes);
+        } else {
+            var resultNode = (resultNodes.length ? resultNodes[0] : null);
+            findAUTElement(resultNode, "link text - " + value);
+        }
+    }
+    break;
+    case "partial link text": {
+        var resultNodes = [];
+        var nodes = startNode.all("a");
+        for(var i = 0; i < nodes.size(); i++) {
+            var node = nodes.item(i);
+            if(-1 != node.get("text").indexOf(value)) {
+                resultNodes.push(node);
+                if(!all) break;
+            }
+        }
+
+        if(all) {
+            findAUTElements(resultNodes);
+        } else {
+            var resultNode = (resultNodes.length ? resultNodes[0] : null);
+            findAUTElement(resultNode, "partial link text - " + value);
+        }
+    }
+    break;
+    case "xpath":
+        // Do we need this?
+    default: {
+        task.statusCode = 9;
+        task.result = "Find element using " + strategy + ": Not Implemented";
+        task.httpCode = 501;
+    }
+    break;
+    }
+}
+
+function findSingleElement(startNode, selector) {
+    var node = startNode.one(selector);
+    findAUTElement(node);
+}
+
+function findAllElements(startNode, selector) {
+    var nodes = startNode.all(selector);
+    findAUTElement(nodes);
+}
+
+function findAUTElement(node, selector) {
+    if(null == node) {
+        task.statusCode = 7;
+        task.result = "Failed to find element using selector: " + selector;
+    } else {
+        var eid = getAUTElementId(node);
+        task.result = {
+            "ELEMENT": eid
+        }
+    }
+}
+
+function findAUTElements(nodes) {
+    var result = [];
+    for(var i = 0; i < nodes.length; i++) {
+        var node = nodes[i];
+        var eid = getAUTElementId(node);
+        result.push({ "ELEMENT": eid });
+    }
+    task.result = result;
+}
+
+var autElementCache = {};
+var autElementId = 0;
+function onAUTLoaded() {
+    console.log("aut: " + autw.location.href);
+
+    // clear out element cache, as we are on to a new page
+    autElementCache = {};
+    autElementId = 0;
+
+    if(!task || !task.params || ("navigate" != task.params.type)) {
+        return;
+    }
+
+    task.result = autw.location.href;
+    queryTask();
+}
+window.onContainerLoaded = onAUTLoaded;
+
+function getAUTElement(elemId) {
+    if(elemId in autElementCache) {
+        return autElementCache[elemId];
+    } else {
+        task.result = "";
+        task.statusCode = 10; // StaleElementReference
+        return null;
+    }
+}
+
+function getAUTElementId(node) {
+    var eid = "eid-" + autElementId++;
+    autElementCache[eid] = node;
+    return eid;
+}
+
+function navigate(frame, url) {
+    frame.location.href = url;
+}
+
+// caching getElementById
+function _ (id) {
+    if (!(id in elementCache)) elementCache[id] = document.getElementById(id);
+    return elementCache[id];
+}
+
+function getFrame() {
+    var frame = _("aut");
+    return frame[CONTENTWINDOW] || frame.contentDocument[CONTENTWINDOW];
+}
+
+}
+
+// Will get replaced once agent starts
+function onContainerLoaded() {} 
+</script>
+</head>
+
+<body>
+<div id="bd" width="100%" height="100%">
+    <iframe id="aut" onload="onContainerLoaded()" src="about:blank" frameBorder="1" style="display:block;width:100%;height:100%"></iframe>
+</div>
+<script>
+    startAgent();
+</script>
+</body>
+</html>

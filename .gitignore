@@ -1,0 +1,4 @@
+*.swp
+.svn
+./node_modules
+./package.json.pl

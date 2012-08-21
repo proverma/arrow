@@ -1,0 +1,71 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name" : "tabview",
+
+        "commonlib" : "lib/session/testdata/test-lib.js",
+ 
+        "config" :{
+            "baseUrl" : "http://enoughoffice.corp.yahoo.com:8033"
+        },
+
+        "dataprovider" : {
+            "testWithInvalidLib" : {
+                "params" : {
+                    "test" : "lib/session/testdata/test-func1.js",
+                    "page" : "testMock.html",
+                    "lib" : "Not Found Lib"
+                }
+            },
+           "testWithNoLib" : {
+                "params" : {
+                    "test" : "lib/session/testdata/test-func.js",
+                    "page" : "$$config.baseUrl$$/media/test_common/lego_test/demo/tabview/src/tabview.html"
+                  }
+            },
+            "testWithValidLibAndBrowserAndGroup" : {
+                "params" : {
+                    "test" : "lib/session/testdata/test-int.js",
+                    "page" : "$$config.baseUrl$$/media/test_common/lego_test/demo/tabview/src/tabview.html",
+                    "lib" : "lib/session/testdata/test-lib.js"
+                },
+                "group" : "smoke",
+                "browser" : "chrome"
+            },
+            "testWithEnabledFalse" : {
+                "params" : {
+                    "test" : "lib/session/testdata/test-int.js",
+                    "page" : "$$config.baseUrl$$/media/test_common/lego_test/demo/tabview/src/tabview.html",
+                    "lib" : "lib/session/testdata/test-lib.js"
+                },
+                "group" : "smoke",
+                "enabled" : false
+            },
+            "testWithMultipleGroups" : {
+                "params" : {
+                    "test" : "lib/session/testdata/test-int.js",
+                    "page" : "$$config.baseUrl$$/media/test_common/lego_test/demo/tabview/src/tabview.html",
+                    "lib" : "lib/session/testdata/test-lib.js"
+                },
+                "group" : "smoke,super"
+            },
+            "testWithMultipleBrowsers" : {
+                "params" : {
+                    "test" : "lib/session/testdata/test-int.js",
+                    "page" : "$$config.baseUrl$$/media/test_common/lego_test/demo/tabview/src/tabview.html",
+                    "lib" : "lib/session/testdata/test-lib.js"
+                },
+                "browser" : "firefox,opera"
+            }
+
+
+        }
+        
+    },
+
+    {
+        "settings": [ "environment:development" ]
+    }
+
+]

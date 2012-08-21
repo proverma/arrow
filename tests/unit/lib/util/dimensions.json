@@ -1,0 +1,20 @@
+[
+    {
+        "dimensions": [
+            {
+                "environment": {
+                    "development": {
+                        "dev": null,
+                        "test": null
+                    },
+                    "production": {
+                        "int": null,
+                        "stage": null,
+                        "prod": null
+                    }
+                }
+            }
+        ]
+    }
+]
+

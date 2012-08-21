@@ -1,0 +1,34 @@
+{
+    "name" : "test",
+    "type" : "object",
+    "properties" : {
+        "name" : { "type" : "string", "required" :true },
+        "commonlib" : { "type" : "string"},
+        "config" : {
+            "type" : "object"
+        },
+        "dataprovider" : {
+            "type":"object",
+            "required":true,
+            "additionalProperties" : {
+                "type" : "object",
+                "properties" : {
+                    "enabled" : { "type" : "boolean" },
+                    "controller" : { "type" : "string" },
+                    "group" : { "type" : "string" },
+                    "browser" : { "type" : "string" },
+                    "params" : {"type" : "object",
+                        "properties" : {
+                            "page" : { "type" : "string" },
+                            "test" : { "type" : "string" },
+                            "lib" : { "type" : "string" }
+                        }
+
+                    }
+                },
+                "additionalProperties": false
+            }
+        }
+    },
+    "additionalProperties": false
+}
