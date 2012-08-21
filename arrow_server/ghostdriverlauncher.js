@@ -1,4 +1,9 @@
 #!/usr/bin/env node
+/*
+ * Copyright (c) 2012, Yahoo! Inc.  All rights reserved.
+ * Copyrights licensed under the New BSD License.
+ * See the accompanying LICENSE file for terms.
+ */
 
 /*jslint forin:true sub:true anon:true sloppy:true stupid:true nomen:true node:true continue:true*/
 
