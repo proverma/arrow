@@ -5,7 +5,7 @@
     "homepage": "TBD",
     "repository": {
         "type": "git",
-        "url": "git://github.com/yahoo/arrow.git"
+        "url": "https://github.com/proverma/arrow.git"
     },
     "man": "../man/arrow.1",
     "main": "./index.js",
