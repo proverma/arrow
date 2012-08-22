@@ -2,10 +2,10 @@
     "name": "node-arrow",
     "description": "FrontEnd Testing Framework",
     "version": "0.0.58",
-    "homepage": "TBD",
+    "homepage": "https://github.com/yahoo/arrow",
     "repository": {
         "type": "git",
-        "url": "https://github.com/proverma/arrow.git"
+        "url": "https://github.com/yahoo/arrow.git"
     },
     "man": "../man/arrow.1",
     "main": "./index.js",
