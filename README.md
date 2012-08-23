@@ -96,5 +96,5 @@ arrow --controller=custom-controller.js --driver=selenium
 
 Apart from above mentioned npm modules, Arrow also relies on these two projects
 
-**selenium** https://code.google.com/p/selenium/<br>
-**ghostdriver** https://github.com/detro/ghostdriver
+* **selenium** https://code.google.com/p/selenium/
+* **ghostdriver** https://github.com/detro/ghostdriver
