@@ -15,7 +15,7 @@ Arrow itself is a thin, extensible layer that marries JavaScript, NodeJS, Phanto
 ##Install
 
 ```
-npm install -g node-arrow
+npm install -g yahoo-arrow
 ```
 
 

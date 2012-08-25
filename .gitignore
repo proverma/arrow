@@ -2,7 +2,5 @@
 .svn
 node_modules
 package.json.pl
-
 .DS_Store
-
 .idea
