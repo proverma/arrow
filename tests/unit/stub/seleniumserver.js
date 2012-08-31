@@ -49,21 +49,21 @@ SeleniumServer.prototype.sessionsID =  1000000000000;
 SeleniumServer.prototype.startServer = function() {
 
     var self = this;
-    this.server = express.createServer();
+    this.app = express();
 
-    this.server.get("/wd/hub/sessions", function (req, res) {
+    this.app.get("/wd/hub/sessions", function (req, res) {
         res.send(self.sessions);
         res.end();
     });
 
-    this.server.listen(this.port);
+    this.appServer = this.app.listen(this.port);
     console.log("Starting Test Selenium Server" );
 
 }
 
 SeleniumServer.prototype.stopServer = function() {
 
-    this.server.close();
+    this.appServer.close();
     console.log("Stopping Test Selenium Server" );
 }
 
