@@ -42,11 +42,10 @@ YUI.add('node-tests', function (Y, NAME) {
         });
 
         nodeProcess = stubProcess.curProcess;
-        nodeProcess.stdout.notify('data', 'stdout log data');
-        nodeProcess.stderr.notify('data', 'stderr log data');
         if (sendReport) {
-            nodeProcess.stdout.notify('data',
-                'log data -- TEST RESULT: {"name": "unittest", "failed": 0, "passed": 0}');
+            nodeProcess.send({
+                results: '{"name": "unittest", "failed": 0, "passed": 0}'
+            });
         }
         nodeProcess.notify('exit');
 
@@ -61,11 +60,11 @@ YUI.add('node-tests', function (Y, NAME) {
             A.areEqual(reports.results, null, 'No report should be added');
         }
 
-        pNodeArgs = JSON.parse(decodeURI(nodeProcess.args[1]));
+        pNodeArgs = JSON.parse(decodeURI(nodeProcess.args[0]));
         A.areEqual(pNodeArgs.seed, 'seed', 'Seed should be passed');
         A.areEqual(pNodeArgs.runner, 'runner', 'Runner should be passed');
         A.areEqual(pNodeArgs.test, 'test.js', 'Test should be passed');
-        pTestParams = JSON.parse(decodeURI(nodeProcess.args[2]));
+        pTestParams = JSON.parse(decodeURI(nodeProcess.args[1]));
         A.areEqual(pTestParams.param, 'value', 'Params should have been passed');
 
         A.isTrue(executed, 'Should have executed driver');

@@ -37,12 +37,28 @@ process.prototype.notify = function (evName, data) {
     }
 };
 
+process.prototype.send = function  (message) {
+    this.message = message;
+    if (this.callbacks['message']) {
+        this.callbacks['message'](message);
+    }
+};
+
 var child_process = {
     curProcess: null,
+
+    on: function (evName, callback) {
+        this.callbacks[evName] = callback;
+    },
 
     spawn: function(path, args) {
         child_process.curProcess = new process(path, args);
         return child_process.curProcess;
+    },
+
+    fork: function (path, args) {
+        var ret = this.spawn(path, args);
+        return ret;
     }
 }
 

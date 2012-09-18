@@ -22,8 +22,17 @@ function getReportStatus() {
 function onReportReady(result) {
     if ((null === ARROW.testReport) || (0 === ARROW.testReport.length)) {
         console.log("Test failed to execute/timedout");
+        process.exit(1);
     } else {
-        console.log("TEST RESULT: " + ARROW.testReport);
+        try {
+            process.send({
+                results: ARROW.testReport
+            });
+            process.exit(0);
+        } catch (e) {
+            console.log('Failed to send test report: ' + e.message);
+            process.exit(1);
+        }
     }
 }
 
