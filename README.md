@@ -82,8 +82,8 @@ arrow --controller=custom-controller.js --driver=selenium
 
 ##Arrow Dependencies
 
+NPM Dependencies
 * **glob** https://github.com/isaacs/node-glob
-* **mockery** https://github.com/nathanmacinnes/Mockery
 * **nopt** https://github.com/isaacs/nopt
 * **colors** https://github.com/Marak/colors.js
 * **express** https://github.com/visionmedia/express
@@ -92,6 +92,9 @@ arrow --controller=custom-controller.js --driver=selenium
 * **log4js** https://github.com/nomiddlename/log4js-node
 * **clone** https://github.com/pvorb/node-clone
 * **useragent** https://github.com/3rd-Eden/useragent
+
+NPM Dev Dependencies
+* **mockery** https://github.com/mfncooper/mockery
 * **ytestrunner** https://github.com/gotwarlost/ytestrunner
 
 Apart from above mentioned npm modules, Arrow also relies on these two projects

@@ -3,10 +3,10 @@
 /*jslint forin:true sub:true anon:true sloppy:true stupid:true nomen:true node:true continue:true*/
 
 /*
-* Copyright (c) 2012, Yahoo! Inc.  All rights reserved.
-* Copyrights licensed under the New BSD License.
-* See the accompanying LICENSE file for terms.
-*/
+ * Copyright (c) 2012, Yahoo! Inc.  All rights reserved.
+ * Copyrights licensed under the New BSD License.
+ * See the accompanying LICENSE file for terms.
+ */
 
 var fs = require("fs");
 var os = require("os");
@@ -38,7 +38,7 @@ function showHelp() {
         "        --host : (optional) Fully qualified name of host where arrow server is running. (default: localhost)" + "\n" +
         "        --port : (optional) Arrow Server Port. (default: 4459) " + "\n" +
         "        --ghostPort : (optional) GhostDriver Port. (default: 4460) " + "\n\n"
-        );
+    );
 
     console.log("\nEXAMPLES :" + "\n" +
         "        For local usage: " + "\n" +
@@ -86,9 +86,10 @@ child.stderr.on("data", function (data) {
     console.error(data.toString());
 });
 
-var app = express();
-app.use(express.logger());
-app.use(express.cookieParser());
+var app = express.createServer(
+    express.logger(),
+    express.cookieParser()
+);
 app.use(express.bodyParser());
 
 var mimes = {

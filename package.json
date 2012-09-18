@@ -1,7 +1,7 @@
 {
     "name": "yahoo-arrow",
     "description": "FrontEnd Testing Framework",
-    "version": "0.0.58",
+    "version": "0.0.59",
     "homepage": "https://github.com/yahoo/arrow",
     "repository": {
         "type": "git",
@@ -31,18 +31,18 @@
     },
     "engines": [ "node >=0.6" ],
     "dependencies": {
-        "glob": "*",
-        "nopt": "*",
-        "colors":"*",
-        "express":"*",
-        "yui": "*",
-        "JSV": "*",
-        "log4js": "*",
-        "clone": "*",
-        "useragent": "*"
+        "glob": "3.1.11",
+        "nopt": "2.0.0",
+        "colors":"0.6.0-1",
+        "express":"2.5.2",
+        "yui": "3.6.0",
+        "JSV": "4.0.2",
+        "log4js": "0.5.1",
+        "clone": "0.1.0",
+        "useragent": "1.1.0"
     },
     "devDependencies": {
-        "ytestrunner": "*",
-        "mockery": "*"
+        "ytestrunner": "0.1.2",
+        "mockery": "1.1.2"
     }
 }
