@@ -7,11 +7,11 @@
  */
 
 var express = require("express"),
-clone = require('clone');
+    clone = require('clone');
 
 function SeleniumServer(port) {
 
-     this.port = port;
+    this.port = port;
 
 }
 
@@ -49,21 +49,21 @@ SeleniumServer.prototype.sessionsID =  1000000000000;
 SeleniumServer.prototype.startServer = function() {
 
     var self = this;
-    this.app = express();
+    this.server = express.createServer();
 
-    this.app.get("/wd/hub/sessions", function (req, res) {
+    this.server.get("/wd/hub/sessions", function (req, res) {
         res.send(self.sessions);
         res.end();
     });
 
-    this.appServer = this.app.listen(this.port);
+    this.server.listen(this.port);
     console.log("Starting Test Selenium Server" );
 
 }
 
 SeleniumServer.prototype.stopServer = function() {
 
-    this.appServer.close();
+    this.server.close();
     console.log("Stopping Test Selenium Server" );
 }
 
