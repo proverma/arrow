@@ -6,3 +6,7 @@ package.json.pl
 .idea
 
 lib/.DS_Store
+
+tmp/arrow_phantom_server.status
+
+tmp/arrow_server.status
