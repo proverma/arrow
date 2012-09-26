@@ -13,7 +13,7 @@
                 "additionalProperties" : {
                     "type" : "object",
                     "properties" : { 
-                        "enabled" : { "type" : "boolean" },
+                        "enabled" : { "type" : "boolean | string" },
                         "controller" : { "type" : "string" },
                         "group" : { "type" : "string" },
                         "browser" : { "type" : "string" },
