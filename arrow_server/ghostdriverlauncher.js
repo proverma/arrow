@@ -11,6 +11,9 @@ var childProcess = require("child_process");
 var fs = require("fs");
 var ghostPort = process.argv[2];
 var arrowHost = process.argv[3];
+var path = require("path");
+
+global.appRoot = path.resolve(__dirname, "..");
 
 //console.log(ghostPort + ":" + arrowHost );
 
@@ -24,7 +27,7 @@ child.stdout.on("data", function (data) {
     if (!initPhantom) {
         //console.log("Writing arrow_phantom_server.status");
         pjUrl = "http://" + arrowHost + ":" + ghostPort;
-        fs.writeFileSync("/tmp/arrow_phantom_server.status", pjUrl);
+        fs.writeFileSync(global.appRoot + "/tmp/arrow_phantom_server.status", pjUrl);
         initPhantom = true;
     }
 });
