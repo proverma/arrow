@@ -116,6 +116,11 @@ if (argv.version) {
     process.exit(0);
 }
 
+if (argv.argv.remain.length === 0 && argv.argv.cooked.length === 1) {
+    console.error("Unknown option : '" + argv.argv.cooked[0] + "'");
+    process.exit(0);
+}
+
 //store start time
 global.startTime = Date.now();
 
