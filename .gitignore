@@ -7,6 +7,3 @@ package.json.pl
 
 lib/.DS_Store
 
-tmp/arrow_phantom_server.status
-
-tmp/arrow_server.status
