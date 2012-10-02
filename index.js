@@ -127,17 +127,27 @@ global.startTime = Date.now();
 //check if user wants to override default config.
 if (!argv.config) {
     try {
-        if (fs.lstatSync("config.js").isFile()) {
+        if (fs.lstatSync(process.cwd() + "config.js").isFile()) {
             argv.config = process.cwd() + "/config.js";
         }
     } catch (e) {
         //console.log("No Custom Config File.")
     }
-}
+    if (!argv.config) {
+        try {
+            if (fs.lstatSync(process.cwd() + "/config/config.js").isFile()) {
+                argv.config = process.cwd() + "/config/config.js";
+            }
+        } catch (e) {
+            //console.log("No Custom Config File.")
+        }
+    }
 
+}
 //setup config
 prop = new Properties(__dirname + "/config/config.js", argv.config, argv);
 config = prop.getAll();
+
 
 //expose classes for test/external usage
 this.controller = require('./lib/interface/controller');
