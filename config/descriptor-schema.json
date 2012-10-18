@@ -16,6 +16,7 @@
                         "enabled" : { "type" : "boolean | string" },
                         "controller" : { "type" : "string" },
                         "group" : { "type" : "string" },
+                        "proxy" : { "type" : "boolean" },
                         "browser" : { "type" : "string" },
                         "params" : {"type" : "object",
                             "properties" : {

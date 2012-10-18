@@ -546,28 +546,6 @@ app.get("*", function (req, res) {
     }
 });
 
-function runArrowServer(port) {
-
-    app.listen(port);
-    arrowPort = port;
-    arrowAddress = "http://" + arrowHost + ":" + port;
-    console.log("Server running at: " + arrowAddress);
-    fs.writeFileSync(global.appRoot + "/tmp/arrow_server.status", arrowAddress);
-    startGhostDriver();
-}
-
-//staritng arrow server
-
-portchecker.getFirstAvailable(arrowPortMin, arrowPortMax, "localhost", function(p, host) {
-    if (p === -1) {
-        console.log('No free ports found for arrow server on ' + host + ' between ' + arrowPortMin + ' and ' + arrowPortMax);
-    } else {
-       // console.log('The first free port found for arrow server on ' + host + ' between ' + arrowPortMin + ' and ' + arrowPortMax + ' is ' + p);
-        arrowPort = p;
-        runArrowServer(p);
-    }
-});
-
 //starting ghostdriver
 
 function startGhostDriver() {
@@ -585,7 +563,7 @@ function startGhostDriver() {
         if (p === -1) {
             console.log('No free ports found for GhostDriver on ' + host + ' between ' + arrowPort + ' and ' + ghostPortMax);
         } else {
-           // console.log('the first free port found for Gost Driver on ' + host + ' between ' + arrowPort + ' and ' + ghostPortMax + ' is ' + p);
+            // console.log('the first free port found for Gost Driver on ' + host + ' between ' + arrowPort + ' and ' + ghostPortMax + ' is ' + p);
             ghostPort = p;
             self.child = childProcess.spawn("node", [__dirname + "/ghostdriverlauncher.js", p, arrowHost]);
             self.child.stdout.on("data", function (data) {
@@ -599,6 +577,26 @@ function startGhostDriver() {
     });
 }
 
+function runArrowServer(port) {
+
+    app.listen(port);
+    arrowPort = port;
+    arrowAddress = "http://" + arrowHost + ":" + port;
+    console.log("Server running at: " + arrowAddress);
+    fs.writeFileSync(global.appRoot + "/tmp/arrow_server.status", arrowAddress);
+    startGhostDriver();
+}
+
+//starting arrow server
+portchecker.getFirstAvailable(arrowPortMin, arrowPortMax, "localhost", function(p, host) {
+    if (p === -1) {
+        console.log('No free ports found for arrow server on ' + host + ' between ' + arrowPortMin + ' and ' + arrowPortMax);
+    } else {
+       // console.log('The first free port found for arrow server on ' + host + ' between ' + arrowPortMin + ' and ' + arrowPortMax + ' is ' + p);
+        arrowPort = p;
+        runArrowServer(p);
+    }
+});
 
 process.on("uncaughtException", function (err) {
     console.log("Uncaught exception: " + err);

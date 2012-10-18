@@ -3,21 +3,24 @@
 /*jslint forin:true sub:true anon:true, sloppy:true, stupid:true nomen:true, node:true continue:true*/
 
 /*
-* Copyright (c) 2012, Yahoo! Inc.  All rights reserved.
-* Copyrights licensed under the New BSD License.
-* See the accompanying LICENSE file for terms.
-*/
+ * Copyright (c) 2012, Yahoo! Inc.  All rights reserved.
+ * Copyrights licensed under the New BSD License.
+ * See the accompanying LICENSE file for terms.
+ */
 
 var Arrow = require("./lib/interface/arrow");
 var ArrowSetup = require('./lib/util/arrowsetup');
 var nopt = require("nopt");
 var Properties = require("./lib/util/properties");
 var fs = require("fs");
+var ProxyManager = require("./lib/proxy/proxymanager");
+var os = require("os");
+var path = require ("path");
 
 //setting appRoot
 global.appRoot = __dirname;
 
-//recording currentFilder
+//recording currentFolder
 global.workingDirectory = process.cwd();
 
 //getting command line args
@@ -41,7 +44,7 @@ var knownOpts = {
         "seleniumHost": [String, null]
     },
     shortHands = {},
-   //TODO : Investigate and implement shorthands
+//TODO : Investigate and implement shorthands
 //    , "br" : ["--browser"]
 //    , "lb" : ["--lib"]
 //    , "p" : ["--page"]
@@ -61,6 +64,7 @@ var knownOpts = {
     arrow,
     prop,
     config,
+    proxyManager,
     arrowSetup;
 
 //help messages
@@ -69,12 +73,9 @@ function showHelp() {
         "        --lib : a comma seperated list of js files needed by the test" + "\n\n" +
         "        --page : (optional) path to the mock or production html page" + "\n" +
         "                   example: http://www.yahoo.com or mock.html" + "\n\n" +
-        "        --driver : (optional) one of selenium|browser. (default: selenium)" + "\n\n" +
+        "        --driver : (optional) one of selenium|nodejs. (default: selenium)" + "\n\n" +
         "        --browser : (optional) a comma seperated list of browser names, optionally with a hypenated version number.\n" +
         "                      Example : 'firefox-12.0,chrome-10.0' or 'firefox,chrome' or 'firefox'. (default: firefox)" + "\n\n" +
-        "        --controller : (optional) a custom controller javascript file" + "\n\n" +
-        "        --reuseSession : (optional) true/false. Determines whether selenium tests reuse existing sessions. (default: false)\n" +
-        "                           Visit http://<your_selenuim_host>/wd/hub to setup sessions." + "\n\n" +
         "        --parallel : (optional) test thread count. Determines how many tests to run in parallel for current session. (default: 1)\n" +
         "                          Example : --parallel=3 , will run three tests in parallel" + "\n\n" +
         "        --report : (optional) true/false.  creates report files in junit and json format. (default: true)" + "\n" +
@@ -89,6 +90,11 @@ function showHelp() {
         "        --context : (optional) name of ycb context" + "\n\n" +
         "        --seleniumHost : (optional) override selenium host url (example: --seleniumHost=http://host.com:port/wd/hub)" + "\n\n" +
         "        --capabilities : (optional) the name of a json file containing webdriver capabilities required by your project" +
+        "        --startProxyServer : (optional) true/false. Starts a proxy server for all intercepting all selenium browser calls" +
+        "        --routerProxyConfig : (optional) filePath. Expects a Json file containing key-value pair, where key = original host, and value = new routed host." + + "\n" +
+        "                       Example Json :" + "\n" +
+        "                       {\"yahoo.com\" : \"1.2.3.4\", \"sports.yahoo.com\" : \"3.4.5.6\"}" + "\n" +
+        "        --useProxyForAll : (optional) true/false. ( default : true ) decides if all selenium browser should by default use proxy server or not" +
         "        \n\n");
 
     console.log("\nEXAMPLES :" + "\n" +
@@ -124,6 +130,10 @@ if (argv.argv.remain.length === 0 && argv.argv.cooked.length === 1) {
 //store start time
 global.startTime = Date.now();
 
+//expose classes for test/external usage
+this.controller = require('./lib/interface/controller');
+this.log4js = require('log4js');
+
 //check if user wants to override default config.
 if (!argv.config) {
     try {
@@ -148,29 +158,49 @@ if (!argv.config) {
 prop = new Properties(__dirname + "/config/config.js", argv.config, argv);
 config = prop.getAll();
 
-
-//expose classes for test/external usage
-this.controller = require('./lib/interface/controller');
-this.log4js = require('log4js');
-
-// TODO: arrowSetup move to Arrow
-arrowSetup = new ArrowSetup(config, argv);
-this.arrow = Arrow;
+function runArrowTest( proxyHost ) {
+    if(proxyHost) {
+        if(proxyHost.indexOf("Error") === -1 ) {
+            console.log("Started Proxy at " + proxyHost);
+            config.proxyUrl = proxyHost;
+        } else {
+            console.log( "Unable to Start Proxy, " + proxyHost);
+            console.log( "Running Tests Without Proxy! ");
+        }
+    }
+    // TODO: arrowSetup move to Arrow
+    arrowSetup = new ArrowSetup(config, argv);
+    this.arrow = Arrow;
 
 // Setup Arrow Tests
-if (argv.arrowChildProcess) {
-    //console.log("Child Process");
-    arrowSetup.childSetup();
-    argv.descriptor = argv.argv.remain[0];
-    arrow = new Arrow(config, argv);
-    arrow.run();
-} else {
-    //console.log("Master Process");
-    arrowSetup.setup();
-    if (false === arrowSetup.startRecursiveProcess) {
+    if (argv.arrowChildProcess) {
+        console.log("Child Process");
+        arrowSetup.childSetup();
+        argv.descriptor = argv.argv.remain[0];
         arrow = new Arrow(config, argv);
         arrow.run();
+    } else {
+        arrowSetup.setup();
+        if (false === arrowSetup.startRecursiveProcess) {
+            arrow = new Arrow(config, argv);
+            arrow.run();
+        }
     }
 }
+
+//setting up proxy if required
+if(argv.startProxyServer) {
+    if(argv.routerProxyConfig) {
+        global.proxyManager = new ProxyManager(path.resolve( global.workingDirectory, argv.routerProxyConfig));
+    } else {
+        global.proxyManager = new ProxyManager(null);
+    }
+    global.proxyManager.runRouterProxy(config.minPort, config.maxPort,"localhost" , runArrowTest);
+    //os.hostname()
+} else {
+    runArrowTest();
+}
+
+
 
 

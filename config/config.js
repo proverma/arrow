@@ -7,7 +7,7 @@
 var config = {};
 
 // User default config
-config.seleniumHost = "";//"http://selgrid3.global.media.corp.yahoo.com:80";
+config.seleniumHost = "";
 config.context = "";
 config.defaultAppHost = "";
 config.logLevel = "INFO";
@@ -23,5 +23,9 @@ config.testSeed = config.arrowModuleRoot + "lib/client/yuitest-seed.js";
 config.testRunner = config.arrowModuleRoot + "lib/client/yuitest-runner.js";
 config.autolib = config.arrowModuleRoot + "lib/common";
 config.descriptorName = "test_descriptor.json";
+config.minPort = 10000;
+config.maxPort = 11000;
+config.useProxyForAll = true;
+
 
 module.exports = config;
