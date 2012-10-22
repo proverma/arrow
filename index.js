@@ -195,8 +195,7 @@ if(argv.startProxyServer) {
     } else {
         global.proxyManager = new ProxyManager(null);
     }
-    global.proxyManager.runRouterProxy(config.minPort, config.maxPort,"localhost" , runArrowTest);
-    //os.hostname()
+    global.proxyManager.runRouterProxy(config.minPort, config.maxPort, os.hostname(), runArrowTest);
 } else {
     runArrowTest();
 }
