@@ -1,0 +1,32 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name" : "tab_view1",
+
+        "commonlib" : "./test-lib.js",
+
+        "config" :{
+            "baseUrl" : "http://www.doctor46.com"
+        },
+
+        "dataprovider" : {
+
+
+            "int2" : {
+                "params" : {
+                    "test" : "test-int-simple.js",
+                    "page" : "$$config.baseUrl$$/tabview.html"
+                },
+                "group" : "smoke"
+            }
+
+        }
+
+    },
+
+    {
+        "settings": [ "environment:development" ]
+    }
+
+]

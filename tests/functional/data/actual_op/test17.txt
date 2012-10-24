@@ -1,0 +1,3 @@
+[INFO] SessionFactory - [39mDisabled, skipping test: int1
+[INFO] SessionFactory - [39mDisabled, skipping test: int2
+[INFO] SessionFactory - [39mTotal test sessions: 1

@@ -1,0 +1,178 @@
+#!/bin/bash
+
+BROWSERNAME="sauce_firefox"
+
+if [ "$ARROWCI" == "" ] ; then
+	ARROWCI="./node_modules/.bin/arrow"
+    HUBHOST="http://selgrid7.global.media.corp.yahoo.com:80/wd/hub/"
+else
+	ARROWCI="./node_modules/.bin/arrow"
+	echo Using : "$ARROWCI "
+
+fi;
+
+CMD=`$ARROWCI  --version >./data/actual_op/test1.txt`
+RESULT=`$CMD`
+if [ $? != 0 ]; then
+{
+    echo "ERROR!"
+	echo "CMD: $CMD"
+	echo "RESULT: $RESULT"
+} fi
+
+CMD=`$ARROWCI --help`
+echo $CMD >./data/actual_op/test2.txt
+if [ $? != 0 ]; then
+{
+    echo "ERROR!"
+	echo "CMD: $CMD"
+	echo "RESULT: $RESULT"
+} fi
+
+CMD=`$ARROWCI ./data/arrow_test/test-func.js --browser=$BROWSERNAME --driver=selenium --logLevel=INFO --lib=data/arrow_test/test-lib.js --capabilities=./data/arrow_test/cap.json --page=http://www.doctor46.com/tabview.html --seleniumHost=$HUBHOST | tail -2 | head -1  >./data/actual_op/test3.txt`
+if [ $? != 0 ]; then
+{
+    echo "ERROR!"
+	echo "CMD: $CMD"
+	echo "RESULT: $RESULT"
+} fi
+
+
+
+CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail -2 | head -1  >./data/actual_op/test4.txt`
+if [ $? != 0 ]; then
+{
+    echo "ERROR!"
+	echo "CMD: $CMD"
+	echo "RESULT: $RESULT"
+} fi
+
+
+CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --group=smoke --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail -2 | head -1  >./data/actual_op/test5.txt`
+if [ $? != 0 ]; then
+{
+    echo "ERROR!"
+	echo "CMD: $CMD"
+	echo "RESULT: $RESULT"
+} fi
+
+CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --testName=int --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail -2 | head -1  >./data/actual_op/test6.txt`
+if [ $? != 0 ]; then
+{
+    echo "ERROR!"
+	echo "CMD: $CMD"
+	echo "RESULT: $RESULT"
+} fi
+
+CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --report=true --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail -2 | head -1  >./data/actual_op/test7.txt`
+if [ $? != 0 ]; then
+{
+    echo "ERROR!"
+	echo "CMD: $CMD"
+	echo "RESULT: $RESULT"
+} fi
+
+CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail -2 | head -1  >./data/actual_op/test8.txt`
+if [ $? != 0 ]; then
+{
+    echo "ERROR!"
+	echo "CMD: $CMD"
+	echo "RESULT: $RESULT"
+} fi
+
+CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --parallel=2 --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail -2 | head -1  >./data/actual_op/test9.txt`
+if [ $? != 0 ]; then
+{
+    echo "ERROR!"
+	echo "CMD: $CMD"
+	echo "RESULT: $RESULT"
+} fi
+
+CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail -2 | head -1  >./data/actual_op/test10.txt`
+if [ $? != 0 ]; then
+{
+    echo "ERROR!"
+	echo "CMD: $CMD"
+	echo "RESULT: $RESULT"
+} fi
+
+CMD=`$ARROWCI ./data/arrow_test/test1_descriptor.json --reportFolder=../report/ --browser=$BROWSERNAME --report=true --logLevel=INFO --capabilities=./cap.json | tail -n 2 > ./data/actual_op/test11.txt`
+if [ $? != 0 ]; then
+{
+    echo "ERROR!"
+	echo "CMD: $CMD"
+	echo "RESULT: $RESULT"
+} fi
+
+CMD=`$ARROWCI ./data/arrow_test/**/*_descriptor.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail -2 | head -1  >./data/actual_op/test12.txt`
+if [ $? != 0 ]; then
+{
+    echo "ERROR!"
+	echo "CMD: $CMD"
+	echo "RESULT: $RESULT"
+} fi
+
+CMD=`$ARROWCI ./data/arrow_test/**/*_descriptor.json --report=true --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail -n 9  >./data/actual_op/test13.txt`
+if [ $? != 0 ]; then
+{
+    echo "ERROR!"
+	echo "CMD: $CMD"
+	echo "RESULT: $RESULT"
+} fi
+
+CMD=`$ARROWCI ./data/arrow_test/controller_descriptor_fix.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail -n 2  >./data/actual_op/test14.txt`
+if [ $? != 0 ]; then
+{
+    echo "ERROR!"
+	echo "CMD: $CMD"
+	echo "RESULT: $RESULT"
+} fi
+
+CMD=`$ARROWCI ./data/arrow_test/test-func.js --page=http://www.doctor46.com/tabview.html --lib=./data/arrow_test/test-lib.js --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./data/arrow_test/cap.json | tail -n 2  >./data/actual_op/test15.txt`
+if [ $? != 0 ]; then
+{
+    echo "ERROR!"
+	echo "CMD: $CMD"
+	echo "RESULT: $RESULT"
+} fi
+
+CMD=`$ARROWCI ./data/arrow_test/controller-descriptor-fail.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --report=true --logLevel=INFO --capabilities=./cap.json | grep "Total Number of"  >./data/actual_op/test16.txt`
+if [ $? != 0 ]; then
+{
+    echo "ERROR!"
+	echo "CMD: $CMD"
+	echo "RESULT: $RESULT"
+} fi
+
+CMD=`$ARROWCI ./data/arrow_test/test-descriptor-disabled.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --capabilities=./cap.json --report=true --logLevel=INFO --capabilities=./cap.json | grep "SessionFactory" >./data/arrow_test/dummy_test.txt`
+CMD1=`sed -e s/'^.\{31\}'//g ./data/arrow_test/dummy_test.txt > ./data/actual_op/test17.txt`
+if [ $? != 0 ]; then
+{
+    echo "ERROR!"
+	echo "CMD: $CMD"
+	echo "RESULT: $RESULT"
+} fi
+
+CMD=`$ARROWCI ./data/arrow_test/test-descriptor-dimensions.json --context=environment:development --browser=$BROWSERNAME --logLevel=INFO --capabilities=./cap.json| tail -n 2 >./data/actual_op/test18.txt`
+if [ $? != 0 ]; then
+{
+    echo "ERROR!"
+	echo "CMD: $CMD"
+	echo "RESULT: $RESULT"
+} fi
+
+CMD=`$ARROWCI ./data/arrow_test/test-unit.js --browser=sauce_phantomjs --lib=./data/arrow_test/greeter.js --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./data/arrow_test/cap.json | tail -2 | head -1 >./data/actual_op/test19.txt`
+if [ $? != 0 ]; then
+{
+    echo "ERROR!"
+	echo "CMD: $CMD"
+	echo "RESULT: $RESULT"
+} fi
+
+CMD=`$ARROWCI ./data/arrow_test/test-unit.js --browser=sauce_phantomjs --lib=./data/arrow_test/greeter.js --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json | grep "LOG" >./data/actual_op/test20.txt`
+if [ $? != 0 ]; then
+{
+    echo "ERROR!"
+	echo "CMD: $CMD"
+	echo "RESULT: $RESULT"
+} fi
