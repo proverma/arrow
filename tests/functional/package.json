@@ -1,0 +1,26 @@
+    {
+    "author": "Lego-QEP (http://twiki.corp.yahoo.com/view/Lego/TeamQEPlatform)",
+    "name": "arrow-functional-tests",
+    "description": "Arrow Functional Tests",
+    "version": "0.0.0",
+    "homepage": "http://twiki.corp.yahoo.com/view/Lego/Arrow",
+    "repository": {
+        "type": "svn",
+        "url": "svn+ssh://svn.corp.yahoo.com/yahoo/media/"
+    },
+    "scripts": {
+        "pretest" : "./arrow_commands.sh",
+        "test": "./node_modules/.bin/nodeunit ./tests/nodeunit/test*.js --reporter junit --output report.xml"
+
+    },
+    "yahoo": {
+        "bugzilla": {
+            "product": "Lego QE Platform",
+            "component": "Arrow"
+        }
+    },
+    "engines": [ "node >=0.6" ],
+    "dependencies": {
+        "yahoo-arrow": "*"
+    }
+}

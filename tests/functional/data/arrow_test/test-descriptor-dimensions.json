@@ -1,0 +1,40 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name" : "descriptor",
+
+
+        "config" :{
+            "baseUrl" : "http://www.yahoo.com"
+        },
+
+        "dataprovider" : {
+
+            "dom" : {
+                "params" : {
+                    "test" : "test-yahoo-title.js",
+                    "page" : "$$config.baseUrl$$"
+                },
+                "group" : "int"
+            }
+
+        }
+
+    },
+
+    {
+        "settings": [ "environment:development" ],
+        "config": {
+            "baseUrl": "http://news.yahoo.com"
+        }
+    },
+    {
+        "settings": [ "environment:production" ],
+        "config": {
+            "baseUrl": "http://sports.yahoo.com"
+        }
+    }
+
+
+]

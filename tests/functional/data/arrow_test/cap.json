@@ -1,0 +1,17 @@
+{
+    "capabilities": {
+        "sauce_firefox": {
+            "browserName" : "firefox-7.0",
+            "platform": "ANY"
+
+        },
+        "sauce_phantomjs": {
+             "browserName" : "phantomjs",
+             "platform": "ANY"
+
+        }
+    },
+    "common_capabilities": {
+        "javascriptEnabled": "true"
+    }
+}

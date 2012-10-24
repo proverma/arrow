@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  
+  <testsuite name="test13.js"
+             errors="1"
+             failures="0"
+             tests="1">
+    
+      
+      <testcase name="testArrow_testDescriptor8">
+        
+          <failure message="The output of arrow **/*_descriptor.json  is not correct">
+            AssertionError: '\u001b[32m[2012-10-23 16:12:07.295] [INFO] ArrowSetup - \u001b[39mGlob result: ./data/arrow_test/test1_descriptor.json,./data/arrow_test/test_descriptor.json\n\u001b[32m[2012-10-23 16:12:07.298] [INFO] ArrowRecursive - \u001b[39mRunning Test Descriptor Path : ./data/arrow_test/test1_descriptor.json\n\u001b[32m[2012-10-23 16:12:07.298] [INFO] ArrowRecursive - \u001b[39mSwitching to path: ./data/arrow_test\nChild Process\n\u001b[32m[2012-10-23 16:12:07.802] [INFO] SessionFactory - \u001b[39mTotal test sessions: 1\n\u001b[32m[2012-10-23 16:12:07.807] [INFO] TestSession - \u001b[39mRunning test: int2\n\u001b[32m[2012-10-23 16:12:07.807] [INFO] TestSession - \u001b[39mUsing selenium driver\n\u001b[31m[2012-10-23 16:12:07.862] [ERROR] SeleniumDriver - \u001b[39mNo related capability for firefox in ./cap.json\n' == '\u001b[35m\u001b[1m********************************************\u001b[22m\u001b[39m\n\u001b[35m\u001b[1mConsolidated Test Report Summary\u001b[22m\u001b[39m\n\u001b[35m\u001b[1m********************************************\u001b[22m\u001b[39m\n\u001b[34mTotal Number of Executed Tests  :5\u001b[39m\n\u001b[32mTotal Number of Passed Tests  : 5\u001b[39m\n\u001b[31mTotal Number of Failed Tests  : 0\u001b[39m\n\u001b[90mTotal Number of Skipped Tests  : 0\u001b[39m\n\u001b[35m\u001b[1m********************************************\u001b[22m\u001b[39m\n\n'
+    at Object.assertWrapper [as equal] (/Applications/Selenium/SeleniumRunner/arrow_func/arrow-functional-tests/node/node_modules/nodeunit/lib/types.js:83:39)
+    at Object.exports.testArrow_testDescriptor8 (/Applications/Selenium/SeleniumRunner/arrow_func/arrow-functional-tests/node/tests/nodeunit/test13.js:16:10)
+    at Object.wrapTest (/Applications/Selenium/SeleniumRunner/arrow_func/arrow-functional-tests/node/node_modules/nodeunit/lib/core.js:235:16)
+    at wrapTest (/Applications/Selenium/SeleniumRunner/arrow_func/arrow-functional-tests/node/node_modules/nodeunit/lib/core.js:235:16)
+    at Object.exports.runTest (/Applications/Selenium/SeleniumRunner/arrow_func/arrow-functional-tests/node/node_modules/nodeunit/lib/core.js:69:9)
+    at exports.runSuite (/Applications/Selenium/SeleniumRunner/arrow_func/arrow-functional-tests/node/node_modules/nodeunit/lib/core.js:117:25)
+    at _concat (/Applications/Selenium/SeleniumRunner/arrow_func/arrow-functional-tests/node/node_modules/nodeunit/deps/async.js:508:13)
+    at async.forEachSeries.iterate (/Applications/Selenium/SeleniumRunner/arrow_func/arrow-functional-tests/node/node_modules/nodeunit/deps/async.js:118:13)
+    at async.forEachSeries (/Applications/Selenium/SeleniumRunner/arrow_func/arrow-functional-tests/node/node_modules/nodeunit/deps/async.js:134:9)
+    at _concat (/Applications/Selenium/SeleniumRunner/arrow_func/arrow-functional-tests/node/node_modules/nodeunit/deps/async.js:507:9)
+          </failure>
+        
+      </testcase>
+    
+  </testsuite>
+
