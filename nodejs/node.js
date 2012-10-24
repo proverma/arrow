@@ -8,6 +8,7 @@
 
 var fs = require('fs');
 var path = require('path');
+var coverage = require('../lib/util/coverage');
 
 ARROW = {};
 var testReport = null;
@@ -26,7 +27,8 @@ function onReportReady(result) {
     } else {
         try {
             process.send({
-                results: ARROW.testReport
+                results: ARROW.testReport,
+                coverage:coverage.getFinalCoverage()
             });
             process.exit(0);
         } catch (e) {
@@ -67,8 +69,10 @@ var seed = testSpec.seed;
 var runner = testSpec.runner;
 var libs = testSpec.libs;
 var testFile = testSpec.test;
+var coverageFlag = testSpec.coverage;
 var testParams = decodeURI(args[3]);
 var depFiles = libs.split(",");
+
 
 function runTest() {
     ARROW.testParams = JSON.parse(testParams);
@@ -82,6 +86,7 @@ function runTest() {
             depFile = depFiles[i];
             if (0 === depFile.length) { continue; }
             console.log("Loading dependency: " + depFile);
+            coverage.addInstrumentCandidate(depFile)
             require(path.resolve("", depFile));
         }
         console.log("Executing test: " + testFile);
@@ -91,6 +96,11 @@ function runTest() {
     };
 
     require(seed);
+}
+console.log(coverageFlag);
+if(coverageFlag) {
+    console.log("hook");
+    coverage.hookRequire();
 }
 runTest();
 

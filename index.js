@@ -23,6 +23,12 @@ global.appRoot = __dirname;
 //recording currentFolder
 global.workingDirectory = process.cwd();
 
+//Array for holding coverage files.
+global.coverageMap = [];
+
+//Array for Holding Report Files
+global.reportMap =[];
+
 //getting command line args
 
 var knownOpts = {
