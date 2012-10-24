@@ -2,14 +2,8 @@
 
 BROWSERNAME="sauce_firefox"
 
-if [ "$ARROWCI" == "" ] ; then
-	ARROWCI="./node_modules/.bin/arrow"
-    HUBHOST="http://selgrid7.global.media.corp.yahoo.com:80/wd/hub/"
-else
-	ARROWCI="./node_modules/.bin/arrow"
-	echo Using : "$ARROWCI "
-
-fi;
+ARROWCI="node ../../index.js"
+echo Using : "$ARROWCI "
 
 CMD=`$ARROWCI  --version >./data/actual_op/test1.txt`
 RESULT=`$CMD`
