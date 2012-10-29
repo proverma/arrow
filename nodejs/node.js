@@ -40,8 +40,8 @@ function onReportReady(result) {
 
 // Wait until the test condition is true or a timeout occurs.
 function waitFor(testFx, onReady, timeOutMillis) {
-    var timeoutInterval = 100,
-        maxtimeOutMillis = 2500,
+    var timeoutInterval = 500,
+        maxtimeOutMillis = 25000,
         start = (new Date()).getTime(),
         interval;
 
