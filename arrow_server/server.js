@@ -78,10 +78,9 @@ if (parsed["debug"]) {
     debug = true;
 }
 
-var app = express.createServer(
-    express.logger(),
-    express.cookieParser()
-);
+var app = express();
+app.use(express.logger());
+app.use(express.cookieParser());
 app.use(express.bodyParser());
 
 var mimes = {
