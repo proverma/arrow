@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Unit test example</title>
+
+  <link rel="stylesheet" href="http://yui.yahooapis.com/3.4.0/build/cssgrids/grids-min.css">
+  <script src="http://yui.yahooapis.com/3.4.1/build/yui/yui-min.js"></script>
+
+  <script src="../src/tabview.js"></script>
+
+  <style>
+    #doc { margin:auto; width: 700px; }
+    #hd, .yui3-g .content, #ft { border: 2px solid #ccc; height: 400px; margin-right: 10px; }
+    #hd, #ft { height: 40px; }
+
+    #things img { border: 1px solid #000; height: 150px; }
+    #things .yui3-tab-selected .yui3-tab-label { color: #fff; }
+    #things .mod {font-size: 80px; }
+  </style>
+
+</head>
+
+<body id="doc" class="yui3-skin-sam">
+
+  <div id="hd">
+    <h3>Unit test mock</h3>
+  </div>
+
+  <div class="yui3-g">
+    <div class="yui3-u-1-5">
+      <div class="content"></div>
+    </div>
+
+    <div class="yui3-u-3-5">
+      <div id="things" class="content">
+
+        <ul>
+          <li><a id="tab1" href="#mod1">Tab 1</a></li>
+          <li><a id="tab2" href="#mod2">Tab 2</a></li>
+          <li><a id="tab3" href="#mod3">Tab 3</a></li>
+        </ul>
+
+        <div>
+          <div id="mod1" class="mod">ONE</div>
+          <div id="mod2" class="mod">TWO</div>
+          <div id="mod3" class="mod">THREE</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="yui3-u-1-5">
+      <div class="content"></div>
+    </div>
+
+  </div>
+
+  <div id="ft"></div>
+
+  <script language="javascript">
+    YUI().use("arrow-tabview", function(Y) {
+        
+        // render tab view
+        var tabid = "#things";
+        var tabNode = Y.one(tabid);
+        Y.Arrow.TabView.load(tabid);
+    }); 
+  </script>
+
+</body>
+</html>
