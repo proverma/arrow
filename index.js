@@ -167,7 +167,7 @@ config = prop.getAll();
 function runArrowTest( proxyHost ) {
     if(proxyHost) {
         if(proxyHost.indexOf("Error") === -1 ) {
-            console.log("Started Proxy at " + proxyHost);
+            console.log("Running Proxy at " + proxyHost);
             config.proxyUrl = proxyHost;
         } else {
             console.log( "Unable to Start Proxy, " + proxyHost);
@@ -180,7 +180,6 @@ function runArrowTest( proxyHost ) {
 
 // Setup Arrow Tests
     if (argv.arrowChildProcess) {
-        console.log("Child Process");
         arrowSetup.childSetup();
         argv.descriptor = argv.argv.remain[0];
         arrow = new Arrow(config, argv);
@@ -195,7 +194,8 @@ function runArrowTest( proxyHost ) {
 }
 
 //setting up proxy if required
-if(argv.startProxyServer) {
+if(argv.startProxyServer && !argv.arrowChildProcess ) {
+    console.log("Master Process with proxy");
     if(argv.routerProxyConfig) {
         global.proxyManager = new ProxyManager(path.resolve( global.workingDirectory, argv.routerProxyConfig));
     } else {
