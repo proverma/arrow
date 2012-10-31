@@ -97,9 +97,8 @@ function runTest() {
 
     require(seed);
 }
-console.log(coverageFlag);
+
 if(coverageFlag) {
-    console.log("hook");
     coverage.hookRequire();
 }
 runTest();
