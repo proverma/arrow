@@ -195,7 +195,6 @@ function runArrowTest( proxyHost ) {
 
 //setting up proxy if required
 if(argv.startProxyServer && !argv.arrowChildProcess ) {
-    console.log("Master Process with proxy");
     if(argv.routerProxyConfig) {
         global.proxyManager = new ProxyManager(path.resolve( global.workingDirectory, argv.routerProxyConfig));
     } else {
