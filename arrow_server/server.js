@@ -18,7 +18,7 @@ var http = require("http");
 var express = require("express");
 var log4js = require("log4js");
 var childProcess = require("child_process");
-var portchecker = require('portchecker');
+var portchecker = require('../ext-lib/portchecker');
 
 log4js.setGlobalLogLevel("INFO");
 var logger = log4js.getLogger("ArrowServer");
