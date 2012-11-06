@@ -193,6 +193,30 @@ function runArrowTest( proxyHost ) {
     }
 }
 
+
+if (os.type() === "Darwin") {
+    var interfaces = os.networkInterfaces();
+    var addresses = [];
+    for (k in interfaces) {
+        for (k2 in interfaces[k]) {
+            var address = interfaces[k][k2];
+            if (address.family == 'IPv4' && !address.internal) {
+                addresses.push(address.address)
+            }
+        }
+    }
+
+    if ( addresses.length > 0) {
+        global.hostname = addresses[addresses.length - 1];
+    } else {
+        global.hostname = os.hostname();
+    }
+} else {
+    global.hostname = os.hostname();
+}
+
+
+
 //setting up proxy if required
 if(argv.startProxyServer && !argv.arrowChildProcess ) {
     if(argv.routerProxyConfig) {
@@ -200,7 +224,7 @@ if(argv.startProxyServer && !argv.arrowChildProcess ) {
     } else {
         global.proxyManager = new ProxyManager(null);
     }
-    global.proxyManager.runRouterProxy(config.minPort, config.maxPort, os.hostname(), runArrowTest);
+    global.proxyManager.runRouterProxy(config.minPort, config.maxPort, global.hostname, runArrowTest);
 } else {
     runArrowTest();
 }
