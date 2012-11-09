@@ -80,6 +80,7 @@ function showHelp() {
         "        --page : (optional) path to the mock or production html page" + "\n" +
         "                   example: http://www.yahoo.com or mock.html" + "\n\n" +
         "        --driver : (optional) one of selenium|nodejs. (default: selenium)" + "\n\n" +
+        "        --descriptor : (optional) glob/path for descriptor(s). (example: **/*descriptor.json)" + "\n\n" +
         "        --browser : (optional) a comma seperated list of browser names, optionally with a hypenated version number.\n" +
         "                      Example : 'firefox-12.0,chrome-10.0' or 'firefox,chrome' or 'firefox'. (default: firefox)" + "\n\n" +
         "        --parallel : (optional) test thread count. Determines how many tests to run in parallel for current session. (default: 1)\n" +
@@ -133,6 +134,12 @@ if (argv.argv.remain.length === 0 && argv.argv.cooked.length === 1) {
     process.exit(0);
 }
 
+//adding support for --descriptor param
+if (argv.argv.remain.length === 0 && argv.descriptor) {
+    argv.argv.remain.push(argv.descriptor);
+    delete argv.descriptor;
+}
+
 //store start time
 global.startTime = Date.now();
 
@@ -160,6 +167,7 @@ if (!argv.config) {
     }
 
 }
+
 //setup config
 prop = new Properties(__dirname + "/config/config.js", argv.config, argv);
 config = prop.getAll();
