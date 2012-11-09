@@ -165,7 +165,8 @@ prop = new Properties(__dirname + "/config/config.js", argv.config, argv);
 config = prop.getAll();
 
 function runArrowTest( proxyHost ) {
-    if(proxyHost) {
+
+    if (proxyHost) {
         if(proxyHost.indexOf("Error") === -1 ) {
             console.log("Running Proxy at " + proxyHost);
             config.proxyUrl = proxyHost;
@@ -193,32 +194,16 @@ function runArrowTest( proxyHost ) {
     }
 }
 
+//setting up proxy if required
+if(argv.startProxyServer && !argv.arrowChildProcess ) {
 
-if (os.type() === "Darwin") {
-    var interfaces = os.networkInterfaces();
-    var addresses = [];
-    for (k in interfaces) {
-        for (k2 in interfaces[k]) {
-            var address = interfaces[k][k2];
-            if (address.family == 'IPv4' && !address.internal) {
-                addresses.push(address.address)
-            }
-        }
-    }
-
-    if ( addresses.length > 0) {
-        global.hostname = addresses[addresses.length - 1];
+    if (os.type() === "Darwin") {
+        global.hostname = "localhost";
     } else {
         global.hostname = os.hostname();
     }
-} else {
-    global.hostname = os.hostname();
-}
 
 
-
-//setting up proxy if required
-if(argv.startProxyServer && !argv.arrowChildProcess ) {
     if(argv.routerProxyConfig) {
         global.proxyManager = new ProxyManager(path.resolve( global.workingDirectory, argv.routerProxyConfig));
     } else {
