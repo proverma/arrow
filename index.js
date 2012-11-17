@@ -168,6 +168,7 @@ if (!argv.config) {
 
 }
 
+
 //setup config
 prop = new Properties(__dirname + "/config/config.js", argv.config, argv);
 config = prop.getAll();
@@ -219,7 +220,11 @@ if(argv.startProxyServer && !argv.arrowChildProcess ) {
     }
     global.proxyManager.runRouterProxy(config.minPort, config.maxPort, global.hostname, runArrowTest);
 } else {
-    runArrowTest();
+    if (argv.proxyHost) {
+        runArrowTest(argv.proxyHost);
+    } else {
+        runArrowTest();
+    }
 }
 
 
