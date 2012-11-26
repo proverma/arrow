@@ -13,8 +13,6 @@ var ArrowSetup = require('./lib/util/arrowsetup');
 var nopt = require("nopt");
 var Properties = require("./lib/util/properties");
 var fs = require("fs");
-var ProxyManager = require("./lib/proxy/proxymanager");
-var os = require("os");
 var path = require ("path");
 
 //setting appRoot
@@ -167,66 +165,28 @@ if (!argv.config) {
     }
 
 }
-
-
 //setup config
 prop = new Properties(__dirname + "/config/config.js", argv.config, argv);
 config = prop.getAll();
 
-function runArrowTest( proxyHost ) {
-
-    if (proxyHost) {
-        if(proxyHost.indexOf("Error") === -1 ) {
-            console.log("Running Proxy at " + proxyHost);
-            config.proxyUrl = proxyHost;
-        } else {
-            console.log( "Unable to Start Proxy, " + proxyHost);
-            console.log( "Running Tests Without Proxy! ");
-        }
-    }
-    // TODO: arrowSetup move to Arrow
-    arrowSetup = new ArrowSetup(config, argv);
-    this.arrow = Arrow;
+// TODO: arrowSetup move to Arrow
+arrowSetup = new ArrowSetup(config, argv);
+this.arrow = Arrow;
 
 // Setup Arrow Tests
-    if (argv.arrowChildProcess) {
-        arrowSetup.childSetup();
-        argv.descriptor = argv.argv.remain[0];
+if (argv.arrowChildProcess) {
+    //console.log("Child Process");
+    arrowSetup.childSetup();
+    argv.descriptor = argv.argv.remain[0];
+    arrow = new Arrow(config, argv);
+    arrow.run();
+} else {
+    //console.log("Master Process");
+    arrowSetup.setup();
+    if (false === arrowSetup.startRecursiveProcess) {
         arrow = new Arrow(config, argv);
         arrow.run();
-    } else {
-        arrowSetup.setup();
-        if (false === arrowSetup.startRecursiveProcess) {
-            arrow = new Arrow(config, argv);
-            arrow.run();
-        }
     }
 }
-
-//setting up proxy if required
-if(argv.startProxyServer && !argv.arrowChildProcess ) {
-
-    if (os.type() === "Darwin") {
-        global.hostname = "localhost";
-    } else {
-        global.hostname = os.hostname();
-    }
-
-
-    if(argv.routerProxyConfig) {
-        global.proxyManager = new ProxyManager(path.resolve( global.workingDirectory, argv.routerProxyConfig));
-    } else {
-        global.proxyManager = new ProxyManager(null);
-    }
-    global.proxyManager.runRouterProxy(config.minPort, config.maxPort, global.hostname, runArrowTest);
-} else {
-    if (argv.proxyHost) {
-        runArrowTest(argv.proxyHost);
-    } else {
-        runArrowTest();
-    }
-}
-
-
 
 

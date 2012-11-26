@@ -4,6 +4,8 @@
     "properties" : {
         "name" : { "type" : "string", "required" :true },
         "commonlib" : { "type" : "string"},
+        "startProxyServer" : { "type" : "boolean"},
+        "routerProxyConfig" : { "type" : "string"},
         "config" : {
             "type" : "object"
         },

@@ -25,7 +25,6 @@ config.autolib = config.arrowModuleRoot + "lib/common";
 config.descriptorName = "test_descriptor.json";
 config.minPort = 10000;
 config.maxPort = 11000;
-config.useProxyForAll = true;
 config.coverage = false;
 
 
