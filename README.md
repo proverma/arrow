@@ -9,7 +9,7 @@ Arrow is a test framework designed to promote test-driven JavaScript development
 
 Arrow aims to completely remove the line between development’s Unit tests, and Functional and Integration tests by providing a uniform way to create and execute both.
 
-Arrow itself is a thin, extensible layer that marries JavaScript, NodeJS, PhantomJS and Selenium. Arrow allows you to write tests using YUI-Test and execute those tests using NodeJS, PhantomJS or Selenium. Additionally, Arrow provides a rich mechanism for building, organizing and executing test and test scenarios.
+Arrow itself is a thin, extensible layer that marries JavaScript, NodeJS and Selenium. Arrow allows you to write tests using YUI-Test and execute those tests using NodeJS or Selenium. Additionally, Arrow provides a rich mechanism for building, organizing and executing test and test scenarios.
 
 
 ##Install
