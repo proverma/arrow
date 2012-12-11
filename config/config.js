@@ -26,6 +26,7 @@ config.descriptorName = "test_descriptor.json";
 config.minPort = 10000;
 config.maxPort = 11000;
 config.coverage = false;
+config.exitCode = false;
 
 
 module.exports = config;

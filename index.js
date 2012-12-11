@@ -45,7 +45,8 @@ var knownOpts = {
         "context": [String, null],
         "dimensions": [String, null],
         "capabilities": [String, null],
-        "seleniumHost": [String, null]
+        "seleniumHost": [String, null],
+        "exitCode": Boolean
     },
     shortHands = {},
 //TODO : Investigate and implement shorthands
@@ -100,6 +101,7 @@ function showHelp() {
         "                       Example Json :" + "\n" +
         "                       {\"yahoo.com\" : \"1.2.3.4\", \"sports.yahoo.com\" : \"3.4.5.6\"}" + "\n" +
         "        --useProxyForAll : (optional) true/false. ( default : true ) decides if all selenium browser should by default use proxy server or not" +
+        "        --exitCode : (optional) true/false. Causes the exit code to be non-zero if any tests fail (default: false)" + "\n" +
         "        \n\n");
 
     console.log("\nEXAMPLES :" + "\n" +
