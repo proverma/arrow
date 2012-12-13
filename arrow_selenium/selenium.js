@@ -36,6 +36,11 @@ function listSessions(error, next, arrSessions) {
         sessionId,
         webdriver;
 
+    if (error !== null) {
+        logger.fatal("Unable to connect to a Selenium session.  Download the selenium server JAR from http://code.google.com/p/selenium/downloads/list, \
+start it with: \"java -jar path/to/jar/selenium-server-standalone-<VERSION>.jar\".  Create a browser session on http://127.0.0.1:4444/wd/hub or with \"arrow_server --open=<browser_name>\"\n");
+                    return;
+    }
     if (0 === arrSessions.length) {
         next(sessionCaps);
     }
@@ -114,8 +119,11 @@ function closeBrowsers(sessionCaps) {
 function listHelp() {
     console.info("\nCommandline Options :" + "\n" +
         "--list : Lists all selenium browser sessions" + "\n" +
-        "--open : Comma seperated list of browsers to launch" + "\n" +
-        "--close : Close all selenium controller browser sessions" + "\n"
+        "--open=<browser1[, browser2]> : Comma seperated list of browsers to launch" + "\n" +
+        "--close : Close all selenium controller browser sessions" + "\n\n" +
+        "Examples:\n" +        
+        "Open Firefox and Chrome browser instances:\n" +
+        "arrow_selenium --open=firefox,chrome\n"
         );
 }
 
