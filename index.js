@@ -99,9 +99,20 @@ function showHelp() {
         "        --startProxyServer : (optional) true/false. Starts a proxy server for all intercepting all selenium browser calls" +
         "        --routerProxyConfig : (optional) filePath. Expects a Json file containing key-value pair, where key = original host, and value = new routed host." + + "\n" +
         "                       Example Json :" + "\n" +
-        "                       {\"yahoo.com\" : \"1.2.3.4\", \"sports.yahoo.com\" : \"3.4.5.6\"}" + "\n" +
-        "        --useProxyForAll : (optional) true/false. ( default : true ) decides if all selenium browser should by default use proxy server or not" +
+        "                       {" + "\n" +
+        "                           \"<host>\": {" + "\n" +
+        "                               \"newHost\": \"<new-host>\"," + "\n" +
+        "                               \"headers\": " + "\n" +
+        "                                   {" + "\n" +
+        "                                       \"param\": \"<param>\"," + "\n" +
+        "                                       \"value\": \"<val>\"" + "\n" +
+        "                                   }" + "\n" +
+        "                               ]," + "\n" +
+        "                               \"record\": true" + "\n" +
+        "                           }" + "\n" +
+        "                      }" + "\n" +
         "        --exitCode : (optional) true/false. Causes the exit code to be non-zero if any tests fail (default: false)" + "\n" +
+        "        --coverage : (optional) true/false. creates code-coverage report for all js files included/loaded by arrow (default: false)" + "\n" +
         "        \n\n");
 
     console.log("\nEXAMPLES :" + "\n" +
