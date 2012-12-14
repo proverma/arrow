@@ -35,9 +35,9 @@ npm install -g yahoo-arrow
 * **--logLevel** DEBUG|INFO|WARN|ERROR|FATAL (default: INFO)
 * **--dimension** a custom dimension file for defining ycb contexts
 * **--context** name of ycb context
-* **--seleniumHost** : (optional) override selenium host url (example: --seleniumHost=http://host.com:port/wd/hub)" + "\n\n" +
-* **--capabilities** : (optional) the name of a json file containing webdriver capabilities required by your project" +
-* **--startProxyServer** : (optional) true/false. Starts a proxy server for all intercepting all selenium browser calls" +
+* **--seleniumHost** : (optional) override selenium host url (example: --seleniumHost=http://host.com:port/wd/hub)
+* **--capabilities** : (optional) the name of a json file containing webdriver capabilities required by your project
+* **--startProxyServer** : (optional) true/false. Starts a proxy server for all intercepting all selenium browser calls
 * **--routerProxyConfig** : (optional) filePath. Expects a Json file, allows users to modify host and headers for all calls being made by browser. Also supports recording of select url calls. 
         
         
