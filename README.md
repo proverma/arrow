@@ -45,7 +45,7 @@ npm install -g yahoo-arrow
                        {
                            "yahoo.com": {
                                "newHost": "x.x.x.x (your new host ip/name)",
-                               "headers":
+                               "headers":[
                                    {
                                        "param": "<param>",
                                        "value": "<val>"
@@ -55,7 +55,7 @@ npm install -g yahoo-arrow
                             },
                             "news.yahoo.com": {
                                "newHost": "x.x.x.x (your new host ip/name)",
-                               "headers":
+                               "headers":[
                                    {
                                        "param": "<param>",
                                        "value": "<val>"
