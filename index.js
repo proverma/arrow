@@ -99,9 +99,19 @@ function showHelp() {
         "        --routerProxyConfig : (optional) filePath. Expects a Json file, allows users to modify host and headers for all calls being made by browser. Also supports recording of select url calls." + "\n" +
         "                       Example Json :" + "\n" +
         "                       {" + "\n" +
-        "                           \"<host>\": {" + "\n" +
-        "                               \"newHost\": \"<new-host>\"," + "\n" +
-        "                               \"headers\": " + "\n" +
+        "                           \"yahoo.com\": {" + "\n" +
+        "                               \"newHost\": \"x.x.x.x (your new host ip/name)\"," + "\n" +
+        "                               \"headers\": [" + "\n" +
+        "                                   {" + "\n" +
+        "                                       \"param\": \"<param>\"," + "\n" +
+        "                                       \"value\": \"<val>\"" + "\n" +
+        "                                   }" + "\n" +
+        "                               ]," + "\n" +
+        "                               \"record\": true" + "\n" +
+        "                           }," + "\n" +
+        "                           \"news.yahoo.com\": {" + "\n" +
+        "                               \"newHost\": \"x.x.x.x (your new host ip/name)\"," + "\n" +
+        "                               \"headers\": [" + "\n" +
         "                                   {" + "\n" +
         "                                       \"param\": \"<param>\"," + "\n" +
         "                                       \"value\": \"<val>\"" + "\n" +

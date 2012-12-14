@@ -121,6 +121,8 @@ NPM Dependencies
 * **log4js** https://github.com/nomiddlename/log4js-node
 * **clone** https://github.com/pvorb/node-clone
 * **useragent** https://github.com/3rd-Eden/useragent
+* **istanbul** https://github.com/yahoo/istanbul
+* **uglify-js** https://github.com/mishoo/UglifyJS
 
 NPM Dev Dependencies
 * **mockery** https://github.com/mfncooper/mockery
