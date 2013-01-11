@@ -43,7 +43,8 @@
         "useragent": "1.1.0",
         "istanbul": "0.1.10",
         "uglify-js": "1.3.4",
-        "xml-writer": "1.2.3"
+        "xml-writer": "1.2.3",
+        "ycb": "1.0.4"
     },
     "devDependencies": {
         "ytestrunner": "0.1.2",
