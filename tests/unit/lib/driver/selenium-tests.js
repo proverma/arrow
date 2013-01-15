@@ -173,7 +173,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 var webdriver = driver.getWebDriver();
                 webdriver.scriptResults['return ARROW.testReport;'] = '{"name": "functest", "failed": 0, "passed": 0}';
 
-                driver.executeTest({}, {page: 'http://page', test: 'test.js'}, function (errMsg) {
+                driver.executeTest({}, {page: 'http://page', test : 'test.js', customController : false}, function (errMsg) {
                     executed = !errMsg;
                     self.resume(validate);
                 });

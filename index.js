@@ -38,6 +38,7 @@ var knownOpts = {
         "reuseSession": Boolean,
         "parallel": [Number, null],
         "report": Boolean,
+        "coverage": Boolean,
         "reportFolder": [String, null],
         "testName": [String, null],
         "group": [String, null],
@@ -46,7 +47,10 @@ var knownOpts = {
         "dimensions": [String, null],
         "capabilities": [String, null],
         "seleniumHost": [String, null],
-        "exitCode": Boolean
+        "retryCount": [Number, null],
+        "exitCode": Boolean,
+        "color": Boolean,
+        "keepIstanbulCoverageJson": Boolean
     },
     shortHands = {},
 //TODO : Investigate and implement shorthands
@@ -121,7 +125,11 @@ function showHelp() {
         "                           }" + "\n" +
         "                      }" + "\n" +
         "        --exitCode : (optional) true/false. Causes the exit code to be non-zero if any tests fail (default: false)" + "\n" +
+        "        --color : (optional) true/false. if set to false, it makes console log colorless ( hudson friendly).(default: true)" + "\n" +
         "        --coverage : (optional) true/false. creates code-coverage report for all js files included/loaded by arrow (default: false)" + "\n" +
+        "        --keepIstanbulCoverageJson : (optional) true/false. if set to true, it does not delete Istanbul coverage json files. (default: false)" + "\n" +
+        "        --retryCount : (optional) retry count for failed tests. Determines how many times a test should be retried, if it fails. (default: 0)\n" +
+        "                       Example : --retryCount=2 , will retry all failed tests 2 times." +
         "        \n\n");
 
     console.log("\nEXAMPLES :" + "\n" +
@@ -190,6 +198,12 @@ if (!argv.config) {
 //setup config
 prop = new Properties(__dirname + "/config/config.js", argv.config, argv);
 config = prop.getAll();
+
+//global variables
+global.retryCount = config.retryCount;
+global.keepIstanbulCoverageJson = config.keepIstanbulCoverageJson;
+global.color = config.color;
+
 
 // TODO: arrowSetup move to Arrow
 arrowSetup = new ArrowSetup(config, argv);

@@ -27,6 +27,9 @@ config.minPort = 10000;
 config.maxPort = 11000;
 config.coverage = false;
 config.exitCode = false;
+config.retryCount = 0;
+config.keepIstanbulCoverageJson = false;
+config.color = true;
 
 
 module.exports = config;
