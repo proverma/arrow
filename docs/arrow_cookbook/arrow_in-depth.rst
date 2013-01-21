@@ -10,7 +10,7 @@ Test Suite Organization
 Test Descriptor files allow you to organize your tests into test suites, while also allowing you to control when and which tests execute at a given phase of your development cycle.
 
 Consider the following scenario:
-You have just finished creating a suite of tests that validate the application we discussed in the `Arrow Tutorial <./arrow_tutorial.html>`_ chapter.
+You have just finished creating a suite of tests that validate the application we discussed in the `Arrow Tutorial <./arrow_tutorial.rst>`_ chapter.
 
 At this point you have the following test files:
 
