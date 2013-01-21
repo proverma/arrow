@@ -1,12 +1,12 @@
     {
-    "author": "Lego-QEP (http://twiki.corp.yahoo.com/view/Lego/TeamQEPlatform)",
+    "author": "Yahoo!",
     "name": "arrow-functional-tests",
     "description": "Arrow Functional Tests",
     "version": "0.0.0",
-    "homepage": "http://twiki.corp.yahoo.com/view/Lego/Arrow",
+    "homepage": "https://github.com/yahoo/arrow",
     "repository": {
-        "type": "svn",
-        "url": "svn+ssh://svn.corp.yahoo.com/yahoo/media/"
+    "type": "git",
+    "url": "https://github.com/yahoo/arrow.git"
     },
     "scripts": {
         "pretest" : "./arrow_commands.sh",

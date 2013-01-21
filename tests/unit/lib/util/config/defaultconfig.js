@@ -8,7 +8,7 @@
 var config = {};
 
 // User default config
-config.seleniumHost = "";//"http://selgrid3.global.media.corp.yahoo.com:80";
+config.seleniumHost = "";
 config.context = "";
 config.defaultAppHost = "";
 config.logLevel = "INFO";
