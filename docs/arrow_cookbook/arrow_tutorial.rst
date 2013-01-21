@@ -60,7 +60,7 @@ To run against PhantomJS or a Selenium-supported browser, enter:
 TODO... needs to be updated
 
 
-**Note:** `Arrow Server <./arrow_getting_started.html>`_ and `Selenium <./arrow_getting_started.rst#start-selenium>`_ need to be running
+**Note:** `Arrow Server <./arrow_getting_started.rst>`_ and `Selenium <./arrow_getting_started.rst#start-selenium>`_ need to be running
 
 When you execute using PhantomJS, a screenshot is captured automatically. The screenshot is stored in the location where you executed the test (in this case, ``unit_test/test/``).
 
