@@ -27,7 +27,7 @@ If you recall, to execute the two test files above against our mock and HTTP End
   arrow test-func.js  --page=http://www.doctor46.com/tabview.html --lib=test-lib.js
   arrow test-int.js  --page=http://www.doctor46.com/tabview.html --lib=test-lib.js
 
-Let's pretend we wanted to easily decide which test files executed and which didn't. Test Descriptors_ allow you to do this easily and in one location
+Let's pretend we wanted to easily decide which test files executed and which didn't. Test `Descriptors <,/test-descriptors>`_ allow you to do this easily and in one location
 
 .. _Descriptors:
 
@@ -38,7 +38,7 @@ Test descriptors provide a way to describe, organize and factorize your tests. D
 
 Let's look at this test `descriptor: 
 
-TODO... needs to be updated
+.. TODO... needs to be updated
 
 
 ::
@@ -170,7 +170,7 @@ One Test Descriptor Per Module
 
 One test descriptor per module is recommended. You do not need a *parent* test descriptor file to include multiple modules. There are different tools which do this for you. Given a root directory, Arrow traverses the child directories and picks up the required test descriptor files.
 
-For example, suppose you have the following directory structure, and within each moduleN/test folder you have tests and a test descriptor file.
+For example, suppose you have the following directory structure, and within each module/test folder you have tests and a test descriptor file.
 
 ::
 
