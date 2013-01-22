@@ -22,7 +22,7 @@ Arrow will override any *baseUrl* value either in the *config* file or it the *t
 Reporting
 ---------
 
-As `described before </arrow_in-depth.html#reporting>`_, Arrow supports two types of reports. If you use multiple *test descriptors* for your execution, Arrow will *merge* the results and report all results in one report (of each type).
+As `described before </arrow_in-depth.rst#reporting>`_, Arrow supports two types of reports. If you use multiple *test descriptors* for your execution, Arrow will *merge* the results and report all results in one report (of each type).
 
 To enable reporting simply include the **--report=true** parameter in your command
 
