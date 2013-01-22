@@ -9,8 +9,8 @@ How to run arrow tests from Linux box to Windows machine?
 
 Make sure you have following setup before running arrow tests
 
-1. Linux box has arrow installed and it has all the packages listed `here <http://devel-stage.corp.yahoo.com/ynodejs_arrow/guide/arrow_getting_started.html#linux-installation>`_ (Only start arrow_server if you are running unit tests)
-2. Windows machine has `selenium server <http://devel-stage.corp.yahoo.com/ynodejs_arrow/guide/arrow_getting_started.html#selenium-server>`_ up and running (Check http://yourIP:4444/wd/hub is loading fine)
+1. Linux box has arrow installed and it has all the packages listed `here <./arrow_getting_started.rst#linux>`_ (Only start arrow_server if you are running unit tests)
+2. Windows machine has `selenium server <./arrow_getting_started.rst#selenium-server>`_ up and running (Check http://yourIP:4444/wd/hub is loading fine)
 3. Now run the arrow test and do not forget to pass the --seleniumHost=http://yourIP:4444/wd/hub while running your tests
 
 ::
@@ -119,7 +119,7 @@ Solution
 
 You can tell Arrow to point to a specific Selenium Host in two ways
 
-1. Update the `config file's <./arrow_in-depth.html#configuration>`_ seleniumHost value
+1. Update the `config file's <./arrow_in-depth.rst#configuration>`_ seleniumHost value
 2. Use the **--seleniumHost** parameter in your command
 
 **Note** you need to include the **FULL** path to Selenium Server like this:
@@ -140,12 +140,12 @@ When running Arrow Server, you get a buffer error like this
 Solution
 ========
 
-Make sure you have `installed PhantomJS <./arrow_getting_started.html#mac-installation>`_
+Make sure you have `installed PhantomJS <./arrow_getting_started.rst#mac-installation>`_
 
 How can I use the Locator Controller to Login?
 ----------------------------------------------
 
-Built-in, Arrow comes with two controllers, default and `locator <./arrow_in-depth.html#the-locator-controller>`_
+Built-in, Arrow comes with two controllers, default and `locator <./arrow_in-depth.rst#the-locator-controller>`_
 
 Solution
 ========
@@ -203,7 +203,7 @@ You can install a specific version like this:
 
 ::
 
-TODO... needs to be updated
+.. TODO... needs to be updated
 
    sudo npm install --registry=http:// arrow@<version> -g
 
@@ -211,7 +211,7 @@ To install version 0.0.43
 
 ::
 
-TODO... needs to be updated
+.. TODO... needs to be updated
 
   sudo npm install --registry=http:// arrow@0.0.43 -g
 

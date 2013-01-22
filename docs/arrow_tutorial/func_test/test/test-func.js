@@ -22,9 +22,9 @@ YUI.add("test-func-tests", function (Y) {
     
     /*
      * Add a new test, with three validations to the suite
-     * We are going to use the "validateStructure" and "validateSeelection" methods
+     * We are going to use the "validateStructure" and "validateSelection" methods
      * in "media-test-tabview" for the actual validation. 
-     * Note, the values we are passing are relevant to our "mock" page (testMoke.html)
+     * Note, the values we are passing are relevant to our "mock" page (testMock.html)
      */
     suite.add(new Y.Test.Case({
         "test tab structure": function() {

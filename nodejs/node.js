@@ -72,6 +72,7 @@ var testFile = testSpec.test;
 var coverageFlag = testSpec.coverage;
 var testParams = decodeURI(args[3]);
 var depFiles = libs.split(",");
+coverage.configure(testSpec);
 
 
 function runTest() {

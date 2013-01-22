@@ -39,6 +39,7 @@ var knownOpts = {
         "parallel": [Number, null],
         "report": Boolean,
         "coverage": Boolean,
+        "coverageExclude": [String, null],
         "reportFolder": [String, null],
         "testName": [String, null],
         "group": [String, null],
@@ -127,6 +128,7 @@ function showHelp() {
         "        --exitCode : (optional) true/false. Causes the exit code to be non-zero if any tests fail (default: false)" + "\n" +
         "        --color : (optional) true/false. if set to false, it makes console log colorless ( hudson friendly).(default: true)" + "\n" +
         "        --coverage : (optional) true/false. creates code-coverage report for all js files included/loaded by arrow (default: false)" + "\n" +
+        "        --coverageExclude : (optional) string. comma-separated list of files to exclude from coverage reports" + "\n" +
         "        --keepIstanbulCoverageJson : (optional) true/false. if set to true, it does not delete Istanbul coverage json files. (default: false)" + "\n" +
         "        --retryCount : (optional) retry count for failed tests. Determines how many times a test should be retried, if it fails. (default: 0)\n" +
         "                       Example : --retryCount=2 , will retry all failed tests 2 times." +

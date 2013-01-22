@@ -1,5 +1,5 @@
 var config = {};
-config.seleniumHost = "";//"http://selgrid3.global.media.corp.yahoo.com:80";
+config.seleniumHost = "";
 config.context = "";
 config.logLevel = "DEBUG";
 config.browser = "firefox-15.0";

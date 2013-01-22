@@ -10,7 +10,7 @@ Test Suite Organization
 Test Descriptor files allow you to organize your tests into test suites, while also allowing you to control when and which tests execute at a given phase of your development cycle.
 
 Consider the following scenario:
-You have just finished creating a suite of tests that validate the application we discussed in the `Arrow Tutorial <./arrow_tutorial.html>`_ chapter.
+You have just finished creating a suite of tests that validate the application we discussed in the `Arrow Tutorial <./arrow_tutorial.rst>`_ chapter.
 
 At this point you have the following test files:
 
@@ -36,9 +36,7 @@ Test Descriptors
 
 Test descriptors provide a way to describe, organize and factorize your tests. During test development, you'll probably execute each test from the Arrow command line. However, once you have created tests to validate your module, you need a way to organize and factorize the tests.
 
-Let's look at this test `descriptor: 
-
-TODO... needs to be updated
+.. TODO... needs to be updated
 
 
 ::
@@ -170,7 +168,7 @@ One Test Descriptor Per Module
 
 One test descriptor per module is recommended. You do not need a *parent* test descriptor file to include multiple modules. There are different tools which do this for you. Given a root directory, Arrow traverses the child directories and picks up the required test descriptor files.
 
-For example, suppose you have the following directory structure, and within each moduleN/test folder you have tests and a test descriptor file.
+For example, suppose you have the following directory structure, and within each module/test folder you have tests and a test descriptor file.
 
 ::
 
@@ -201,7 +199,7 @@ To execute *All* test descriptor files *within* each module, simply navigate to 
 
   arrow "**/*-descriptor.json"
 
-Arrow will traverse through all sub-folders, pick up the test descriptors which match "**/*-descriptor.json" glob, and execute them sequentially.
+Arrow will traverse through all sub-folders, pick up the test descriptors which match ``"**/*-descriptor.json"`` glob, and execute them sequentially.
 
 Parametrize Test Descriptors
 ............................
@@ -406,9 +404,9 @@ Complex Test Scenarios
 
 There are situations where the default arrow controller will not allow you to create the type of test scenario you require. If you recall, the default arrow controller assumes the page you load is the page under test. To solve this you can use a different arrow controller called *locator*. The *locator* controller allows you to navigate to the page under test by allowing you to perform actions such as clicking and typing.
 
-The controller samples can be found `here. 
+.. The controller samples can be found `here. - TODO... need the link to the controller samples (@dmitris)
 
-TODO... needs to be updated
+.. TODO... needs to be updated
 
 
 The Locator Controller
@@ -590,9 +588,9 @@ To tell Arrow you would like to create reports simply type:
 
 After the test executes two files will be created under the location from which you executed Arrow; *report.xml* and *report.json*.
 
-Running multiple descriptors using 'arrow "**/*-descriptor.json" --report=true' , will create report.xml and report.json under directory structure where each descriptor files reside.
+Running multiple descriptors using ``'arrow "**/*-descriptor.json" --report=true'`` , will create report.xml and report.json under directory structure where each descriptor files reside.
 
-Hudson supports report globbing, so you can pass **/test-descriptor-report.xml, and it will pick up all your result files.
+Hudson supports report globbing, so you can pass ``**/test-descriptor-report.xml``, and it will pick up all your result files.
 
 report.xml sample
 .................
