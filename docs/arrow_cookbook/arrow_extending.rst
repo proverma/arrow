@@ -185,19 +185,19 @@ How To Submit a Patch
 Internal Patch Submission Process
 .................................
 
-TODO... needs to be updated
+.. TODO... needs to be updated
 
 Code Review Process
 ...................
 
-TODO... needs to be updated
+.. TODO... needs to be updated
 
 **DO NOT COMMIT your code without following the patch submission process**
 
 How to Run Unit/Functional Tests?
 .................................
 
-TODO... needs to be updated
+.. TODO... needs to be updated
 
 Get the `unit tests _
 
@@ -213,7 +213,7 @@ Run the following command and make sure it passes
 
 **WIP**
 
-TODO... needs to be updated
+.. TODO... needs to be updated
 
 
 Get the `functional tests 
