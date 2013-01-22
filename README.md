@@ -9,7 +9,7 @@ Arrow is a test framework designed to promote test-driven JavaScript development
 
 Arrow aims to completely remove the line between development’s Unit tests, and Functional and Integration tests by providing a uniform way to create and execute both.
 
-Arrow itself is a thin, extensible layer that marries JavaScript, NodeJS, PhantomJS and Selenium. Arrow allows you to write tests using YUI-Test and execute those tests using NodeJS, PhantomJS or Selenium. Additionally, Arrow provides a rich mechanism for building, organizing and executing test and test scenarios.
+Arrow itself is a thin, extensible layer that marries JavaScript, NodeJS and Selenium. Arrow allows you to write tests using YUI-Test and execute those tests using NodeJS or Selenium. Additionally, Arrow provides a rich mechanism for building, organizing and executing test and test scenarios.
 
 
 ##Install
@@ -26,7 +26,7 @@ npm install -g yahoo-arrow
 * **--version** display installed arrow version
 * **--lib** comma separated list of js files needed by the test
 * **--page** path to the mock or production html page, for example: http://www.yahoo.com or mock.html
-* **--driver** selenium|phantomjs|browser. (default: phantomjs)
+* **--driver** one of selenium|nodejs. (default: selenium)
 * **--browser** firefox|chrome|opera|reuse.  Specify browser version with a hypen, ex.: firefox-4.0 or opera-11.0 (default: firefox)
 * **--report** true/false. Creates report files in junit and json format, and also prints a consolidated test report summary on console
 * **--reportFolder** : (optional) folderPath.  creates report files in that folder. (default: descriptor folder path)
