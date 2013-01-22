@@ -91,7 +91,7 @@ RHEL 5.x (5.0-20070208, 5.2-20080429, 5.4-20090902, 5.6-20110328) as well.
 
 ::
 
-TODO... needs to be updated
+.. TODO... needs to be updated
 
 
 
@@ -99,7 +99,7 @@ TODO... needs to be updated
 
 ::
 
-TODO... needs to be updated
+.. TODO... needs to be updated
 
 
 
@@ -107,14 +107,14 @@ TODO... needs to be updated
 
 ::
 
-TODO... needs to be updated
+.. TODO... needs to be updated
 
 
 4. Configure Arrow to allow for custom controllers
 
 ::
 
-TODO... needs to be updated
+.. TODO... needs to be updated
 
 
 5. Start Arrow Server on the command prompt (note, this must be left **ON** or the process will die)

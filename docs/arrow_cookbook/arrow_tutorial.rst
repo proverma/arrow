@@ -57,7 +57,7 @@ To run against PhantomJS or a Selenium-supported browser, enter:
 
   arrow test-unit.js --lib=../src/greeter.js --driver=selenium --browser=firefox
 
-TODO... needs to be updated
+.. TODO... needs to be updated
 
 
 **Note:** `Arrow Server <./arrow_getting_started.rst>`_ and `Selenium <./arrow_getting_started.rst#start-selenium>`_ need to be running
@@ -76,7 +76,7 @@ Functional testing is a broad definition for anything that is *not* a unit test.
 
 As in the *unit_test* demo, under *arrow_tutorial* there is a folder called *func_tests* For the purposes of this demo, we will be working with YUI "multi-tab" module. Furthermore, during this stage of testing, functional, we'll use a *mock* page to mock our ultimate application.
 
-TODO... needs to be updated
+.. TODO... needs to be updated
 
 
 +------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -85,18 +85,18 @@ TODO... needs to be updated
 | `func_tests/test/testMock.html `_ | This is a very simple HTML which acts as our *mock* page container. It has the basic skeleton of the final output and references the JS code the final output will also use |
 +------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-Our mock page looks like this:
-
-.. image:: starting.png
-
-The final output of the application **will** look like this:
-
-.. image:: final.png
+..  Our mock page looks like this:
+..
+..   image commented out - @dmitris image  starting.png
+..
+.. The final output of the application **will** look like this:
+..
+..  image commented out - @dmitris image final.png
 
 test
 ----
 
-TODO... needs to be updated
+.. TODO... needs to be updated
 
 
 There are are number of test files in our *test* folder
@@ -125,7 +125,7 @@ To execute the func tests do the following:
 
 2. On a separate command prompt navigate to. ``~/arrow_tutorial/func_test/test``
 
-3. Because these tests require a web page, Arrow defaults the driver to FireFox (**Note** `Selenium Server <./arrow_getting_started.html#start-selenium>`_ must be running), type:
+3. Because these tests require a web page, Arrow defaults the driver to FireFox (**Note** `Selenium Server <./arrow_getting_started.rst#start-selenium>`_ must be running), type:
 
 ::
 
@@ -154,7 +154,7 @@ In Arrow, the difference between a JavaScript UI functional test and a JavaScrip
 
 In other words, if your JavaScript UI *functional_* test is constructed smartly, you could use it for *integration* testing as well.
 
-TODO... needs to be updated
+.. TODO... needs to be updated
 
 Consider the `test-int.js `_ file. It confirms the tabs have specific values. For this simple app, those values *would* come from a WS or some type of integration with another system.
 

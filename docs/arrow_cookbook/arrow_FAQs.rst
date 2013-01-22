@@ -203,7 +203,7 @@ You can install a specific version like this:
 
 ::
 
-TODO... needs to be updated
+.. TODO... needs to be updated
 
    sudo npm install --registry=http:// arrow@<version> -g
 
@@ -211,7 +211,7 @@ To install version 0.0.43
 
 ::
 
-TODO... needs to be updated
+.. TODO... needs to be updated
 
   sudo npm install --registry=http:// arrow@0.0.43 -g
 
