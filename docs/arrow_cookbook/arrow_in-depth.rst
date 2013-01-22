@@ -27,7 +27,7 @@ If you recall, to execute the two test files above against our mock and HTTP End
   arrow test-func.js  --page=http://www.doctor46.com/tabview.html --lib=test-lib.js
   arrow test-int.js  --page=http://www.doctor46.com/tabview.html --lib=test-lib.js
 
-Let's pretend we wanted to easily decide which test files executed and which didn't. Test `Descriptors <,/test-descriptors>`_ allow you to do this easily and in one location
+Let's pretend we wanted to easily decide which test files executed and which didn't. Test `Descriptors <./test-descriptors>`_ allow you to do this easily and in one location
 
 .. _Descriptors:
 
