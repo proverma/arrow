@@ -27,7 +27,7 @@ If you recall, to execute the two test files above against our mock and HTTP End
   arrow test-func.js  --page=http://www.doctor46.com/tabview.html --lib=test-lib.js
   arrow test-int.js  --page=http://www.doctor46.com/tabview.html --lib=test-lib.js
 
-Let's pretend we wanted to easily decide which test files executed and which didn't. Test `Descriptors <./test-descriptors>`_ allow you to do this easily and in one location
+Let's pretend we wanted to easily decide which test files executed and which didn't. Test Descriptors_ allow you to do this easily and in one location
 
 .. _Descriptors:
 
@@ -35,8 +35,6 @@ Test Descriptors
 ================
 
 Test descriptors provide a way to describe, organize and factorize your tests. During test development, you'll probably execute each test from the Arrow command line. However, once you have created tests to validate your module, you need a way to organize and factorize the tests.
-
-Let's look at this test `descriptor: 
 
 .. TODO... needs to be updated
 
@@ -201,7 +199,7 @@ To execute *All* test descriptor files *within* each module, simply navigate to 
 
   arrow "**/*-descriptor.json"
 
-Arrow will traverse through all sub-folders, pick up the test descriptors which match "**/*-descriptor.json" glob, and execute them sequentially.
+Arrow will traverse through all sub-folders, pick up the test descriptors which match ``"**/*-descriptor.json"`` glob, and execute them sequentially.
 
 Parametrize Test Descriptors
 ............................
@@ -406,7 +404,7 @@ Complex Test Scenarios
 
 There are situations where the default arrow controller will not allow you to create the type of test scenario you require. If you recall, the default arrow controller assumes the page you load is the page under test. To solve this you can use a different arrow controller called *locator*. The *locator* controller allows you to navigate to the page under test by allowing you to perform actions such as clicking and typing.
 
-The controller samples can be found `here. 
+.. The controller samples can be found `here. - TODO... need the link to the controller samples (@dmitris)
 
 .. TODO... needs to be updated
 
@@ -590,9 +588,9 @@ To tell Arrow you would like to create reports simply type:
 
 After the test executes two files will be created under the location from which you executed Arrow; *report.xml* and *report.json*.
 
-Running multiple descriptors using 'arrow "**/*-descriptor.json" --report=true' , will create report.xml and report.json under directory structure where each descriptor files reside.
+Running multiple descriptors using ``'arrow "**/*-descriptor.json" --report=true'`` , will create report.xml and report.json under directory structure where each descriptor files reside.
 
-Hudson supports report globbing, so you can pass **/test-descriptor-report.xml, and it will pick up all your result files.
+Hudson supports report globbing, so you can pass ``**/test-descriptor-report.xml``, and it will pick up all your result files.
 
 report.xml sample
 .................
