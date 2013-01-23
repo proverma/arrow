@@ -1,5 +1,5 @@
 {
     "modules": {
-        "arrow": "lib/common/yui-arrow.js"
+        "common-asserts": "lib/lib/common/common-asserts.js"
     }
 }
