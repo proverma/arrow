@@ -6,7 +6,7 @@
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
-YUI.add('common-asserts-tests', function (Y, NAME) {
+YUI.add('common-lib-tests', function (Y, NAME) {
     'use strict';
 
     var suite = new Y.Test.Suite(NAME),
@@ -74,4 +74,4 @@ YUI.add('common-asserts-tests', function (Y, NAME) {
 
     Y.Test.Runner.add(suite);
 
-}, '0.0.1', { requires: ['test', 'common-asserts'] });
+}, '0.0.1', { requires: ['test', 'common-lib'] });

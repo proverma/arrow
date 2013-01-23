@@ -1,5 +1,0 @@
-{
-    "modules": {
-        "common-asserts": "lib/lib/common/common-asserts.js"
-    }
-}
