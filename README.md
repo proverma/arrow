@@ -123,6 +123,8 @@ NPM Dependencies
 * **useragent** https://github.com/3rd-Eden/useragent
 * **istanbul** https://github.com/yahoo/istanbul
 * **uglify-js** https://github.com/mishoo/UglifyJS
+* **xml-writer** https://github.com/lindory-project/node-xml-writer
+* **ycb** https://github.com/yahoo/ycb
 
 NPM Dev Dependencies
 * **mockery** https://github.com/mfncooper/mockery
