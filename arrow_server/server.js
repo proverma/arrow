@@ -17,7 +17,6 @@ var nopt = require("nopt");
 var http = require("http");
 var express = require("express");
 var log4js = require("log4js");
-var childProcess = require("child_process");
 var portchecker = require('../ext-lib/portchecker');
 
 log4js.setGlobalLogLevel("INFO");
@@ -27,9 +26,6 @@ var debug = false;
 var arrowHost = "localhost";
 var arrowPortMin = 10000;
 var arrowPortMax = 11000;
-var ghostPortMin = 10000;
-var ghostPortMax = 11000;
-var ghostPort = 0;
 var arrowPort = 0;
 var arrowAddress = "";
 var parsed = nopt();
@@ -37,14 +33,11 @@ var parsed = nopt();
 //setting appRoot
 global.appRoot = path.resolve(__dirname, "..");
 
-
-
 //help messages
 function showHelp() {
     console.info("\nOPTIONS :" + "\n" +
         "        --host : (optional) Fully qualified name of host where arrow server is running. (default: localhost)" + "\n" +
-        "        --port : (optional) Arrow Server Port. (default: 4459) " + "\n" +
-        "        --ghostPort : (optional) GhostDriver Port. (default: 4460) " + "\n\n"
+        "        --port : (optional) Arrow Server Port. (default: 4459) " +  "\n\n"
     );
 
     console.log("\nEXAMPLES :" + "\n" +
@@ -120,12 +113,8 @@ function serveStatic(pathname, req, res) {
 function cleanUp() {
     try {
         fs.unlinkSync(global.appRoot + "/tmp/arrow_server.status");
-        fs.unlinkSync(global.appRoot + "/tmp/arrow_phantom_server.status");
     } catch (ex) {}
 
-    if ( this.child.kill) {
-        this.child.kill();
-    }
     console.log("Good bye!");
 }
 
@@ -545,37 +534,6 @@ app.get("*", function (req, res) {
     }
 });
 
-//starting ghostdriver
-
-function startGhostDriver() {
-
-    if (parsed["ghostPort"]) {
-        ghostPort = String(parsed["ghostPort"]);
-    }
-
-    if (ghostPort > 0 ) {
-        ghostPortMin = ghostPortMax = ghostPort;
-    }
-
-    var self = this;
-    portchecker.getFirstAvailable(arrowPort, ghostPortMax, "localhost", function(p, host) {
-        if (p === -1) {
-            console.log('No free ports found for GhostDriver on ' + host + ' between ' + arrowPort + ' and ' + ghostPortMax);
-        } else {
-            // console.log('the first free port found for Gost Driver on ' + host + ' between ' + arrowPort + ' and ' + ghostPortMax + ' is ' + p);
-            ghostPort = p;
-            self.child = childProcess.spawn("node", [__dirname + "/ghostdriverlauncher.js", p, arrowHost]);
-            self.child.stdout.on("data", function (data) {
-                console.log(data.toString());
-            });
-            self.child.stderr.on("data", function (data) {
-                console.error(data.toString());
-            });
-
-        }
-    });
-}
-
 function runArrowServer(port) {
 
     app.listen(port);
@@ -583,7 +541,6 @@ function runArrowServer(port) {
     arrowAddress = "http://" + arrowHost + ":" + port;
     console.log("Server running at: " + arrowAddress);
     fs.writeFileSync(global.appRoot + "/tmp/arrow_server.status", arrowAddress);
-    startGhostDriver();
 }
 
 //starting arrow server
