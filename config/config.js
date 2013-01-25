@@ -8,6 +8,7 @@ var config = {};
 
 // User default config
 config.seleniumHost = "";
+config.phantomHost = "http://localhost:4445/wd/hub";
 config.context = "";
 config.defaultAppHost = "";
 config.logLevel = "INFO";
