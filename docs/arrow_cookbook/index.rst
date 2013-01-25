@@ -20,35 +20,39 @@ The Arrow framework documentation includes:
 
 Describes what Arrow is and how it is different from other testing frameworks.
 
-**Chapter 2: Getting Started**
+**Chapter 2: Quick Start**
+
++Describes quick Arrow installation with running simple unit test
+
+**Chapter 3: Getting Started**
 
 Describes Arrow installation and how to create your first test
 
-**Chapter 3: Arrow Tutorial**
+**Chapter 4: Arrow Tutorial**
 
 Walks through the various types of tests commonly run by Arrow
 
-**Chapter 4: Arrow In-Depth**
+**Chapter 5: Arrow In-Depth**
 
 More in-depth information about Arrow
 
-**Chapter 5: Continuous Integration**
+**Chapter 6: Continuous Integration**
 
 Examples on how Arrow works within a CI environment like Hudson. Including different reports provided by Arrow.
 
-**Chapter 6: Extending & Developing Arrow**
+**Chapter 7: Extending & Developing Arrow**
 
 Since its inception, Arrow was designed to be extensible. Do you want to contribute to arrow? Look here.
 
-**Chapter 7: Videos**
+**Chapter 8: Videos**
 
 Video Tutorials
 
-**Chapter 8: FAQs**
+**Chapter 9: FAQs**
 
 Frequently-Asked Questions
 
-**Chapter 9: Arrow Usage**
+**Chapter 10: Arrow Usage**
 
 Table of Contents
 #################
@@ -57,6 +61,7 @@ Table of Contents
    :maxdepth: 2
 
    arrow_intro
+   arrow_quick
    arrow_getting_started
    arrow_tutorial
    arrow_in-depth
