@@ -44,7 +44,7 @@ function showHelp() {
         "        For local usage: " + "\n" +
         "          arrow_server ( Arrow server will start listening to localhost:4459 )" + "\n\n" +
         "        For remote usage: " + "\n" +
-        "          arrow_server --host=minuteblue.corp.yahoo.com --port=4800 ( Arrow server will start listening to minuteblue.corp.yahoo.com:4800) " + "\n\n");
+        "          arrow_server --host=<yourhostname> --port=4800 ( Arrow server will start listening to <yourhostname>:4800) " + "\n\n");
 }
 
 if (parsed.help) {

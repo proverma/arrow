@@ -4,7 +4,7 @@
         "name" : "tabview",
         "commonlib" : "./test-lib.js",
         "config" :{
-            "baseUrl" : "http://enoughoffice.corp.yahoo.com:8033",
+            "baseUrl" : "<yourhostname>:8033",
             "testsValue": "sometest.js"
         },
         "dataprovider" : {
