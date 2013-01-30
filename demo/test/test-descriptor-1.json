@@ -1,0 +1,29 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name" : "tabview",
+
+        "config" :{
+            "baseUrl" : "http://finance.yahoo.com"
+        },
+
+        "dataprovider" : {
+            
+           "dom_int" : {
+                "params" : {
+                    "test" : "test-assert-1.js",
+                    "page" : "$$config.baseUrl$$"
+                  },
+                "group" : "smoke"
+            }
+
+        }
+        
+    },
+
+    {
+        "settings": [ "environment:development" ]
+    }
+
+]
