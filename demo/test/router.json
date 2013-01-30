@@ -1,0 +1,20 @@
+{
+    "autos.yahoo.com" : "fe1.global.media.vip.ir2.yahoo.com",
+    "yahoo.com" : {
+        "newHost" : "fe1.global.media.vip.ac4.yahoo.com"
+    },
+    "sports.yahoo.com" : {
+        "headers" : [
+            {
+                "param" : "value1",
+                "value" : "xyz"
+            },
+            {
+                "param" : "value2",
+                "value" : "xyz1"
+            }
+        ],
+        "newHost" : "fe1.global.media.vip.ir2.yahoo.com",
+        "record" : true
+    }
+}
