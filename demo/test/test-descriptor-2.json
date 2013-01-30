@@ -1,0 +1,29 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name" : "tabview",
+
+        "config" :{
+            "baseUrl" : "http://news.yahoo.com"
+        },
+
+        "dataprovider" : {
+            
+           "test3" : {
+                "params" : {
+                    "test" : "test-assert-2.js",
+                    "page" : "http://news.yahoo.com"
+                  },
+                "group" : "smoke"
+            }
+
+        }
+        
+    },
+
+    {
+        "settings": [ "environment:development" ]
+    }
+
+]

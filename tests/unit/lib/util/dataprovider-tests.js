@@ -35,7 +35,7 @@ YUI.add('dataprovider-tests', function (Y) {
         "Confirm Config params": function(){
             Y.Assert.areEqual("tabview", dpvalues.name);
             Y.Assert.areEqual("./test-lib.js", dpvalues.commonlib);
-            Y.Assert.areEqual("http://enoughoffice.corp.yahoo.com:8033", dpvalues.config.baseUrl);
+            Y.Assert.areEqual("<yourhostname>:8033", dpvalues.config.baseUrl);
         }
     }));
 
@@ -50,7 +50,7 @@ YUI.add('dataprovider-tests', function (Y) {
     //Test overriding values in the descriptor using $$ value
     suite.add(new Y.Test.Case({
         "Confirm you can share config values within descriptor": function(){
-            Y.Assert.areEqual("http://enoughoffice.corp.yahoo.com:8033/testMock.html", dpvalues.dataprovider.test2.params.page);
+            Y.Assert.areEqual("<yourhostname>:8033/testMock.html", dpvalues.dataprovider.test2.params.page);
             Y.Assert.areEqual("sometest.js", dpvalues.dataprovider.test2.params.test);
         }
     }));
