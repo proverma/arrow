@@ -5,7 +5,7 @@ Extending and Developing Arrow
 Extending Controllers
 ---------------------
 
-Controllers are a very important part of Arrow. As described in the `architecture, <./arrow_intro.rst#arrow-internals>`_ *controllers* are a way to *control* when and where your test will execute. By default, **Arrow** assumes you want to execute your test against the *page* or *HTTP End-Point* given in the **--page=** parameter.
+Controllers are a very important part of Arrow. As described in the `architecture, <./arrow_intro.rst#arrow-internals>`_ *controllers* are a way to *control* when and where your test will execute. By default, **Arrow** assumes you want to execute your test against the *page* or *HTTP endpoint* given in the **--page=** parameter.
 
 Additionally, Arrow provides the concept of `complex scenarios, <./arrow_in-depth.rst#complex-test-scenarios>`_ you can create a *scenario* using a combination of the *default* and the `locator controller. <./arrow_in-depth.rst#the-locator-controller>`_
 
@@ -160,20 +160,20 @@ Once you have become familiar with Arrow, you'll probably want to make small cha
 To force NodeJS to look at your local instance of Arrow do the following:
 
 1. Navigate to the location where Arrow's source code resides
-2. Look for a file called package.json, it will be under: path_to_arrow_source/arrow/node/package.json)
-3. From within the *node* folder (*arrow/node*), link your local instance of arrow to node by typing:
+2. Look for a file called package.json, it will be under: path_to_arrow_source/arrow/package.json)
+3. From within the *arrow* folder, link your local instance of arrow to node by typing:
 
 ::
 
   sudo npm link
 
-You can confirm if the *link* was successful by checking its version
+You can confirm if the *link* was successful by changing Arrow version in package.json ( under arrow/) to 0.0.0
 
 ::
 
-    arrow --version
+    "version": "0.0.0",
 
-You should get:
+ Doing arrow --version, you should get:
 
 ::
 
@@ -217,7 +217,7 @@ Run the following command and make sure it passes
 
 
 Get the `functional tests 
-Navigate to the functional tests /arrow_funtional-tests/node
+Navigate to the functional tests /arrow_tutorial/func_test/test
 
 Run following command and make sure it passes
 

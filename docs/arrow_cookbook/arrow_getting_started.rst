@@ -27,7 +27,7 @@ These instructions assume you do not have NPM and NodeJS installed. If you do, s
  * Go to `Download <http://nodejs.org/#download>`_.
  * Follow the installation instructions
 
-2. Due to a bug in PhantomJS v1.5, Arrow's webdriver implementation expects PhantomJS v1.6 or higher. If you are using a version lower than 1.6 please update it. To install/update, please navigate to: http://phantomjs.org/ and follow the instructions.
+2. Due to a bug in PhantomJS v1.5, Arrow's webdriver implementation expects PhantomJS v1.6 or higher. If you are using a version lower than 1.6, please update it. To install/update, please navigate to: http://phantomjs.org/ and follow the instructions.
 
 3. Copy the phantomjs binary to
 
@@ -41,20 +41,17 @@ These instructions assume you do not have NPM and NodeJS installed. If you do, s
 
   chmod +x phantomjs
 
-5. Install Arrow Package **globally** through NPM:
+5. Install Arrow Package through NPM:
 
 ::
 
-   sudo npm install yahoo-arrow -g
+   For global installation,do sudo npm install yahoo-arrow -g
 
+   For local installation,do sudo npm install yahoo-arrow
 
-5. To **locally** install Arrow use following
+**NOTE**- We prefer installing Arrow locally. Also, notice that it will install local Arrow inside ./node_modules/yahoo-arrow folder, right where you executed the above command.
 
-::
-
-   sudo npm install yahoo-arrow
-
-6. Configure Arrow to allow for custom controllers (This step is only needed when you are installing arrow globally)
+6. Configure Arrow to allow for custom controllers (This step is only needed when you are installing Arrow globally)
 
 ::
 
@@ -64,15 +61,10 @@ These instructions assume you do not have NPM and NodeJS installed. If you do, s
 
 ::
 
-   arrow_server
+   For globally installed arrow- arrow_server
 
-7. Local installation of yahoo-arrow will put arrow under ./node_modules/.bin and to run arrow from there use
+   For locally installed arrow- ./node_modules/.bin/arrow_server
 
-::
-
-    ./node_modules/.bin/arrow --version
-    ./node_modules/.bin/arrow_server
-    ./node_modules/.bin/arrow test_descriptor.json
 
 Now you may proceed to Install Verification_.
 
@@ -129,7 +121,7 @@ Now you may proceed to Install Verification_.
 Selenium Server
 ---------------
 
-Arrow uses `Selenium Server <http://seleniumhq.org/>`_ to excute all browser-related tests. Selenium should run on a machine which has access to the browsers you want to use. Normally Selenium Server will run on Mac or Windows Machine.
+Arrow uses `Selenium Server <http://seleniumhq.org/>`_ to execute all browser-related tests. Selenium should run on a machine which has access to the browsers you want to use. Normally Selenium Server will run on Mac or Windows Machine.
 
 Start Selenium
 ==============
@@ -213,7 +205,9 @@ Check Arrow version
 
 ::
 
-  arrow --version
+  For globally installed arrow- arrow --version
+
+  For locally installed arrow- ./node_modules/.bin/arrow --version
 
 ::
 
@@ -247,13 +241,13 @@ Though Selenium Server is NOT required, if you chose to run it, you can confirm 
 Creating a test
 ---------------
 
-You are now ready to create and execute your first test. For our first test we are going to validate a simple YUI Module. This YUI module has one method called *greet*. *greet* take a first and last name and inverts them as its output
+You are now ready to create and execute your first test. For our first test we are going to validate a simple YUI Module. This YUI module has one method called *greet*. *greet* take a first and last name and inverts them as its output.
 
-1. Create a folder called **arrow_test**
+1. Create a folder called **arrow_test**.
 
-2. Inside arrow_test, create a folder called **src** (this will be our code source folder)
+2. Inside arrow_test, create a folder called **src** (this will be our code source folder).
 
-3. Create a file called **greeter.js** inside src and paste the code below into it
+3. Create a file called **greeter.js** inside src and paste the code below into it.
 
 ::
 
@@ -269,9 +263,9 @@ You are now ready to create and execute your first test. For our first test we a
         }
     }, "0.1", {requires:[]});
 
-4. Inside arrow_test create a folder called **tests**
+4. Inside arrow_test create a folder called **tests**.
 
-5. Create a file called **test-greeter.js** inside tests and past the code below into it
+5. Create a file called **test-greeter.js** inside tests and past the code below into it.
 
 ::
 
@@ -308,9 +302,11 @@ Now we are ready to run our test.
 
 ::
 
-    arrow test-greeter.js --lib=../src/greeter.js --driver=nodejs
+    Globally installed Arrow- arrow test-greeter.js --lib=../src/greeter.js --driver=nodejs
 
-Congratulations, you've successfully installed Arrow and created your first test
+    Locally installed Arrow- ../node_modules/.bin/arrow test-greeter.js --lib=../src/greeter.js --driver=nodejs
+
+Congratulations, you've successfully installed Arrow and created your first test.
 
 
 

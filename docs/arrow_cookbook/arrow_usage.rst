@@ -43,3 +43,24 @@ Arrow Usage
 
   Custom controller: 
     arrow   --controller=custom-controller.js   --driver=selenium
+
+.. _Third Party Libraries:
+
+**Third Party Libraries**
+
+  The following third-party npm modules are used by Arrow:
+  glob https://github.com/isaacs/node-glob
+  mockery https://github.com/nathanmacinnes/Mockery
+  nopt https://github.com/isaacs/nopt
+  colors https://github.com/Marak/colors.js
+  express https://github.com/visionmedia/express
+  yui http://github.com/yui/yui3
+  JSV http://github.com/garycourt/JSV
+  log4js https://github.com/nomiddlename/log4js-node
+  clone https://github.com/pvorb/node-clone
+  useragent https://github.com/3rd-Eden/useragent
+  ytestrunner https://github.com/gotwarlost/ytestrunner
+
+  Apart from those npm modules, Arrow also uses these two tools
+  selenium https://code.google.com/p/selenium/
+  ghostdriver https://github.com/detro/ghostdriver

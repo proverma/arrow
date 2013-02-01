@@ -2,30 +2,38 @@
 Arrow In-Depth
 ==============
 
-Arrow provides you with a variety of tools to help you organize, execute and configure your tests
+Arrow provides you with a variety of tools to help you organize, execute and configure your tests.
 
 Test Suite Organization
 -----------------------
 
-Test Descriptor files allow you to organize your tests into test suites, while also allowing you to control when and which tests execute at a given phase of your development cycle.
+Test descriptor files allow you to organize your tests into test suites, while also allowing you to control when and which tests execute at a given phase of your development cycle.
 
 Consider the following scenario:
 You have just finished creating a suite of tests that validate the application we discussed in the `Arrow Tutorial <./arrow_tutorial.rst>`_ chapter.
 
 At this point you have the following test files:
 
-* Fuctional Tests
+* Functional Tests
 * Integration Tests
 
 For this sample, we'll pretend unit tests are being addressed elsewhere.
 
-If you recall, to execute the two test files above against our mock and HTTP End-Ponit, we'd type something like this:
+If you recall, to execute the two test files above against our mock and HTTP endpoint, we'd type something like this:
 
 ::
 
-  arrow test-func.js  --page=testMock.html --lib=test-lib.js
-  arrow test-func.js  --page=http://www.doctor46.com/tabview.html --lib=test-lib.js
-  arrow test-int.js  --page=http://www.doctor46.com/tabview.html --lib=test-lib.js
+  For globally installed Arrow
+
+   arrow test-func.js  --page=testMock.html --lib=test-lib.js
+   arrow test-func.js  --page=http://www.doctor46.com/tabview.html --lib=test-lib.js
+   arrow test-int.js  --page=http://www.doctor46.com/tabview.html --lib=test-lib.js
+
+  For locally installed Arrow
+
+   ./node_modules/.bin/arrow test-func.js  --page=testMock.html --lib=test-lib.js
+   ./node_modules/.bin/arrow test-func.js  --page=http://www.doctor46.com/tabview.html --lib=test-lib.js
+   ./node_modules/.bin/arrow test-int.js  --page=http://www.doctor46.com/tabview.html --lib=test-lib.js
 
 Let's pretend we wanted to easily decide which test files executed and which didn't. Test Descriptors_ allow you to do this easily and in one location
 
@@ -135,7 +143,7 @@ This section uses the `Suite Settings` and the `Suite Configuration` to create i
 * The first object is the name of the test. In this case, the test name is `dom_int`.
 * The next object, `params`, includes the necessary parameters for the test.
 * `test`: Tells Arrow which file to execute
-* `page`: Tells Arrow against which page to execute. The `page` value can be a local mock page served by arrow_server, or an HTTP End-Point
+* `page`: Tells Arrow against which page to execute. The `page` value can be a local mock page served by arrow_server, or an HTTP endpoint
 * `group`: Allows you to *group* your tests for execution. Each test `file` contains a set of tests or assertions. At the time of creation, tests do not have a context (at least not implied). A `group` gives those test `files` context, enabling you to execute only a given set of tests during a given execution.
 
 Executing using a Test Descriptor
@@ -145,19 +153,22 @@ To Execute *All* tests in a given test descriptor file simply type (remember in 
 
 ::
 
-  arrow test-descriptor.json
+  arrow test-descriptor.json (For globally installed arrow)
+  ./node_modules/.bin/arrow test-descriptor.json (For locally installed arrow)
 
 However, if you wanted to *only* execute tests `grouped` as `func`, you would type:
 
 ::
 
- arrow test-descriptor.json --group=func
+ arrow test-descriptor.json --group=func (For globally installed arrow)
+ ./node_modules/.bin/arrow test-descriptor.json --group=func (For locally installed arrow)
 
 Similarly, you can choose to *only* execute a given test, based on its name. You can do that by typing:
 
 ::
 
- arrow test-descriptor.json --testName=dom
+ arrow test-descriptor.json --testName=dom (For globally installed Arrow)
+ ./node_modules/.bin/arrow test-descriptor.json --testName=dom (For locally installed Arrow)
 
 
 Test Descriptor Best Practices
@@ -197,7 +208,8 @@ To execute *All* test descriptor files *within* each module, simply navigate to 
 
 ::
 
-  arrow "**/*-descriptor.json"
+  arrow "**/*-descriptor.json" (For globally installed Arrow)
+  ./node_modules/.bin/arrow "**/*-descriptor.json" (For locally installed Arrow)
 
 Arrow will traverse through all sub-folders, pick up the test descriptors which match ``"**/*-descriptor.json"`` glob, and execute them sequentially.
 
@@ -232,7 +244,7 @@ Where `"defaultAppHost" : "http://doctor46.com"`
 Test Descriptor Parametrization and Test Environments
 -----------------------------------------------------
 
-So far our parametrization examples have only applied to our curent file. If we want to run our tests across different environments (with different hostnames), we'd have to create multiple test-descriptor.json files to do this. However, we can use a `dimension` file to give our paramters additional `dimension` or context.
+So far our parametrization examples have only applied to our current file. If we want to run our tests across different environments (with different hostnames), we'd have to create multiple test-descriptor.json files to do this. However, we can use a `dimension` file to give our parameters additional `dimension` or context.
 
 At the bottom of our test descriptor file there was this line:
 
@@ -312,13 +324,15 @@ During execution, we can set the context like this:
 
 ::
 
-     arrow test-descriptor.json --context=environment:development --dimensions=./dimensions.json
+     arrow test-descriptor.json --context=environment:development --dimensions=./dimensions.json (For globally installed Arrow)
+     ./node_modules/.bin/arrow test-descriptor.json --context=environment:development --dimensions=./dimensions.json (For locally installed Arrow)
 
 Or
 
 ::
 
-     arrow test-descriptor.json --context=environment:stage --dimensions=./dimensions.json
+     arrow test-descriptor.json --context=environment:stage --dimensions=./dimensions.json (For globally installed arrow)
+     ./node_modules/.bin/arrow test-descriptor.json --context=environment:stage --dimensions=./dimensions.json (For locally installed arrow)
 
 In each case, Arrow will take the `context` and `dimensions` file and use those to map the correct `config` value for the current execution
 
@@ -326,7 +340,7 @@ In each case, Arrow will take the `context` and `dimensions` file and use those 
 
 Configuration
 -------------
-There are various ways to configure arrow. Normally, Arrow's configuration file will be installed here
+There are various ways to configure Arrow. Normally, Arrow's configuration file will be installed here
 
 .. todo need to update the location for NON-Yahoo Linux.
 
@@ -380,19 +394,19 @@ Obviously, you can update the config file to *override* its settings. However, y
 
 ::
 
-  arrow <some test or test descriptor> --config=value
+  arrow or ./node_modules/.bin/arrow <some test or test descriptor> --config=value
 
 Or
 
 ::
 
-  arrow <some test or test descriptor> --seleniumHost=http://some.url.com:1234/wd/hub
+  arrow or ./node_modules/.bin/arrow <some test or test descriptor> --seleniumHost=http://some.url.com:1234/wd/hub
 
 Or
 
 ::
 
-  arrow <some test or test descriptor> --logLevel=debug --baseUrl=http://basesurl.com --browser=chrome
+  arrow/ or ./node_modules/.bin/arrow <some test or test descriptor> --logLevel=debug --baseUrl=http://baseurl.com --browser=chrome
 
 You can basically override any config parameter in the command line.
 
@@ -404,6 +418,7 @@ Complex Test Scenarios
 
 There are situations where the default arrow controller will not allow you to create the type of test scenario you require. If you recall, the default arrow controller assumes the page you load is the page under test. To solve this you can use a different arrow controller called *locator*. The *locator* controller allows you to navigate to the page under test by allowing you to perform actions such as clicking and typing.
 
+The controller samples can be found `here <https://github.com/yahoo/arrow/tree/master/docs/arrow_tutorial/controllers/test>`_.
 .. The controller samples can be found `here. - TODO... need the link to the controller samples (@dmitris)
 
 .. TODO... needs to be updated
@@ -468,7 +483,7 @@ Our test continues being a simple YUI test which takes input from the test descr
      suite.add(new Y.Test.Case({
          "test quote": function() {
 
-             //In order to paramertize this, instead of having a static quote, we call it from the config
+             //In order to parametrize this, instead of having a static quote, we call it from the config
              var quote = this.testParams["quote"];
              Y.Assert.areEqual(quote, Y.one(".yfi_rt_quote_summary").one("h2").get('text'));
          }
@@ -481,7 +496,8 @@ To execute we simply type the following:
 
 ::
 
- arrow test-descriptor.json --driver=selenium
+ arrow test-descriptor.json --driver=selenium (For globally installed Arrow)
+ ./node_modules/.bin/arrow test-descriptor.json --driver=selenium (For locally installed Arrow)
 
 As you can see, the *locator* controller is quite powerful. It can take the following *params*
 
@@ -507,7 +523,7 @@ For example, you could have the following in your test descriptor
 Re-Using Browser Sessions
 -------------------------
 
-As you develop your tests, you may find it necessary to *test* them against a real browser, such as those supported by Selenium. However, one of the disadvantages of this approach is that normally, for each test file, a new browser sesssion is started and stopped. This is time consuming and counter-productive during development.
+As you develop your tests, you may find it necessary to *test* them against a real browser, such as those supported by Selenium. However, one of the disadvantages of this approach is that normally, for each test file, a new browser session is started and stopped. This is time consuming and counter-productive during development.
 
 Arrow supports the concept of **Session Reuse**.
 
