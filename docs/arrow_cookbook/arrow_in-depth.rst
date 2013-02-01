@@ -44,8 +44,7 @@ Test Descriptors
 
 Test descriptors provide a way to describe, organize and factorize your tests. During test development, you'll probably execute each test from the Arrow command line. However, once you have created tests to validate your module, you need a way to organize and factorize the tests.
 
-.. TODO... needs to be updated
-
+Lets look at this `test descriptor <https://github.com/yahoo/arrow/tree/master/docs/arrow_tutorial/func_test/test/test_descriptor.json>`_.
 
 ::
 
@@ -284,7 +283,7 @@ With this `dimension` file we can set different contexts in our test descriptor:
         }
     ]
 
-Now we can update our test decriptor like this
+Now we can update our test descriptor like this
 
 ::
 

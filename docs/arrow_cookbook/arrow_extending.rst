@@ -182,8 +182,8 @@ You can confirm if the *link* was successful by changing Arrow version in packag
 How To Submit a Patch
 =====================
 
-Internal Patch Submission Process
-.................................
+Submit a pull request to https://github.com/yahoo/arrow when you want to submit your code. Your changes will merge with the master branch after review.
+
 
 .. TODO... needs to be updated
 

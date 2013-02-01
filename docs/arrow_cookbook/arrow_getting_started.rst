@@ -162,11 +162,11 @@ Check Arrow Help
 ::
 
     OPTIONS :
-     --lib : a comma seperated list of js files needed by the test
+     --lib : a comma separated list of js files needed by the test
      --page : (optional) path to the mock or production html page
                 example: http://www.yahoo.com or mock.html
      --driver : (optional) one of selenium|browser. (default: selenium)
-     --browser : (optional) a comma seperated list of browser names, optionally with a hypenated version number.
+     --browser : (optional) a comma separated list of browser names, optionally with a hyphenated version number.
                    Example : 'firefox-12.0,chrome-10.0' or 'firefox,chrome' or 'firefox'. (default: firefox)
      --controller : (optional) a custom controller javascript file
      --reuseSession : (optional) true/false. Determines whether selenium tests reuse existing sessions. (default: false)
@@ -176,9 +176,9 @@ Check Arrow Help
      --report : (optional) true/false.  creates report files in junit and json format. (default: true)
                   also prints a consolidated test report summary on console.
      --reportFolder : (optional) folderPath.  creates report files in that folder. (default: descriptor folder path)
-     --testName : (optional) comma seprated list of test name(s) defined in test descriptor
+     --testName : (optional) comma separated list of test name(s) defined in test descriptor
                     all other tests will be ignored.
-     --group : (optional) comma seprated list of group(s) defined in test descriptor.
+     --group : (optional) comma separated list of group(s) defined in test descriptor.
                  all other groups will be ignored.
      --logLevel : (optional) one of DEBUG|INFO|WARN|ERROR|FATAL. (default: INFO)
      --dimensions : (optional) a custom dimension file for defining ycb contexts
