@@ -11,7 +11,7 @@
     "main": "./index.js",
     "scripts": {
         "help": "arrow --help",
-        "test": "ytestrunner --yui3 --include **/*-tests.js --exclude=**/node_modules/**/*-tests.js --cov-exclude=**/webdriver.js  --cov-exclude=**/node_modules/* --yconfig ytestrunner.json -v -c --save-coverage --save-results",
+        "test": "ytestrunner --yui3 --include **/*-tests.js --exclude=**/node_modules/**/*-tests.js --cov-exclude=**/webdriver.js --cov-exclude=**/node_modules/**/* --cov-exclude=**/ext-lib/**/* --yconfig ytestrunner.json -v -c --save-coverage --save-results",
         "func-test": "cd ./tests/functional && npm install && npm test"
     },
     "yahoo": {

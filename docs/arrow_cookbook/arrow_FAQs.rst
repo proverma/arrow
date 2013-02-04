@@ -227,5 +227,56 @@ Solution
 Because our dependencies are part of the NPM package, provided you do not upgrade, this should not cause you any problems. In other words, the dependencies for a given version of Arrow are tied to that version. Therefore, you should be able to continue using a previous version of Arrow without any issues.
 
 
+How do I ensure custom controllers with multiple descriptors run successfully?
+------------------------------------------------------------------------------
 
+On hudson using package.json, the custom controller may get stuck if you run multiple descriptors at the same time. This happens because sometimes the selenium server is not running or not responding.
+
+You must catch the exception while writing the custom controller using webdriver.listener; it throws the exception right away, like this:
+
+::
+
+  webdriver.listener.on("uncaughtException", function (e) {
+     errorMsg =  "Uncaught exception: " + e.message;
+     self.logger.error(errorMsg);
+     callback(errorMsg);
+  });
+
+** Note: In order to use this feature you must have arrow version 0.0.67 or higher **
+
+
+How do I write Traps?
+---------------------
+
+What guidelines should I follow when writing Traps?
+
+Solution
+========
+
+Follow these guidelines when writing Traps:
+
+    * The module name of the test script module must end with -tests, for example photo-ModuleA-tests.
+    * The method name of the test must start with test, for example testCloseByCloseButton.
+    * Do NOT write Y.Test.Runner.run() in your test. Use Y.Test.Runner.add(……).
+    * Add ALL necessary dependencies into the requires list.
+
+Example code:
+
+::
+
+  YUI.add("photo-ModuleA-tests", function(Y) {
+   var suite = new Y.Test.Suite("The description of this test suite");
+   var Assert = Y.Assert;
+   var lib = Y.Media.Test.Common;   //Include test library
+   var lib2 = Y.Media.Test.ModuleA  //Include module-specific test library
+   suite.add(new Y.Test.Case({   //Add tests into test suite
+    "setUp": function(){},
+    "testCloseByCloseButton": function(){……}, //All test methods must start with "test"
+    "testCloseByBlackArea": function(){……}
+  }));
+  Y.Test.Runner.add(suite);
+   }, "0.1", {requires:["arrow", "io", "node", "test” …… //Import all necessary dependencies
+   "media-test-library-Common", //Import common library
+   "media-test-library-ModuleA", //Import module-specific library
+  ]});
 

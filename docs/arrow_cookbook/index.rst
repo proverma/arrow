@@ -22,7 +22,7 @@ Describes what Arrow is and how it is different from other testing frameworks.
 
 **Chapter 2: Quick Start**
 
-+Describes quick Arrow installation with running simple unit test
+Describes quick Arrow installation with running simple unit test
 
 **Chapter 3: Getting Started**
 
@@ -38,11 +38,11 @@ More in-depth information about Arrow
 
 **Chapter 6: Continuous Integration**
 
-Examples on how Arrow works within a CI environment like Hudson. Including different reports provided by Arrow.
+Examples on how Arrow works within a CI environment like Hudson. Including different reports provided by Arrow
 
 **Chapter 7: Extending & Developing Arrow**
 
-Since its inception, Arrow was designed to be extensible. Do you want to contribute to arrow? Look here.
+Since its inception, Arrow was designed to be extensible
 
 **Chapter 8: Videos**
 
