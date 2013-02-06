@@ -12,6 +12,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
         http = require('http'),
         arrowRoot =  path.join(__dirname, '../../../../'),
         ProxyManager = require("../../../../lib/proxy/proxymanager.js"),
+        portchecker = require("../../../../ext-lib/portchecker"),
         path = require("path"),
         suite = new Y.Test.Suite(NAME),
         A = Y.Assert,
@@ -121,28 +122,38 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
      */
     function testPortsNotAvailable(){
 
-        // TODO - check the first available port starting from 10501. Assign that to minPort and maxPort
         var
-            minPort=10501,
-            maxPort=10501,
+            minPort=10701,
+            maxPort=10800,
             hostName="localhost",
             server,
             proxyManager = new ProxyManager(null);
 
-            server = http.createServer(function(request,response){
+        portchecker.getFirstAvailable(minPort, maxPort, hostName, function(p, host) {
 
-            }).listen(minPort,hostName,function(){
+            if (p === -1) {
+                callback("Error : No free ports found for Proxy Server on " + host + " between " + minPort + " and " + maxPort);
+            } else {
 
-                proxyManager.runRouterProxy(minPort, maxPort, hostName, function(proxyHostMsg){
+                minPort = p;
+                maxPort = p;
 
-                    A.areEqual(proxyHostMsg,'Error : No free ports found for Proxy Server on localhost between '+minPort+' and '+maxPort);
+                server = http.createServer(function(request,response){
 
-                    server.close(function(){
+                }).listen(minPort,hostName,function(){
+
+                        proxyManager.runRouterProxy(minPort, maxPort, hostName, function(proxyHostMsg){
+
+                            A.areEqual(proxyHostMsg,'Error : No free ports found for Proxy Server on localhost between '+minPort+' and '+maxPort);
+
+                            server.close(function(){
+                            });
+
+                        });
+
                     });
-
-                });
-
-            });
+            }
+        });
 
     }
 
@@ -157,14 +168,17 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
             maxPort=10700,
             hostName="localhost",
             routerJsonPath = __dirname+"/config/router.json",
-            proxyManager = new ProxyManager(routerJsonPath);
+            proxyManager = new ProxyManager(routerJsonPath),
+            availablePort;
 
         A.areEqual(routerJsonPath,proxyManager.routerJsonPath,'Router jsonpath doesn\'t match');
 
         proxyManager.runRouterProxy(minPort,maxPort,hostName,function(proxyHostMsg){
             test.resume(function(){
+
+                availablePort = proxyHostMsg.split(':');
                 YUITest = Y.Test;
-                A.areEqual(proxyHostMsg,'localhost:'+minPort,'Proxy host doesn\'t match');
+                A.areEqual(proxyHostMsg,'localhost:'+availablePort[1],'Proxy host doesn\'t match');
             })
 
         });
