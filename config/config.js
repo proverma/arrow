@@ -25,7 +25,7 @@ config.testRunner = config.arrowModuleRoot + "lib/client/yuitest-runner.js";
 config.autolib = config.arrowModuleRoot + "lib/common";
 
 // config for share lib
-config.defaultShareLibPath=config.arrowModuleRoot+"../arrow_test";
+config.defaultShareLibPath=config.arrowModuleRoot+"../";
 config.shareLibMetaPath=config.arrowModuleRoot+"tmp/";
 config.ignoreScan=['arrow','Arrow','yahoo-arrow','yui'];
 config.registeDir=["server","client","common"];
