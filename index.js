@@ -207,6 +207,10 @@ global.keepIstanbulCoverageJson = config.keepIstanbulCoverageJson;
 global.color = config.color;
 
 
+// scan libraries
+var libScanner = require('./lib/util/sharelibscanner');
+libScanner.initSeed();
+
 // TODO: arrowSetup move to Arrow
 arrowSetup = new ArrowSetup(config, argv);
 this.arrow = Arrow;

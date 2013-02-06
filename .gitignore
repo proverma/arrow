@@ -8,3 +8,5 @@ lib/.DS_Store
 results.xml
 report.*
 coverage
+tmp/arrow_server.status
+tmp/*.js
