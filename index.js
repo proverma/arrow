@@ -212,26 +212,35 @@ global.color = config.color;
 
 
 // scan libraries
-var libScanner = require('./lib/util/sharelibscanner');
-libScanner.genSeedFile(argv.scanPath);
-
-// TODO: arrowSetup move to Arrow
-arrowSetup = new ArrowSetup(config, argv);
-this.arrow = Arrow;
-
-// Setup Arrow Tests
-if (argv.arrowChildProcess) {
-    //console.log("Child Process");
-    arrowSetup.childSetup();
-    argv.descriptor = argv.argv.remain[0];
-    arrow = new Arrow(config, argv);
-    arrow.run();
+if (config.defaultShareLibPath !== undefined || argv.scanPath !== undefined)
+{
+    var libScanner = require('./lib/util/sharelibscanner');
+    libScanner.genSeedFile(argv.scanPath, startArrow);
 } else {
-    //console.log("Master Process");
-    arrowSetup.setup();
-    if (false === arrowSetup.startRecursiveProcess) {
+    startArrow();
+}
+
+function startArrow()
+{
+
+    // TODO: arrowSetup move to Arrow
+    arrowSetup = new ArrowSetup(config, argv);
+    this.arrow = Arrow;
+
+    // Setup Arrow Tests
+    if (argv.arrowChildProcess) {
+        //console.log("Child Process");
+        arrowSetup.childSetup();
+        argv.descriptor = argv.argv.remain[0];
         arrow = new Arrow(config, argv);
         arrow.run();
+    } else {
+        //console.log("Master Process");
+        arrowSetup.setup();
+        if (false === arrowSetup.startRecursiveProcess) {
+            arrow = new Arrow(config, argv);
+            arrow.run();
+        }
     }
 }
 
