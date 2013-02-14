@@ -18,6 +18,17 @@ Driver.prototype.getWebDriver = function () {
     return this.webdriver;
 };
 
+Driver.prototype.getReports = function () {
+    return this.reports.getReport();
+};
+
+
+Driver.prototype.addReport = function (report) {
+
+    this.reports.addReport(report);
+};
+
+
 Driver.prototype.navigate = function (page, cb) {
     if (this.webdriver) {
         cb();
