@@ -8,13 +8,13 @@ var fs = require('fs'),
     StubDriver = require(arrowRoot + '/tests/unit/stub/driver.js'),
     i;
 
-function TestSession(report,scenario){
+function TestSession(report, scenario) {
 
     this.driver = new StubDriver();
 
-    if(scenario){
+    if (scenario) {
         this.driver.reports.startScenarioReport();
-    }else{
+    } else {
         this.driver.reports.startReport();
     }
 
