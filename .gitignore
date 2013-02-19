@@ -8,3 +8,6 @@ lib/.DS_Store
 results.xml
 report.*
 coverage
+tests/functional/report.xml
+tests/functional/data/arrow-test/*-report.xml
+tests/functional/data/arrow-test/*-report.html
