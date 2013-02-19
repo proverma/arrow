@@ -1,54 +1,56 @@
 {
-    "name": "yahoo-arrow",
-    "description": "FrontEnd Testing Framework",
-    "version": "0.0.73",
-    "homepage": "https://github.com/yahoo/arrow",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/yahoo/arrow.git"
-    },
-    "man": "../man/arrow.1",
-    "main": "./index.js",
-    "scripts": {
-        "help": "arrow --help",
-        "test": "ytestrunner --yui3 --include **/*-tests.js --exclude=**/node_modules/**/*-tests.js --cov-exclude=**/webdriver.js --cov-exclude=**/node_modules/**/* --cov-exclude=**/ext-lib/**/* --yconfig ytestrunner.json -v -c --save-coverage --save-results",
-        "func-test": "cd ./tests/functional && npm install && npm test"
-    },
-    "yahoo": {
-        "bugzilla": {
-            "product": "Lego QE Platform",
-            "component": "Arrow"
-        }
-    },
-    "author": "Pranav Verma <vpranav@yahoo-inc.com>",
-    "contributors": [
-        "Sushant Kumar <sushantk@yahoo-inc.com>",
-        "Ivan Alonso <ivana@yahoo-inc.com>"
-    ],
-    "bin": {
-        "arrow": "./index.js",
-        "arrow_server" : "arrow_server/server.js",
-        "arrow_selenium" : "arrow_selenium/selenium.js"
-    },
-    "engines": [ "node >=0.6" ],
-    "dependencies": {
-        "glob": "3.1.11",
-        "nopt": "2.0.0",
-        "colors": "0.6.0-1",
-        "express": "3.0.0",
-        "yui": "3.6.0",
-        "JSV": "4.0.2",
-        "log4js": "0.5.1",
-        "clone": "0.1.0",
-        "useragent": "1.1.0",
-        "istanbul": "0.1.25",
-        "uglify-js": "1.3.4",
-        "xml-writer": "1.2.3",
-        "fs-extra": "0.5.0",
-        "ycb": "1.0.4"
-    },
-    "devDependencies": {
-        "ytestrunner": "0.3.3",
-        "mockery": "1.1.2"
+  "name": "yahoo-arrow",
+  "description": "FrontEnd Testing Framework",
+  "version": "0.0.73",
+  "homepage": "https://github.com/yahoo/arrow",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yahoo/arrow.git"
+  },
+  "man": "../man/arrow.1",
+  "main": "./index.js",
+  "scripts": {
+    "help": "arrow --help",
+    "test": "ytestrunner --yui3 --include **/*-tests.js --exclude=**/node_modules/**/*-tests.js --cov-exclude=**/webdriver.js --cov-exclude=**/node_modules/**/* --cov-exclude=**/ext-lib/**/* --yconfig ytestrunner.json -v -c --save-coverage --save-results",
+    "func-test": "cd ./tests/functional && npm install && npm test"
+  },
+  "yahoo": {
+    "bugzilla": {
+      "product": "Lego QE Platform",
+      "component": "Arrow"
     }
+  },
+  "author": "Pranav Verma <vpranav@yahoo-inc.com>",
+  "contributors": [
+    "Sushant Kumar <sushantk@yahoo-inc.com>",
+    "Ivan Alonso <ivana@yahoo-inc.com>"
+  ],
+  "bin": {
+    "arrow": "./index.js",
+    "arrow_server": "arrow_server/server.js",
+    "arrow_selenium": "arrow_selenium/selenium.js"
+  },
+  "engines": [
+    "node >=0.6"
+  ],
+  "dependencies": {
+    "glob": "3.1.11",
+    "nopt": "2.0.0",
+    "colors": "0.6.0-1",
+    "express": "3.0.0",
+    "yui": "3.6.0",
+    "JSV": "4.0.2",
+    "log4js": "0.5.1",
+    "clone": "0.1.0",
+    "useragent": "1.1.0",
+    "istanbul": "0.1.25",
+    "uglify-js": "1.3.4",
+    "xml-writer": "1.2.3",
+    "ycb": "1.0.4",
+    "async": "~0.2.5"
+  },
+  "devDependencies": {
+    "ytestrunner": "0.3.3",
+    "mockery": "1.1.2"
+  }
 }
