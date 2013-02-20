@@ -82,7 +82,7 @@ var knownOpts = {
 function showHelp() {
     console.info("\nOPTIONS :" + "\n" +
         "        --lib : a comma seperated list of js files needed by the test" + "\n\n" +
-        "        --scanPath: path of share library to be scanned and loaded by arrow automatically" + "\n\n" +
+        "        --scanPath: a comma seperated list of directory to be scanned and loaded modules by arrow automatically" + "\n\n" +
         "        --page : (optional) path to the mock or production html page" + "\n" +
         "                   example: http://www.yahoo.com or mock.html" + "\n\n" +
         "        --driver : (optional) one of selenium|nodejs. (default: selenium)" + "\n\n" +

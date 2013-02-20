@@ -27,12 +27,13 @@ npm install -g yahoo-arrow
 * **--lib** comma separated list of js files needed by the test
 * **--page** path to the mock or production html page, for example: http://www.yahoo.com or mock.html
 * **--driver** one of selenium|nodejs. (default: selenium)
+* **--scanPath** comma separated list of directories to be scaned to load module automatically
 * **--browser** firefox|chrome|opera|reuse.  Specify browser version with a hypen, ex.: firefox-4.0 or opera-11.0 (default: firefox)
 * **--report** true/false. Creates report files in junit and json format, and also prints a consolidated test report summary on console
 * **--reportFolder** : (optional) folderPath.  creates report files in that folder. (default: descriptor folder path)
 * **--testName** comma separated list of test names defined in test descriptor. all other tests will be ignored
 * **--group** comma separated list of groups defined in test descriptor, all other groups will be ignored
-* **--logLevel** DEBUG|INFO|WARN|ERROR|FATAL (default: INFO)
+* **--logLevel** TRACE|DEBUG|INFO|WARN|ERROR|FATAL (default: INFO)
 * **--dimension** a custom dimension file for defining ycb contexts
 * **--context** name of ycb context
 * **--seleniumHost** : (optional) override selenium host url (example: --seleniumHost=http://host.com:port/wd/hub)
@@ -68,6 +69,27 @@ npm install -g yahoo-arrow
 * **--exitCode** : (optional) true/false. Causes the exit code to be non-zero if any tests fail (default: false)
 * **--coverage** : (optional) true/false. creates code-coverage report for all js files included/loaded by arrow (default: false)
         
+##About Arrow share library/module loader (--scanPath)
+When we write test cases (YUI.test) to run test by Arrow, the test cases might need load modules from YUI CDN (YUI official modules), or from user developed module for test in local, or from Arrow internal core modules (like Martini modules).
+
+--lib <js file list> can be used to load those modules, but, the list would be very long and hard to maintain for complex test case which need load a lot of dependent modules.
+
+--scanPath is to easy share module loading, it would scan the specified directories, find and regester the modules that can be loaded to server side or client side, then we can use common method, like YUI.use('module') or YUI.add(xxx ... require('module')).
+
+It is recommended to organize your yui modules structure like below:
+```
+         Arrow
+           |
+         martini_lib
+              |_____server
+              |_____client
+              |_____common
+              |_____controller
+              |_____node_modules
+              |_____package.json
+```
+
+ 
 ##Examples
 
 Below are some examples to help you get started.
@@ -82,6 +104,12 @@ arrow --lib=../src/greeter.js test-unit.js
 
 ```
 arrow --page=testMock.html --lib=./test-lib.js test-unit.js
+```
+
+###Unit test with --scanPath to replace --lib:
+
+```
+arrow --page=testMock.html --scanPath=../ test-unit.js
 ```
 
 ###Unit test with selenium:
