@@ -138,7 +138,7 @@ YUI.add('sessionfactory-tests', function (Y) {
             Y.log("\n\nLook at me ......\n\n");
             Y.log(t);
             A.areEqual(t.length, 0, "All test objects should be filtered out"); // "Enabled:false" test should not be part of test object
-            for ( i in t ){
+            for ( var i=0; i < t.length; i++  ){
                 res += Y.JSON.stringify(t[i]);
             }
             A.areEqual(res,exp);
@@ -176,7 +176,7 @@ YUI.add('sessionfactory-tests', function (Y) {
                 exp = "";
             t = ss.getFactoryTests();
             A.areEqual(t.length, 0, "No test objects should be returned"); // "Enabled:false" test should not be part of test object
-            for ( i in t ){
+            for ( var i=0; i < t.length; i++  ){
                 res += Y.JSON.stringify(t[i]);
             }
             A.areEqual(res,exp);
