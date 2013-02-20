@@ -10,3 +10,7 @@ report.*
 coverage
 tmp/arrow_server.status
 tmp/*.js
+tmp/*.json
+tests/functional/report.xml
+tests/functional/data/arrow-test/*-report.xml
+tests/functional/data/arrow-test/*-report.html
