@@ -25,7 +25,6 @@ config.testRunner = config.arrowModuleRoot + "lib/client/yuitest-runner.js";
 config.autolib = config.arrowModuleRoot + "lib/common";
 
 // config for share lib
-config.arrowModuleRoot=__dirname+"../../";
 config.defaultShareLibPath=[config.arrowModuleRoot+"../"];
 config.shareLibMetaPath=config.arrowModuleRoot+"tmp/";
 config.scanModulesPrefix = ["martini_","dev_"];  // you can modify this to scan(add) more modules
