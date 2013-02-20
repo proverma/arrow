@@ -296,10 +296,10 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
             testPortsNotAvailable();
         },
 
-        'test proxy manager Send Request to Proxy Server': function () {
-            var test = this;
-            testSendRequestToProxyServer(test);
-        },
+//        'test proxy manager Send Request to Proxy Server': function () {
+//            var test = this;
+//            testSendRequestToProxyServer(test);
+//        },
 
         'test proxy manager Ports Available': function () {
             var test = this;
@@ -319,9 +319,9 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
             testRouterInvalidJsonPath();
         },
 
-        ',test proxy manager writeLog': function () {
-            testWriteLog();
-        },
+//        ',test proxy manager writeLog': function () {
+//            testWriteLog();
+//        },
 
         ',test proxy manager get options': function () {
             testGetOptions();
