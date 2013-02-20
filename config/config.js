@@ -25,13 +25,9 @@ config.testRunner = config.arrowModuleRoot + "lib/client/yuitest-runner.js";
 config.autolib = config.arrowModuleRoot + "lib/common";
 
 // config for share lib
-config.defaultShareLibPath=config.arrowModuleRoot+"../";
+config.defaultShareLibPath=[config.arrowModuleRoot+"../"];
 config.shareLibMetaPath=config.arrowModuleRoot+"tmp/";
-config.ignoreScan=['arrow','Arrow','yahoo-arrow','yui'];
-config.registeDir=["server","client","common"];
-config.clientConfigName="client_seed.js";
-config.serverConfigName="server_seed.js";
-
+config.scanModulesPrefix = ["martini_","dev_"];  // you can modify this to scan(add) more modules
 
 config.descriptorName = "test_descriptor.json";
 config.minPort = 10000;
