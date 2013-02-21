@@ -74,7 +74,7 @@ When we write test cases (YUI.test) to run test by Arrow, the test cases might n
 
 --lib <js file list> can be used to load those modules, but, the list would be very long and hard to maintain for complex test case which need load a lot of dependent modules.
 
---scanPath is to easy share module loading, it would scan the specified directories, find and regester the modules that can be loaded to server side or client side, then we can use common method, like YUI.use('module') or YUI.add(xxx ... require('module')).
+--scanPath is to easy share module loading, it would scan the specified directories, find and regester the modules that can be loaded to server side or client side, then we can still use common methods, like YUI.use('module') or YUI.add(xxx ... require('module')), arrow would find and load the required modules.
 
 It is recommended to organize your yui modules structure like below:
 ```
