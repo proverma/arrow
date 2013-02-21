@@ -153,6 +153,7 @@ NPM Dependencies
 * **uglify-js** https://github.com/mishoo/UglifyJS
 * **xml-writer** https://github.com/lindory-project/node-xml-writer
 * **ycb** https://github.com/yahoo/ycb
+* **async** https://github.com/caolan/async
 
 NPM Dev Dependencies
 * **mockery** https://github.com/mfncooper/mockery
