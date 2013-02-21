@@ -14,15 +14,13 @@ var log4js = require("log4js");
 
 var Properties = require("../lib/util/properties");
 var ArrowSetup = require('../lib/util/arrowsetup');
-var WdAppClass = require('../lib/util/webdriver');
+
 var WdSession = require("../lib/session/wdsession");
 
 //getting command line args
 var argv = nopt();
 
-// singleton app to interact with wd sessions
-var wdApp = new WdAppClass();
-
+var wd = require('../ext-lib/webdriver');
 //setup config
 var prop = new Properties(__dirname + "/../config/config.js", argv.config, argv);
 var config = prop.getAll();
@@ -55,7 +53,9 @@ start it with: \"java -jar path/to/jar/selenium-server-standalone-<VERSION>.jar\
 
     for (i = 0; i < arrSessions.length; i += 1) {
         sessionId = arrSessions[i];
-        webdriver = new wdApp.Builder().
+
+
+        webdriver = new wd.Builder().
             usingServer(config["seleniumHost"]).
             usingSession(sessionId).
             build();
@@ -88,7 +88,7 @@ function openBrowser(sessionCaps) {
             continue;
         }
 
-        webdriver = new wdApp.Builder().
+        webdriver = new wd.Builder().
             usingServer(config["seleniumHost"]).
             withCapabilities({
                 "browserName": browser,
@@ -108,7 +108,7 @@ function closeBrowsers(sessionCaps) {
         logger.info("Closing browser: " + browser);
 
         cap = sessionCaps[browser];
-        webdriver =  new wdApp.Builder().
+        webdriver =  new wd.Builder().
             usingServer(config["seleniumHost"]).
             usingSession(cap.id).
             build();

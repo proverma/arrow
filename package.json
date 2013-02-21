@@ -1,7 +1,7 @@
 {
     "name": "yahoo-arrow",
     "description": "FrontEnd Testing Framework",
-    "version": "0.0.73",
+    "version": "0.0.74",
     "homepage": "https://github.com/yahoo/arrow",
     "repository": {
         "type": "git",
@@ -9,11 +9,14 @@
     },
     "man": "../man/arrow.1",
     "main": "./index.js",
+
     "scripts": {
         "help": "arrow --help",
-        "test": "ytestrunner --yui3 --include **/*-tests.js --exclude=**/node_modules/**/*-tests.js --cov-exclude=**/webdriver.js --cov-exclude=**/node_modules/**/* --cov-exclude=**/ext-lib/**/* --yconfig ytestrunner.json -v -c --save-coverage --save-results",
+        "test": "ytestrunner --yui3 --include **/tests/**/*-tests.js --exclude=**/node_modules/**/*-tests.js --cov-exclude=**/webdriver.js    --cov-exclude=**/tests/**/*   --cov-exclude=**/node_modules/**/* --cov-exclude=**/ext-lib/**/* --yconfig ytestrunner.json -v -c --save-coverage --save-results",
         "func-test": "cd ./tests/functional && npm install && npm test"
     },
+
+
     "yahoo": {
         "bugzilla": {
             "product": "Lego QE Platform",
