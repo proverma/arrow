@@ -28,7 +28,7 @@ config.autolib = config.arrowModuleRoot + "lib/common";
 config.defaultShareLibPath=[config.arrowModuleRoot+"../"];
 config.shareLibMetaPath=config.arrowModuleRoot+"tmp/";
 config.scanModulesPrefix = ["martini_","dev_"];  // you can modify this to scan(add) more modules
-config.scanModulesRecursive=false;   // only scan top level folders for the prefix with given scan path if false,
+config.scanModulesRecursive=true;   // only scan top level folders for the prefix with given scan path if false,
                                     // otherwise will scan recursively with the given path.but will cost more time.
 config.serverConfigName = "server_seed.js";
 config.clientConfigName = "client_seed.js";

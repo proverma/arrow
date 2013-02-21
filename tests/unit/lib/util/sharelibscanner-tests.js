@@ -27,12 +27,18 @@ YUI.add('sharelibscanner-tests', function (Y) {
         }
     }
 
+    function contains(arr,obj){
+        for (i in arr) {
+            if (arr[i] == obj) return true;
+        }
+        return false;
+    }
     function assertFileExsit(filelist) {
-        var isTrue = filelist.contains('client_seed.js');
+        var isTrue = contains(filelist,'client_seed.js');
         Y.Assert.areEqual(true, isTrue, "Confirm client_seed.js is generated");
-        isTrue = filelist.contains('server_seed.js');
+        isTrue = contains(filelist,'server_seed.js');
         Y.Assert.areEqual(true, isTrue, "Confirm server_seed.js is generated");
-        isTrue = filelist.contains('custom_controller.json');
+        isTrue = contains(filelist,'custom_controller.json');
         Y.Assert.areEqual(true, isTrue, "Confirm custom_controller.json is generated");
     }
 
