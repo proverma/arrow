@@ -46,8 +46,11 @@ YUI.add('sharelibscanner-tests', function (Y) {
 
         var readseed = function (seed, cb) {
             fs.readFile(path.join(metaPath, seed), 'utf8', function (err, data) {
-                if (err) console.log(err);
-                cb(data.toString());
+                if (err) {
+                    console.log(err);
+                } else {
+                    cb(data.toString());
+                }
             });
         }
 
