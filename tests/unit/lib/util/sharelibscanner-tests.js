@@ -19,12 +19,11 @@ YUI.add('sharelibscanner-tests', function (Y) {
     var metaPath = path.join(arrowRoot, '/tmp/');
 
     function setup() {
-        try{
-        fs.unlinkSync(path.join(metaPath, 'client_seed.js'));
-        fs.unlinkSync(path.join(metaPath, 'server_seed.js'));
-        fs.unlinkSync(path.join(metaPath, 'custom_controller.json'));
-        }catch(e){
-            console.log(e);
+        try {
+            fs.unlinkSync(path.join(metaPath, 'client_seed.js'));
+            fs.unlinkSync(path.join(metaPath, 'server_seed.js'));
+            fs.unlinkSync(path.join(metaPath, 'custom_controller.json'));
+        } catch (e) {
         }
     }
 
@@ -62,11 +61,22 @@ YUI.add('sharelibscanner-tests', function (Y) {
 
     }
 
+    suite.add(new Y.Test.Case({
+        "Test generate Non-Exsit-Path Seed File":function () {
+            setup();
+            new sharelibScanner().genSeedFile("Non-Exsit-Path", function () {
+                fs.readdir(metaPath, function (err, list) {
+                    assertFileExsit(list);
+                });
+            });
+        }
+    }));
+
     //check genSeedFile
     suite.add(new Y.Test.Case({
         "Test generate default Seed File":function () {
             setup();
-            sharelibScanner.genSeedFile(undefined, function () {
+            new sharelibScanner().genSeedFile(undefined, function () {
                 fs.readdir(metaPath, function (err, list) {
                     assertFileExsit(list);
                 });
@@ -77,7 +87,7 @@ YUI.add('sharelibscanner-tests', function (Y) {
     suite.add(new Y.Test.Case({
         "Test generate specified folder Seed File":function () {
             setup();
-            sharelibScanner.genSeedFile(scanFolder, function () {
+            new sharelibScanner().genSeedFile(scanFolder, function () {
                 fs.readdir(metaPath, function (err, list) {
                     assertFileExsit(list);
                     assertFileContentExsit();
@@ -89,7 +99,7 @@ YUI.add('sharelibscanner-tests', function (Y) {
     suite.add(new Y.Test.Case({
         "Test generate specified martini modules Seed File":function () {
             setup();
-            sharelibScanner.genSeedFile(scanMartiniFolder, function () {
+            new sharelibScanner().genSeedFile(scanMartiniFolder, function () {
                 fs.readdir(metaPath, function (err, list) {
                     assertFileExsit(list);
                     assertFileContentExsit();
