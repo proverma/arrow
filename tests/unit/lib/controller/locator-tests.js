@@ -5,52 +5,51 @@
  */
 
 YUI.add('locator-tests', function (Y, NAME) {
-    
+
     var path = require('path'),
         arrowRoot = path.join(__dirname, '../../../..'),
         LocatorController = require(arrowRoot + '/lib/controller/locator.js'),
-        StubDriver = require(arrowRoot + '/tests/unit/stub/driver.js');
-        StubWdApp = require(arrowRoot + '/tests/unit/stub/webdriver.js');
+        StubDriver = require(arrowRoot + '/tests/unit/stub/driver.js'),
+        StubWdApp = require(arrowRoot + '/tests/unit/stub/webdriver.js'),
         suite = new Y.Test.Suite(NAME),
         A = Y.Assert;
-   
+
     function validateLocator(params) {
         var wasCalled = false,
             config = {},
-            wdApp = new StubWdApp(),
+            //wdApp = new StubWdApp(),
+            wd = require(arrowRoot + '/tests/unit/stub/webdriver.js'),
             driver = new StubDriver(),
             lc;
 
-        driver.webdriver = new wdApp.Builder().build();
+        driver.webdriver = new wd.Builder().build();
         lc = new LocatorController(config, params, driver);
         lc.execute(function () {
             wasCalled = true;
         });
-            
+
         // validations
-        A.isTrue(wasCalled, 'The execution callback function should be called.')
+        A.isTrue(wasCalled, 'The execution callback function should be called.');
         return driver.webdriver.actions;
     }
 
-    suite.add(new Y.Test.Case({        
-        'test text locator': function() {
+    suite.add(new Y.Test.Case({
+        'test text locator': function () {
             var actions = validateLocator({value: '#text', text: "foo"});
             A.isTrue('foo' === actions[0].value, 'Must have entered text');
         },
-        'test click locator': function() {
+        'test click locator': function () {
             var actions = validateLocator({value: '#button', click: true});
             A.isTrue('click' === actions[0].name, 'Must have clicked');
         },
-        'test wait locator': function() {
-            var actions = validateLocator({value: '#button', click:true, wait: true});
+        'test wait locator': function () {
+            var actions = validateLocator({value: '#button', click: true, wait: true});
             A.isTrue('click' === actions[0].name, 'Must have clicked');
         },
-        
-        'test locator error': function() {
+        'test locator error': function () {
             var driver = new StubDriver(),
                 yc;
-                
-            var yc = new LocatorController({}, {}, driver);
+            yc = new LocatorController({}, {}, driver);
             yc.execute(function (errMsg) {
                 console.log(errMsg);
                 A.isString(errMsg, 'Should have failed no webdriver check');
@@ -62,7 +61,6 @@ YUI.add('locator-tests', function (Y, NAME) {
             });
         }
     }));
-    
-    Y.Test.Runner.add(suite);    
-}, '0.0.1' ,{requires:['test']});
+    Y.Test.Runner.add(suite);
+}, '0.0.1', {requires: ['test']});
 
