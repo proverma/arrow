@@ -192,16 +192,19 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
         var proxyManager = new ProxyManager(null),
             fs = require("fs"),
             proxyMsg = "This is proxy log",
-            proxyFileData;
+            proxyFileData,
+            timestamp = new Date().getTime(),
+            proxyLogfile = "proxy_" + timestamp + ".log";
 
+        proxyManager.fileName = proxyLogfile;
         proxyManager.writeLog(proxyMsg);
-
-        A.areEqual(proxyManager.fileName, path.resolve(global.workingDirectory, "proxy.log"), 'Log file doesn\'t match');
+        console.log('Log file::'+proxyManager.fileName);
+        A.areEqual(proxyManager.fileName, "proxy_" + timestamp + ".log", 'Log file doesn\'t match');
 
         fs.readFile(path.resolve(proxyManager.fileName), function (err, data) {
 
             A.areEqual(proxyMsg + '\n', data, 'Proxy logs doesn\t match');
-            fs.unlink(path.resolve(global.workingDirectory, "proxy.log"), function (err) {
+            fs.unlink(proxyManager.fileName, function (err) {
                 if (err) {
                     console.log('Can\'t cleanup the log file..' + err);
                 } else {
@@ -319,9 +322,9 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
             testRouterInvalidJsonPath();
         },
 
-//        ',test proxy manager writeLog': function () {
-//            testWriteLog();
-//        },
+        ',test proxy manager writeLog': function () {
+            testWriteLog();
+        },
 
         ',test proxy manager get options': function () {
             testGetOptions();
