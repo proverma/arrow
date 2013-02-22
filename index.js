@@ -32,7 +32,7 @@ global.reportMap =[];
 var knownOpts = {
         "browser": [String, null],
         "lib": [String, null],
-        "scanPath": [String, null],
+        "shareLibPath": [String, null],
         "page": [String, null],
         "driver": [String, null],
         "controller": [String, null],
@@ -82,7 +82,7 @@ var knownOpts = {
 function showHelp() {
     console.info("\nOPTIONS :" + "\n" +
         "        --lib : a comma seperated list of js files needed by the test" + "\n\n" +
-        "        --scanPath: a comma seperated list of directory to be scanned and loaded modules by arrow automatically" + "\n\n" +
+        "        --shareLibPath: a comma seperated list of directory to be scanned and loaded modules by arrow automatically" + "\n\n" +
         "        --page : (optional) path to the mock or production html page" + "\n" +
         "                   example: http://www.yahoo.com or mock.html" + "\n\n" +
         "        --driver : (optional) one of selenium|nodejs. (default: selenium)" + "\n\n" +
@@ -140,7 +140,7 @@ function showHelp() {
         "        Unit test: " + "\n" +
         "          arrow test-unit.js --lib=../src/greeter.js" + "\n\n" +
         "        Unit test that load the share library automatically " + "\n" +
-        "          arrow test-unit.js --scanPath=../src/" + "\n\n" +
+        "          arrow test-unit.js --shareLibPath=../src/" + "\n\n" +
         "        Unit test with a mock page: " + "\n" +
         "          arrow test-unit.js --page=testMock.html --lib=./test-lib.js" + "\n\n" +
         "        Unit test with selenium: \n" +
@@ -212,10 +212,10 @@ global.color = config.color;
 
 
 // scan libraries
-if (config.defaultShareLibPath !== undefined || argv.scanPath !== undefined)
+if (config.defaultShareLibPath !== undefined || argv.shareLibPath !== undefined)
 {
     var libScanner = require('./lib/util/sharelibscanner');
-    new libScanner().genSeedFile(argv.scanPath, startArrow);
+    new libScanner().genSeedFile(argv.shareLibPath, startArrow);
 } else {
     startArrow();
 }
