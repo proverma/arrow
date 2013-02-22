@@ -16,7 +16,13 @@
             "browserName": "chrome",
             "platform": "MAC",
             "version": "18.0"
+        },
+        "phantomjs": {
+            "browserName": "phantomjs",
+            "platform": "MAC",
+            "version": "1.0"
         }
+
     },
     "common_capabilities": {
         "javascriptEnabled": "true"

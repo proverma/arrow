@@ -12,13 +12,11 @@ YUI.add('selenium-tests', function (Y, NAME) {
         suite = new Y.Test.Suite(NAME),
         A = Y.Assert;
 
-//    DriverClass.wdAppPath = arrowRoot + '/ext-lib/webdriver';
-
     DriverClass.wdAppPath = arrowRoot + '/tests/unit/stub/webdriver.js';
 
     suite.add(new Y.Test.Case({
 
-        'test driver start stop': function () { // Works with new stub
+        'test driver start stop': function () {
             var driver,
                 config,
                 started = false,
@@ -36,6 +34,33 @@ YUI.add('selenium-tests', function (Y, NAME) {
 
             started = false;
             config = {browser: 'mybrowser', seleniumHost: 'http://wdhub'};
+            driver = new DriverClass(config, {});
+            driver.sessionId = "SomeSessionId";
+            driver.start(function (errMsg) {
+
+                started = true;
+                A.isTrue(!errMsg, 'Should successfully start driver');
+
+                driver.stop(function (errMsg) {
+
+                    stopped = true;
+                    A.isTrue(!errMsg, 'Should successfully stop driver');
+
+                });
+            });
+
+            A.isTrue(started, 'Should have started driver');
+            A.isTrue(stopped, 'Should have stopped driver');
+
+        },
+
+        'test driver start stop phantomjs': function () {
+            var driver,
+                config,
+                started = false,
+                stopped = false;
+
+            config = {browser: 'phantomjs', phantomHost: 'http://wdhub'};
             driver = new DriverClass(config, {});
             driver.start(function (errMsg) {
 
@@ -55,9 +80,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
 
         },
 
-
-
-        'test driver capabilities': function () { // Works with new stub
+        'test driver capabilities': function () {
             var driver,
                 config = {},
                 caps,
@@ -113,7 +136,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
 
         },
 
-        'test navigation': function () { // Works with new stub
+        'test navigation': function () {
             var driver,
                 config,
                 actions;
@@ -131,7 +154,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
             A.isTrue('http://mypage' === actions[0].value, 'Must navigate to the page');
         },
 
-        'test navigation invalid page': function () {// Works with new stub
+        'test navigation invalid page': function () {
             var driver,
                 config,
                 actions;
@@ -149,9 +172,28 @@ YUI.add('selenium-tests', function (Y, NAME) {
             A.isTrue('http://mypage' === actions[0].value, 'Must navigate to the page');
         },
 
+        // TODO - Assert
+        'test navigation invalid page 1': function () {
+            var driver,
+                config,
+                actions;
+
+            config = {browser: 'mybrowser', seleniumHost: 'wdhub'};
+            driver = new DriverClass(config, {});
+            driver.start(function (errMsg) {
+                driver.navigate('mypage', function () {
+                    driver.stop(function (errMsg) {
+                    });
+                });
+            });
+
+            actions = driver.getWebDriver().actions;
+//            A.isTrue('mypage' === actions[0].value, 'Must navigate to the page');
+        },
 
 
-        'test driver error': function () {  // Works with new stub
+
+        'test driver error': function () {
             var driver,
                 config = {browser: 'mybrowser', seleniumHost: 'http://wdhub'},
                 executed = false;
@@ -166,7 +208,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
         },
 
 
-        'test execute with page load': function () { // Works with new stub
+        'test execute with page load': function () {
             var self = this,
                 driver,
                 config = {browser: 'mybrowser', seleniumHost: 'http://wdhub'},
@@ -195,7 +237,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
             });
         },
 
-        'test execute with no page load': function () { // Works with new stub
+        'test execute with no page load': function () {
             var self = this,
                 driver,
                 config = {browser: 'mybrowser', seleniumHost: 'http://wdhub'},
@@ -224,7 +266,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
 
 
 
-        'test execute with android - minifyjs': function () { // Works with new stub
+        'test execute with android - minifyjs': function () {
             var self = this,
                 driver,
                 config = {browser: 'android', seleniumHost: 'http://wdhub'},
@@ -252,7 +294,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
         },
 
 
-        'test action': function () { // Works with new stub
+        'test action': function () {
             var self = this,
                 driver,
                 config = {browser: 'mybrowser', seleniumHost: 'http://wdhub'},
@@ -283,7 +325,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
         },
 
 
-        'test action error': function () { // Works with new stub
+        'test action error': function () {
             var self = this,
                 driver,
                 config = {browser: 'mybrowser', seleniumHost: 'http://wdhub'},
@@ -315,7 +357,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
         },
 
 
-        'test getArrowServerBase': function () { // Works with new stub
+        'test getArrowServerBase': function () {
             var self = this,
                 driver,
                 config = {browser: 'mybrowser', seleniumHost: 'http://wdhub'},
@@ -326,7 +368,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
             A.isFalse(driver.getArrowServerBase(), "When Arrow Server is not running, getArrowServerBase should return false");
         },
 
-        'test createDriverJs with bad testJs': function () { // Works with new stub
+        'test createDriverJs with bad testJs': function () {
             var self = this,
                 config = {browser: 'mybrowser', seleniumHost: 'http://wdhub', testRunner: arrowRoot + '/lib/client/yuitest-runner.js', testSeed: arrowRoot + '/lib/client/yuitest-seed.js'},
 
@@ -334,7 +376,53 @@ YUI.add('selenium-tests', function (Y, NAME) {
             A.isFalse(driver.createDriverJs({"test" : "not-found.js"}, function (e) {
                 A.areEqual("Error: ENOENT, no such file or directory 'not-found.js'", e.toString(), "File not found error should be caught");
             }), "createDriverJs should return false for blank testParams");
+        },
+
+
+
+        'test createDriverJs ': function () {
+            var self = this,
+                testRunnerJs =  arrowRoot + '/tests/unit/lib/driver/config/testRunner.js',
+                libJs =  arrowRoot + '/tests/unit/lib/driver/config/lib.js',
+                seedJs =  arrowRoot + '/tests/unit/lib/driver/config/seed.js',
+                testHtml = arrowRoot + '/tests/unit/lib/driver/config/test.html',
+                config = {coverage: 'true',
+                    browser: 'mybrowser',
+                    seleniumHost: 'http://wdhub',
+                    testRunner: testRunnerJs,
+                    testSeed: seedJs
+                },
+
+                driver = new DriverClass(config, {});
+            driver.createDriverJs({"test" : testRunnerJs,
+                "lib" : libJs}, function (e) {
+            });
+
+            config = { browser: 'mybrowser',
+                seleniumHost: 'http://wdhub',
+                testRunner: testRunnerJs,
+                testSeed: seedJs
+            },
+                driver = new DriverClass(config, {});
+            driver.createDriverJs({"test" : testRunnerJs,
+                "lib" : "," + libJs, "action" : "actionJS"}, function (e) {
+            });
+
+            // Without test
+            driver = new DriverClass(config, {});
+            driver.createDriverJs({ "lib" : "," + libJs, "action" : "actionJS"}, function (e) {
+            });
+
+            // with html test
+            driver = new DriverClass(config, {});
+            driver.createDriverJs({"test" : testHtml,
+                "lib" : "," + libJs, "action" : "actionJS"}, function (e) {
+            });
+
+
         }
+
+
 
     }));
 
