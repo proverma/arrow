@@ -211,7 +211,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
         'test execute with page load': function () {
             var self = this,
                 driver,
-                config = {browser: 'mybrowser', seleniumHost: 'http://wdhub'},
+                config = {browser: 'mybrowser', seleniumHost: 'http://wdhub', coverage: true},
                 executed = false;
 
             driver = new DriverClass(config, {});
@@ -263,6 +263,11 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 self.wait();
             });
         },
+
+
+
+
+
 
 
 
