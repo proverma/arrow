@@ -135,8 +135,6 @@ YUI.add('sessionfactory-tests', function (Y) {
                 t, i,res="",
                 exp = "";
             t = ss.getFactoryTests();
-            Y.log("\n\nLook at me ......\n\n");
-            Y.log(t);
             A.areEqual(t.length, 0, "All test objects should be filtered out"); // "Enabled:false" test should not be part of test object
             for ( i in t ){
                 res += Y.JSON.stringify(t[i]);
