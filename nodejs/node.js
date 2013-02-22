@@ -66,7 +66,7 @@ if (!testSpec) {
 }
 
 var seed = testSpec.seed;
-var martiniServerSeed = testSpec.martiniServerSeed;
+var shareLibServerSeed = testSpec.shareLibServerSeed;
 var runner = testSpec.runner;
 var libs = testSpec.libs;
 var testFile = testSpec.test;
@@ -81,7 +81,7 @@ function runTest() {
     ARROW.testLibs = [];
     ARROW.testScript = "";
     ARROW.scriptType = "test";
-    ARROW.martiniServerSeed = martiniServerSeed;
+    ARROW.shareLibServerSeed = shareLibServerSeed;
     ARROW.onSeeded = function () {
         var depFile,
             i;

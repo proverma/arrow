@@ -568,6 +568,42 @@ Or
 
 Once Selenium is started, the same steps for *reusing* sessions apply.
 
+Auto scan share libraries and controllers
+---------
+
+A test case might need use some share libraries, AKA, Martini modules. They are not YUI module, so they cannot be loaded by simply call YUI.use() as normal YUI module.
+The arrow command line option: --lib can be used to load the share lib module, but, for complex test case, it might need load a lot of share lib modules which is installed in many places, it would be hard to maintain such a long --lib list.
+
+The share library auto scanner is just for this.
+
+Arrow provides a configuration item: config.defaultShareLibPath to set auto scan path, or by command line option: --shareLibPath, which will override configuration. Use comma to seperate if want to specify more than one paths.
+
+Once share lib path is set, when arrow is launched, it will recursively search the module (.js file) which under directory: server, client or common, which parent directory starts with "martini_" or "dev_", for example:
+
+::
+
+         Arrow
+           |
+         martini_lib
+              |-----server/
+              |        |-----xxx.js
+              |
+              |-----client/
+              |        |-----xxx.js
+              |
+              |-----common/
+              |        |-----xxx.js
+              |
+              |-----controller/
+              |        |-----xxx.js
+              |
+              |-----node_modules
+              |-----package.json
+
+The module under client directory will be registered as client module, the module under server directory will be registered as server module, the module under common directory will be registered as both client and server module. The controller directory is for custom controller.
+
+Then we can still use common methods to write test code, like YUI.use('module') or YUI.add(xxx ... require('module')), arrow would find and load the required share lib for it.
+
 Parallelism
 -----------
 
