@@ -155,6 +155,7 @@ if [ $? != 0 ]; then
 	echo "RESULT: $RESULT"
 } fi
 
+#test 19
 CMD=`$ARROWCI ./data/arrow_test/test-unit.js --browser=sauce_phantomjs --lib=./data/arrow_test/greeter.js --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./data/arrow_test/cap.json | tail -2 | head -1 >./data/actual_op/test19.txt`
 if [ $? != 0 ]; then
 {
@@ -163,7 +164,41 @@ if [ $? != 0 ]; then
 	echo "RESULT: $RESULT"
 } fi
 
+# test 20
 CMD=`$ARROWCI ./data/arrow_test/test-unit.js --browser=sauce_phantomjs --lib=./data/arrow_test/greeter.js --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json | grep "LOG" >./data/actual_op/test20.txt`
+if [ $? != 0 ]; then
+{
+    echo "ERROR!"
+	echo "CMD: $CMD"
+	echo "RESULT: $RESULT"
+} fi
+# test 21
+# for scan lib test
+CMD=`$ARROWCI ./data/arrow_test/test-unit.js --browser=$BROWSERNAME --scanPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json | grep "LOG" >./data/actual_op/test21.txt`
+if [ $? != 0 ]; then
+{
+    echo "ERROR!"
+	echo "CMD: $CMD"
+	echo "RESULT: $RESULT"
+} fi
+# test 22
+CMD=`$ARROWCI ./data/arrow_test/test-func.js --page=http://www.doctor46.com/tabview.html --browser=$BROWSERNAME --scanPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json | grep "LOG" >./data/actual_op/test22.txt`
+if [ $? != 0 ]; then
+{
+    echo "ERROR!"
+	echo "CMD: $CMD"
+	echo "RESULT: $RESULT"
+} fi
+# test 23
+CMD=`$ARROWCI ./data/arrow_test/test-func.js --browser=$BROWSERNAME  --scanPath=./data/undefined/undefined-path --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json | grep "ERROR" |head -1 >./data/actual_op/test23.txt`
+if [ $? != 0 ]; then
+{
+    echo "ERROR!"
+	echo "CMD: $CMD"
+	echo "RESULT: $RESULT"
+} fi
+# test 24
+CMD=`$ARROWCI ./data/arrow_test/martini-controller-test.json --browser=$BROWSERNAME --scanPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./cap.json | grep "LOG" >./data/actual_op/test24.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
