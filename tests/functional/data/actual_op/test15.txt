@@ -1,2 +1,2 @@
-[32m[2013-02-22 17:04:26.368] [INFO] Arrow - [39mLoading controller: /Users/jiliang/dev_env/git_source/arrow/lib/controller/default
-[32m[2013-02-22 17:04:26.373] [INFO] Arrow - [39mExecuting controller: /Users/jiliang/dev_env/git_source/arrow/lib/controller/default
+2 Passed, 0 Failed , 0 skipped 
+

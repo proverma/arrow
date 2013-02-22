@@ -1,0 +1,3 @@
+[32m[2013-02-22 18:45:13.542] [INFO] SessionFactory - [39mDisabled, skipping test: int1
+[32m[2013-02-22 18:45:13.542] [INFO] SessionFactory - [39mDisabled, skipping test: int2
+[32m[2013-02-22 18:45:13.543] [INFO] SessionFactory - [39mTotal test sessions: 1
