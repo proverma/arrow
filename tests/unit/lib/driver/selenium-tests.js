@@ -172,8 +172,8 @@ YUI.add('selenium-tests', function (Y, NAME) {
             A.isTrue('http://mypage' === actions[0].value, 'Must navigate to the page');
         },
 
-        // TODO - Assert
-        'test navigation invalid page 1': function () {
+
+        'test navigation arrow server not running': function () {
             var driver,
                 config,
                 actions;
@@ -188,7 +188,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
             });
 
             actions = driver.getWebDriver().actions;
-//            A.isTrue('mypage' === actions[0].value, 'Must navigate to the page');
+            A.isTrue(actions.length === 0, 'Actions shall be blank');
         },
 
 
@@ -348,7 +348,6 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 webdriver.scriptResults['return ARROW.actionReport;'] = '{"error": "action error"}';
 
                 driver.executeAction({}, {action: 'action.js'}, function (errMsg) {
-                    console.log("executed: " + errMsg);
                     executed = !!errMsg; // error must not be empty
                     self.resume(validate);
                 });
@@ -362,7 +361,6 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 driver,
                 config = {browser: 'mybrowser', seleniumHost: 'http://wdhub'},
                 executed = false;
-
 
             driver = new DriverClass(config, {});
             A.isFalse(driver.getArrowServerBase(), "When Arrow Server is not running, getArrowServerBase should return false");
@@ -378,51 +376,51 @@ YUI.add('selenium-tests', function (Y, NAME) {
             }), "createDriverJs should return false for blank testParams");
         },
 
-
-
         'test createDriverJs ': function () {
             var self = this,
                 testRunnerJs =  arrowRoot + '/tests/unit/lib/driver/config/testRunner.js',
                 libJs =  arrowRoot + '/tests/unit/lib/driver/config/lib.js',
                 seedJs =  arrowRoot + '/tests/unit/lib/driver/config/seed.js',
+                actionJs =  arrowRoot + '/tests/unit/lib/driver/config/action.js',
                 testHtml = arrowRoot + '/tests/unit/lib/driver/config/test.html',
                 config = {coverage: 'true',
                     browser: 'mybrowser',
                     seleniumHost: 'http://wdhub',
                     testRunner: testRunnerJs,
                     testSeed: seedJs
-                },
-
+                    },
                 driver = new DriverClass(config, {});
+
             driver.createDriverJs({"test" : testRunnerJs,
                 "lib" : libJs}, function (e) {
+                A.areEqual(null, e.toString(), "There should be no error");
             });
 
             config = { browser: 'mybrowser',
                 seleniumHost: 'http://wdhub',
                 testRunner: testRunnerJs,
                 testSeed: seedJs
-            },
-                driver = new DriverClass(config, {});
+                };
+            driver = new DriverClass(config, {});
             driver.createDriverJs({"test" : testRunnerJs,
-                "lib" : "," + libJs, "action" : "actionJS"}, function (e) {
+                "lib" : "," + libJs, "action" : actionJs}, function (e) {
+                 A.areEqual(null, e.toString(), "There should be no error");
             });
 
             // Without test
             driver = new DriverClass(config, {});
-            driver.createDriverJs({ "lib" : "," + libJs, "action" : "actionJS"}, function (e) {
+            driver.createDriverJs({ "lib" : "," + libJs, "action" : actionJs}, function (e) {
+                A.areEqual(null, e.toString(), "There should be no error");
             });
 
             // with html test
             driver = new DriverClass(config, {});
             driver.createDriverJs({"test" : testHtml,
-                "lib" : "," + libJs, "action" : "actionJS"}, function (e) {
+                "lib" : "," + libJs, "action" : actionJs}, function (e) {
+                A.areEqual(null, e.toString(), "There should be no error");
             });
 
-
         }
-
-
 
     }));
 
