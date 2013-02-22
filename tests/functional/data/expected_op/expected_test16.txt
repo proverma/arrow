@@ -1,4 +1,4 @@
-[34mTotal Number of Executed Tests: 1[39m
-[32mTotal Number of Passed Tests: 0[39m
-[31mTotal Number of Failed Tests: 1[39m
-[36mTotal Number of Skipped Tests: 0[39m
+Total Number of Executed Tests: 1
+Total Number of Passed Tests: 0
+Total Number of Failed Tests: 1
+Total Number of Skipped Tests: 0

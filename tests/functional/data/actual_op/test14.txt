@@ -1,2 +1,2 @@
-[32m[2012-10-23 16:16:45.961] [INFO] SeleniumDriver - [39mLoading page: http://login.yahoo.com
-[31m[2012-10-23 16:16:45.989] [ERROR] SeleniumDriver - [39mUncaught exception: undefined
+[31m[2013-02-22 17:04:19.502] [ERROR] Arrow - [39mFailed to collect the test report, Controller: /Users/jiliang/dev_env/git_source/arrow/lib/controller/default
+[31m[2013-02-22 17:04:19.502] [ERROR] Arrow - [39mScenario failed at atom: 5, Controller: /Users/jiliang/dev_env/git_source/arrow/lib/controller/default

@@ -1,1 +1,1 @@
-[31m[2012-10-23 16:16:37.323] [ERROR] SeleniumDriver - [39mUncaught exception: undefined
+1 Passed, 0 Failed , 0 skipped 
