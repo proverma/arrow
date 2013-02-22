@@ -17,7 +17,6 @@ YUI.add('locator-tests', function (Y, NAME) {
     function validateLocator(params) {
         var wasCalled = false,
             config = {},
-            //wdApp = new StubWdApp(),
             wd = require(arrowRoot + '/tests/unit/stub/webdriver.js'),
             driver = new StubDriver(),
             lc;
