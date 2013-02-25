@@ -1,9 +1,9 @@
-[35m[1m********************************************[22m[39m
-[35m[1mConsolidated Test Report Summary[22m[39m
-[35m[1m********************************************[22m[39m
-[34mTotal Number of Executed Tests  :5[39m
-[32mTotal Number of Passed Tests  : 5[39m
-[31mTotal Number of Failed Tests  : 0[39m
-[90mTotal Number of Skipped Tests  : 0[39m
-[35m[1m********************************************[22m[39m
+********************************************
+Consolidated Test Report Summary
+********************************************
+Total Number of Executed Tests  :5
+Total Number of Passed Tests  : 5
+Total Number of Failed Tests  : 0
+Total Number of Skipped Tests  : 0
+********************************************
 
