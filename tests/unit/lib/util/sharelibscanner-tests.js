@@ -72,7 +72,7 @@ YUI.add('sharelibscanner-tests', function (Y) {
 
     setup();
     new sharelibScanner().genSeedFile("Non-Exsit-Path", function () {
-        Y.Test.Runner.add(new Y.Test.Case({
+        suite.add(new Y.Test.Case({
             "Test generate Non-Exsit-Path Seed File":function () {
                 fs.readdir(metaPath, function (err, list) {
                     assertFileExsit(list);
@@ -86,7 +86,7 @@ YUI.add('sharelibscanner-tests', function (Y) {
     //check genSeedFile
     setup();
     new sharelibScanner().genSeedFile(undefined, function () {
-        Y.Test.Runner.add(new Y.Test.Case({
+        suite.add(new Y.Test.Case({
             "Test generate default Seed File":function () {
                 fs.readdir(metaPath, function (err, list) {
                     assertFileExsit(list);
@@ -98,7 +98,7 @@ YUI.add('sharelibscanner-tests', function (Y) {
 
     setup();
     new sharelibScanner().genSeedFile(scanFolder, function () {
-        Y.Test.Runner.add(new Y.Test.Case({
+        suite.add(new Y.Test.Case({
             "Test generate specified folder Seed File":function () {
                 fs.readdir(metaPath, function (err, list) {
                     assertFileExsit(list);
@@ -111,7 +111,7 @@ YUI.add('sharelibscanner-tests', function (Y) {
 
     setup();
     new sharelibScanner().genSeedFile(scanMartiniFolder, function () {
-        Y.Test.Runner.add(new Y.Test.Case({
+        suite.add(new Y.Test.Case({
             "Test generate specified martini modules Seed File":function () {
                 fs.readdir(metaPath, function (err, list) {
                     assertFileExsit(list);
@@ -120,8 +120,8 @@ YUI.add('sharelibscanner-tests', function (Y) {
             }
         }));
     });
-//    Y.Test.Runner.clear();
-//    Y.Test.Runner.add(suite);
+
+    Y.Test.Runner.add(suite);
 
 }, '0.0.1', {requires:['test']});
  
