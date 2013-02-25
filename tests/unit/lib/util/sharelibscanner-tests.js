@@ -27,18 +27,19 @@ YUI.add('sharelibscanner-tests', function (Y) {
         }
     }
 
-    function contains(arr,obj){
+    function contains(arr, obj) {
         for (i in arr) {
             if (arr[i] == obj) return true;
         }
         return false;
     }
+
     function assertFileExsit(filelist) {
-        var isTrue = contains(filelist,'client_seed.js');
+        var isTrue = contains(filelist, 'client_seed.js');
         Y.Assert.areEqual(true, isTrue, "Confirm client_seed.js is generated");
-        isTrue = contains(filelist,'server_seed.js');
+        isTrue = contains(filelist, 'server_seed.js');
         Y.Assert.areEqual(true, isTrue, "Confirm server_seed.js is generated");
-        isTrue = contains(filelist,'custom_controller.json');
+        isTrue = contains(filelist, 'custom_controller.json');
         Y.Assert.areEqual(true, isTrue, "Confirm custom_controller.json is generated");
     }
 
@@ -70,58 +71,57 @@ YUI.add('sharelibscanner-tests', function (Y) {
 
     }
 
-    setup();
-    new sharelibScanner().genSeedFile("Non-Exsit-Path", function () {
-        Y.Test.Runner.add(new Y.Test.Case({
+    function scantests(cb) {
+        setup();
+        suite.add(new Y.Test.Case({
             "Test generate Non-Exsit-Path Seed File":function () {
-                fs.readdir(metaPath, function (err, list) {
-                    assertFileExsit(list);
-                });
-            }
-        }));
-    });
-
-
-
-    //check genSeedFile
-    setup();
-    new sharelibScanner().genSeedFile(undefined, function () {
-        Y.Test.Runner.add(new Y.Test.Case({
-            "Test generate default Seed File":function () {
-                fs.readdir(metaPath, function (err, list) {
-                    assertFileExsit(list);
+                new sharelibScanner().genSeedFile("Non-Exsit-Path", function () {
+                    fs.readdir(metaPath, function (err, list) {
+                        assertFileExsit(list);
+                    });
                 });
             }
         }));
 
-    });
-
-    setup();
-    new sharelibScanner().genSeedFile(scanFolder, function () {
-        Y.Test.Runner.add(new Y.Test.Case({
+        suite.add(new Y.Test.Case({
             "Test generate specified folder Seed File":function () {
-                fs.readdir(metaPath, function (err, list) {
-                    assertFileExsit(list);
-                    assertFileContentExsit();
+                new sharelibScanner().genSeedFile(scanFolder, function () {
+                    fs.readdir(metaPath, function (err, list) {
+                        assertFileExsit(list);
+                        assertFileContentExsit();
+                    });
                 });
+
             }
         }));
 
-    });
-
-    setup();
-    new sharelibScanner().genSeedFile(scanMartiniFolder, function () {
-        Y.Test.Runner.add(new Y.Test.Case({
+        suite.add(new Y.Test.Case({
             "Test generate specified martini modules Seed File":function () {
-                fs.readdir(metaPath, function (err, list) {
-                    assertFileExsit(list);
-                    assertFileContentExsit();
+                new sharelibScanner().genSeedFile(scanMartiniFolder, function () {
+                    fs.readdir(metaPath, function (err, list) {
+                        assertFileExsit(list);
+                        assertFileContentExsit();
+                    });
                 });
             }
         }));
+
+        //check genSeedFile
+        suite.add(new Y.Test.Case({
+            "Test generate default Seed File":function () {
+                new sharelibScanner().genSeedFile(undefined, function () {
+                    fs.readdir(metaPath, function (err, list) {
+                        assertFileExsit(list);
+                    });
+                });
+            }
+        }));
+        cb();
+    }
+
+    scantests(function () {
+       Y.Test.Runner.add(suite);
     });
-//    Y.Test.Runner.clear();
-//    Y.Test.Runner.add(suite);
 
 }, '0.0.1', {requires:['test']});
  
