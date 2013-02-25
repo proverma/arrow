@@ -1,1 +1,1 @@
-[LOG] TestRunner: test greet: passed.
+Passed:1 Failed:0 Total:1 (0 ignored)
