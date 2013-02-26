@@ -165,7 +165,7 @@ if [ $? != 0 ]; then
 } fi
 
 # test 20
-CMD=`$ARROWCI ./data/arrow_test/test-unit.js --browser=sauce_phantomjs --lib=./data/arrow_test/greeter.js --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json | grep "LOG" >./data/actual_op/test20.txt`
+CMD=`$ARROWCI ./data/arrow_test/test-unit.js --browser=sauce_phantomjs --lib=./data/arrow_test/greeter.js --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json | grep "LOG" | head -1 >./data/actual_op/test20.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
@@ -174,7 +174,7 @@ if [ $? != 0 ]; then
 } fi
 # test 21
 # for scan lib test
-CMD=`$ARROWCI ./data/arrow_test/test-unit.js --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json | grep "LOG" >./data/actual_op/test21.txt`
+CMD=`$ARROWCI ./data/arrow_test/test-unit.js --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json | tail -2 | head -1 >./data/actual_op/test21.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
@@ -182,7 +182,7 @@ if [ $? != 0 ]; then
 	echo "RESULT: $RESULT"
 } fi
 # test 22
-CMD=`$ARROWCI ./data/arrow_test/test-func.js --page=http://www.doctor46.com/tabview.html --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json | grep "LOG" >./data/actual_op/test22.txt`
+CMD=`$ARROWCI ./data/arrow_test/test-func.js --page=http://www.doctor46.com/tabview.html --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json | tail -2 | head -1 >./data/actual_op/test22.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"

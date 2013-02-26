@@ -1,2 +1,1 @@
-[LOG] TestRunner: test tab structure: passed.
-[LOG] TestRunner: test tab selection: passed.
+Passed:2 Failed:0 Total:2 (0 ignored)

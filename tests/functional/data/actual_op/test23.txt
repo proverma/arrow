@@ -1,1 +1,1 @@
-[31m[2013-02-22 18:46:33.286] [ERROR] SeleniumDriver - [39mUncaught exception: Script execution failed. Script: return ARROW.testReport;;
+[31m[2013-02-25 11:28:05.709] [ERROR] shareLibScanner - [39mPlease make sure the lib folder exist

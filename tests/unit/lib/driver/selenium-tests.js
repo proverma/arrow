@@ -283,7 +283,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
         'test createDriverJs with bad testJs': function () {
             var self = this,
                 driver,
-                config = {browser: 'mybrowser', seleniumHost: 'http://wdhub',testRunner: arrowRoot + '/lib/client/yuitest-runner.js', testSeed: arrowRoot + '/lib/client/yuitest-seed.js', shareLibMetaPath: arrowRoot + '/tests/unit/stub/', clientConfigName : 'seed.js'},
+                config = {browser: 'mybrowser', seleniumHost: 'http://wdhub',testRunner: arrowRoot + '/lib/client/yuitest-runner.js', testSeed: arrowRoot + '/lib/client/yuitest-seed.js', clientConfigName : 'client_seed.js'},
 
             driver = new DriverClass(config, {});
             A.isFalse(driver.createDriverJs({"test" : "not-found.js"},function(e){

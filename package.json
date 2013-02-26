@@ -12,7 +12,7 @@
 
     "scripts": {
         "help": "arrow --help",
-        "test": "ytestrunner --yui3 --include **/tests/**/sharelibscanner-tests.js --exclude=**/node_modules/**/*-tests.js --cov-exclude=**/webdriver.js    --cov-exclude=**/tests/**/*   --cov-exclude=**/node_modules/**/* --cov-exclude=**/ext-lib/**/* --yconfig ytestrunner.json -v -c --save-coverage --save-results",
+        "test": "ytestrunner --yui3 --include **/tests/**/*-tests.js --exclude=**/node_modules/**/*-tests.js --cov-exclude=**/webdriver.js    --cov-exclude=**/tests/**/*   --cov-exclude=**/node_modules/**/* --cov-exclude=**/ext-lib/**/* --yconfig ytestrunner.json -v -c --save-coverage --save-results",
         "func-test": "cd ./tests/functional && npm install && npm test"
     },
 

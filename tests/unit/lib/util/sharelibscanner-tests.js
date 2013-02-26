@@ -27,116 +27,125 @@ YUI.add('sharelibscanner-tests', function (Y) {
         }
     }
 
-    function contains(arr,obj){
+    function contains(arr, obj) {
         for (i in arr) {
             if (arr[i] == obj) return true;
         }
         return false;
     }
+
     function assertFileExsit(filelist) {
-        var isTrue = contains(filelist,'client_seed.js');
+        var isTrue = contains(filelist, 'client_seed.js');
         Y.Assert.areEqual(true, isTrue, "Confirm client_seed.js is generated");
-        isTrue = contains(filelist,'server_seed.js');
+        isTrue = contains(filelist, 'server_seed.js');
         Y.Assert.areEqual(true, isTrue, "Confirm server_seed.js is generated");
-        isTrue = contains(filelist,'custom_controller.json');
+        isTrue = contains(filelist, 'custom_controller.json');
         Y.Assert.areEqual(true, isTrue, "Confirm custom_controller.json is generated");
     }
 
     function assertFileContentExsit() {
 
         var readseed = function (seed, cb) {
-            fs.readFile(path.join(metaPath, seed), 'utf8', function (err, data) {
-				if (err) {
-					console.log(err);
-				} else {
-					cb(data.toString());
-				}
-			});
+            try {
+                var data = fs.readFileSync(path.join(metaPath, seed), 'utf8');
+                cb(data.toString());
+            } catch (e) {
+                console.log(e);
+            }
         }
         readseed('client_seed.js', function (data) {
-	        console.log("~~~~~~~ read client seed");
+            console.log("~~~~~~~ read client seed");
             Y.Assert.isTrue(data.indexOf("mymartini.client.js") != -1
                 && data.indexOf("mymartini.common.js") != -1);
         });
 
         readseed('server_seed.js', function (data) {
-			console.log("~~~~~~~ read server seed");
+            console.log("~~~~~~~ read server seed");
             Y.Assert.isTrue(data.indexOf("mymartini.server.js") != -1
                 && data.indexOf("mymartini.common.js") != -1);
         });
 
         readseed('custom_controller.json', function (data) {
-			console.log("~~~~~~~ read controller");
+            console.log("~~~~~~~ read controller");
             Y.Assert.isTrue(data.indexOf("my-test-controller.js") != -1);
             i++;
         });
-	 
+
     }
 
-suite.add(new Y.Test.Case({
-	"Test generate Non-Exsit-Path Seed File":function () {
-		var self=this;
-		new sharelibScanner().genSeedFile("Non-Exsit-Path", function () {
-				console.log("~~~~~~~~~~Non-exist-path");
-				fs.readdir(metaPath, function (err, list) {
-					self.resume(function(){
-						assertFileExsit(list);
-					});	
-				});
-			});
-		self.wait(5000);
-	},
-		"Test generate default Seed File":function () {
-			var self=this;
-		new sharelibScanner().genSeedFile(undefined, function () {
-			self.resume(function(){
-				console.log("~~~~~~~~~~default");
-				fs.readdir(metaPath, function (err, list) {
-					self.resume(function(){
-						console.log("++++++++++++++++ assert file");
-						assertFileExsit(list);
-					});
-				});
-				self.wait(5000);
-			});
-		});
-		self.wait(5000);
-	},
-		 "Test generate specified folder Seed File":function () {
-			var self=this;
-			new sharelibScanner().genSeedFile(scanFolder, function () {
-				self.resume(function(){
-					console.log("~~~~~~~~~~specified folder");
-					fs.readdir(metaPath, function (err, list) {
-						self.resume(function(){
-							console.log("++++++++++++++++ assert file");
-							assertFileExsit(list);
-							assertFileContentExsit();
-						});
-					});
-					self.wait(5000);
-				});
-			});
-			self.wait(5000);
-		},
-		"Test generate specified martini modules Seed File":function () {
-			var self=this;
-			new sharelibScanner().genSeedFile(scanMartiniFolder, function () {
-				self.resume(function(){
-					console.log("~~~~~~~~~~ matini folder");
-					fs.readdir(metaPath, function (err, list) {
-						self.resume(function(){
-							console.log("++++++++++++++++ assert file");
-							assertFileExsit(list);
-							assertFileContentExsit();
-						});
-					});
-					self.wait(6000);
-				});
-			});
-			self.wait(6000);
-		}
-}));
+    suite.add(new Y.Test.Case({
+        "Test generate Seed File given no scan path":function () {
+            setup();
+            new sharelibScanner().genSeedFile([], function () {
+            });
+        },
+        "Test generate Non-Exsit-Path Seed File":function () {
+            var self = this;
+            setup();
+            new sharelibScanner().genSeedFile(["Non-Exsit-Path", scanMartiniFolder + '/common/mymartini.common.js'], function () {
+                console.log("~~~~~~~~~~Non-exist-path");
+                fs.readdir(metaPath, function (err, list) {
+                    self.resume(function () {
+                        assertFileExsit(list);
+                    });
+                });
+            });
+            self.wait(5000);
+        },
+        "Test generate default Seed File":function () {
+            var self = this;
+            setup();
+            new sharelibScanner().genSeedFile(undefined, function () {
+                self.resume(function () {
+                    console.log("~~~~~~~~~~default");
+                    fs.readdir(metaPath, function (err, list) {
+                        self.resume(function () {
+                            console.log("++++++++++++++++ assert file");
+                            assertFileExsit(list);
+                        });
+                    });
+                    self.wait(1000);
+                });
+            });
+            self.wait(5000);
+        },
+        "Test generate specified folder Seed File":function () {
+            var self = this;
+            setup();
+            new sharelibScanner().genSeedFile(scanFolder, function () {
+                self.resume(function () {
+                    console.log("~~~~~~~~~~specified folder");
+                    fs.readdir(metaPath, function (err, list) {
+                        self.resume(function () {
+                            console.log("++++++++++++++++ assert file");
+                            assertFileExsit(list);
+                            assertFileContentExsit();
+                        });
+                    });
+                    self.wait(1000);
+                });
+            });
+            self.wait(5000);
+        },
+        "Test generate specified martini modules Seed File":function () {
+            var self = this;
+            setup();
+            new sharelibScanner().genSeedFile(scanMartiniFolder, function () {
+                self.resume(function () {
+                    console.log("~~~~~~~~~~ matini folder");
+                    fs.readdir(metaPath, function (err, list) {
+                        self.resume(function () {
+                            console.log("++++++++++++++++ assert file");
+                            assertFileExsit(list);
+                            assertFileContentExsit();
+                        });
+                    });
+                    self.wait(1000);
+                });
+            });
+            self.wait(5000);
+        }
+    }));
 
     Y.Test.Runner.add(suite);
 
