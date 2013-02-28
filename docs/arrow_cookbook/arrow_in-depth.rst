@@ -616,6 +616,26 @@ Arrow will register the share libraries which followed above directory layout co
 
 For custom controller, arrow will add "package_name." as prefix, like for above sample, then to specify custom controller in test descriptor, we can use controller path, or use "martini_lib1.my-sample-controller" instead.
 
+How To Use ``--shareLibPath``
+==========
+1. Find or create a npm package which has share library and followed above convention, install it locally or globally, for example
+
+::
+
+  npm install martini_testlib1 -g
+
+2. specify the install path to ``--shareLibPath``
+
+::
+
+  arrow test-unit.js --shareLibPath=/usr/local/lib/node_modules/martini_testlib1
+
+If installed more than one share lib packages globally, like martini_testlib2, we can specify multiple paths to ``--shareLibPath``, or specify the parent folder to ``--shareLibPath``.
+
+::
+
+  arrow test-unit.js --shareLibPath=/usr/local/lib/node_modules/martini_testlib1,/usr/local/lib/node_modules/martini_testlib2
+  arrow test-unit.js --shareLibPath=/usr/local/lib/node_modules/
 
 Parallelism
 -----------
