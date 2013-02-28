@@ -125,82 +125,6 @@ CookieUtil.prototype = {
         return space;
     },
     /**
-     * to check if input is function
-     * @param obj
-     * @return {Boolean}
-     * @private
-     */
-    _isFunction : function (obj) {
-        if (typeof (obj) === "function") {
-            return true;
-        } else {
-            return false;
-        }
-    },
-    /**
-     * to check if input is array
-     * @param obj
-     * @return {Boolean}
-     * @private
-     */
-    _isArray : function (obj) {
-        return Object.prototype.toString.call(obj) === '[object Array]';
-    },
-    /**
-     *  to check if object is empty
-     * @param obj
-     * @return {Boolean}
-     * @private
-     */
-    _isEmpty : function (obj) {
-        for (var name in obj) {
-            if (obj.hasOwnProperty(name)) {
-                return false;
-            }
-        }
-
-        return true;
-    },
-    /**
-     * to check if input is undefined
-     * @param obj
-     * @return {Boolean}
-     * @private
-     */
-    _isUndefined : function (obj) {
-        if (typeof (obj) === "undefined") {
-            return true;
-        } else {
-            return false;
-        }
-    },
-    /**
-     * to check if input is function
-     * @param obj
-     * @return {Boolean}
-     * @private
-     */
-    _isObject : function (obj) {
-        if (obj && typeof (obj) === "object") {
-            return true;
-        } else {
-            return false;
-        }
-    },
-    /**
-     * to check if input is string
-     * @param obj
-     * @return {Boolean}
-     * @private
-     */
-    _isString : function (obj) {
-    if (typeof (obj) === "string") {
-        return true;
-    } else {
-        return false;
-    }
-},
-    /**
      * generate a customized cookie for the user
      * @example
      *
@@ -222,18 +146,18 @@ CookieUtil.prototype = {
      * @param cb
      */
     createCustCookie : function (name, subFieldsObj, options, cb) {
-        if (!this._isFunction(cb)) {
+        if (!Y.Lang.isFunction(cb)) {
             throw Error(ERRORMSG.WRONG_PARAMETER_CALLBACK);
         }
-        if ((this._isUndefined(subFieldsObj))) {
+        if ((Y.Lang.isUndefined(subFieldsObj))) {
             cb(new Error(ERRORMSG.MISSING_PARAMETER_VALUE));
             return;
         }
-        if (!this._isObject(subFieldsObj)) {
+        if (!Y.Lang.isObject(subFieldsObj)) {
             cb(new Error(subFieldsObj + ERRORMSG.INVALID_OBJECT));
             return;
         }
-        if ((this._isUndefined(name))) {
+        if ((Y.Lang.isUndefined(name))) {
             cb(new Error(ERRORMSG.MISSING_PARAMETER_NAME));
             return;
         }
@@ -263,7 +187,7 @@ CookieUtil.prototype = {
                 expires = options.expires;
                 path = options.path;
                 domain = options.domain;
-                if (self._isObject(options)) {
+                if (Y.Lang.isObject(options)) {
                     for (k in options) {
                         if (options.hasOwnProperty(k)) {
                             v = options[k];
@@ -283,11 +207,11 @@ CookieUtil.prototype = {
                             value += "; expires=" + expires.toUTCString();
                         }
                         //path
-                        if (self._isString(path) && path !== "") {
+                        if (Y.Lang.isString(path) && path !== "") {
                             value += "; path=" + path;
                         }
                         //domain
-                        if (self._isString(domain) && domain !== "") {
+                        if (Y.Lang.isString(domain) && domain !== "") {
                             value += "; domain=" + domain;
                         }
                         //secure
@@ -325,7 +249,7 @@ CookieUtil.prototype = {
      * @private
      */
     _validateCookieSpec : function (field) {
-        if (!this._isString(field)) {
+        if (!Y.Lang.isString(field)) {
             console.log("'" + field + "' is not string");
             return false;
         }
@@ -427,15 +351,15 @@ CookieUtil.prototype = {
      * @param cb
      */
     deleteSubCookie : function(value, subFieldsArray, cb) {
-        if (!this._isFunction(cb)) {
+        if (!Y.Lang.isFunction(cb)) {
             throw Error(ERRORMSG.WRONG_PARAMETER_CALLBACK);
         }
 
-        if (this._isUndefined(value) || value === "") {
+        if (Y.Lang.isUndefined(value) || value === "") {
             cb(new Error(ERRORMSG.WRONG_PARAMETER_COOKIEVALUE));
             return;
         }
-        if (!this._isArray(subFieldsArray)) {
+        if (!Y.Lang.isArray(subFieldsArray)) {
             cb(new Error(ERRORMSG.WRONG_PARAMETER_SUBFIELDS_ARRAY));
             return;
         }
@@ -447,7 +371,7 @@ CookieUtil.prototype = {
                 cb(err);
             } else {
                 for (var i = 0; i < subFieldsArray.length; i++) {
-                    if (self._isUndefined(cookieObj[subFieldsArray[i]])) {
+                    if (Y.Lang.isUndefined(cookieObj[subFieldsArray[i]])) {
                         console.log("No subfield '" + subFieldsArray[i] + "' found in the cookie", "warn");
                     } else {
                         //remove the item in the cookieObj
@@ -470,12 +394,12 @@ CookieUtil.prototype = {
      * @param cb
      */
     addSubCookie : function (value, subFieldsObj, cb) {
-        if (!this._isFunction(cb)) {
+        if (!Y.Lang.isFunction(cb)) {
             throw Error(ERRORMSG.WRONG_PARAMETER_CALLBACK);
         }
-        if (this._isUndefined(value) || value === "") {
+        if (Y.Lang.isUndefined(value) || value === "") {
             cb(new Error(ERRORMSG.WRONG_PARAMETER_COOKIEVALUE));
-        } else if (!this._isObject(subFieldsObj)) {
+        } else if (!Y.Lang.isObject(subFieldsObj)) {
             cb(new Error(ERRORMSG.WRONG_PARAMETER_SUBFIELDS_OBJECT));
         } else {
             var self = this;
@@ -491,7 +415,7 @@ CookieUtil.prototype = {
                                 error = true;
                             }
                             //check whether the subfield has existed
-                            if (!self._isUndefined(cookieObj[k])) {
+                            if (!Y.Lang.isUndefined(cookieObj[k])) {
                                 console.log("the subfield '" + k + "' has existed, new value '" + v + "' will replace the old one: " + cookieObj[k], "warn");
                             }
                             cookieObj[k] = v;
@@ -521,15 +445,15 @@ CookieUtil.prototype = {
      */
     modifyCookie : function (value, subFieldsObj, cb) {
         var self = this, error = null;
-        if (!self._isFunction(cb)) {
+        if (!Y.Lang.isFunction(cb)) {
             throw new Error(ERRORMSG.WRONG_PARAMETER_CALLBACK);
         }
 
-        if (self._isUndefined(value) || value === "") {
+        if (Y.Lang.isUndefined(value) || value === "") {
             cb(new Error(ERRORMSG.WRONG_PARAMETER_COOKIEVALUE));
             return;
         }
-        if (!self._isObject(subFieldsObj)) {
+        if (!Y.Lang.isObject(subFieldsObj)) {
             cb(new Error(ERRORMSG.WRONG_PARAMETER_SUBFIELDS_OBJECT));
             return;
         }
@@ -542,7 +466,7 @@ CookieUtil.prototype = {
                         if (!(self._validateCookieName(k)) || (!self._validateCookieSpec(v))) {
                             error = new Error(ERRORMSG.INVALID_SUBCOOKIE);
                         }
-                        if (self._isUndefined(cookieObj[k])) {
+                        if (Y.Lang.isUndefined(cookieObj[k])) {
                             error = new Error("try to modify a field doesn't exist");
                         } else {
                             cookieObj[k] = v;
@@ -569,7 +493,7 @@ CookieUtil.prototype = {
      * @param cb - a callback to return the error and modified cookie string
      */
     appendCookieInCookiejar : function (cookiejar, name, value, cb) {
-        if (!(this._isString(cookiejar) && this._isString(name) && this._isString(value) && this._isFunction(cb))) {
+        if (!(Y.Lang.isString(cookiejar) && Y.Lang.isString(name) && Y.Lang.isString(value) && Y.Lang.isFunction(cb))) {
             throw new Error(ERRORMSG.INVALID_PARAMETER + "\ncookiejar {String}, name {String}, value {String}, cb {Function}");
         }
 
@@ -607,7 +531,7 @@ CookieUtil.prototype = {
      */
     modifyCookieInCookiejar : function (cookiejar, name, value, cb) {
         var cookieValue = value, self = this;
-        if (!(self._isString(cookiejar) && self._isString(name) && self._isString(value) && self._isFunction(cb))) {
+        if (!(Y.Lang.isString(cookiejar) && Y.Lang.isString(name) && Y.Lang.isString(value) && Y.Lang.isFunction(cb))) {
             throw new Error(ERRORMSG.INVALID_PARAMETER + "\ncookiejar {String}, name {String}, value {String}, cb {Function}");
         }
 
@@ -649,7 +573,7 @@ CookieUtil.prototype = {
      */
     deleteCookieInCookiejar : function (cookiejar, name, cb) {
         var self = this;
-        if (!(self._isString(cookiejar) && self._isString(name) && self._isFunction(cb))) {
+        if (!(Y.Lang.isString(cookiejar) && Y.Lang.isString(name) && Y.Lang.isFunction(cb))) {
             throw new Error(ERRORMSG.INVALID_PARAMETER + "\ncookiejar {String}, name {String}, cb {Function}");
         }
         self.getCookieInCookiejar(cookiejar, name, function (err, cookieArray) {
@@ -692,7 +616,7 @@ CookieUtil.prototype = {
      */
     getCookieInCookiejar : function (cookiejar, name, cb) {
         var self = this;
-        if (!(self._isString(cookiejar) && self._isString(name) && self._isFunction(cb))) {
+        if (!(Y.Lang.isString(cookiejar) && Y.Lang.isString(name) && Y.Lang.isFunction(cb))) {
             throw new Error(ERRORMSG.INVALID_PARAMETER + "\ncookiejar {String}, name {String}, cb {Function}");
         }
         //check whether the cookie has existed in the cookiejar
@@ -733,7 +657,7 @@ CookieUtil.prototype = {
      */
     getCookiesFromHeader : function (response, cb) {
         var cookies = {};
-        if (this._isUndefined(response) || response === null || !this._isObject(response)) {
+        if (Y.Lang.isUndefined(response) || response === null || !Y.Lang.isObject(response)) {
             cb(new Error(ERRORMSG.ILLEGAL_RESPONSE));
         } else {
             console.log('response headers is [' + response.getAllResponseHeaders() + "]");
@@ -743,7 +667,7 @@ CookieUtil.prototype = {
                     value = headers[key];
                     if (key.toLowerCase() === "set-cookie") {
                         // parse cookies
-                        if (!this._isArray(value)) {
+                        if (!Y.Lang.isArray(value)) {
                             value = [value];
                         }
                         for (var j = 0; j < value.length; j++) {
@@ -762,7 +686,7 @@ CookieUtil.prototype = {
                 }
             }
 
-            if (this._isEmpty(cookies)) {
+            if (Y.Object.isEmpty(cookies)) {
                 cb(new Error(ERRORMSG.NO_COOKIE_FROM_SERVER));
             } else {
                 cb(null, cookies);
@@ -793,7 +717,7 @@ CookieUtil.prototype = {
      * @param cb
      */
     setCookiejarToHeader : function (cookiejar, headers, cb) {
-        if (this._isUndefined(cookiejar) || cookiejar === null || cookiejar.length === 0) {
+        if (Y.Lang.isUndefined(cookiejar) || cookiejar === null || cookiejar.length === 0) {
             console.log("cookiejar is undefined, did not set cookie to header");
             cb(new Error(ERRORMSG.INVALID_COOKIEJAR));
         } else if (!_isServer()) {
@@ -802,7 +726,7 @@ CookieUtil.prototype = {
             cb(null);
         } else {
             // if this is not server side
-            if (this._isUndefined(headers)) {
+            if (Y.Lang.isUndefined(headers)) {
                 console.log("headers is undefined");
                 cb(new Error(ERRORMSG.UNDEFINED_HEADER));
             } else {
@@ -822,7 +746,7 @@ CookieUtil.prototype = {
     generateInvalidFormatCookie : function (cookiejar, cb) {
         var semiColon = this._getSemicolon(), comma = this._getComma(), space = this._getSpace();
 
-        if (!this._isUndefined(cookiejar) && this._isString(cookiejar)) {
+        if (!Y.Lang.isUndefined(cookiejar) && Y.Lang.isString(cookiejar)) {
             cookiejar = semiColon + cookiejar + comma + space;
             cb(null, cookiejar);
         } else {
@@ -837,7 +761,7 @@ CookieUtil.prototype = {
      */
     parseCookiesObjToCookiejar : function (cookiesObj, cb) {
         var separator = this._getSeparator(), equalChar = this._getEqualChar(), cookiejar, self = this;
-        if (this._isUndefined(cookiesObj) || !this._isObject(cookiesObj) || this._isEmpty(cookiesObj)) {
+        if (Y.Lang.isUndefined(cookiesObj) || !Y.Lang.isObject(cookiesObj) || Y.Object.isEmpty(cookiesObj)) {
             cb(new Error(ERRORMSG.WRONG_PARAMETER_COOKIES_OBJECT));
         } else {
             var error = false, key, value;
