@@ -174,7 +174,8 @@ if [ $? != 0 ]; then
 } fi
 # test 21
 # for scan lib test
-CMD=`$ARROWCI ./data/arrow_test/test-unit.js --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json | tail -2 | head -1 >./data/actual_op/test21.txt`
+# --browser=chrome --driver=selenium
+CMD=`$ARROWCI ./data/arrow_test/sharelib-test-unit-no-lib.js --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json | tail -2 | head -1 >./data/actual_op/test21.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
@@ -198,7 +199,15 @@ if [ $? != 0 ]; then
 	echo "RESULT: $RESULT"
 } fi
 # test 24
-CMD=`$ARROWCI ./data/arrow_test/martini-controller-test.json --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./cap.json | grep "LOG" >./data/actual_op/test24.txt`
+CMD=`$ARROWCI ./data/arrow_test/sharelib-test-func-no-commonlib.json --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./cap.json | grep "LOG" >./data/actual_op/test24.txt`
+if [ $? != 0 ]; then
+{
+    echo "ERROR!"
+	echo "CMD: $CMD"
+	echo "RESULT: $RESULT"
+} fi
+# test 25
+CMD=`$ARROWCI ./data/arrow_test/sharelib-external-controller-test.json --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./cap.json | grep "LOG" >./data/actual_op/test25.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
