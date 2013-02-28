@@ -14,7 +14,7 @@ YUI.add('sharelibscanner-tests', function (Y) {
         sharelibScanner = require(arrowRoot + '/lib/util/sharelibscanner.js'),
         suite = new Y.Test.Suite("Share Lib Scanner test suite");
 
-    var scanFolder = __dirname + "/sharelib/";
+    var scanFolder = __dirname + "/sharelibtestdata/";
     var scanMartiniFolder = scanFolder + "martini_lib";
     var metaPath = path.join(arrowRoot, '/tmp/');
 
@@ -82,7 +82,7 @@ YUI.add('sharelibscanner-tests', function (Y) {
         "Test generate Non-Exsit-Path Seed File":function () {
             var self = this;
             setup();
-            new sharelibScanner().genSeedFile(["Non-Exsit-Path", scanMartiniFolder + '/common/mymartini.common.js'], function () {
+            new sharelibScanner().genSeedFile(["Non-Exsit-Path", scanMartiniFolder + '/lib/common/mymartini.common.js'], function () {
                 console.log("~~~~~~~~~~Non-exist-path");
                 fs.readdir(metaPath, function (err, list) {
                     self.resume(function () {

@@ -1,4 +1,4 @@
-YUI.add("media-greeter", function (Y) {
+YUI.add("martini-test-function-common", function (Y) {
     Y.namespace("Media");
 
     var Greeter = Y.Media.Greeter = function() {};
