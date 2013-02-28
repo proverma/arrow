@@ -80,18 +80,23 @@ It is recommended to organize your yui modules structure like below:
 ```
          Arrow
            |
-         martini_lib
-              |-----server/
-              |        |-----xxx.js
-              |
-              |-----client/
-              |        |-----xxx.js
-              |
-              |-----common/
-              |        |-----xxx.js
+         martini_lib1
+              |-----lib/
+              |      |-----server/
+              |      |       |-----module1
+              |      |       |      |-----xxx.js
+              |      |       |
+              |      |       |-----module2
+              |      |       |      |-----xxx.js
+              |      |
+              |      |-----client/
+              |      |       |-----xxx.js
+              |      |
+              |      |-----common/
+              |              |-----xxx.js
               |
               |-----controller/
-              |        |-----xxx.js
+              |      |-----my-sample-controller.js
               |
               |-----node_modules
               |-----package.json
