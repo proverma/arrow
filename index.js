@@ -140,7 +140,7 @@ function showHelp() {
         "        Unit test: " + "\n" +
         "          arrow test-unit.js --lib=../src/greeter.js" + "\n\n" +
         "        Unit test that load the share library automatically " + "\n" +
-        "          arrow test-unit.js --shareLibPath=../src/" + "\n\n" +
+        "          arrow test-unit.js --shareLibPath=../" + "\n\n" +
         "        Unit test with a mock page: " + "\n" +
         "          arrow test-unit.js --page=testMock.html --lib=./test-lib.js" + "\n\n" +
         "        Unit test with selenium: \n" +

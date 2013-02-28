@@ -571,38 +571,51 @@ Once Selenium is started, the same steps for *reusing* sessions apply.
 Auto scan share libraries and controllers
 ---------
 
-A test case might need use some share libraries, AKA, Martini modules. They are not YUI module, so they cannot be loaded by simply call YUI.use() as normal YUI module.
-The arrow command line option: --lib can be used to load the share lib module, but, for complex test case, it might need load a lot of share lib modules which is installed in many places, it would be hard to maintain such a long --lib list.
+A test case might need use some share libraries. The arrow command line option: ``--lib`` can be used to load the share lib module, but, for complex test case, it might need load a lot of share lib modules which is installed in many places, it would be hard to maintain such a long ``--lib`` list.
 
-The share library auto scanner is just for this.
+The share library auto scanner is to make it simple.
 
-Arrow provides a configuration item: config.defaultShareLibPath to set auto scan path, or by command line option: --shareLibPath, which will override configuration. Use comma to seperate if want to specify more than one paths.
+Arrow provides a configuration item: config.defaultShareLibPath to set auto scan path, or by command line option: ``--shareLibPath``, which will override configuration. Use comma to seperate if want to specify more than one directory to scan.
 
-Once share lib path is set, when arrow is launched, it will recursively search the module (.js file) which under directory: server, client or common, which parent directory starts with "martini_" or "dev_", for example:
+Once share lib path is set, when arrow is launched, it will recursively search the module (.js file) under directory martini_xxx or dev_xxx, and follows the subfolder name convention as below:
+
+* directory name starts with "martini_" or "dev_";
+* subfolder: lib for share libraries;
+* subfolder: lib/server for share libraries can be loaded on server side;
+* subfolder: lib/client for share libraries can be loaded on client side;
+* subfolder: lib/common for share libraries can be loaded on both server side and client side;
+* subfolder: controller for custom controllers;
+* there can be subfolders under above folders, and arrow will scan them recursively.
 
 ::
 
-         Arrow
-           |
-         martini_lib
-              |-----server/
-              |        |-----xxx.js
-              |
-              |-----client/
-              |        |-----xxx.js
-              |
-              |-----common/
-              |        |-----xxx.js
+         martini_lib1
+              |-----lib/
+              |      |-----server/
+              |      |       |-----module1
+              |      |       |      |-----xxx.js
+              |      |       |
+              |      |       |-----module2
+              |      |       |      |-----xxx.js
+              |      |
+              |      |-----client/
+              |      |       |-----xxx.js
+              |      |
+              |      |-----common/
+              |              |-----xxx.js
               |
               |-----controller/
-              |        |-----xxx.js
+              |      |-----my-sample-controller.js
               |
               |-----node_modules
               |-----package.json
 
 The module under client directory will be registered as client module, the module under server directory will be registered as server module, the module under common directory will be registered as both client and server module. The controller directory is for custom controller.
 
-Then we can still use common methods to write test code, like YUI.use('module') or YUI.add(xxx ... require('module')), arrow would find and load the required share lib for it.
+Arrow will register the share libraries which followed above directory layout convention, as server side modules, client side modules, or custom controllers,  then we can still use common methods to load these module as other YUI Gallery modules in our test code, like YUI.use('module') or YUI.add(xxx ... require('module')), arrow would find and load the required module for it. 
+
+For custom controller, arrow will add "package_name." as prefix, like for above sample, then to specify custom controller in test descriptor, we can use controller path, or use "martini_lib1.my-sample-controller" instead.
+
 
 Parallelism
 -----------

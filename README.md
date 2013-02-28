@@ -69,35 +69,6 @@ npm install -g yahoo-arrow
 * **--exitCode** : (optional) true/false. Causes the exit code to be non-zero if any tests fail (default: false)
 * **--coverage** : (optional) true/false. creates code-coverage report for all js files included/loaded by arrow (default: false)
         
-##About Arrow share library/module loader (--shareLibPath)
-When we write test cases (YUI.test) to run test by Arrow, the test cases might need load modules from YUI CDN (YUI official modules), or from user developed module for test in local, or from Arrow internal core modules (like Martini modules).
-
---lib <js file list> can be used to load those modules, but, the list would be very long and hard to maintain for complex test case which need load a lot of dependent modules.
-
---shareLibPath is to easy share module loading, it would scan the specified directories, find and regester the modules that can be loaded to server side or client side, then we can still use common methods, like YUI.use('module') or YUI.add(xxx ... require('module')), arrow would find and load the required modules.
-
-It is recommended to organize your yui modules structure like below:
-```
-         Arrow
-           |
-         martini_lib
-              |-----server/
-              |        |-----xxx.js
-              |
-              |-----client/
-              |        |-----xxx.js
-              |
-              |-----common/
-              |        |-----xxx.js
-              |
-              |-----controller/
-              |        |-----xxx.js
-              |
-              |-----node_modules
-              |-----package.json
-```
-
- 
 ##Examples
 
 Below are some examples to help you get started.
@@ -115,6 +86,7 @@ arrow --page=testMock.html --lib=./test-lib.js test-unit.js
 ```
 
 ###Unit test with --shareLibPath to replace --lib:
+Please note that the folder passed to --shareLibPath need follow layout convention as described in arrow cookbook "Arrow In-Depth"
 
 ```
 arrow --page=testMock.html --shareLibPath=../ test-unit.js
