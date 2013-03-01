@@ -134,7 +134,7 @@ CookieUtil.prototype = {
      *							fieldB: valueB,
      *				    		},
      *					    {
-     *							domain: ".yahoo.com",
+     *							domain: ".xx.com",
      *							path: "/",
      *							secure: true,
      *							expires:  Wednesday, 09-Nov-99 23:12:40 GMT
@@ -242,7 +242,7 @@ CookieUtil.prototype = {
         }
         return this._validateCookieSpec(name);
     },
-    /** According to the spec http://curl.haxx.se/rfc/cookie_spec.html:
+    /**
      *  the NAME=VALUE should be a string, and not contains ; or , or ' '.
      * @method _validateCookieSpec
      * @param {String} field - the field value
@@ -267,11 +267,11 @@ CookieUtil.prototype = {
     /**
      * parse cookie string and return an object, the object would be:
      *{
-     *	_f1:"1hs269982e27",
+     *	_f1:"ddesee",
      *	b: "3",
-     *	s: "8q",
+     *	a: "8q",
      *}
-     * @param value  - a string like "1hs269982e27&b=3&s=8q"
+     * @param value  - a string like "ddesee&b=3&a=8q"
      * @param cb
      * @private
      */
@@ -284,7 +284,7 @@ CookieUtil.prototype = {
                 return;
             }
             if (element.length === 1 && i === 0) {
-                //has the subfield, but it is the first field,like the b cookie.
+                //has the subfield, but it is the first field.
                 text._f1 = element[0];
             } else {
                 text[element[0]] = element[1];
@@ -313,9 +313,9 @@ CookieUtil.prototype = {
     /**
      * parse cookie object and return an cookie string.
      * @param cookieObj - e.g. {
-     *  _f1:"1hs269982e27",
+     *  _f1:"bsse",
      *  b: "3",
-     *  s: "8q",
+     *  a: "8q",
      * }
      * @param cb
      * @private
@@ -345,8 +345,8 @@ CookieUtil.prototype = {
      * return the modified cookie string.
      * @example
      *
-     * deleteSubCookie('1hs269982e27&b=3&s=8q',['b','s']);
-     * @param value - a cookie string like "1hs269982e27&b=3&s=8q"
+     * deleteSubCookie('bsse&b=3&a=8q',['b','a']);
+     * @param value - a cookie string like "bsse&b=3&a=8q"
      * @param subFieldsArray - an array contains all the subfield' names
      * @param cb
      */
@@ -384,7 +384,7 @@ CookieUtil.prototype = {
     },
     /**
      * Add a sub cookie field to the existing cookie string
-     * @param value - a cookie string like "1hs269982e27&b=3&s=8q"
+     * @param value - a cookie string like "ssssx&b=3&a=8q"
      * @param subFieldsObj - an object includes all the new added field information, examples are:
      * {
      *   s: "9j"
@@ -636,8 +636,8 @@ CookieUtil.prototype = {
     },
     /**
      * Get cookies from "set-cookie" fields in response headers and return the cookies object with key-value pair.
-     * e.g. for cookie  'set-cookie: X=v=1&n=6jms8d55n3xxxx; path=/; domain=.domain.com'
-     *      to get X cookie: cookies["X"] , value is 'v=1&n=6jms8d55n3xxxx', does not contain path, domain and other options
+     * e.g. for cookie  'set-cookie: X=v=1&n=hhhhress; path=/; domain=.domain.com'
+     *      to get X cookie: cookies["X"] , value is 'v=1&n=hhhhress', does not contain path, domain and other options
      *
      * usage:
      * var responseCookies;
@@ -647,8 +647,8 @@ CookieUtil.prototype = {
      *              on: {
      *                  complete: function (id, response) {
      *                      responseCookies = cookieUtil.getCookiesFromHeader(response);
-     *                      //get B cookie;
-     *                      var bcookie=responseCookies["B"];
+     *                      //get X cookie;
+     *                      var Xcookie=responseCookies["X"];
      *                  }
      *              }
      *          });
@@ -672,7 +672,7 @@ CookieUtil.prototype = {
                         }
                         for (var j = 0; j < value.length; j++) {
                             var one = value[j];
-                            // example: Y=v=1&n=6jms8d55n3xxxx; path=/; domain=.yahoo.com
+                            // example: X=a=1&m=xxes33; path=/; domain=.xx.com
                             var cookieValue = one.split(";")[0], i = cookieValue.indexOf("=");
 
                             if (i !== -1) {
@@ -694,15 +694,15 @@ CookieUtil.prototype = {
         }
     },
     /**
-     * set cookiejar to http request header, e.g. set "AO=o=1&s=1&dnt=1; B=fa683mt88i5me&b=xxx" to header.
+     * set cookiejar to http request header, e.g. set "AO=o=1&s=1&dnt=1; X=fa683mt88i5me&b=xxx" to header.
      * after set cookiejar to header, there is 'Cookie' header in request headers, e.g.
-     * " Cookie: AO=o=1&s=1&dnt=1; B=fa683mt88i5me&b=xxx ".
+     * " Cookie: AO=o=1&s=1&dnt=1; X=fa683mt88i5me&b=xxx ".
      *
      * this is different for client and server side
      * for client: set cookiejar to window.document.cookie, then browser will send the cookie in header
      * for server: set cookiejar to 'Cookie' header in http request.
      *
-     * @param cookiejar - a cookiejar string which can set to http header directly.e.g. AO=o=1&s=1&dnt=1; B=fa683mt88i5me&b=xxx
+     * @param cookiejar - a cookiejar string which can set to http header directly.e.g. AO=o=1&s=1&dnt=1; X=fa683mt88i5me&b=xxx
      * @param headers - current headers object, required if send the http request from nodejs, usage:
      *  YUI.io(url, {
      *              method: 'POST',
@@ -739,9 +739,9 @@ CookieUtil.prototype = {
      * Both cookie name and value should not contain any semi-colon, comma or white space characters.
      * this method creates invalid format cookie by adding semi-colon, comma or white space characters in the cookie name and value,
      * @param cookiejar - valid format cookiejar which does not contain semi-colon, comma or white space
-     * e.g. 'ucs=bnas=0; HP=1; F=a=nJN0KqcMvSiTAYT2ufC79rv1XkkyLiFYFbyNjbsT3Rck0fs93_.rLrnd6NiOelrmnQSxw8s-&b=Jhio'
+     * e.g. 'X=bnas=0; H=1; K=a=nJN0&b=Jhio'
      * @param cb - return invalidCookiejar invalid format cookiejar which contains semi-colon, comma or whitespace
-     * e.g. 'ucs,=bnas=0; HP=1; F=a=nJN0KqcMvSiTAYT2ufC79rv1XkkyLiFYFbyNjbsT3Rck0fs93_.rLrnd6NiOelrmnQSxw8s-&b=Jhio;'
+     * e.g. 'X,=bnas=0; H=1; K=a=nJN0&b=Jhio; '
      */
     generateInvalidFormatCookie : function (cookiejar, cb) {
         var semiColon = this._getSemicolon(), comma = this._getComma(), space = this._getSpace();
@@ -756,7 +756,7 @@ CookieUtil.prototype = {
     /**
      *  parse cookies object to cookiejar
      * @param cookiesObj - a object including cookies from "set-cookie" in http response header with key-value pair only , does not contain info about path, domain, expire etc.,
-     *                 , e.g. cookies["Y"]="v=1&n=6jms8d55n3xxxx"
+     *                 , e.g. cookies["X"]="k=1&H=ab3"
      * @param cb - return cookiejar, a String which can be used in http request 'Cookie' header and send out.
      */
     parseCookiesObjToCookiejar : function (cookiesObj, cb) {
