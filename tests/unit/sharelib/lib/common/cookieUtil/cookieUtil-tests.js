@@ -20,9 +20,7 @@ YUI_config = {
 YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
 
     var cookies,cookieUtil = new Y.CookieUtil({});
-    var testCookie = new Y.CookieUtil({urlEncode : true});
-//    var CookieUtil = require("../../lib/cookieUtil");
-    // var CookieUtil = require("cookieUtil").CookieUtil;
+    var testCookie = new Y.CookieUtil({urlEncode : true}),
     messageconfig = {
         UNKNOWN_COOKIE_NAME : "unknown cookie name ",
         INVALID_COOKIE_NAME : "invalid cookie name ",
@@ -45,7 +43,6 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
         WRONG_PARAMETER_COOKIES_OBJECT : "wrong parameter: a cookies object is expected.",
         ILLEGAL_RESPONSE : "illegal response",
         NO_COOKIE_FROM_SERVER : "no cookies info from server side",
-        //MODIFY_COOKIE_error_field :" Error field, each field should be string and doesn't contain ; or , or space.",
         INVALID_PARAMETER : "wrong parameter: following parameters are expected:",
         EXISTING_COOKIE : "the cookie has existed. name: ",
         NONEXISTING_COOKIE : "the cookie doesn't exist. name: ",
@@ -114,28 +111,28 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
             });
         },
         "test SetCookiejarToHeader: header is undefined" : function () {
-            var tmpBcookie = 'B=0so92i18912fo&b=4&d=GXbuzwZpYEItXs8BzkLx6Sx4TP6umv2oMoqHXw--&s=hb&i=7t9ebuBZckwwBovdcHA4', headers;
-            cookieUtil.setCookiejarToHeader(tmpBcookie, headers, function (err, headers) {
+            var tmpXcookie = 'X=fo&a=4&d=G', headers;
+            cookieUtil.setCookiejarToHeader(tmpXcookie, headers, function (err, headers) {
                 Y.Assert.areEqual(messageconfig.UNDEFINED_HEADER, err.message);
                 console.log("Complete set undefined to header['Cookie']");
             });
         },
 
         "test SetCookiejarToHeader: valid cookiejar, headers has no Cookie header." : function () {
-            var tmpBcookie = 'B=0so92i18912fo&b=4&d=GXbuzwZpYEItXs8BzkLx6Sx4TP6umv2oMoqHXw--&s=hb&i=7t9ebuBZckwwBovdcHA4';
-            cookieUtil.setCookiejarToHeader(tmpBcookie, {}, function (err, headers) {
+            var tmpXcookie = 'X=fo&a=4&d=G';
+            cookieUtil.setCookiejarToHeader(tmpXcookie, {}, function (err, headers) {
                 Y.Assert.areEqual(null, err);
-                Y.Assert.areEqual(tmpBcookie, headers.Cookie);
+                Y.Assert.areEqual(tmpXcookie, headers.Cookie);
                 console.log("Complete set valid cookiejar to header['Cookie']=" + headers.Cookie);
             });
         },
 
         "test SetCookiejarToHeader using in nodejs side: headers has Cookie header, replace with valid cookiejar." : function () {
-            var tmpBcookie = 'B=0so92i18912fo&b=4&d=GXbuzwZpYEItXs8BzkLx6Sx4TP6umv2oMoqHXw--&s=hb&i=7t9ebuBZckwwBovdcHA4';
-            cookieUtil.setCookiejarToHeader(tmpBcookie, {
+            var tmpXcookie = 'X=fo&a=4&d=G';
+            cookieUtil.setCookiejarToHeader(tmpXcookie, {
                 Cookie : 'M=TESTCOOKIE'
             }, function (err, headers) {
-                Y.Assert.areEqual(tmpBcookie, headers.Cookie);
+                Y.Assert.areEqual(tmpXcookie, headers.Cookie);
                 Y.Assert.isTrue(err === null, "error is not null");
                 console.log("Complete set valid cookiejar to header['Cookie']=" + headers.Cookie);
             });
@@ -147,13 +144,13 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
 
         "test parse cookies to cookiejar: normal flow" : function () {
             var cookies = {};
-            cookies.B = "dihc9mh89mq2d&b=4&d=GXbuzwZpYEItXs8BzkLx6Sx4TP6umv2oMoqHXw--&s=bg";
-            cookies.Y = "v=1&n=6jms8d55n39hp&&p=m1n2rsv012000000&r=m6&lg=en-US&intl=us&np=1";
+            cookies.X = 'X=fo&a=4&d=G';
+            cookies.K = "n=6jms8d55&p=m1n2";
             cookieUtil.parseCookiesObjToCookiejar(cookies, function (error, cookiejar) {
-                var bi = cookiejar.indexOf("B=" + cookies.B);
-                var yi = cookiejar.indexOf("Y=" + cookies.Y);
-                Y.Assert.isTrue(bi !== -1, "there is no B cookie in cookiejar");
-                Y.Assert.isTrue(yi !== -1, "there is no Y cookie in cookiejar");
+                var xi = cookiejar.indexOf("X=" + cookies.X);
+                var ki = cookiejar.indexOf("K=" + cookies.K);
+                Y.Assert.isTrue(xi !== -1, "there is no X cookie in cookiejar");
+                Y.Assert.isTrue(ki !== -1, "there is no K cookie in cookiejar");
             });
         },
 
@@ -178,16 +175,16 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
         },
         "test parse cookies to cookiejar: invalid cookie name in cookieObject" : function () {
             var cookies = {};
-            cookies['B,'] = "dihc9mh89mq2d&b=4&d=GXbuzwZpYEItXs8BzkLx6Sx4TP6umv2oMoqHXw--&s=bg&i=QmT4scoC45JzjT.a0FU1";
-            cookies.Y = "v=1&n=6jms8d55n39hp&l=oeifhe3_ogb_022ekdj_kir/o&p=m1n2rsv012000000&r=m6&lg=en-US&intl=us&np=1";
+            cookies['X,'] = "dihc9&b=4";
+            cookies.K = "n=6jms8d5&l=oei&np=1";
             cookieUtil.parseCookiesObjToCookiejar(cookies, function (error, cookiejar) {
                 Y.Assert.areEqual(messageconfig.INVALID_COOKIE_VALUE, error.message);
             });
         },
         "test parse cookies to cookiejar: invalid cookie value in cookieObject" : function () {
             var cookies = {};
-            cookies.B = "dihc9mh89mq2d&b=4&d=;GXbuzwZpYEItXs8BzkLx6Sx4TP6umv2oMoqHXw--&s=bg&i=QmT4scoC45JzjT.a0FU1";
-            cookies.Y = "v=1&n=6jms8d55n39hp&l=oeifhe3_ogb_022ekdj_kir/o&p=m1n2rsv012000000&r=m6&lg=en-US&intl=us&np=1";
+            cookies['X,'] = "dihc9&b=4";
+            cookies.K = "n=6jms8d5&l=oei&np=1";
             cookieUtil.parseCookiesObjToCookiejar(cookies, function (error, cookiejar) {
                 Y.Assert.areEqual(messageconfig.INVALID_COOKIE_VALUE, error.message);
             });
@@ -211,8 +208,6 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
                 "expires" : date,
                 "secure" : true
             };
-            // var testconfig= path.join(__dirname, "resources", "config_test.json");
-            // this.testCookie = new Y.cookieUtil({configPath: testconfig});
         },
         'create Customized cookie: ' : function () {
 
@@ -462,8 +457,6 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
             var date = this.date;
             cookieUtil.createCustCookie("stl", tmpvalue, this.options, function (err, cookieString) {
                 console.log("[value is blank] cookieString =" + cookieString);
-                //              var i = cookieString.indexOf("stl=name1=&name2=user_**&");   //by aiqin, here cookieString is undefined because of error.
-                //      Y.Assert.areEqual(messageconfig.INVALID_COOKIE_NAME, err.message);
                 Y.Assert.areEqual("stl=name1=&name2=user_**&; expires=" + date.toUTCString() + "; path=/dir1/; domain=xx.com; secure", cookieString);
             });
         },
@@ -554,38 +547,34 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
         name : "modify cookie test case",
 
         'delete sub cookie: browser id' : function () {
-            cookieUtil.deleteSubCookie("1hs269982e27&b=3&s=8q", ["_f1"], function (err, cookieString) {
+            cookieUtil.deleteSubCookie("27&b=3&s=8q", ["_f1"], function (err, cookieString) {
                 console.log("the cookie string is " + cookieString);
                 Y.Assert.areEqual("b=3&s=8q", cookieString);
             });
         },
 
         'add a sub cookie: e' : function () {
-            cookieUtil.addSubCookie("f=1hs269982e27&b=3&s=8q", {
+            cookieUtil.addSubCookie("f=27&b=3&s=8q", {
                 e : 'edata'
             }, function (err, cookieString) {
                 console.log("the cookie string is " + cookieString);
-                Y.Assert.areEqual("f=1hs269982e27&b=3&s=8q&e=edata", cookieString);
+                Y.Assert.areEqual("f=27&b=3&s=8q&e=edata", cookieString);
             });
         },
 
-        // 'modify a sub cookie: b' : function (){
-        // var cookieString = cookieUtil.modifyCookie("1hs269982e27&b=3&s=8q",{b:'edata'});
-        // console.log("the cookie string is " + cookieString);
-        // },
         "delete sub cookie: delete one/  multiple fields" : function () {
-            var cookie = "1apm1v5891rcn&b=4&d=GXbuzwZpYEItXs8BzkLx6Sx4TP6umv2oMoqHXw--&s=hn&i=gnEj9KrwjAx4KgQhIiUU";
+            var cookie = "cn&b=4&d=GX&s=kdo";
             cookieUtil.deleteSubCookie(cookie, ["b"], function (err, updatecookie) {
-                Y.Assert.areEqual("1apm1v5891rcn&d=GXbuzwZpYEItXs8BzkLx6Sx4TP6umv2oMoqHXw--&s=hn&i=gnEj9KrwjAx4KgQhIiUU", updatecookie);
+                Y.Assert.areEqual("cn&d=GX&s=kdo", updatecookie);
             });
 
-            cookieUtil.deleteSubCookie(cookie, ["b", "s", "i"], function (err, updatecookie) {
-                Y.Assert.areEqual("1apm1v5891rcn&d=GXbuzwZpYEItXs8BzkLx6Sx4TP6umv2oMoqHXw--", updatecookie);
+            cookieUtil.deleteSubCookie(cookie, ["b", "s"], function (err, updatecookie) {
+                Y.Assert.areEqual("cn&d=GX", updatecookie);
             });
         },
         "delete sub cookie: callback is not function" : function () {
             try {
-                cookieUtil.deleteSubCookie("1hs269982e27&b=3&s=8q", ["b"], "test");
+                cookieUtil.deleteSubCookie("27&b=3&s=8q", ["b"], "test");
             } catch (thrown) {
                 Y.Assert.areEqual(messageconfig.WRONG_PARAMETER_CALLBACK, thrown.message);
             }
@@ -606,12 +595,12 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
         },
         "delete sub cookie: subfields parameter is not array" : function () {
             var tmp;
-            cookieUtil.deleteSubCookie("1hs269982e27&b=3&s=8q", "b", function (err) {
+            cookieUtil.deleteSubCookie("27&b=3&s=8q", "b", function (err) {
                 console.log("delete a non-array field from cookie");
                 Y.Assert.areEqual(messageconfig.WRONG_PARAMETER_SUBFIELDS_ARRAY, err.message);
             });
 
-            cookieUtil.deleteSubCookie("1hs269982e27&b=3&s=8q", null, function (err) {
+            cookieUtil.deleteSubCookie("27&b=3&s=8q", null, function (err) {
                 console.log("delete a non-array field from cookie");
                 Y.Assert.areEqual(messageconfig.WRONG_PARAMETER_SUBFIELDS_ARRAY, err.message);
             });
@@ -623,14 +612,14 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
             });
         },
         "delete sub cookie: subfiled to be deleted does not exist in cookie value" : function () {
-            cookieUtil.deleteSubCookie("1hs269982e27&b=3&s=8q", ["a"], function (err, text) {
-                Y.Assert.areEqual("1hs269982e27&b=3&s=8q", text);
+            cookieUtil.deleteSubCookie("27&b=3&s=8q", ["a"], function (err, text) {
+                Y.Assert.areEqual("27&b=3&s=8q", text);
                 Y.Assert.areEqual(null, err);
             });
         },
         "delete sub cookie: invalid subfield like t=" : function () {
-            cookieUtil.deleteSubCookie("1hs269982e27&b=3&s=8q", ["t="], function (err, text) {
-                Y.Assert.areEqual("1hs269982e27&b=3&s=8q", text);
+            cookieUtil.deleteSubCookie("27&b=3&s=8q", ["t="], function (err, text) {
+                Y.Assert.areEqual("27&b=3&s=8q", text);
                 Y.Assert.areEqual(null, err);
             });
         },
@@ -638,14 +627,14 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
             var subcookie = {
                 s : "xxxde3*&"
             };
-            cookieUtil.addSubCookie("1hs269982e27&b=3", subcookie, function (err, cookieValue) {
-                Y.Assert.areEqual("1hs269982e27&b=3&s=xxxde3*&", cookieValue);
+            cookieUtil.addSubCookie("27&b=3", subcookie, function (err, cookieValue) {
+                Y.Assert.areEqual("27&b=3&s=xxxde3*&", cookieValue);
             });
         },
         "add sub cookie: add  blank subcookieobject " : function () {
             var subcookie = {};
-            cookieUtil.addSubCookie("1hs269982e27&b=3", subcookie, function (err, cookieValue) {
-                Y.Assert.areEqual("1hs269982e27&b=3", cookieValue);
+            cookieUtil.addSubCookie("e27&b=3", subcookie, function (err, cookieValue) {
+                Y.Assert.areEqual("e27&b=3", cookieValue);
             });
         },
         "add sub cookie: add  multi sub fields" : function () {
@@ -653,8 +642,8 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
                 s : "xxxde3*&",
                 p : "9fe30sk"
             };
-            cookieUtil.addSubCookie("1hs269982e27&b=3", subcookie, function (err, cookieValue) {
-                Y.Assert.areEqual("1hs269982e27&b=3&s=xxxde3*&&p=9fe30sk", cookieValue);
+            cookieUtil.addSubCookie("e27&b=3", subcookie, function (err, cookieValue) {
+                Y.Assert.areEqual("e27&b=3&s=xxxde3*&&p=9fe30sk", cookieValue);
             });
         },
         "add sub cookie: add multi sub fields with invalid format" : function () {
@@ -662,7 +651,7 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
                 s : ";xxxde3*&",
                 p : "9fe30sk"
             };
-            cookieUtil.addSubCookie("1hs269982e27&b=3", subcookie, function (err, cookieValue) {
+            cookieUtil.addSubCookie("e27&b=3", subcookie, function (err, cookieValue) {
                 console.log("add subfiled with invalid format, error message =" + err.message);
                 Y.Assert.areEqual(messageconfig.INVALID_COOKIE_VALUE, err.message);
             });
@@ -671,7 +660,7 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
                 "s," : "xxxde3*&",
                 p : "9fe30sk"
             };
-            cookieUtil.addSubCookie("1hs269982e27&b=3", subcookie, function (err, cookieValue) {
+            cookieUtil.addSubCookie("e27&b=3", subcookie, function (err, cookieValue) {
                 console.log("add subfiled with invalid format, error message =" + err.message);
                 Y.Assert.areEqual(messageconfig.INVALID_COOKIE_VALUE, err.message);
             });
@@ -679,7 +668,7 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
                 "s " : "xxxde3*&",
                 p : "9fe30sk"
             };
-            cookieUtil.addSubCookie("1hs269982e27&b=3", subcookie, function (err, cookieValue) {
+            cookieUtil.addSubCookie("e27&b=3", subcookie, function (err, cookieValue) {
                 console.log("add subfiled with invalid format, error message =" + err.message);
                 Y.Assert.areEqual(messageconfig.INVALID_COOKIE_VALUE, err.message);
             });
@@ -689,8 +678,8 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
                 s : "xxxde3*",
                 p : "9fe30sk"
             };
-            cookieUtil.addSubCookie("1hs269982e27&b=3&s=xoooo3*", subcookie, function (err, cookieValue) {
-                Y.Assert.areEqual("1hs269982e27&b=3&s=xxxde3*&p=9fe30sk", cookieValue);
+            cookieUtil.addSubCookie("e27&b=3&s=xoooo3*", subcookie, function (err, cookieValue) {
+                Y.Assert.areEqual("e27&b=3&s=xxxde3*&p=9fe30sk", cookieValue);
             });
         },
         "add sub cookie: callback is not function" : function () {
@@ -699,7 +688,7 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
                 p : "9fe30sk"
             };
             try {
-                cookieUtil.addSubCookie("1hs269982e27&b=3&s=xoooo3*", subcookie, 2);
+                cookieUtil.addSubCookie("e27&b=3&s=xoooo3*", subcookie, 2);
             } catch (thrown) {
                 Y.Assert.areEqual(messageconfig.WRONG_PARAMETER_CALLBACK, thrown.message);
             }
@@ -730,19 +719,19 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
 
         "add sub cookie: subfields parameter is not object" : function () {
 
-            cookieUtil.addSubCookie("1hs269982e27&b=3&s=8q", "b", function (err) {
+            cookieUtil.addSubCookie("e27&b=3&s=8q", "b", function (err) {
                 console.log("add a non-object fields parameters to cookie");
                 Y.Assert.areEqual(messageconfig.WRONG_PARAMETER_SUBFIELDS_OBJECT, err.message);
             });
 
-            cookieUtil.addSubCookie("1hs269982e27&b=3&s=8q", null, function (err) {
+            cookieUtil.addSubCookie("e27&b=3&s=8q", null, function (err) {
                 console.log("add a non-object field from cookie");
                 Y.Assert.areEqual(messageconfig.WRONG_PARAMETER_SUBFIELDS_OBJECT, err.message);
             });
         },
         "modify sub cookie: callback is not function" : function () {
             try {
-                cookieUtil.modifyCookie("1hs269982e27&b=3&s=8q", {
+                cookieUtil.modifyCookie("e27&b=3&s=8q", {
                     b : "6"
                 }, 23);
             } catch (thrown) {
@@ -770,7 +759,7 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
         },
 
         "modify sub cookie: cookie value invalid" : function () {
-            var cookievalue = "1hs269982e27&b=3=0&s=8q";
+            var cookievalue = "e27&b=3=0&s=8q";
             cookieUtil.modifyCookie(cookievalue, {
                 b : "6"
             }, function (err, cookieValue) {
@@ -779,40 +768,40 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
         },
         "modify sub cookie: subfields parameter is not a object" : function () {
 
-            cookieUtil.modifyCookie("1hs269982e27&b=3&s=8q", "b", function (err) {
+            cookieUtil.modifyCookie("e27&b=3&s=8q", "b", function (err) {
                 console.log("modify a cookie value with invalid subfield parameter");
                 Y.Assert.areEqual(messageconfig.WRONG_PARAMETER_SUBFIELDS_OBJECT, err.message);
             });
-            cookieUtil.modifyCookie("1hs269982e27&b=3&s=8q", 8, function (err) {
+            cookieUtil.modifyCookie("e27&b=3&s=8q", 8, function (err) {
                 console.log("modify a cookie value with invalid subfield parameter");
                 Y.Assert.areEqual(messageconfig.WRONG_PARAMETER_SUBFIELDS_OBJECT, err.message);
             });
         },
         "modify sub cookie: sub filed does not exist" : function () {
-            cookieUtil.modifyCookie("1hs269982e27&b=3&s=8q", {
+            cookieUtil.modifyCookie("27&b=3&s=8q", {
                 n : "6"
             }, function (err, cookieValue) {
-                Y.Assert.areEqual("1hs269982e27&b=3&s=8q", cookieValue);
+                Y.Assert.areEqual("27&b=3&s=8q", cookieValue);
                 //should no change.
             });
         },
         "modify sub cookie: modify one field" : function () {
-            cookieUtil.modifyCookie("1hs269982e27&b=3&s=8q", {
+            cookieUtil.modifyCookie("e27&b=3&s=8q", {
                 b : "6"
             }, function (err, cookieValue) {
-                Y.Assert.areEqual("1hs269982e27&b=6&s=8q", cookieValue);
+                Y.Assert.areEqual("e27&b=6&s=8q", cookieValue);
             });
         },
         "modify sub cookie: modify multi field" : function () {
-            cookieUtil.modifyCookie("1hs269982e27&b=3&s=8q", {
+            cookieUtil.modifyCookie("e27&b=3&s=8q", {
                 b : "6",
                 s : "9u"
             }, function (err, cookieValue) {
-                Y.Assert.areEqual("1hs269982e27&b=6&s=9u", cookieValue);
+                Y.Assert.areEqual("e27&b=6&s=9u", cookieValue);
             });
         },
         "modify sub cookie: modify one field with invalid value" : function () {
-            cookieUtil.modifyCookie("1hs269982e27&b=3&s=8q", {
+            cookieUtil.modifyCookie("e27&b=3&s=8q", {
                 b : "6,",
                 s : "9u"
             }, function (err, cookieValue) {
@@ -821,7 +810,7 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
             });
         },
         "modify sub cookie: modify a cookie with one field only" : function () {
-            cookieUtil.modifyCookie("1hs269982e27", {
+            cookieUtil.modifyCookie("e27", {
                 _f1 : "testingtesting"
             }, function (err, cookieValue) {
                 Y.Assert.areEqual("testingtesting", cookieValue);
@@ -833,50 +822,46 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
     var parsecookiecase = new Y.Test.Case({
         name : "parse cookie case",
         'parse valid cookie value without url encode' : function () {
-            //begin without sub cookie key, like B cookie
-            var cookievalue = "bgs7e3h89204c&b=4&d=GXbuzwZpYEItXs8BzkLx6Sx4TP6umv2oMoqHXw--&s=gk&i=iihVCD7C3NAAoCes41gt";
+            //begin without sub cookie key,
+            var cookievalue = "bgs7e&b=4&d=GX&s=gk";
             cookieUtil._parseCookieString(cookievalue, function (err, cookieObj) {
-                Y.Assert.areEqual("bgs7e3h89204c", cookieObj._f1);
+                Y.Assert.areEqual("bgs7e", cookieObj._f1);
                 Y.Assert.areEqual(4, cookieObj.b);
-                Y.Assert.areEqual("GXbuzwZpYEItXs8BzkLx6Sx4TP6umv2oMoqHXw--", cookieObj.d);
+                Y.Assert.areEqual("GX", cookieObj.d);
                 Y.Assert.areEqual("gk", cookieObj.s);
-                Y.Assert.areEqual("iihVCD7C3NAAoCes41gt", cookieObj.i);
             });
             //begin with a subcookie key
-            cookievalue = "m=bgs7e3h89204c&b=4&d=GXbuzwZpYEItXs8BzkLx6Sx4TP6umv2oMoqHXw--&s=gk&i=iihVCD7C3NAAoCes41gt";
+            cookievalue = "m=bgs7e&b=4&d=GX&s=gk";
             cookieUtil._parseCookieString(cookievalue, function (err, cookieObj) {
-                Y.Assert.areEqual("bgs7e3h89204c", cookieObj.m);
+                Y.Assert.areEqual("bgs7e", cookieObj.m);
                 Y.Assert.areEqual(4, cookieObj.b);
-                Y.Assert.areEqual("GXbuzwZpYEItXs8BzkLx6Sx4TP6umv2oMoqHXw--", cookieObj.d);
+                Y.Assert.areEqual("GX", cookieObj.d);
                 Y.Assert.areEqual("gk", cookieObj.s);
-                Y.Assert.areEqual("iihVCD7C3NAAoCes41gt", cookieObj.i);
             });
         },
         'parse valid cookie value with url encode' : function () {
             // begin with subcookie key,
-            var cookievalue = "id%3D164959%26userid%3Dyuhongli%26sign%3DtsDIU488TRivU3nUMEo0OqFBmHyVR9LB4ThcoB9g66UGovwnTjmvNSt.CI4mwxdPPwP8l.E1q8kEs0kR5rei7CsepJJyBsuh8Zy5L4r4GrqmX9CG.3F7B4rAFyjTWOe6hremgEglFCXVBTuAZKWA.ccVK1caFvU9l8QttLfFuos-%26time%3D1351478056%26expires%3D600%26ip%3D10.82.129.120%26roles%3D%7C1.IE%7C10197.B%7C121.U%7C13.V%7C20.U%7C4.E%7C50.U%7C6951.I%7C6982.I%7C7181.I%7C7741.U%7C8165.E%7C8465.D%7C8632.C%7C9026.T%7C9108.R%7C9883.B%7C%5BProperty%7CViewers%5D%7Cdomain.xx.com%7Cip2.117.104.188.144%7C";
+            var cookievalue = "sign%3Dywsw%26time%3D1351478056%26expires%3D600%26ip%3D10.10.10.10%26roles%3D%7C1.IEywsw";
             testCookie._parseCookieString(cookievalue, function (err, cookieObj) {
-                Y.Assert.areEqual("164959", cookieObj.id);
-                Y.Assert.areEqual("yuhongli", cookieObj.userid);
-                Y.Assert.areEqual("tsDIU488TRivU3nUMEo0OqFBmHyVR9LB4ThcoB9g66UGovwnTjmvNSt.CI4mwxdPPwP8l.E1q8kEs0kR5rei7CsepJJyBsuh8Zy5L4r4GrqmX9CG.3F7B4rAFyjTWOe6hremgEglFCXVBTuAZKWA.ccVK1caFvU9l8QttLfFuos-", cookieObj.sign);
+                Y.Assert.areEqual("ywsw", cookieObj.sign);
                 Y.Assert.areEqual("1351478056", cookieObj.time);
-                Y.Assert.areEqual("10.82.129.120", cookieObj.ip);
-                Y.Assert.areEqual("%7C1.IE%7C10197.B%7C121.U%7C13.V%7C20.U%7C4.E%7C50.U%7C6951.I%7C6982.I%7C7181.I%7C7741.U%7C8165.E%7C8465.D%7C8632.C%7C9026.T%7C9108.R%7C9883.B%7C%5BProperty%7CViewers%5D%7Cdomain.xx.com%7Cip2.117.104.188.144%7C", cookieObj.roles);
+                Y.Assert.areEqual("10.10.10.10", cookieObj.ip);
+                Y.Assert.areEqual("%7C1.IEywsw", cookieObj.roles);
             });
 
-            //begin without a key, like B cookie
-            cookievalue = "bgs7e3h89204c%26b%3D4%26d%3DGXbuzwZpYEItXs8BzkLx6Sx4TP6umv2oMoqHXw--%26s%3Dgk%26i%3DiihVCD7C3NAAoCes41gt";
+            //begin without a key
+            cookievalue = "bgs7e%26b%3D4%26d%3DGX%26s%3Dgk%26i%3DiihVCD7C3NAAoCes41gt";
             testCookie._parseCookieString(cookievalue, function (err, cookieObj) {
-                Y.Assert.areEqual("bgs7e3h89204c", cookieObj._f1);
+                Y.Assert.areEqual("bgs7e", cookieObj._f1);
                 Y.Assert.areEqual(4, cookieObj.b);
-                Y.Assert.areEqual("GXbuzwZpYEItXs8BzkLx6Sx4TP6umv2oMoqHXw--", cookieObj.d);
+                Y.Assert.areEqual("GX", cookieObj.d);
                 Y.Assert.areEqual("gk", cookieObj.s);
                 Y.Assert.areEqual("iihVCD7C3NAAoCes41gt", cookieObj.i);
             });
         },
 
         'parse invalid cookie value format === without url encode' : function () {
-            var cookievalue = "bgs7e3h89204c&b====4&d=GXbuzwZpYEItXs8BzkLx6Sx4TP6umv2oMoqHXw--&s=gk&i=iihVCD7C3NAAoCes41gt";
+            var cookievalue = "bgs7e&b====4&d=GX&s=gk&i=iihVCD7C3NAAoCes41gt";
             cookieUtil._parseCookieString(cookievalue, function (err, cookieObj) {
                 Y.Assert.areEqual(messageconfig.INVALID_COOKIE_VALUE + "[" + cookievalue + "]", err.message);
             });
@@ -884,7 +869,7 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
         },
         'parse invalid cookie value format without url encode' : function () {
 
-            var cookievalue = "bgs7e3h89204c&b=4&&&&d=GXbuzwZpYEItXs8BzkLx6Sx4TP6umv2oMoqHXw--&s=gk&i=iihVCD7C3NAAoCes41gt";
+            var cookievalue = "bgs7e&b=4&&&&d=GX&s=gk&i=iihVCD7C3NAAoCes41gt";
             cookieUtil._parseCookieString(cookievalue, function (err, cookieObj) {
                 Y.Assert.areEqual(messageconfig.INVALID_COOKIE_VALUE, err.message);
             });
@@ -892,12 +877,12 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
 
         },
         'parse invalid cookie value format with url encode' : function () {
-            var cookievalue = "id%3D164959%26userid%3D%3D%3D%3D%3D%3Dyuhongli";
+            var cookievalue = "m%3D164959%26x%3D%3D%3D%3D%3D%3Dxxxx";
             testCookie._parseCookieString(cookievalue, function (err, cookieObj) {
                 Y.Assert.areEqual(messageconfig.INVALID_COOKIE_VALUE + "[" + cookievalue + "]", err.message);
             });
 
-            cookievalue = "id%3D164959%26%26%26%26userid%3Dyui";
+            cookievalue = "id%3D1ssef%26%26%26%26m%3Dyui";
             testCookie._parseCookieString(cookievalue, function (err, cookieObj) {
                 Y.Assert.areEqual(messageconfig.INVALID_COOKIE_VALUE, err.message);
             });
@@ -952,7 +937,6 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
             cookieUtil._parseCookieObjToString(cookieobj, function (err, cookievalue) {
                 Y.Assert.areEqual("id=jie;iaifjeisie232&username=test", cookievalue);
             });
-            // need confirm,???
 
         }
     });
@@ -961,9 +945,9 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
     var invalidCookieCase = new Y.Test.Case({
         name : "test invalid cookie",
         "test generateInvalidFormatCookie: normal flow" : function () {
-            var cookiejar = "Y=v=1&n=6jms8d55n39hp&l=oeifhe3_ogb_022ekdj_kir/o&p=m1n2rsv012000000&r=m6&lg=en-US&intl=us&np=1; PH=fn=0bjKRkzxIy0mO3DGJqPE3rkFF9FxtDw-&l=en-US&i=us; T=z=GmkiQBG6LnQBSAEafbGE6MSNDA1BjQ3NE5ONU4wMDQ2MTY2NE&a=QAE&sk=DAAJF6uchy38aB&ks=EAA2zw8Gv4u2Q4_vRUeJ.4UCQ--~E&d=c2wBTXpjeUFUTXdNems1TWprM056TXhOakV4TXpndwFhAVFBRQFnAUg2RUJVSlRQTEJMU1JXWFVIRU5YT1FURTQ0AXRpcAExaEd2UkMBenoBR21raVFCQTdF&af=QXdBQjFDJnRzPTEzNTEyNDAwNzAmcHM9R1BNSE1UeEkyTWVoOGFkMC5RVm5IQS0t;";
+            var cookiejar = "X=a=1&n=6jms8d; PH=l=en-US&i=us;";
             cookieUtil.generateInvalidFormatCookie(cookiejar, function (error, invalidCookiejar) {
-                Y.Assert.areEqual(";Y=v=1&n=6jms8d55n39hp&l=oeifhe3_ogb_022ekdj_kir/o&p=m1n2rsv012000000&r=m6&lg=en-US&intl=us&np=1; PH=fn=0bjKRkzxIy0mO3DGJqPE3rkFF9FxtDw-&l=en-US&i=us; T=z=GmkiQBG6LnQBSAEafbGE6MSNDA1BjQ3NE5ONU4wMDQ2MTY2NE&a=QAE&sk=DAAJF6uchy38aB&ks=EAA2zw8Gv4u2Q4_vRUeJ.4UCQ--~E&d=c2wBTXpjeUFUTXdNems1TWprM056TXhOakV4TXpndwFhAVFBRQFnAUg2RUJVSlRQTEJMU1JXWFVIRU5YT1FURTQ0AXRpcAExaEd2UkMBenoBR21raVFCQTdF&af=QXdBQjFDJnRzPTEzNTEyNDAwNzAmcHM9R1BNSE1UeEkyTWVoOGFkMC5RVm5IQS0t;, ", invalidCookiejar);
+                Y.Assert.areEqual(";X=a=1&n=6jms8d; PH=l=en-US&i=us;, ", invalidCookiejar);
             });
         },
         "test generateInvalidFormatCookie: undefined cookiejar" : function () {
@@ -1016,9 +1000,9 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
 
         //getCookieInCookiejar(cookiejar, name, cb)
         'getCookieInCookiejar: invalid parameters' : function () {
-            var validCookiejar = "YBY=id%3D162059%26userid%3Djintao%26sign%3DPws.t5GfBzGJXcXv1ypaGH3vtHsuZrV6uSihd8d5pfpl64BJFLS8Lzn";
+            var validCookiejar = "H=k%3D1622%26userid%3Dxxx";
             try {
-                cookieUtil.getCookieInCookiejar({}, "B", function (err, cookieArray) {
+                cookieUtil.getCookieInCookiejar({}, "H", function (err, cookieArray) {
                 });
             } catch (thrown) {
                 console.log("verify when cookiejar is not a string, the correct error will be thrown.", "info");
@@ -1034,7 +1018,7 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
             }
 
             try {
-                cookieUtil.getCookieInCookiejar(validCookiejar, "YBY", "should be callback");
+                cookieUtil.getCookieInCookiejar(validCookiejar, "H", "should be callback");
             } catch (thrown1) {
                 console.log("verify when cb is not a function, the correct error will be thrown.", "info");
                 Y.Assert.areEqual(messageconfig.INVALID_PARAMETER + "\ncookiejar {String}, name {String}, cb {Function}", thrown1.message);
@@ -1062,9 +1046,9 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
 
         //deleteCookieInCookiejar(cookiejar, name, cb)
         'deleteCookieInCookiejar: invalid parameters' : function () {
-            var validCookiejar = "YBY=id%3D162059%26userid%3Djintao%26sign%3DPws.t5GfBzGJXcXv1ypaGH3vtHsuZrV6uSihd8d5pfpl64BJFLS8Lzn";
+            var validCookiejar = "H=k%3D1659%26userid%3Dxxxx";
             try {
-                cookieUtil.deleteCookieInCookiejar(null, "B", function (err, cookieArray) {
+                cookieUtil.deleteCookieInCookiejar(null, "H", function (err, cookieArray) {
                 });
             } catch (thrown) {
                 console.log("verify when cookiejar is not a string, the correct error will be thrown.", "info");
@@ -1080,7 +1064,7 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
             }
 
             try {
-                cookieUtil.deleteCookieInCookiejar(validCookiejar, "YBY", "should be callback");
+                cookieUtil.deleteCookieInCookiejar(validCookiejar, "H", "should be callback");
             } catch (thrown2) {
                 console.log("verify when cb is not a function, the correct error will be thrown.", "info");
                 Y.Assert.areEqual(messageconfig.INVALID_PARAMETER + "\ncookiejar {String}, name {String}, cb {Function}", thrown2.message);
@@ -1116,10 +1100,10 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
 
         //modifyCookieInCookiejar(cookiejar, name, value, cb)
         'modifyCookieInCookiejar: invalid parameters' : function () {
-            var validCookiejar = "YBY=id%3D162059%26userid%3Djintao%26sign%3DPws.t5GfBzGJXcXv1ypaGH3vtHsuZrV6uSihd8d5pfpl64BJFLS8Lzn";
+            var validCookiejar = "H=k%3D169%26userid%3Dxxxxx";
             var validValue = "661u0g9896sja&b=3&s=6i";
             try {
-                cookieUtil.modifyCookieInCookiejar(null, "B", validValue, function (err, cookieString) {
+                cookieUtil.modifyCookieInCookiejar(null, "H", validValue, function (err, cookieString) {
                 });
             } catch (thrown) {
                 console.log("verify when cookiejar is not a string, the correct error will be thrown.", "info");
@@ -1143,7 +1127,7 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
             }
 
             try {
-                cookieUtil.modifyCookieInCookiejar(validCookiejar, "YBY", validValue, "should be callback");
+                cookieUtil.modifyCookieInCookiejar(validCookiejar, "H", validValue, "should be callback");
             } catch (thrown3) {
                 console.log("verify when cb is not a function, the correct error will be thrown.", "info");
                 Y.Assert.areEqual(messageconfig.INVALID_PARAMETER + "\ncookiejar {String}, name {String}, value {String}, cb {Function}", thrown3.message);
@@ -1173,9 +1157,9 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
         },
 
         'modifyCookieInCookiejar: the target cookie value does not meet the spec' : function () {
-            cookieUtil.modifyCookieInCookiejar("YBY=ybyValue", "YBY", "invalid YBY value", function (err, cookieString) {
+            cookieUtil.modifyCookieInCookiejar("H=hValue", "H", "invalid H value", function (err, cookieString) {
                 console.log("verify when the target value is not a valid value, the error will be shown");
-                Y.Assert.areEqual(messageconfig.INVALID_COOKIE_VALUE + "invalid YBY value", err.message);
+                Y.Assert.areEqual(messageconfig.INVALID_COOKIE_VALUE + "invalid H value", err.message);
             });
         },
 
@@ -1186,10 +1170,10 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
         },
 
         'appendCookieInCookiejar: invalid parameters' : function () {
-            var validCookiejar = "YBY=id%3D162059%26userid%3Djintao%26sign%3DPws.t5GfBzGJXcXv1ypaGH3vtHsuZrV6uSihd8d5pfpl64BJFLS8Lzn";
+            var validCookiejar = "H=a%3D133%26userid%3Dxxx";
             var validValue = "661u0g9896sja&b=3&s=6i";
             try {
-                cookieUtil.appendCookieInCookiejar(null, "B", validValue, function (err, cookieString) {
+                cookieUtil.appendCookieInCookiejar(null, "H", validValue, function (err, cookieString) {
                 });
             } catch (thrown) {
                 console.log("verify when cookiejar is not a string, the correct error will be thrown.", "info");
@@ -1205,7 +1189,7 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
             }
 
             try {
-                cookieUtil.appendCookieInCookiejar(validCookiejar, "B", Infinity, function (err, cookieString) {
+                cookieUtil.appendCookieInCookiejar(validCookiejar, "H", Infinity, function (err, cookieString) {
                 });
             } catch (thrown2) {
                 console.log("verify when cookie value is not a string , the correct error will be thrown.", "info");
@@ -1213,7 +1197,7 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
             }
 
             try {
-                cookieUtil.appendCookieInCookiejar(validCookiejar, "YBY", validValue, "should be callback");
+                cookieUtil.appendCookieInCookiejar(validCookiejar, "H", validValue, "should be callback");
             } catch (thrown3) {
                 console.log("verify when cb is not a function, the correct error will be thrown.", "info");
                 Y.Assert.areEqual(messageconfig.INVALID_PARAMETER + "\ncookiejar {String}, name {String}, value {String}, cb {Function}", thrown3.message);
@@ -1234,10 +1218,10 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
         },
 
         'appendCookieInCookiejar: the cookie name and value user want to append do not meet the spec' : function () {
-            cookieUtil.appendCookieInCookiejar("YBY=ybyValue", "append cookie", "appendValue", function (err, cookieString) {
+            cookieUtil.appendCookieInCookiejar("H=hValue", "append cookie", "appendValue", function (err, cookieString) {
                 Y.Assert.areEqual(messageconfig.INVALID_COOKIE_NAME + "or " + messageconfig.INVALID_COOKIE_VALUE, err.message);
             });
-            cookieUtil.appendCookieInCookiejar("YBY=ybyValue", "appendCookie", "append,Value", function (err, cookieString) {
+            cookieUtil.appendCookieInCookiejar("H=hValue", "appendCookie", "append,Value", function (err, cookieString) {
                 Y.Assert.areEqual(messageconfig.INVALID_COOKIE_NAME + "or " + messageconfig.INVALID_COOKIE_VALUE, err.message);
             });
         }
