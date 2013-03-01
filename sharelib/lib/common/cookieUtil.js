@@ -10,6 +10,7 @@
  * @module cookieUtil
  */
 YUI.add('cookieUtil', function(Y) {
+    Y.namespace("Arrow");
 var ERRORMSG = {
     UNKNOWN_COOKIE_NAME : "unknown cookie name ",
     INVALID_COOKIE_NAME : "invalid cookie name ",
@@ -799,6 +800,6 @@ CookieUtil.prototype = {
             return false;
         }
     };
-    Y.CookieUtil=CookieUtil;
+    Y.Arrow.CookieUtil=CookieUtil;
 
 }, "0.1", { requires:[]});
