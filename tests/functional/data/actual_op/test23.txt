@@ -1,1 +1,1 @@
-[31m[2013-02-28 14:34:09.649] [ERROR] shareLibScanner - [39mPlease make sure the lib folder exist
+[31m[2013-03-01 11:44:32.540] [ERROR] shareLibScanner - [39mPlease make sure the lib folder exist

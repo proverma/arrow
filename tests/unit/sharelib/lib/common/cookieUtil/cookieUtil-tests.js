@@ -91,7 +91,7 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
                     }
                 }
             });
-            this.wait(9000);
+            this.wait(18000);
         },
 
         "test SetCookiejarToHeader: cookie is null or blank" : function () {
