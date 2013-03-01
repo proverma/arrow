@@ -1243,24 +1243,7 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
         }
     });
 
-    //TEST CASES: generate invalid cookie
-    var cookieUtilIsMethodsCase = new Y.Test.Case({
-        name : "test isMethods in cookieUtil",
-        "test IsArray: not array" : function () {
-            var isArray = cookieUtil._isArray("name");
-            Y.Assert.isFalse(isArray);
-            isArray = cookieUtil._isArray({
-                name : "value"
-            });
-            Y.Assert.isFalse(isArray);
 
-            isArray = cookieUtil._isArray([]);
-            Y.Assert.isTrue(isArray);
-            isArray = cookieUtil._isArray([1, 2, 3]);
-            Y.Assert.isTrue(isArray);
-
-        }
-    });
 
     Y.Test.Runner.add(cookieInHeaderCases);
     Y.Test.Runner.add(createCookeTestCases);
@@ -1269,7 +1252,7 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
     Y.Test.Runner.add(parsecookiecase);
     Y.Test.Runner.add(cookiejarcase);
     Y.Test.Runner.add(invalidCookieCase);
-    Y.Test.Runner.add(cookieUtilIsMethodsCase);
+//    Y.Test.Runner.add(cookieUtilIsMethodsCase);
 
 }, '0.0.1', {
     requires : ['test', 'io-nodejs','cookieUtil']
