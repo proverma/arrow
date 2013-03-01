@@ -1,7 +1,7 @@
 /*jslint nomen: true, plusplus: true */
 /*global YUI: true, require: true */
 /*
- * Copyright (c) 2012 Yahoo! Inc. All rights reserved.
+ * Copyright (c) 2013 Yahoo! Inc. All rights reserved.
  */
 
 /**
@@ -15,6 +15,8 @@
 YUI.add('oauth-automator', function (Y, NAME) {
 
     // global user cookies and scrumb caches
+    Y.namespace("Arrow");
+
     if (!Y._userCookies) {
         /**
          * example:
@@ -37,8 +39,6 @@ YUI.add('oauth-automator', function (Y, NAME) {
         select = require('cheerio-select'),
         parse = require('cheerio').parse,
         OAuth = require('oauth').OAuth,
-
-        ost = require('ostauth.node'),
 
         EXTERNAL = 'external',
         OAUTH_MODE_HEADER = 'header',
@@ -932,6 +932,6 @@ YUI.add('oauth-automator', function (Y, NAME) {
     /**
      * The 'OAuthAutomator' class is attached to Y instance. 
      */
-    Y.OAuthAutomator = OAuthAutomator;
+    Y.Arrow.OAuthAutomator = OAuthAutomator;
 
 }, '0.0.2', {requires: ['base', 'io-base']});
