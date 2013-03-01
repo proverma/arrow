@@ -1,2 +1,2 @@
-1 Passed, 0 Failed , 0 skipped 
-
+[31m[2013-03-01 11:42:41.699] [ERROR] Arrow - [39mFailed to collect the test report, Controller: /Users/jiliang/dev_env/git_source/arrow/lib/controller/default
+[31m[2013-03-01 11:42:41.699] [ERROR] Arrow - [39mScenario failed at atom: 5, Controller: /Users/jiliang/dev_env/git_source/arrow/lib/controller/default
