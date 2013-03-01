@@ -1,1 +1,2 @@
+[LOG] Found test module: media-greeter-tests
 [LOG] TestRunner: test greet: passed.
