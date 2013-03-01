@@ -1,34 +1,18 @@
 /*jslint nomen: true, plusplus: true */
 /*global YUI: true, require: true */
+
 /*
- * Copyright (c) 2012 Yahoo! Inc. All rights reserved.
+ * Copyright (c) 2012, Yahoo! Inc.  All rights reserved.
+ * Copyrights licensed under the New BSD License.
+ * See the accompanying LICENSE file for terms.
  */
 
 /**
- * Yahoo OAuth test automation helper module.
- * This is the JavaScript version of yWsNG's OAuth test framework, which is a 
- * combination Java(in client) and PHP(in server).
+ * Yahoo OAuth (1.0A) test automation helper module.
  * 
  * @module oauth-automator
  */
-
 YUI.add('oauth-automator', function (Y, NAME) {
-
-    // global user cookies and scrumb caches
-    if (!Y._userCookies) {
-        /**
-         * example:
-         * {
-         *    username: {
-         *        cookies: {
-         *            "name": "value"
-         *        },
-         *        scrumb: "...",
-         *    }
-         * }
-         */
-        Y._userCookies = {};
-    }
 
     var fs = require('fs'),
         util = require('util'),
@@ -37,8 +21,6 @@ YUI.add('oauth-automator', function (Y, NAME) {
         select = require('cheerio-select'),
         parse = require('cheerio').parse,
         OAuth = require('oauth').OAuth,
-
-        ost = require('ostauth.node'),
 
         EXTERNAL = 'external',
         OAUTH_MODE_HEADER = 'header',
@@ -212,8 +194,7 @@ YUI.add('oauth-automator', function (Y, NAME) {
          * Use this method to clear mess from the prior generateOAuth() method.
          * It is called in the beginning of generateOAuth() method.
          */
-        _clear: function () {
-        },
+        _clear: function () {},
 
         /**
          * Generate authorization credentials which will be passed to the user
@@ -265,8 +246,8 @@ YUI.add('oauth-automator', function (Y, NAME) {
          */
         generateOAuth: function (attrs, cb) {
             var type,
-                wsUrl,
-                invalidate = false,
+            wsUrl,
+            invalidate = false,
                 checkForInvalidate = {
                     consumerKey: 1,
                     consumerSecret: 1,
@@ -331,15 +312,13 @@ YUI.add('oauth-automator', function (Y, NAME) {
                     cb(new Error("A webservice url(wsUrl attribute) that protected by oauth should be given to generate a signature."));
                 }
 
-                if (this.get("needUserCred") &&
-                        (!this.get("username") || !this.get("password"))) {
+                if (this.get("needUserCred") && (!this.get("username") || !this.get("password"))) {
                     cb(new Error("Credential(username/password) are required when needUserCred is true."));
                 }
 
                 if (this.get("oauthProvider") !== YAHOO) {
                     // make sure their oauth urls are given.
-                    if (this.get("RequestTokenUrl") === undefined ||
-                            this.get("AccessTokenUrl") === undefined) {
+                    if (this.get("RequestTokenUrl") === undefined || this.get("AccessTokenUrl") === undefined) {
                         cb(new Error("Non Yahoo Oauth provdier is enabled but their oauth URLs are not given."));
                     }
                 }
@@ -360,8 +339,8 @@ YUI.add('oauth-automator', function (Y, NAME) {
          */
         _generateExternalOAuth: function (cb) {
             var headers = {},
-                token = {},
-                tokenGenerateTimeout = 1,
+            token = {},
+            tokenGenerateTimeout = 1,
                 maxTry = 1,
                 self = this,
                 tid,
@@ -395,8 +374,7 @@ YUI.add('oauth-automator', function (Y, NAME) {
             tid = setInterval(function () {
                 if ((maxTry--) === 0) {
                     clearInterval(tid);
-                    if (self.get("needUserCred") === true &&
-                            (!token.oauthToken || !token.oauthTokenSecret)) {
+                    if (self.get("needUserCred") === true && (!token.oauthToken || !token.oauthTokenSecret)) {
                         cb(new Error("Timeout: couldn't get the access token."));
                     } else {
                         if (self.get("oauthMode") === OAUTH_MODE_URL) {
@@ -526,41 +504,47 @@ YUI.add('oauth-automator', function (Y, NAME) {
                     //TODO: if this script is supposed to be used for non yahoo as well
                     // get the oauth provider name from the configuration and invoke
                     // appropriate getVerifier method per provider. 
-                    self._getVerifierForYahoo({url: requestAuthUrl, username: username, password: password},
-                        function (err, oauthVerifier) {
-                            if (!err) {
-                                self.oa.getOAuthAccessToken(oauthToken, oauthTokenSecret, oauthVerifier,
-                                    function (err, oauthToken, oauthTokenSecret, results) {
-                                        if (!err) {
-                                            //console.log('oauth_access_token: ' + oauthToken);
-                                            //console.log('oauth_access_token_secret: ' + oauthTokenSecret);
-                                            //console.log('access token results: ' + util.inspect(results));
-                                            /* log sample:
+                    self._getVerifierForYahoo({
+                        url: requestAuthUrl,
+                        username: username,
+                        password: password
+                    },
+
+                    function (err, oauthVerifier) {
+                        if (!err) {
+                            self.oa.getOAuthAccessToken(oauthToken, oauthTokenSecret, oauthVerifier,
+
+                            function (err, oauthToken, oauthTokenSecret, results) {
+                                if (!err) {
+                                    //console.log('oauth_access_token: ' + oauthToken);
+                                    //console.log('oauth_access_token_secret: ' + oauthTokenSecret);
+                                    //console.log('access token results: ' + util.inspect(results));
+                                    /* log sample:
                                             { oauth_expires_in: '3600',
                                             oauth_session_handle: 'AMcaG1BaPpaE_GfkLsj95RdpciPeuywY1RV7Q3B2E7saF5Xc._4jhqB3SxduU78-',
                                             oauth_authorization_expires_in: '802401803',
                                             xoauth_yahoo_guid: 'H6EBUJTPLBLSRWXUHENXOQTE44'
                                             }*/
 
-                                            token.oauthToken = oauthToken;
-                                            token.oauthTokenSecret = oauthTokenSecret;
+                                    token.oauthToken = oauthToken;
+                                    token.oauthTokenSecret = oauthTokenSecret;
 
-                                            // it appears the followings(which need for the token renewal)
-                                            // is not used in YQL tests. 
-                                            token.oauthTokenExpires = results.oauth_expires_in;
-                                            token.oauthTokenSessionHandle = results.oauth_session_handle;
-                                            var tmp = parseInt(results.oauth_authorization_expires_in, 10);
-                                            token.oauthTokenSessionHandleExpires = (new Date()).getTime() + tmp;
+                                    // it appears the followings(which need for the token renewal)
+                                    // is not used in YQL tests. 
+                                    token.oauthTokenExpires = results.oauth_expires_in;
+                                    token.oauthTokenSessionHandle = results.oauth_session_handle;
+                                    var tmp = parseInt(results.oauth_authorization_expires_in, 10);
+                                    token.oauthTokenSessionHandleExpires = (new Date()).getTime() + tmp;
 
-                                            Y.log("----------\nOAuth Access Token\n----------", "info");
-                                            Y.log(token, "info");
-                                            cb(null, token);
-                                        }
-                                    });
-                            } else {
-                                cb(new Error("error in getting the oauth verifier code."));
-                            }
-                        });
+                                    Y.log("----------\nOAuth Access Token\n----------", "info");
+                                    Y.log(token, "info");
+                                    cb(null, token);
+                                }
+                            });
+                        } else {
+                            cb(new Error("error in getting the oauth verifier code."));
+                        }
+                    });
 
                 } else {
                     cb(new Error("error in getting the request token."));
@@ -592,29 +576,31 @@ YUI.add('oauth-automator', function (Y, NAME) {
                         // response page would be a login page
                         self._submitForm(response.responseText, {
                             css: "#login_form",
-                            params: {login: username, passwd: password}
+                            params: {
+                                login: username,
+                                passwd: password
+                            }
                         }, function (err, response) {
                             if (!err) {
-                                self._submitForm(response.responseText,
-                                    {}, function (err, response) {
-                                        if (!err) {
-                                            var dom = parse(response.responseText);
-                                            vts = select("#shortCode", dom);
-                                            if (vts.length !== 1) {
-                                                cb(new Error("can't find an element that contains oauth verifier."));
-                                            }
-                                            vt = vts[0].children;
-                                            if (vt.length !== 1) {
-                                                cb(new Error("can't find an element that contains oauth verifier."));
-                                            }
-
-                                            oauthVerifier = vt[0].data;
-                                            Y.log("Detected OAuth Verifier: " + oauthVerifier);
-                                            cb(null, oauthVerifier);
-                                        } else {
-                                            cb(new Error("error in a permission allow submit form"));
+                                self._submitForm(response.responseText, {}, function (err, response) {
+                                    if (!err) {
+                                        var dom = parse(response.responseText);
+                                        vts = select("#shortCode", dom);
+                                        if (vts.length !== 1) {
+                                            cb(new Error("can't find an element that contains oauth verifier."));
                                         }
-                                    });
+                                        vt = vts[0].children;
+                                        if (vt.length !== 1) {
+                                            cb(new Error("can't find an element that contains oauth verifier."));
+                                        }
+
+                                        oauthVerifier = vt[0].data;
+                                        Y.log("Detected OAuth Verifier: " + oauthVerifier);
+                                        cb(null, oauthVerifier);
+                                    } else {
+                                        cb(new Error("error in a permission allow submit form"));
+                                    }
+                                });
                             } else {
                                 cb(new Error("error in a login using this credential: " + username + "/" + password));
                             }
@@ -743,7 +729,7 @@ YUI.add('oauth-automator', function (Y, NAME) {
                 accessTokenUrl = this.get("AccessTokenUrl");
             }
 
-            return new OAuth(requestTokenUrl, accessTokenUrl, ckey,  csecret, oversion, undefined, smethod);
+            return new OAuth(requestTokenUrl, accessTokenUrl, ckey, csecret, oversion, undefined, smethod);
         }
     }, {
         NAME: 'OAuthAutomator',
@@ -751,7 +737,7 @@ YUI.add('oauth-automator', function (Y, NAME) {
             ///////////////////////////////////////////
             // Common among 3 oauth types(internal/internal-headless/external)
             ///////////////////////////////////////////
-            oauthType: {    // internal, internal-headless and external
+            oauthType: { // internal, internal-headless and external
                 value: EXTERNAL,
                 validator: 'isString'
             },
@@ -934,4 +920,6 @@ YUI.add('oauth-automator', function (Y, NAME) {
      */
     Y.OAuthAutomator = OAuthAutomator;
 
-}, '0.0.2', {requires: ['base', 'io-base']});
+}, '0.0.2', {
+    requires: ['base', 'io-base']
+});
