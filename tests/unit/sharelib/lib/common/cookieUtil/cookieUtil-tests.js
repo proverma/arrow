@@ -19,8 +19,8 @@ YUI_config = {
 }
 YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
 
-    var cookies,cookieUtil = new Y.CookieUtil({});
-    var testCookie = new Y.CookieUtil({urlEncode : true}),
+    var cookies,cookieUtil = new Y.Arrow.CookieUtil({});
+    var testCookie = new Y.Arrow.CookieUtil({urlEncode : true}),
     messageconfig = {
         UNKNOWN_COOKIE_NAME : "unknown cookie name ",
         INVALID_COOKIE_NAME : "invalid cookie name ",
