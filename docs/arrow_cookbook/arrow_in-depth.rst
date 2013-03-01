@@ -577,9 +577,9 @@ The share library auto scanner is to make it simple.
 
 Arrow provides a configuration item: config.defaultShareLibPath to set auto scan path, or by command line option: ``--shareLibPath``, which will override configuration. Use comma to seperate if want to specify more than one directory to scan.
 
-Once share lib path is set, when arrow is launched, it will recursively search the module (.js file) under directory martini_xxx or dev_xxx, and follows the subfolder name convention as below:
+Once share lib path is set, when arrow is launched, it will recursively search the module (.js file) under directory martini_xxx, and follows the subfolder name convention as below:
 
-* directory name starts with "martini_" or "dev_";
+* directory name starts with "martini_";
 * subfolder: lib for share libraries;
 * subfolder: lib/server for share libraries can be loaded on server side;
 * subfolder: lib/client for share libraries can be loaded on client side;
