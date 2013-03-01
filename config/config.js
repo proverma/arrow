@@ -1,8 +1,8 @@
 /*
-* Copyright (c) 2012, Yahoo! Inc.  All rights reserved.
-* Copyrights licensed under the New BSD License.
-* See the accompanying LICENSE file for terms.
-*/
+ * Copyright (c) 2012, Yahoo! Inc.  All rights reserved.
+ * Copyrights licensed under the New BSD License.
+ * See the accompanying LICENSE file for terms.
+ */
 
 var config = {};
 
@@ -25,10 +25,11 @@ config.testRunner = config.arrowModuleRoot + "lib/client/yuitest-runner.js";
 config.autolib = config.arrowModuleRoot + "lib/common";
 
 // config for share lib
-config.defaultShareLibPath=[config.arrowModuleRoot+"../"];
-config.scanModulesPrefix = ["martini_"];  // you can modify this to scan(add) more modules
-config.scanModulesRecursive=false;   // only scan top level folders for the prefix with given scan path if false,
-                                    // otherwise will scan recursively with the given path.but will cost more time.
+config.defaultShareLibPath = [config.arrowModuleRoot + "../"];
+config.scanModulesPrefix = ["martini_"];   // you can modify this to scan(add) more prefix,
+                                           // or it will scan all modules under given path if empty it with []
+config.scanModulesRecursive = false;     // only scan top level folders for the prefix with given scan path if false,
+                                         // otherwise will scan recursively with the given path.
 config.serverConfigName = "server_seed.js";
 config.clientConfigName = "client_seed.js";
 

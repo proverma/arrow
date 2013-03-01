@@ -1,2 +1,2 @@
-1 Passed, 0 Failed , 0 skipped 
-
+[32m[2012-10-23 16:16:45.961] [INFO] SeleniumDriver - [39mLoading page: http://login.yahoo.com
+[31m[2012-10-23 16:16:45.989] [ERROR] SeleniumDriver - [39mUncaught exception: undefined
