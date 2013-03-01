@@ -577,7 +577,7 @@ The share library auto scanner is to make it simple.
 
 Arrow provides a configuration item: config.defaultShareLibPath to set auto scan path, or by command line option: ``--shareLibPath``, which will override configuration. Use comma to seperate if want to specify more than one directory to scan.
 
-Once share lib path is set, when arrow is launched, it will recursively search the module (.js file) under directory martini_xxx, and follows the subfolder name convention as below:
+Once share lib path is set, when arrow is launched, it will recursively search the YUI module (.js file) under directory martini_xxx, and follows the subfolder name convention as below:
 
 * directory name starts with "martini_";
 * subfolder: lib for share libraries;
@@ -636,6 +636,19 @@ If installed more than one share lib packages globally, like martini_testlib2, w
 
   arrow test-unit.js --shareLibPath=/usr/local/lib/node_modules/martini_testlib1,/usr/local/lib/node_modules/martini_testlib2
   arrow test-unit.js --shareLibPath=/usr/local/lib/node_modules/
+
+3. use constom controller. In test descriptor, now we can use package_name.controller_name in **controller** node, as below:
+
+::
+
+  "controller": "martini_testlib1.my-test-controller"
+
+**Note:** if want to let ``--shareLibPath`` to scan other directory other than martini_xxx, you can configure
+ it on */path/to/arrow/install/path/config/config.js*, for example, to scan dev_xxx directory, you can configure it as below:
+
+::
+
+  config.scanModulesPrefix = ["martini_", "dev_"];
 
 Parallelism
 -----------
