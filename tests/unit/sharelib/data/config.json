@@ -1,0 +1,21 @@
+{
+    "consumerKey": "dj0yJmk9YTV4VWROT3Y0bGExJmQ9WVdrOUxYbHZjM05rTTJVbWNHbzlNQ1o1UFRFLSZzPWNvbnN1bWVyc2VjcmV0Jng9ZjU-",
+    "consumerSecret": "5689a279b2f975e07129c482cab34b0c2cf143a7",
+    "username": "yosprod_yql_account_us1",
+    "password": "testing",
+    
+    "needUserCred": true,
+    "oauthType": "external",
+    "yahooAuthVersion": "v2",
+
+    "externalOAuthScope": "All",
+    "ExtAllConsumerKey": "dj0yJmk9YTV4VWROT3Y0bGExJmQ9WVdrOUxYbHZjM05rTTJVbWNHbzlNQ1o1UFRFLSZzPWNvbnN1bWVyc2VjcmV0Jng9ZjU-",
+    "ExtAllConsumerSecret": "5689a279b2f975e07129c482cab34b0c2cf143a7",
+
+    "ycaAppId": "yahoo.mobile_platform.qe",
+    "guid": "H6EBUJTPLBLSRWXUHENXOQTE44",
+    
+    "comment": "The below is for legacy run thru the PHP server",
+    "legacy": false,
+    "appId": "-yossd3e"
+}
