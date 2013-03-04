@@ -11,7 +11,50 @@
  * Yahoo OAuth (1.0A) test automation helper module.
  * 
  * @module oauth-automator
+ * 
+ * Generate authorization credentials which will be passed to the user
+ * given callback function. If the 'authType' was set to "header", the 
+ * callback function will be invoked with a 'headers' object. User will 
+ * use the auth headers when they request URIs that are protected by 
+ * OAuth.
+ *
+ * @example
+ * 
+ * var url = "http://..."; // test url protected by oauth
+ * var oauth = new Y.OAuthAutomator("/path/to/oauth-configuration.json");
+ * oauth.generateOAuth(function (err, headers) {
+ *     if (!err) {
+ *         // user headers object which contains auth credentials.
+ *         Y.io(url, {
+ *              method: 'POST',
+ *              headers: headers,
+ *              on: {
+ *                  complete: function (id, response) {
+ *                      // validate response
+ *                  }
+ *              }
+ *          }
+ *     }
+ * }
+ * 
+ * Attributes for external type of generateOAuth() :
+ *   oauthType - "external"(default). Keep "internal" for Yahoo! internal use
+ *   needUserCred(boolean) - true(default)
+ *   password - Required if needUserCred is true
+ *   username - Required if needUserCred is true
+ *   consumerKey - (Required)
+ *   consumerSecret - (Required)
+ *   wsUrl - (Required)
+ *   wsMethod - "GET"(default)
+ *   wsQueryParams
+ *   externalOAuthScope
+ *   signatureMethod - "HMAC-SHA1"(default)
+ *   oauthMode - "header"(default) Only default is supported as of now.
+ *   oauthVersion - "1.0"(default)
+ *   oauthProvider - "yahoo"(default)
+ * 
  */
+
 YUI.add('oauth-automator', function (Y, NAME) {
 
     var fs = require('fs'),
@@ -32,8 +75,6 @@ YUI.add('oauth-automator', function (Y, NAME) {
     /**
      * OAuthAutomator class.
      * 
-     * See the module README file for details of valid attributes. 
-     * 
      * @class OAuthAutomator
      * @constructor
      * @param config {String | Object} [config] A confihuration object.  
@@ -49,14 +90,14 @@ YUI.add('oauth-automator', function (Y, NAME) {
      *          given in this configuration object, the one in the file will be
      *          overriden. 
      *      @param {Number} [config.timeoutForTokenGeneration] 29(default)
-     *      @param {String} [config.wsUrl] (Required for external oauth type)
+     *      @param {String} [config.wsUrl]
      *      @param {String} [config.wsMethod] "GET"(default)
      *      @param {String} [config.wsQueryParams]
      *      @param {String} [config.signatureMethod] "HMAC-SHA1"(default)
      *      @param {String} [config.oauthProvider] "yahoo"(default)
      *      @param {String} [config.yahooAuthVersion] "v1" or "v2"(default)                
-     *      @param {String} [config.oauthType] One of "internal", 
-     *          "internal-headless" or "external".
+     *      @param {String} [config.oauthType] "external"(default), 
+     *          keep "internal" for Yahoo! internal use.
      *      @param {String} [config.externalOAuthScope] Used to specify external
      *          OAuth scope. 
      *      @param {String} [config.oauthServer] An OAuth provider URL
@@ -197,32 +238,6 @@ YUI.add('oauth-automator', function (Y, NAME) {
         _clear: function () {},
 
         /**
-         * Generate authorization credentials which will be passed to the user
-         * given callback function. If the 'authType' was set to "header", the 
-         * callback function will be invoked with a 'headers' object. User will 
-         * use the auth headers when they request URIs that are protected by 
-         * OAuth.
-         * 
-         * @example
-         * 
-         * var url = "http://..."; // test url protected by oauth
-         * var oauth = new Y.OAuthAutomator("./oauth-configuration.json");
-         * oauth.generateOAuth(function (err, headers) {
-         *     if (!err) {
-         *         // user headers object which contains auth credentials.
-         *         Y.io(url, {
-         *              method: 'POST',
-         *              headers: headers,
-         *              on: {
-         *                  complete: function (id, response) {
-         *                      // validate response
-         *                  }
-         *              }
-         *          }
-         *     }
-         * }
-         * 
-         * See the module README file for valid attributes details.
          * 
          * @method generateOAuth
          * @param {Object} attrs (Optional) An object with configurations(attributes).
@@ -238,8 +253,7 @@ YUI.add('oauth-automator', function (Y, NAME) {
          *          headers. Example: {"Yahoo-App-Auth": "...", "Authorization": 
          *          "..."}
          *      @param {Object} [cb.token] An object with access token data for
-         *          the external type. Undefined for internal and
-         *          internal-headless. The access token object has 5 properties;
+         *          the external type. The access token object has 5 properties;
          *          oauthToken, oauthTokenSecret, oauthTokenExpires,
          *          oauthTokenSessionHandle, oauthTokenSessionHandleExpires.
          *          See the OAuth spec for details.
@@ -735,9 +749,9 @@ YUI.add('oauth-automator', function (Y, NAME) {
         NAME: 'OAuthAutomator',
         ATTRS: {
             ///////////////////////////////////////////
-            // Common among 3 oauth types(internal/internal-headless/external)
+            // oauth types(external, internal, ...)
             ///////////////////////////////////////////
-            oauthType: { // internal, internal-headless and external
+            oauthType: { 
                 value: EXTERNAL,
                 validator: 'isString'
             },
@@ -746,9 +760,6 @@ YUI.add('oauth-automator', function (Y, NAME) {
                 validator: 'isString'
             },
 
-            ///////////////////////////////////////////
-            // Exclusively for internal/external and crum based auth
-            ///////////////////////////////////////////
             needUserCred: {
                 value: true,
                 validator: 'isBoolean'
@@ -762,17 +773,11 @@ YUI.add('oauth-automator', function (Y, NAME) {
                 validator: 'isString'
             },
 
-            ///////////////////////////////////////////
-            // Exclusively for internal/external types of oauth
-            ///////////////////////////////////////////
             timeoutForTokenGeneration: {
                 value: 29,
                 validator: 'isNumber'
             },
 
-            ///////////////////////////////////////////
-            // Exclusively for external
-            ///////////////////////////////////////////
             consumerSecret: {
                 validator: 'isString'
             },
@@ -905,9 +910,6 @@ YUI.add('oauth-automator', function (Y, NAME) {
                 validator: 'isString'
             },
 
-            // can be used to refresh the token?
-            // appears it is used for v1/user/{guid}/updates BUT was not
-            // used for authorization.
             appId: {
                 value: "",
                 validator: 'isString'
