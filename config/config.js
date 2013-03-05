@@ -26,7 +26,7 @@ config.autolib = config.arrowModuleRoot + "lib/common";
 
 // config for share lib
 config.defaultShareLibPath = [config.arrowModuleRoot + "../"];
-config.scanModulesPrefix = ["martini_","Martini"];   // you can modify this to scan(add) more prefix,
+config.scanModulesPrefix = [];   // you can modify this to scan(add) more prefix,
                                            // or it will scan all modules under given path if empty it with []
 config.scanModulesRecursive = true;     // only scan top level folders for the prefix with given scan path if false,
                                          // otherwise will scan recursively with the given path.
