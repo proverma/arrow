@@ -5,7 +5,7 @@
  */
 require('yui').YUI({modules: {
     "oauth-automator": {
-        fullpath: __dirname+"/../../../../../../sharelib/lib/common/oauth-automator.js",
+        fullpath: __dirname+"/../../../../../../sharelib/lib/server/oauth-automator.js",
         requires: ['base', 'io-base']
     }
 }}).use('oauth-automator');
