@@ -212,7 +212,7 @@ global.color = config.color;
 
 
 // scan libraries
-if (config.defaultShareLibPath !== undefined || argv.shareLibPath !== undefined)
+if (config.scanShareLibPath !== undefined || argv.shareLibPath !== undefined)
 {
     var libScanner = require('./lib/util/sharelibscanner');
     new libScanner().genSeedFile(argv.shareLibPath, startArrow);

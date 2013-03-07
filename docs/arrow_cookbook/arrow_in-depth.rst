@@ -573,13 +573,13 @@ Auto scan share libraries and controllers
 
 A test case might need use some share libraries. The arrow command line option: ``--lib`` can be used to load the share lib module, but, for complex test case, it might need load a lot of share lib modules which is installed in many places, it would be hard to maintain such a long ``--lib`` list.
 
-The share library auto scanner is to make it simple.
+The share library auto scanner makes it simple.
 
-Arrow provides a configuration item: config.defaultShareLibPath to set auto scan path, or by command line option: ``--shareLibPath``, which will override configuration. Use comma to seperate if want to specify more than one directory to scan.
+Arrow provides a configuration item: config.scanShareLibPath to set scan path, or by command line option: ``--shareLibPath``, which will override configuration. Use comma to seperate if want to specify more than one directory to scan.
 
-Once share lib path is set, when arrow is launched, it will recursively search the YUI module (.js file) under directory martini_xxx, and follows the subfolder name convention as below:
+Once share lib path is set, when arrow is launched, it will recursively search the YUI module (.js file) under the given path (directory), and follows the subfolder name convention as below:
 
-* directory name starts with "martini_";
+* directory name starts with a prefix like "martini_";
 * subfolder: lib for share libraries;
 * subfolder: lib/server for share libraries can be loaded on server side;
 * subfolder: lib/client for share libraries can be loaded on client side;
@@ -643,12 +643,12 @@ If installed more than one share lib packages globally, like martini_testlib2, w
 
   "controller": "martini_testlib1.my-test-controller"
 
-**Note:** if want to let ``--shareLibPath`` to scan other directory other than martini_xxx, you can configure
+**Note:** if want to let ``--shareLibPath`` to scan some directory other than martini_xxx, you can configure
  it on */path/to/arrow/install/path/config/config.js*, for example, to scan dev_xxx directory, you can configure it as below:
 
 ::
 
-  config.scanModulesPrefix = ["martini_", "dev_"];
+  config.scanShareLibPrefix = ["martini_", "dev_"];
 
 Parallelism
 -----------
