@@ -1,1 +1,1 @@
-Report Created: test_descriptor-report.xml
+[7mReport Created: test_descriptor-report.xml[27m
