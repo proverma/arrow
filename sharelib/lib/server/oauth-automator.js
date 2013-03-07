@@ -2,7 +2,7 @@
 /*global YUI: true, require: true */
 
 /*
- * Copyright (c) 2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2013 Yahoo! Inc. All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
@@ -56,6 +56,24 @@
  */
 
 YUI.add('oauth-automator', function (Y, NAME) {
+
+   // global user cookies and scrumb caches
+    Y.namespace("Arrow");
+
+    if (!Y._userCookies) {
+        /**
+         * example:
+         * {
+         *    username: {
+         *        cookies: {
+         *            "name": "value"
+         *        },
+         *        scrumb: "...",
+         *    }
+         * }
+         */
+        Y._userCookies = {};
+    }
 
     var fs = require('fs'),
         util = require('util'),
@@ -920,7 +938,7 @@ YUI.add('oauth-automator', function (Y, NAME) {
     /**
      * The 'OAuthAutomator' class is attached to Y instance. 
      */
-    Y.OAuthAutomator = OAuthAutomator;
+    Y.Arrow.OAuthAutomator = OAuthAutomator;
 
 }, '0.0.2', {
     requires: ['base', 'io-base']
