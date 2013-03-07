@@ -30,7 +30,7 @@ config.scanShareLibPath = [];     // Arrow will scan all given path for share li
 config.scanShareLibPrefix = [];    // Example:Arrow will only scan share lib with given prefix "martini_" if config as ["martini_"]
                                   // It will scan all folders for share lib under given path if it is empty : []
                                   // You can modify this to add multiple prefix.
-config.scanShareLibRecursive = false;     // Only scan top level folders for the given prefix and given scan path if false,
+config.scanShareLibRecursive = true;     // Only scan top level folders for the given prefix and given scan path if false,
                                          // Otherwise it will scan recursively with the given path.
 config.serverConfigName = "server_seed.js";
 config.clientConfigName = "client_seed.js";
