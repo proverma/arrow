@@ -26,7 +26,7 @@ config.autolib = config.arrowModuleRoot + "lib/common";
 
 // config for share lib
 config.scanShareLibPath = [];     // Arrow will scan all given path for share lib. Example: [config.arrowModuleRoot + "../"]
-                                  // You can modify this to add multiple prefix.
+                                  // You can modify this to add multiple share lib path.
 config.scanShareLibPrefix = [];    // Example:Arrow will only scan share lib with given prefix "martini_" if config as ["martini_"]
                                   // It will scan all folders for share lib under given path if it is empty : []
                                   // You can modify this to add multiple prefix.
