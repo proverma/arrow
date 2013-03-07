@@ -25,7 +25,7 @@ config.testRunner = config.arrowModuleRoot + "lib/client/yuitest-runner.js";
 config.autolib = config.arrowModuleRoot + "lib/common";
 
 // config for share lib
-config.defaultShareLibPath = [config.arrowModuleRoot + "../"];
+config.defaultShareLibPath = [];  // Arrow will scan the given path for share libs
 config.scanModulesPrefix = [];   // you can modify this to scan(add) more prefix,
                                            // or it will scan all modules under given path if empty it with []
 config.scanModulesRecursive = true;     // only scan top level folders for the prefix with given scan path if false,
