@@ -17,13 +17,9 @@ YUI.add('oauth-automator-tests', function (Y, NAME) {
         parser = new xml2js.Parser(),
         config = path.join(__dirname, "../../../data/config.json"),
         config2 = path.join(__dirname, "../../../data/config2.json");
-    // Use the following line if stl-oauth module is installed which is true
-    // for real test project.
-    // Y = require("stl-oauth").module();
 
     var testExternalOauthUnit = new Y.Test.Case({
         name:'OAuth Automator Unit Tests',
-
 
         "test invaild attr and cb":function () {
             var self = this;
@@ -48,7 +44,6 @@ YUI.add('oauth-automator-tests', function (Y, NAME) {
                 });
             }
 
-
             console.log("###########: OAuth Started");
 
             try {
@@ -59,9 +54,13 @@ YUI.add('oauth-automator-tests', function (Y, NAME) {
 
             oauth.set("consumerKey", undefined);
             oauth.set("ConsumerAppId", undefined);
-            oauth.generateOAuth("invaild string", function () {
-
-            });
+            try {
+                oauth.generateOAuth("invaild string", function () {
+                });
+                Y.Assert.isTrue(false);
+            } catch (ex) {
+                Y.Assert.isTrue(true);
+            }
 
             oauth.set("externalOAuthScope", true);
             oauth.generateOAuth(function () {
@@ -78,21 +77,30 @@ YUI.add('oauth-automator-tests', function (Y, NAME) {
                 oauthType:"not-a-type",
                 needUserCred:true
             });
-            oauth.generateOAuth({
-                wsUrl:undefined,
-                wsMethod:"POST",
-                wsQueryParams:{
-                }
-            }, function () {
-            });
+
+            try {
+                oauth.generateOAuth({
+                    wsUrl:undefined,
+                    wsMethod:"POST",
+                    wsQueryParams:{
+                    }
+                }, function () {
+                });
+                Y.Assert.isTrue(false);
+            } catch (ex) {
+                Y.Assert.isTrue(true);
+            }
 
             oauth.set("RequestTokenUrl", undefined);
-
-            oauth.generateOAuth({
-                wsUrl:"http://gamma.yql.yahooapis.com/v1/yql",
-                wsMethod:"POST"
-            }, function () {
-            });
+            try {
+                oauth.generateOAuth({
+                    wsUrl:"http://gamma.yql.yahooapis.com/v1/yql",
+                    wsMethod:"POST"
+                }, function () {
+                });
+            } catch (ex) {
+                Y.Assert.isTrue(true);
+            }
 
             oauth.destructor();
         },
