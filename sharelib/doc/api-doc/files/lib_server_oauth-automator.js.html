@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>lib&#x2F;server&#x2F;oauth-automator.js - share lib doc generate config</title>
+    <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.8.0&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
+    <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="..&#x2F;assets/favicon.png">
+    <script src="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;combo?3.8.0&#x2F;build&#x2F;yui&#x2F;yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="..&#x2F;assets/css/logo.png" title="share lib doc generate config"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 3.6.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="..&#x2F;classes/CookieUtil.html">CookieUtil</a></li>
+            
+                <li><a href="..&#x2F;classes/OAuthAutomator.html">OAuthAutomator</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="..&#x2F;modules/cookieUtil.html">cookieUtil</a></li>
+            
+                <li><a href="..&#x2F;modules/oauth-automator.html">oauth-automator</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: lib&#x2F;server&#x2F;oauth-automator.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+&#x2F;*jslint nomen: true, plusplus: true *&#x2F;
+&#x2F;*global YUI: true, require: true *&#x2F;
+
+&#x2F;*
+ * Copyright (c) 2013 Yahoo! Inc. All rights reserved.
+ * Copyrights licensed under the New BSD License.
+ * See the accompanying LICENSE file for terms.
+ *&#x2F;
+
+&#x2F;**
+ * Yahoo OAuth (1.0A) test automation helper module.
+ *
+ * @module oauth-automator
+ *
+ * @example
+ *
+ * var url = &quot;http:&#x2F;&#x2F;...&quot;; &#x2F;&#x2F; test url protected by oauth
+ * var oauth = new Y.OAuthAutomator(&quot;&#x2F;path&#x2F;to&#x2F;oauth-configuration.json&quot;);
+ * oauth.generateOAuth(function (err, headers) {
+ *     if (!err) {
+ *         &#x2F;&#x2F; user headers object which contains auth credentials.
+ *         Y.io(url, {
+ *              method: &#x27;POST&#x27;,
+ *              headers: headers,
+ *              on: {
+ *                  complete: function (id, response) {
+ *                      &#x2F;&#x2F; validate response
+ *                  }
+ *              }
+ *          }
+ *     }
+ * }
+ *
+ * Attributes for external type of generateOAuth() :
+ *   oauthType - &quot;external&quot;(default). Keep &quot;internal&quot; for Yahoo! internal use
+ *   needUserCred(boolean) - true(default)
+ *   password - Required if needUserCred is true
+ *   username - Required if needUserCred is true
+ *   consumerKey - (Required)
+ *   consumerSecret - (Required)
+ *   wsUrl - (Required)
+ *   wsMethod - &quot;GET&quot;(default)
+ *   wsQueryParams
+ *   externalOAuthScope
+ *   signatureMethod - &quot;HMAC-SHA1&quot;(default)
+ *   oauthMode - &quot;header&quot;(default) Only default is supported as of now.
+ *   oauthVersion - &quot;1.0&quot;(default)
+ *   oauthProvider - &quot;yahoo&quot;(default)
+ *
+ * this helper Generate authorization credentials which will be passed to the user
+ * given callback function. If the &#x27;authType&#x27; was set to &quot;header&quot;, the
+ * callback function will be invoked with a &#x27;headers&#x27; object. User will
+ * use the auth headers when they request URIs that are protected by
+ * OAuth.
+ *
+ *&#x2F;
+
+YUI.add(&#x27;oauth-automator&#x27;, function (Y, NAME) {
+
+    &#x2F;&#x2F; global user cookies and scrumb caches
+    Y.namespace(&quot;Arrow&quot;);
+
+    if (!Y._userCookies) {
+         &#x2F;* example:
+          {
+             username: {
+                 cookies: {
+                     &quot;name&quot;: &quot;value&quot;
+                },
+                 scrumb: &quot;...&quot;,
+             }
+          }*&#x2F;
+        Y._userCookies = {};
+    }
+
+    var fs = require(&#x27;fs&#x27;),
+        util = require(&#x27;util&#x27;),
+        xml2js = require(&#x27;xml2js&#x27;),
+
+        select = require(&#x27;cheerio-select&#x27;),
+        parse = require(&#x27;cheerio&#x27;).parse,
+        OAuth = require(&#x27;oauth&#x27;).OAuth,
+
+        EXTERNAL = &#x27;external&#x27;,
+        OAUTH_MODE_HEADER = &#x27;header&#x27;,
+        OAUTH_MODE_URL = &#x27;url&#x27;, &#x2F;&#x2F; not supported.
+
+    &#x2F;&#x2F; oauth service provider names
+        YAHOO = &quot;yahoo&quot;;
+
+    &#x2F;**
+     * OAuthAutomator class.
+     *
+     * @class OAuthAutomator
+     * @constructor
+     * @param config {String | Object} [config] A confihuration object.
+     *  If a string type is given, it should be the path of the configuration
+     *  file(json) otherwise should an object with configuration elements.
+     *
+     *  Valid configuration object properties:
+     *
+     *      @param {String} [config.configPath] A file path of configuration
+     *          file. If all configurations are contained in the file, the file
+     *          path can be directly passed to this constructor instead of placing
+     *          it to this configuation object. If the same property is also
+     *          given in this configuration object, the one in the file will be
+     *          overriden.
+     *      @param {Number} [config.timeoutForTokenGeneration] 29(default)
+     *      @param {String} [config.wsUrl]
+     *      @param {String} [config.wsMethod] &quot;GET&quot;(default)
+     *      @param {String} [config.wsQueryParams]
+     *      @param {String} [config.signatureMethod] &quot;HMAC-SHA1&quot;(default)
+     *      @param {String} [config.oauthProvider] &quot;yahoo&quot;(default)
+     *      @param {String} [config.yahooAuthVersion] &quot;v1&quot; or &quot;v2&quot;(default)
+     *      @param {String} [config.oauthType] &quot;external&quot;(default),
+     *          keep &quot;internal&quot; for Yahoo! internal use.
+     *      @param {String} [config.externalOAuthScope] Used to specify external
+     *          OAuth scope.
+     *      @param {String} [config.oauthServer] An OAuth provider URL
+     *      @param {String} [config.oauthVersion] Either &quot;1.0&quot; or &quot;1.1&quot;. Default
+     *          is &quot;1.0&quot;.
+     *      @param {String} [config.oauthMode] Only &quot;header&quot;(default) is
+     *          available. The &quot;url&quot; is broken.
+     *      @param {String} [config.consumerKey] OAuth consumer key
+     *      @param {String} [config.consumerSecret] OAuth consumer secret
+     *      @param {String} [config.appId] OAuth application id.
+     *      @param {String} [config.ExtAllConsumerKey] This is an example property
+     *          name for the &quot;external&quot; type when &quot;externalOAuthScope&quot; is given
+     *          and its value is &quot;All&quot;. Ext+&quot;{externalOAuthScope}&quot;Consumer[AppId |
+     *          Key | Secret] will be used for the given external scope.
+     *      @param {String} [config.ExtAllConsumerSecret] This is an example property
+     *          name for the &quot;external&quot; type when &quot;externalOAuthScope&quot; is given
+     *          and its value is &quot;All&quot;. Ext+&quot;{externalOAuthScope}&quot;Consumer[AppId |
+     *          Key | Secret] will be used for the given external scope.
+     *      @param {String} [config.ExtAllConsumerAppId] This is an example property
+     *          name for the &quot;external&quot; type when &quot;externalOAuthScope&quot; is given
+     *          and its value is &quot;All&quot;. Ext+&quot;{externalOAuthScope}&quot;Consumer[AppId |
+     *          Key | Secret] will be used for the given external scope.
+     *      @param {Boolean} [config.needUserCred] true(default) or false.
+     *          If true, 3-legged protocol will be used.
+     *      @param {String} [config.username] Username. Required if needUserCred
+     *          is set to &quot;true&quot;.
+     *      @param {String} [config.password] Password. Required if needUserCred
+     *          is set to &quot;true&quot;.
+     *
+     *&#x2F;
+    function OAuthAutomator() {
+        OAuthAutomator.superclass.constructor.apply(this, arguments);
+    }
+
+    Y.extend(OAuthAutomator, Y.Base, {
+
+        &#x2F;**
+         * Init lifecycle implementation.
+         *
+         * @method initializer
+         * @param {Object} config Configuration object.
+         * @protected
+         *&#x2F;
+        initializer:function (config) {
+            if (Y.Lang.isString(config)) {
+                config = {
+                    configPath:config
+                };
+            } else {
+                config = config || {};
+            }
+
+            &#x2F;&#x2F; this.defaultConfig is the unmodified default configuration when 
+            &#x2F;&#x2F; this object was created and not the current. 
+            &#x2F;&#x2F; Use super class Base&#x27;s attributes for the current.
+            this.defaultConfig = Y.Object(config);
+            this._init(config);
+        },
+
+        &#x2F;**
+         * Destroy lifecycle method.
+         *
+         * @method destructor
+         * @protected
+         *&#x2F;
+        destructor:function () {
+            this.defaultConfig = null;
+        },
+
+        &#x2F;**
+         * Load the given configuration and update the this class attributes.
+         *
+         * @method _init
+         * @param config {String | Object} [config] A confihuration object.
+         *  If a string type is given, it should be the path of the configuration
+         *  file(json) otherwise should an object with configuration elements.
+         * @private
+         *&#x2F;
+        _init:function (config) {
+            &#x2F;&#x2F; try to load defaults from the external JSON file if given
+            if (config.configPath) {
+                var contents = fs.readFileSync(config.configPath, &quot;utf-8&quot;);
+                try {
+                    Y.each(JSON.parse(contents), function (value, key) {
+                        this.set(key, value);
+                    }, this);
+
+                } catch (e) {
+                    throw new Error(&#x27;Invalid configuration file: &#x27; + config.configPath);
+                }
+
+                delete config.configPath;
+            }
+
+            &#x2F;&#x2F; then load configurations given the code.
+            Y.each(config, function (value, key) {
+                this.set(key, value);
+            }, this);
+
+            if ((this.get(&quot;oauthType&quot;) === EXTERNAL) &amp;&amp; this.get(&quot;externalOAuthScope&quot;)) {
+                this._handleExternalScopeGiven();
+            }
+        },
+
+        &#x2F;**
+         * Adjust consumerKey, consumerSecret and appId if external scope is set.
+         * They will be replaced with these attributes.
+         *
+         * Ext{externalOAuthScope}ConsumerKey
+         * Ext{externalOAuthScope}ConsumerSecret
+         * Ext{externalOAuthScope}ConsumerAppId
+         * @method _handleExternalScopeGiven
+         * @private
+         *&#x2F;
+
+        _handleExternalScopeGiven:function () {
+            var base = &quot;Ext&quot; + this.get(&quot;externalOAuthScope&quot;),
+                bck = this.get(base + &quot;ConsumerKey&quot;),
+                bcs = this.get(base + &quot;ConsumerSecret&quot;),
+                bca = this.get(base + &quot;ConsumerAppId&quot;);
+
+            if (bck === undefined || bcs === undefined) {
+                Y.log(&quot;Expected these attrs: &quot; + base + &quot;ConsumerKey&quot; + &quot;&#x2F;&quot; + base + &quot;ConsumerSecret&quot;, &quot;warn&quot;, NAME);
+            }
+
+            if (bck !== undefined) {
+                this.set(&quot;consumerKey&quot;, bck);
+            }
+            if (bcs !== undefined) {
+                this.set(&quot;consumerSecret&quot;, bcs);
+            }
+            if (bca !== undefined) {
+                this.set(&quot;appId&quot;, bca);
+            }
+        },
+
+        &#x2F;**
+         * Use this method to clear mess from the prior generateOAuth() method.
+         * It is called in the beginning of generateOAuth() method.
+         *  @method _clear
+         *  @private
+         *&#x2F;
+        _clear:function () {
+        },
+
+        &#x2F;**
+         *
+         * @method generateOAuth
+         * @param {Object} attrs (Optional) An object with configurations(attributes).
+         *  If this object is given, attributes determined in the constructor
+         *  will be overriden. The updated attributes will remain even after
+         *  this method is completed. All attributes except &#x27;configPath&#x27; are
+         *  allowed here.
+         * @param {Function} [cb] A callback function to be called once
+         *  authrization credentials are generated.
+         *      @param {Error} [cb.err] An error object if auth credential
+         *          generation is failed.
+         *      @param {Object} [cb.headers] An object with generated auth
+         *          headers. Example: {&quot;Yahoo-App-Auth&quot;: &quot;...&quot;, &quot;Authorization&quot;: 
+         *          &quot;...&quot;}
+         *      @param {Object} [cb.token] An object with access token data for
+         *          the external type. The access token object has 5 properties;
+         *          oauthToken, oauthTokenSecret, oauthTokenExpires,
+         *          oauthTokenSessionHandle, oauthTokenSessionHandleExpires.
+         *          See the OAuth spec for details.
+         *&#x2F;
+        generateOAuth:function (attrs, cb) {
+            var type,
+                wsUrl,
+                invalidate = false,
+                checkForInvalidate = {
+                    consumerKey:1,
+                    consumerSecret:1,
+                    oauthVersion:1,
+                    signatureMethod:1,
+                    oauthProvider:1,
+                    yahooAuthVersion:1,
+                    RequestTokenUrl:1,
+                    AccessTokenUrl:1
+                };
+            Y.log(&quot;==========\nGenerating Auth Headers...\n==========&quot;, &quot;info&quot;);
+            this._clear();
+
+            if (!Y.Lang.isFunction(attrs)) {
+                if (Y.Lang.isObject(attrs)) {
+                    &#x2F;&#x2F; then update configurations.
+                    Y.each(attrs, function (value, key) {
+                        if (key !== &quot;configPath&quot;) {
+                            this.set(key, value);
+                            if (checkForInvalidate[key] &amp;&amp; !invalidate) {
+                                invalidate = true;
+                            }
+                        }
+                    }, this);
+
+                    &#x2F;&#x2F; adjust consumerKey, consumerSecret and appId if external 
+                    &#x2F;&#x2F; scope is set
+                    if ((this.get(&quot;oauthType&quot;) === EXTERNAL) &amp;&amp; this.get(&quot;externalOAuthScope&quot;)) {
+                        this._handleExternalScopeGiven();
+                    }
+                } else {
+                    cb(new Error(&quot;The first param should be either attributes object or callback function&quot;));
+                }
+            } else if (Y.Lang.isFunction(attrs)) {
+                cb = attrs;
+            }
+
+            if (!cb || !Y.Lang.isFunction(cb)) {
+                throw new Error(&quot;callback function parameter is required&quot;);
+            }
+
+            if (!this.get(&quot;consumerKey&quot;)) {
+                cb(new Error(&quot;consumerKey attribute is required.&quot;));
+            }
+
+            type = this.get(&#x27;oauthType&#x27;);
+            Y.log(&quot;Detected OAuth Type: &quot; + type, &quot;info&quot;);
+            Y.log(&quot;Detected Consumer Key: &quot; + this.get(&quot;consumerKey&quot;), &quot;info&quot;);
+
+            if (type === EXTERNAL) {
+                Y.log(&quot;Detected needUserCred: &quot; + this.get(&quot;needUserCred&quot;));
+                Y.log(&quot;Detected OAuth Provider: &quot; + this.get(&quot;oauthProvider&quot;));
+
+                &#x2F;&#x2F; check if oa should be reconstructed
+                if (!this.oa || invalidate) {
+                    this.oa = this._createOAuthClient();
+                }
+
+                &#x2F;&#x2F; wsUrl is required
+                wsUrl = this.get(&quot;wsUrl&quot;);
+                if (!wsUrl) {
+                    cb(new Error(&quot;A webservice url(wsUrl attribute) that protected by oauth should be given to generate a signature.&quot;));
+                }
+
+                if (this.get(&quot;needUserCred&quot;) &amp;&amp; (!this.get(&quot;username&quot;) || !this.get(&quot;password&quot;))) {
+                    cb(new Error(&quot;Credential(username&#x2F;password) are required when needUserCred is true.&quot;));
+                }
+
+                if (this.get(&quot;oauthProvider&quot;) !== YAHOO) {
+                    &#x2F;&#x2F; make sure their oauth urls are given.
+                    if (this.get(&quot;RequestTokenUrl&quot;) === undefined || this.get(&quot;AccessTokenUrl&quot;) === undefined) {
+                        cb(new Error(&quot;Non Yahoo Oauth provdier is enabled but their oauth URLs are not given.&quot;));
+                    }
+                }
+
+                this._generateExternalOAuth(cb);
+            } else {
+                cb(new Error(&#x27;Invalid oauth type: &#x27; + type));
+            }
+        },
+
+
+        &#x2F;**
+         * A private function to be called for the &quot;external&quot; type.
+         * @method _generateExternalOAuth
+         * @param {Function} [cb] A callback function to be called once
+         *  authrization credentials are generated.
+         * @private
+         *&#x2F;
+        _generateExternalOAuth:function (cb) {
+            var headers = {},
+                token = {},
+                tokenGenerateTimeout = 1,
+                maxTry = 1,
+                self = this,
+                tid,
+                authorizationHeader;
+
+            if (this.get(&quot;needUserCred&quot;) === true) {
+                tokenGenerateTimeout = 1000;
+                maxTry = this.get(&quot;timeoutForTokenGeneration&quot;) || 29;
+
+                &#x2F;**
+                 * Ideally this method should be responsible to get the access token
+                 * of either 2-legged or 3-legged as described in
+                 * http:&#x2F;&#x2F;blog.nerdbank.net&#x2F;2011&#x2F;06&#x2F;what-is-2-legged-oauth.html
+                 *
+                 * However it actually handles only 3-legged as it appears Yahoo
+                 * doesn&#x27;t have true 2-legged.
+                 * What described as 2-legged is actually 0-legged according
+                 * to the above url. This 0-legged(or 2-legged by Yahoo) is done
+                 * by skipping this method (set needUserCred=false).
+                 *&#x2F;
+
+                this[&quot;_generateExternalOAuthToken&quot;](function (err, otoken) {
+                    if (!err) {
+                        token = otoken;
+                    } else {
+                        cb(err);
+                    }
+                });
+            }
+
+            tid = setInterval(function () {
+                if ((maxTry--) === 0) {
+                    clearInterval(tid);
+                    if (self.get(&quot;needUserCred&quot;) === true &amp;&amp; (!token.oauthToken || !token.oauthTokenSecret)) {
+                        cb(new Error(&quot;Timeout: couldn&#x27;t get the access token.&quot;));
+                    } else {
+                        if (self.get(&quot;oauthMode&quot;) === OAUTH_MODE_URL) {
+                            cb(new Error(&quot;OAuth mode: url is not supported&quot;));
+                        } else if (self.get(&quot;oauthMode&quot;) === OAUTH_MODE_HEADER) {
+                            authorizationHeader = self._generateExternalOAuthHeader(token);
+                            if (authorizationHeader instanceof Error) {
+                                cb(authorizationHeader);
+                            } else if (!authorizationHeader) {
+                                cb(new Error(&quot;error: empty auth headers returned&quot;));
+                            } else {
+                                headers.Authorization = authorizationHeader;
+                                Y.log(&quot;----------\nExternal Auth Headers:\n----------&quot;, &quot;info&quot;);
+                                Y.log(util.inspect(headers), &quot;info&quot;);
+                                cb(null, headers, token);
+                            }
+                        } else {
+                            cb(new Error(&quot;Invalid mode. Only &#x27;url&#x27; or &#x27;header&#x27; is allowed: &quot; + self.get(&quot;oauthMode&quot;)));
+                        }
+                    }
+                } else {
+                    if (token.oauthToken &amp;&amp; token.oauthTokenSecret) {
+                        if (self.get(&quot;oauthMode&quot;) === OAUTH_MODE_URL) {
+                            &#x2F;&#x2F;this.set(&#x27;wsUrl&#x27;, this.get(&#x27;wsUrl&#x27;)+&#x27;?&#x27;+this._generateExternalOAuthHeader(cb));
+                            cb(new Error(&quot;OAuth mode: url is not supported&quot;));
+                        } else if (self.get(&quot;oauthMode&quot;) === OAUTH_MODE_HEADER) {
+                            &#x2F;&#x2F; only headers supported due to the above bug.
+
+                            authorizationHeader = self._generateExternalOAuthHeader(token);
+                            if (authorizationHeader instanceof Error) {
+                                cb(authorizationHeader);
+                            } else if (!authorizationHeader) {
+                                cb(new Error(&quot;error: empty auth headers returned&quot;));
+                            } else {
+                                headers.Authorization = authorizationHeader;
+                                Y.log(&quot;----------\nExternal Auth Headers:\n----------&quot;, &quot;info&quot;);
+                                Y.log(util.inspect(headers), &quot;info&quot;);
+                                cb(null, headers, token);
+                            }
+                        } else {
+                            cb(new Error(&quot;Invalid mode. Only &#x27;url&#x27; or &#x27;header&#x27; is allowed: &quot; + self.get(&quot;oauthMode&quot;)));
+                        }
+                        clearInterval(tid);
+                    }
+                }
+            }, tokenGenerateTimeout);
+        },
+
+        &#x2F;**
+         * A private function to be called for the &quot;external&quot; type.
+         * @method _generateExternalOAuthHeader
+         * @param {Function} [cb] A callback function to be called once
+         *  authrization credentials are generated.
+         * @private
+         *&#x2F;
+        _generateExternalOAuthHeader:function (token) {
+            var accessToken = token.oauthToken,
+                accessTokenSecret = token.oauthTokenSecret,
+                wsUrl,
+                wsMethod,
+                wsQueryParams,
+                orderedParameters;
+
+            wsUrl = this.get(&quot;wsUrl&quot;);
+            if (!wsUrl) {
+                return new Error(&quot;webservice url protected by the oauth should be given to generate a signature.&quot;);
+            }
+
+            wsMethod = this.get(&quot;wsMethod&quot;) || &quot;GET&quot;;
+            wsQueryParams = this.get(&quot;wsQueryParams&quot;) || null;
+
+            orderedParameters = this.oa._prepareParameters(accessToken, accessTokenSecret, wsMethod, wsUrl, wsQueryParams);
+            return this.oa._buildAuthorizationHeaders(orderedParameters);
+        },
+
+        &#x2F;**
+         * A private function to be called for the &quot;external&quot; type.
+         * @method _generateExternalOAuthToken
+         * @param {Function} [cb] A callback function to be called once
+         *  authrization credentials are generated.
+         * @private
+         *&#x2F;
+        _generateExternalOAuthToken:function (cb) {
+            var username = this.get(&quot;username&quot;),
+                password = this.get(&quot;password&quot;),
+                token = {},
+                self = this,
+
+                provider = this.get(&quot;oauthProvider&quot;) || YAHOO,
+                yAuthVersion,
+                requestAuthUrl;
+            Y.log(&quot;==========\nGenerating External Access Token\n==========&quot;, &quot;info&quot;);
+
+            &#x2F;&#x2F; get request token
+            this.oa.getOAuthRequestToken({}, function (err, oauthToken, oauthTokenSecret, results) {
+                if (!err) {
+                    if (!oauthToken || !oauthTokenSecret) {
+                        cb(new Error(&quot;invalid request token received: &quot; + oauthToken + &quot;&#x2F;&quot; + oauthTokenSecret));
+                    }
+                    &#x2F;&#x2F;console.log(&#x27;oauth_token: &#x27; + oauthToken);              &#x2F;&#x2F; log sample: qxbdyzy
+                    &#x2F;&#x2F;console.log(&#x27;oauth_token_secret: &#x27; + oauthTokenSecret); &#x2F;&#x2F; log sample: 6f2b84f9cd7829fe6a68f41f41e9868a094f5ad2
+                    &#x2F;&#x2F;console.log(&#x27;request token results: &#x27; + util.inspect(results));
+                    &#x2F;* log sample:   
+                     { oauth_expires_in: &#x27;3600&#x27;,
+                     xoauth_request_auth_url: &#x27;https:&#x2F;&#x2F;api.login.yahoo.com&#x2F;oauth&#x2F;v2&#x2F;request_auth?oauth_token=qxbdyzy&#x27;,
+                     oauth_callback_confirmed: &#x27;true&#x27;
+                     }*&#x2F;
+
+                    if (results &amp;&amp; results.xoauth_request_auth_url) {
+                        requestAuthUrl = results.xoauth_request_auth_url;
+                    } else {
+                        &#x2F;&#x2F; just in case &quot;xoauth_request_auth_url&quot; wasn&#x27;t passed.
+                        if (provider === YAHOO) {
+                            yAuthVersion = self.get(&quot;yahooAuthVersion&quot;);
+                            if (!self.get(yAuthVersion + &quot;RequestAuthUrl&quot;)) {
+                                cb(new Error(&quot;RequestAuthUrl wasn&#x27;t given for the Yahoo auth version, &quot; + self.get(&quot;yahooAuthVersion&quot;)));
+                            }
+                            requestAuthUrl = self.get(yAuthVersion + &quot;RequestAuthUrl&quot;) + oauthToken;
+                        } else {
+                            if (!self.get(&quot;RequestAuthUrl&quot;)) {
+                                cb(new Error(&quot;RequestAuthUrl wasn&#x27;t given for the &quot; + provider));
+                            }
+                            requestAuthUrl = self.get(&quot;RequestAuthUrl&quot;) + oauthToken;
+                        }
+                    }
+
+                    &#x2F;&#x2F;TODO: if this script is supposed to be used for non yahoo as well
+                    &#x2F;&#x2F; get the oauth provider name from the configuration and invoke
+                    &#x2F;&#x2F; appropriate getVerifier method per provider. 
+                    self._getVerifierForYahoo({
+                            url:requestAuthUrl,
+                            username:username,
+                            password:password
+                        },
+
+                        function (err, oauthVerifier) {
+                            if (!err) {
+                                self.oa.getOAuthAccessToken(oauthToken, oauthTokenSecret, oauthVerifier,
+
+                                    function (err, oauthToken, oauthTokenSecret, results) {
+                                        if (!err) {
+                                            &#x2F;&#x2F;console.log(&#x27;oauth_access_token: &#x27; + oauthToken);
+                                            &#x2F;&#x2F;console.log(&#x27;oauth_access_token_secret: &#x27; + oauthTokenSecret);
+                                            &#x2F;&#x2F;console.log(&#x27;access token results: &#x27; + util.inspect(results));
+                                            &#x2F;* log sample:
+                                             { oauth_expires_in: &#x27;3600&#x27;,
+                                             oauth_session_handle: &#x27;AMcaG1BaPpaE_GfkLsj95RdpciPeuywY1RV7Q3B2E7saF5Xc._4jhqB3SxduU78-&#x27;,
+                                             oauth_authorization_expires_in: &#x27;802401803&#x27;,
+                                             xoauth_yahoo_guid: &#x27;H6EBUJTPLBLSRWXUHENXOQTE44&#x27;
+                                             }*&#x2F;
+
+                                            token.oauthToken = oauthToken;
+                                            token.oauthTokenSecret = oauthTokenSecret;
+
+                                            &#x2F;&#x2F; it appears the followings(which need for the token renewal)
+                                            &#x2F;&#x2F; is not used in YQL tests.
+                                            token.oauthTokenExpires = results.oauth_expires_in;
+                                            token.oauthTokenSessionHandle = results.oauth_session_handle;
+                                            var tmp = parseInt(results.oauth_authorization_expires_in, 10);
+                                            token.oauthTokenSessionHandleExpires = (new Date()).getTime() + tmp;
+
+                                            Y.log(&quot;----------\nOAuth Access Token\n----------&quot;, &quot;info&quot;);
+                                            Y.log(token, &quot;info&quot;);
+                                            cb(null, token);
+                                        }
+                                    });
+                            } else {
+                                cb(new Error(&quot;error in getting the oauth verifier code.&quot;));
+                            }
+                        });
+
+                } else {
+                    cb(new Error(&quot;error in getting the request token.&quot;));
+                }
+            });
+        },
+
+        &#x2F;**
+         * implentation of get Verifier For Yahoo
+         * @method _getVerifierForYahoo
+         * @param options
+         * @param cb {Function}
+         * @private
+         *&#x2F;
+        _getVerifierForYahoo:function (options, cb) {
+            var reqAuthUrl = options.url,
+                username = options.username,
+                password = options.password,
+                self = this,
+
+                oauthVerifier,
+                vts,
+                vt;
+
+            if (!reqAuthUrl || !username || !password) {
+                cb(new Error(&quot;illegal araguments passed: &quot; + reqAuthUrl + &quot;&#x2F;&quot; + username + &quot;&#x2F;&quot; + password));
+            }
+
+            Y.io(reqAuthUrl, {
+                method:&#x27;GET&#x27;,
+                request:{
+                    followAllRedirects:true
+                },
+                on:{
+                    complete:function (id, response) {
+                        &#x2F;&#x2F; response page would be a login page
+                        self._submitForm(response.responseText, {
+                            css:&quot;#login_form&quot;,
+                            params:{
+                                login:username,
+                                passwd:password
+                            }
+                        }, function (err, response) {
+                            if (!err) {
+                                self._submitForm(response.responseText, {}, function (err, response) {
+                                    if (!err) {
+                                        var dom = parse(response.responseText);
+                                        vts = select(&quot;#shortCode&quot;, dom);
+                                        if (vts.length !== 1) {
+                                            cb(new Error(&quot;can&#x27;t find an element that contains oauth verifier.&quot;));
+                                        }
+                                        vt = vts[0].children;
+                                        if (vt.length !== 1) {
+                                            cb(new Error(&quot;can&#x27;t find an element that contains oauth verifier.&quot;));
+                                        }
+
+                                        oauthVerifier = vt[0].data;
+                                        Y.log(&quot;Detected OAuth Verifier: &quot; + oauthVerifier);
+                                        cb(null, oauthVerifier);
+                                    } else {
+                                        cb(new Error(&quot;error in a permission allow submit form&quot;));
+                                    }
+                                });
+                            } else {
+                                cb(new Error(&quot;error in a login using this credential: &quot; + username + &quot;&#x2F;&quot; + password));
+                            }
+                        });
+                    },
+                    failure:function (id, response) {
+                        var status = response.status,
+                            sid = parseInt(status, 10);
+
+                        if (sid &lt; 300 || sid &gt; 399) {
+                            cb(new Error(response.status + &quot;: error in visting &quot; + reqAuthUrl));
+                        }
+                    }
+                }
+            });
+        },
+        &#x2F;**
+         * @method _submitForm
+         * @param page get response and parse dom to click submit
+         * @param options
+         * @param cb {Function}
+         * @private
+         *&#x2F;
+        _submitForm:function (page, options, cb) {
+            var formCss = options.css || null,
+                formParams = options.params || {},
+                self = this,
+
+                forms,
+                form,
+                formUrl,
+                params = {},
+                inputs,
+                dom = parse(page);
+
+            if (formCss) {
+                forms = select(formCss, dom);
+            } else {
+                &#x2F;&#x2F; use the 1st form in the page
+                forms = select(&quot;form&quot;, dom);
+            }
+
+            if (forms.length === 0 || forms.length &gt; 1) {
+                cb(new Error(&quot;either no form or more than 1 form found.&quot;));
+            }
+            form = forms[0];
+
+            &#x2F;&#x2F; check the form url
+            formUrl = form.attribs.action;
+            if (formUrl.search(&#x2F;^\&#x2F;&#x2F;) === 0) {
+                formUrl = &quot;https:&#x2F;&#x2F;api.login.yahoo.com&quot; + formUrl;
+            }
+
+            &#x2F;&#x2F; prepare params. if there is user given params, add or override
+            &#x2F;&#x2F; existing input params of the form.
+
+            inputs = select(&quot;input&quot;, form);
+            &#x2F;&#x2F; extract existing ones
+            inputs.forEach(function (one) {
+                if (one.attribs) {
+                    params[one.attribs.name] = one.attribs.value;
+                }
+            });
+
+            &#x2F;&#x2F; apply the user given params
+            Y.each(formParams, function (value, key) {
+                if (!key) {
+                    cb(new Error(&quot;invalid key was passed&quot;));
+                    return;
+                }
+                params[key] = value;
+            });
+
+            &#x2F;&#x2F; submit the form
+            &#x2F;&#x2F;console.log(&quot;params for &quot;+formUrl)
+            &#x2F;&#x2F;console.log(params);
+            Y.io(formUrl, {
+                method:&quot;POST&quot;,
+                data:params,
+                request:{
+                    followAllRedirects:true
+                },
+                on:{
+                    complete:function (id, response) {
+                        &#x2F;&#x2F; TODO: check the response codes
+                        cb(null, response);
+                    },
+                    failure:function (id, response) {
+                        var status = response.status,
+                            sid = parseInt(status, 10);
+
+                        if (sid &lt; 300 || sid &gt; 399) {
+                            cb(new Error(response.status + &quot;: error in submitting a form to &quot; + formUrl));
+                        }
+                    }
+                }
+            });
+        },
+
+        &#x2F;**
+         * create a oauth client
+         * @method _createOAuthClient
+         * @return {*}
+         * @private
+         *&#x2F;
+        _createOAuthClient:function () {
+            var ckey = this.get(&quot;consumerKey&quot;),
+                csecret = this.get(&quot;consumerSecret&quot;),
+                oversion = this.get(&quot;oauthVersion&quot;) || &quot;1.0&quot;,
+                smethod = this.get(&quot;signatureMethod&quot;) || &quot;HMAC-SHA1&quot;,
+                provider = this.get(&quot;oauthProvider&quot;) || YAHOO,
+                yAuthVersion,
+                requestTokenUrl,
+                accessTokenUrl;
+
+            if (provider === YAHOO) {
+                yAuthVersion = this.get(&quot;yahooAuthVersion&quot;);
+
+                &#x2F;&#x2F; now get both request&#x2F;access urls
+                requestTokenUrl = this.get(yAuthVersion + &quot;RequestTokenUrl&quot;);
+                if (!requestTokenUrl) {
+                    throw new Error(&quot;RequestTokenUrl wasn&#x27;t given for Yahoo auth version, &quot; + this.get(&quot;yahooAuthVersion&quot;));
+                }
+
+                accessTokenUrl = this.get(yAuthVersion + &quot;AccessTokenUrl&quot;);
+                if (!accessTokenUrl) {
+                    throw new Error(&quot;AccessTokenUrl wasn&#x27;t given for Yahoo auth version, &quot; + this.get(&quot;yahooAuthVersion&quot;));
+                }
+            } else {
+                if (!this.get(&quot;RequestTokenUrl&quot;)) {
+                    throw new Error(&quot;RequestTokenUrl wasn&#x27;t given for the &quot; + provider);
+                }
+                requestTokenUrl = this.get(&quot;RequestTokenUrl&quot;);
+
+                if (!this.get(&quot;AccessTokenUrl&quot;)) {
+                    throw new Error(&quot;AccessTokenUrl wasn&#x27;t given for the &quot; + provider);
+                }
+                accessTokenUrl = this.get(&quot;AccessTokenUrl&quot;);
+            }
+
+            return new OAuth(requestTokenUrl, accessTokenUrl, ckey, csecret, oversion, undefined, smethod);
+        }
+    }, {
+        NAME:&#x27;OAuthAutomator&#x27;,
+        ATTRS:{
+            &#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;
+            &#x2F;&#x2F; oauth types(external, internal, ...)
+            &#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;
+            oauthType:{
+                value:EXTERNAL,
+                validator:&#x27;isString&#x27;
+            },
+
+            consumerKey:{
+                validator:&#x27;isString&#x27;
+            },
+
+            needUserCred:{
+                value:true,
+                validator:&#x27;isBoolean&#x27;
+            },
+
+            username:{
+                validator:&#x27;isString&#x27;
+            },
+
+            password:{
+                validator:&#x27;isString&#x27;
+            },
+
+            timeoutForTokenGeneration:{
+                value:29,
+                validator:&#x27;isNumber&#x27;
+            },
+
+            consumerSecret:{
+                validator:&#x27;isString&#x27;
+            },
+
+            &#x2F;&#x2F; The following 3 are used to sign the request
+            wsUrl:{
+                validator:&#x27;isString&#x27;,
+                getter:function (value) {
+                    return encodeURI(value);
+                }
+            },
+
+            wsMethod:{
+                value:&quot;GET&quot;,
+                validator:&#x27;isString&#x27;
+            },
+
+            wsQueryParams:{
+                validator:&#x27;isString&#x27;
+            },
+
+            externalOAuthScope:{
+                validator:&#x27;isString&#x27;
+            },
+
+            signatureMethod:{
+                value:&quot;HMAC-SHA1&quot;,
+                validator:&#x27;isString&#x27;
+            },
+
+            &#x2F;&#x2F; YAHOO
+            &#x2F;&#x2F; yahoo internal version (both v1&#x2F;v2 use oauthVersion=&quot;1.0&quot;)
+            yahooAuthVersion:{
+                value:&quot;v2&quot;,
+                validator:&#x27;isString&#x27;
+            },
+
+            &#x2F;&#x2F; sort of private, use oauthServer attribute to control this.
+            v1RequestTokenUrl:{
+                value:&quot;https:&#x2F;&#x2F;api.login.yahoo.com&#x2F;OAuth&#x2F;V1&#x2F;get_request_token&quot;,
+                validator:&#x27;isString&#x27;,
+                getter:function (value) {
+                    if (this.get(&quot;oauthServer&quot;)) {
+                        return &quot;https:&#x2F;&#x2F;&quot; + this.get(&quot;oauthServer&quot;) + &quot;&#x2F;OAuth&#x2F;V1&#x2F;get_request_token&quot;;
+                    } else {
+                        return value;
+                    }
+                }
+            },
+
+            &#x2F;&#x2F; sort of private, use oauthServer attribute to control this.
+            v2RequestTokenUrl:{
+                value:&quot;https:&#x2F;&#x2F;api.login.yahoo.com&#x2F;oauth&#x2F;v2&#x2F;get_request_token&quot;,
+                validator:&#x27;isString&#x27;,
+                getter:function (value) {
+                    if (this.get(&quot;oauthServer&quot;)) {
+                        return &quot;https:&#x2F;&#x2F;&quot; + this.get(&quot;oauthServer&quot;) + &quot;&#x2F;oauth&#x2F;v2&#x2F;get_request_token&quot;;
+                    } else {
+                        return value;
+                    }
+                }
+            },
+
+            &#x2F;&#x2F; sort of private, use oauthServer attribute to control this.
+            v1AccessTokenUrl:{
+                value:&quot;https:&#x2F;&#x2F;api.login.yahoo.com&#x2F;OAuth&#x2F;V1&#x2F;get_access_token&quot;,
+                validator:&#x27;isString&#x27;,
+                getter:function (value) {
+                    if (this.get(&quot;oauthServer&quot;)) {
+                        return &quot;https:&#x2F;&#x2F;&quot; + this.get(&quot;oauthServer&quot;) + &quot;&#x2F;OAuth&#x2F;V1&#x2F;get_access_token&quot;;
+                    } else {
+                        return value;
+                    }
+                }
+            },
+
+            &#x2F;&#x2F; sort of private, use oauthServer attribute to control this.
+            v2AccessTokenUrl:{
+                value:&quot;https:&#x2F;&#x2F;api.login.yahoo.com&#x2F;oauth&#x2F;v2&#x2F;get_token&quot;,
+                validator:&#x27;isString&#x27;,
+                getter:function (value) {
+                    if (this.get(&quot;oauthServer&quot;)) {
+                        return &quot;https:&#x2F;&#x2F;&quot; + this.get(&quot;oauthServer&quot;) + &quot;&#x2F;oauth&#x2F;v2&#x2F;get_token&quot;;
+                    } else {
+                        return value;
+                    }
+                }
+            },
+
+            &#x2F;&#x2F; sort of private, use oauthServer attribute to control this.
+            v1RequestAuthUrl:{
+                value:&quot;https:&#x2F;&#x2F;api.login.yahoo.com&#x2F;OAuth&#x2F;V1&#x2F;request_auth?oauth_token=&quot;,
+                validator:&#x27;isString&#x27;,
+                getter:function (value) {
+                    if (this.get(&quot;oauthServer&quot;)) {
+                        return &quot;https:&#x2F;&#x2F;&quot; + this.get(&quot;oauthServer&quot;) + &quot;&#x2F;OAuth&#x2F;V1&#x2F;request_auth?oauth_token=&quot;;
+                    } else {
+                        return value;
+                    }
+                }
+            },
+
+            &#x2F;&#x2F; sort of private, use oauthServer attribute to control this.
+            v2RequestAuthUrl:{
+                value:&quot;https:&#x2F;&#x2F;api.login.yahoo.com&#x2F;oauth&#x2F;v2&#x2F;request_auth?oauth_token=&quot;,
+                validator:&#x27;isString&#x27;,
+                getter:function (value) {
+                    if (this.get(&quot;oauthServer&quot;)) {
+                        return &quot;https:&#x2F;&#x2F;&quot; + this.get(&quot;oauthServer&quot;) + &quot;&#x2F;oauth&#x2F;v2&#x2F;request_auth?oauth_token=&quot;;
+                    } else {
+                        return value;
+                    }
+                }
+            },
+
+            &#x2F;&#x2F; only headers are supported at the moment.
+            oauthMode:{
+                value:OAUTH_MODE_HEADER,
+                validator:&#x27;isString&#x27;
+            },
+
+            &#x2F;&#x2F; open source version
+            oauthVersion:{
+                value:&quot;1.0&quot;,
+                validator:&#x27;isString&#x27;
+            },
+
+            oauthProvider:{
+                value:YAHOO,
+                validator:&#x27;isString&#x27;
+            },
+
+            appId:{
+                value:&quot;&quot;,
+                validator:&#x27;isString&#x27;
+            }
+        }
+    });
+
+    &#x2F;*
+     * The &#x27;OAuthAutomator&#x27; class is attached to Y instance.
+     *&#x2F;
+    Y.Arrow.OAuthAutomator = OAuthAutomator;
+
+}, &#x27;0.0.2&#x27;, {
+    requires:[&#x27;base&#x27;, &#x27;io-base&#x27;]
+});
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="..&#x2F;assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="..&#x2F;assets/js/yui-prettify.js"></script>
+<script src="..&#x2F;assets/../api.js"></script>
+<script src="..&#x2F;assets/js/api-filter.js"></script>
+<script src="..&#x2F;assets/js/api-list.js"></script>
+<script src="..&#x2F;assets/js/api-search.js"></script>
+<script src="..&#x2F;assets/js/apidocs.js"></script>
+</body>
+</html>

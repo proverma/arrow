@@ -3,10 +3,10 @@
 /*
  * Copyright (c) 2012 Yahoo! Inc.  All rights reserved.
  */
-require('yui').YUI({modules: {
-    "oauth-automator": {
-        fullpath: __dirname+"/../../../../../../sharelib/lib/server/oauth-automator.js",
-        requires: ['base', 'io-base']
+require('yui').YUI({modules:{
+    "oauth-automator":{
+        fullpath:__dirname + "/../../../../../../sharelib/lib/server/oauth-automator.js",
+        requires:['base', 'io-base']
     }
 }}).use('oauth-automator');
 
@@ -17,10 +17,6 @@ YUI.add('oauth-automator-functional-tests', function (Y, NAME) {
         parser = new xml2js.Parser(),
         config = path.join(__dirname, "../../../data/config.json"),
         config2 = path.join(__dirname, "../../../data/config2.json");
-    // Use the following line if stl-oauth module is installed which is true
-    // for real test project.
-    // Y = require("stl-oauth").module();
-
 
     var testExternalOauthFunctional = new Y.Test.Case({
         name:'External OAuth functionnal Tests',
@@ -52,7 +48,6 @@ YUI.add('oauth-automator-functional-tests', function (Y, NAME) {
                     }
                 };
 
-
             console.log("###########: OAuth Started");
             this.oauth.generateOAuth(attrs, function (err, headers) {
                 console.log("###########: OAuth Resumed.");
@@ -60,7 +55,7 @@ YUI.add('oauth-automator-functional-tests', function (Y, NAME) {
                     Y.Assert.fail(err.toString());
                 }
                 self.resume(function () {
-                  Y.io(encodeURI(url), {
+                    Y.io(encodeURI(url), {
                         method:method,
                         headers:headers,
                         on:{
@@ -144,5 +139,5 @@ YUI.add('oauth-automator-functional-tests', function (Y, NAME) {
     Y.Test.Runner.add(testExternalOauthFunctional);
 
 }, '0.0.1', {
-    requires:['test', 'io-base','io-nodejs', 'oauth-automator']
+    requires:['test', 'io-base', 'io-nodejs', 'oauth-automator']
 });
