@@ -12,12 +12,6 @@
  *
  * @module oauth-automator
  *
- * Generate authorization credentials which will be passed to the user
- * given callback function. If the 'authType' was set to "header", the
- * callback function will be invoked with a 'headers' object. User will
- * use the auth headers when they request URIs that are protected by
- * OAuth.
- *
  * @example
  *
  * var url = "http://..."; // test url protected by oauth
@@ -53,6 +47,12 @@
  *   oauthVersion - "1.0"(default)
  *   oauthProvider - "yahoo"(default)
  *
+ * this helper Generate authorization credentials which will be passed to the user
+ * given callback function. If the 'authType' was set to "header", the
+ * callback function will be invoked with a 'headers' object. User will
+ * use the auth headers when they request URIs that are protected by
+ * OAuth.
+ *
  */
 
 YUI.add('oauth-automator', function (Y, NAME) {
@@ -61,17 +61,15 @@ YUI.add('oauth-automator', function (Y, NAME) {
     Y.namespace("Arrow");
 
     if (!Y._userCookies) {
-        /**
-         * example:
-         * {
-         *    username: {
-         *        cookies: {
-         *            "name": "value"
-         *        },
-         *        scrumb: "...",
-         *    }
-         * }
-         */
+         /* example:
+          {
+             username: {
+                 cookies: {
+                     "name": "value"
+                },
+                 scrumb: "...",
+             }
+          }*/
         Y._userCookies = {};
     }
 
@@ -227,7 +225,10 @@ YUI.add('oauth-automator', function (Y, NAME) {
          * Ext{externalOAuthScope}ConsumerKey
          * Ext{externalOAuthScope}ConsumerSecret
          * Ext{externalOAuthScope}ConsumerAppId
+         * @method _handleExternalScopeGiven
+         * @private
          */
+
         _handleExternalScopeGiven:function () {
             var base = "Ext" + this.get("externalOAuthScope"),
                 bck = this.get(base + "ConsumerKey"),
@@ -252,6 +253,8 @@ YUI.add('oauth-automator', function (Y, NAME) {
         /**
          * Use this method to clear mess from the prior generateOAuth() method.
          * It is called in the beginning of generateOAuth() method.
+         *  @method _clear
+         *  @private
          */
         _clear:function () {
         },
@@ -585,6 +588,13 @@ YUI.add('oauth-automator', function (Y, NAME) {
             });
         },
 
+        /**
+         * implentation of get Verifier For Yahoo
+         * @method _getVerifierForYahoo
+         * @param options
+         * @param cb {Function}
+         * @private
+         */
         _getVerifierForYahoo:function (options, cb) {
             var reqAuthUrl = options.url,
                 username = options.username,
@@ -650,7 +660,13 @@ YUI.add('oauth-automator', function (Y, NAME) {
                 }
             });
         },
-
+        /**
+         * @method _submitForm
+         * @param page get response and parse dom to click submit
+         * @param options
+         * @param cb {Function}
+         * @private
+         */
         _submitForm:function (page, options, cb) {
             var formCss = options.css || null,
                 formParams = options.params || {},
@@ -727,6 +743,12 @@ YUI.add('oauth-automator', function (Y, NAME) {
             });
         },
 
+        /**
+         * create a oauth client
+         * @method _createOAuthClient
+         * @return {*}
+         * @private
+         */
         _createOAuthClient:function () {
             var ckey = this.get("consumerKey"),
                 csecret = this.get("consumerSecret"),
@@ -936,7 +958,7 @@ YUI.add('oauth-automator', function (Y, NAME) {
         }
     });
 
-    /**
+    /*
      * The 'OAuthAutomator' class is attached to Y instance.
      */
     Y.Arrow.OAuthAutomator = OAuthAutomator;
