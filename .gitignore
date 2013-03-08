@@ -8,6 +8,11 @@ lib/.DS_Store
 results.xml
 report.*
 coverage
+npm-debug.log
+tmp/arrow_server.status
+tmp/*.js
+tmp/*.json
 tests/functional/report.xml
 tests/functional/data/arrow-test/*-report.xml
 tests/functional/data/arrow-test/*-report.html
+tests/functional/data/actual_op/*.txt

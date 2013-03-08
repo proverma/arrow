@@ -136,6 +136,13 @@ Now let's take a look at what the *Test Descriptor* would look like.
 
 The *Test Descriptor* includes all of the information the controller will need; all under the **params** node
 
+**Note**: if the controller directory is scanned by ``--shareLibPath``, you can use package_name.controller_name in **controller** node, as below:
+
+::
+
+  "controller": "FinanceCustomController.finance-controller"
+
+
 How To Execute
 ..............
 
