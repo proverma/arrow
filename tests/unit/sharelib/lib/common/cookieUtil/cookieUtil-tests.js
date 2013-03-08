@@ -5,18 +5,26 @@
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
-YUI_config = {
-    groups:{
-        "sharelib":{
-            modules:{
-                "cookieUtil":{
-                    fullpath:__dirname + "/../../../../../../sharelib/lib/common/cookieUtil.js",
-                    requires:[]
-                }
-            }
-        }
+//YUI_config = {
+//    groups:{
+//        "sharelib":{
+//            modules:{
+//                "cookieUtil":{
+//                    fullpath:__dirname + "/../../../../../../sharelib/lib/common/cookieUtil.js",
+//                    requires:[]
+//                }
+//            }
+//        }
+//    }
+//}
+
+require('yui').YUI({modules:{
+    "cookieUtil":{
+        fullpath:__dirname + "/../../../../../../sharelib/lib/common/cookieUtil.js",
+        requires:['base']
     }
-}
+}}).use('cookieUtil');
+
 YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
 
     var cookies, cookieUtil = new Y.Arrow.CookieUtil({});
@@ -960,10 +968,10 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
             });
         },
         "test CookieUtil: invalid config: config is blank":function () {
-            var cookieUtilSample = new CookieUtil({}), error;
-            cookieUtilSample = new CookieUtil({});
+            var cookieUtilSample = new Y.Arrow.CookieUtil({}), error;
+            cookieUtilSample = new Y.Arrow.CookieUtil({});
             try {
-                cookieUtilSample = new CookieUtil();
+                cookieUtilSample = new Y.Arrow.CookieUtil();
             } catch (thrown) {
                 error = thrown.message;
             }
@@ -972,22 +980,22 @@ YUI.add('cookieUtil-unit-tests', function (Y, NAME) {
         "test CookieUtil: invalid config: config is not object":function () {
             var error, cookieUtilSample;
             try {
-                cookieUtilSample = new CookieUtil("name");
+                cookieUtilSample = new Y.Arrow.CookieUtil("name");
             } catch (thrown) {
                 error = thrown.message;
+                Y.Assert.isTrue(true);
             }
-            Y.Assert.areEqual(messageconfig.INVALID_CONFIG, error);
             try {
-                cookieUtilSample = new CookieUtil(5);
+                cookieUtilSample = new Y.Arrow.CookieUtil(5);
             } catch (thrown1) {
                 error = thrown1.message;
+                Y.Assert.isTrue(true);
             }
-            Y.Assert.areEqual(messageconfig.INVALID_CONFIG, error);
         },
         "test CookieUtil: invalid config: config is undefined":function () {
             var tmpconfig, error, cookieUtilSample;
             try {
-                cookieUtilSample = new CookieUtil(tmpconfig);
+                cookieUtilSample = new Y.Arrow.CookieUtil(tmpconfig);
             } catch (thrown) {
                 error = thrown.message;
             }

@@ -146,6 +146,21 @@ YUI.add('cookieUtil', function (Y) {
             return space;
         },
         /**
+         * whether this is run on the server side
+         * @method _isServer
+         * @return {Boolean}  return true if it is server side, otherwise it is client side
+         * @private
+         */
+        _isServer:function () {
+            if (typeof process === 'object') {
+                if (process.versions && process.versions.node) {
+                    return true;
+                }
+            } else {
+                return false;
+            }
+        },
+        /**
          * generate a customized cookie for the user
          * @method createCustCookie
          * @example
@@ -277,7 +292,7 @@ YUI.add('cookieUtil', function (Y) {
                 return false;
             }
             var semiColon = field.search(this._getSemicolon()), comma = field.search(this._getComma()), space = field.search(this._getSpace());
-             // check isString first, else it will fail when user input name like  number 1
+            // check isString first, else it will fail when user input name like  number 1
             if ((semiColon !== -1) || (comma !== -1) || (space !== -1)) {
                 console.log("'" + field + "' Error field, each field should be string and doesn't contain ; or , or space.", "error");
                 return false;
@@ -526,7 +541,7 @@ YUI.add('cookieUtil', function (Y) {
             var cookieValue = value, self = this;
 
             //this is the client side
-            if (!_isServer()) {
+            if (!self._isServer()) {
                 var n = value.indexOf(";");
                 cookieValue = value.slice(0, n);
             }
@@ -536,7 +551,7 @@ YUI.add('cookieUtil', function (Y) {
                     if (!err) {
                         cb(new Error(ERRORMSG.EXISTING_COOKIE + name));
                     } else {
-                        if (_isServer()) {
+                        if (self._isServer()) {
                             cb(null, cookiejar + "; " + name + "=" + value);
                         } else {
                             window.document.cookie = name + "=" + value;
@@ -563,7 +578,7 @@ YUI.add('cookieUtil', function (Y) {
             }
 
             //this is the client side
-            if (!_isServer()) {
+            if (!self._isServer()) {
                 var n = value.indexOf(";");
                 cookieValue = value.slice(0, n);
             }
@@ -575,7 +590,7 @@ YUI.add('cookieUtil', function (Y) {
                     if (!err) {
                         var newCookiejar = cookiejar;
                         for (var i = 0; i < cookieArray.length; i++) {
-                            if (_isServer()) {
+                            if (self._isServer()) {
                                 newCookiejar = cookiejar.replace(cookieArray[i], name + "=" + value);
                                 cookiejar = newCookiejar;
                             } else {
@@ -608,7 +623,7 @@ YUI.add('cookieUtil', function (Y) {
                 if (!err) {
                     for (var i = 0; i < cookieArray.length; i++) {
                         var cookieString = cookieArray[i];
-                        if (_isServer()) {
+                        if (self._isServer()) {
                             cookiejar = cookiejar.trim();
                             var newCookiejar = cookiejar.replace(cookieString, "");
                             newCookiejar = newCookiejar.trim();
@@ -751,7 +766,7 @@ YUI.add('cookieUtil', function (Y) {
             if (Y.Lang.isUndefined(cookiejar) || cookiejar === null || cookiejar.length === 0) {
                 console.log("cookiejar is undefined, did not set cookie to header");
                 cb(new Error(ERRORMSG.INVALID_COOKIEJAR));
-            } else if (!_isServer()) {
+            } else if (!this._isServer()) {
                 // if this is client side
                 window.document.cookie = cookiejar;
                 cb(null);
@@ -816,24 +831,9 @@ YUI.add('cookieUtil', function (Y) {
                 }
             }
 
-        },
-        /**
-         * whether this is run on the server side
-         * @method _isServer
-         * @return {Boolean}  return true if it is server side, otherwise it is client side
-         * @private
-         */
-        _isServer:function () {
-            if (typeof process === 'object') {
-                if (process.versions && process.versions.node) {
-                    return true;
-                }
-            } else {
-                return false;
-            }
         }
     });
 
     Y.Arrow.CookieUtil = CookieUtil;
 
-}, "0.1", { requires:[]});
+}, "0.1", { requires:['base']});
