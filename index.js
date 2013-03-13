@@ -33,7 +33,7 @@ var knownOpts = {
         "browser": [String, null],
         "lib": [String, null],
         "shareLibPath": [String, null],
-        "enableShareLibYUiLoader":Boolean,
+        "enableShareLibYUILoader":Boolean,
         "page": [String, null],
         "driver": [String, null],
         "controller": [String, null],
