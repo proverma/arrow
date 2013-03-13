@@ -33,6 +33,7 @@ var knownOpts = {
         "browser": [String, null],
         "lib": [String, null],
         "shareLibPath": [String, null],
+        "enableShareLibYUiLoader":Boolean,
         "page": [String, null],
         "driver": [String, null],
         "controller": [String, null],
@@ -212,10 +213,10 @@ global.color = config.color;
 
 
 // scan libraries
-if (config.scanShareLibPath !== undefined || argv.shareLibPath !== undefined)
+if (config.shareLibPath !== undefined)
 {
     var libScanner = require('./lib/util/sharelibscanner');
-    new libScanner().genSeedFile(argv.shareLibPath, startArrow);
+    new libScanner(config).genSeedFile(config.shareLibPath, startArrow);
 } else {
     startArrow();
 }

@@ -643,12 +643,24 @@ If installed more than one share lib packages globally, like martini_testlib2, w
 
   "controller": "martini_testlib1.my-test-controller"
 
-**Note:** if want to let ``--shareLibPath`` to scan some directory other than martini_xxx, you can configure
+**Note:**
+1. if want to let ``--shareLibPath`` to scan some directory other than martini_xxx, you can configure
  it on */path/to/arrow/install/path/config/config.js*, for example, to scan dev_xxx directory, you can configure it as below:
 
 ::
 
   config.scanShareLibPrefix = ["martini_", "dev_"];
+
+2.Another config is config.scanShareLibRecursive , if set to false, arrow will only scan top level folders for the given prefix and given scan path,Otherwise it will scan recursively with the given path.
+
+3.And the next config: config.enableShareLibYUILoader ,this is important configuration,
+ By default false ,arrow will inject all necessary share lib source code into test cases .
+ If true, arrow will generate and inject YUI group/modules info and let YUI loader to load modules.To ensure YUI loader to get these modules,arrow will auto detect if arrow server is running and will restart it for YUI loader if not.
+ The reason we need this switch is because in yahoo network lot of time lab manager windows VM's don't have access to any non-80 port of hudson slaves.In those scenarios, YUI config would be a blocker and YUI loader wont work.So if you can make sure the pages
+ you are testing have access to your host where arrow server runs, you can make enableShareLibYUILoader true to improve performance.
+
+ ::
+ arrow test-unit.js --shareLibPath=/usr/local/lib/node_modules/ --enableShareLibYUILoader=true
 
 Parallelism
 -----------
