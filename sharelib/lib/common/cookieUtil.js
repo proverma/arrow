@@ -802,4 +802,4 @@ CookieUtil.prototype = {
     };
     Y.Arrow.CookieUtil=CookieUtil;
 
-}, "0.1", { requires:["martini-test-function-common"]});
+}, "0.1", { requires:[]});

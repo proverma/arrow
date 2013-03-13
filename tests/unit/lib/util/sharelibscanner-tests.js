@@ -166,7 +166,11 @@ YUI.add('sharelibscanner-tests', function (Y) {
                                 && data.indexOf("mymartini.common.js") != -1);
 
                            var libs=sharelibScanner.getShareLibSrcByPath('test-martini-lib-client','client');
-                            Y.Assert.isTrue(libs.length>0);
+                            console.log(libs);
+                            Y.Assert.isFalse(libs==null);
+
+                            Y.Assert.isTrue(sharelibScanner.getShareLibSrcByPath(__dirname+'/sharelibtestdata/martini_lib/lib/client/mymartini.client.js','client')!=null);
+                            
                         });
                     });
                     self.wait(1000);
