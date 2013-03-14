@@ -57,7 +57,7 @@ if (parsed["host"]) {
 }
 if (!arrowHost || arrowHost === "localhost") {
     var servermanager=require("../lib/util/arrowservermanager");
-    arrowHost = servermanager.getProperIPAddressForArrowServer() || "localhost" ;
+    arrowHost = servermanager.getLocalhostIPAddress() || "localhost" ;
 }
 
 if (parsed["port"]) {
@@ -126,6 +126,21 @@ function cleanUp() {
 app.get("/arrow", function (req, res) {
     serveStatic(__dirname + "/../lib/client/driver.html", req, res);
 });
+
+// for yui loader check
+app.all('/yuiLoader', function(req, res){
+
+    res.writeHead(200, {"Content-Type":"text/plain",
+        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Max-Age':'600',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+        'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+        'Access-Control-Expose-Headers': 'Content-Length',
+        'Access-Control-Allow-Credentials': 'true'
+    });
+    res.end("yuiLoaderOK");
+});
+
 app.get("/arrow/static/*", function (req, res) {
     serveStatic("/" + req.params[0], req, res);
 });

@@ -157,20 +157,20 @@ YUI.add('sharelibscanner-tests', function (Y) {
                             assertFileExsit(list);
                             assertFileContentExsit();
 
-                            var data=sharelibScanner.getShareLibClientSideModulesMeta();
+                            var data=sharelibScanner.scannerUtil.getShareLibClientSideModulesMeta();
                             Y.Assert.isTrue(data.indexOf("mymartini.client.js") != -1
                                 && data.indexOf("mymartini.common.js") != -1);
 
-                            data=sharelibScanner.getShareLibServerSideModulesMeta();
+                            data=sharelibScanner.scannerUtil.getShareLibServerSideModulesMeta();
                             Y.Assert.isTrue(data.indexOf("mymartini.server.js") != -1
                                 && data.indexOf("mymartini.common.js") != -1);
 
-                           var libs=sharelibScanner.getShareLibSrcByPath('test-martini-lib-client','client');
+                           var libs=sharelibScanner.scannerUtil.getShareLibSrcByPath('test-martini-lib-client','client');
                             console.log(libs);
                             Y.Assert.isFalse(libs==null);
 
-                            Y.Assert.isTrue(sharelibScanner.getShareLibSrcByPath(__dirname+'/sharelibtestdata/martini_lib/lib/client/mymartini.client.js','client')!=null);
-                            
+                            Y.Assert.isTrue(sharelibScanner.scannerUtil.getShareLibSrcByPath(__dirname+'/sharelibtestdata/martini_lib/lib/client/mymartini.client.js','client')!=null);
+
                         });
                     });
                     self.wait(1000);
