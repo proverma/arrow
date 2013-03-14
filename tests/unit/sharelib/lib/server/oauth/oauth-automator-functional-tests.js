@@ -21,6 +21,13 @@ YUI.add('oauth-automator-functional-tests', function (Y, NAME) {
     var testExternalOauthFunctional = new Y.Test.Case({
         name:'External OAuth functionnal Tests',
 
+        _should: {
+            ignore: {
+                "test external 3 legged oauth": true, //ignore this test
+                "test external 3 legged oauth2": true
+            }
+        },
+
         setUp:function () {
             this.oauth = new Y.Arrow.OAuthAutomator({configPath:config});
         },

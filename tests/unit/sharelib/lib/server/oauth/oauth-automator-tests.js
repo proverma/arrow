@@ -21,6 +21,17 @@ YUI.add('oauth-automator-tests', function (Y, NAME) {
     var testExternalOauthUnit = new Y.Test.Case({
         name:'OAuth Automator Unit Tests',
 
+        _should: {
+            ignore: {
+                "test invaild attr and cb": true, //ignore this test
+                "test external 3 legged oauth": true,
+                "test external 2 legged oauth": true,
+                "test external 2 legged oauth with no-yahoo cert": true,
+                "test external 3 legged oauth with wrong pass": true,
+                "test errer branch for generate oauth": true
+            }
+        },
+
         "test invaild attr and cb":function () {
             var self = this;
             var oauth;
