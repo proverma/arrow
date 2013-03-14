@@ -235,3 +235,15 @@ if [ $? != 0 ]; then
 	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
+
+echo "TEST26: "
+# for scan lib test with enable ShareLib YUI Loader
+# this will auto start arrow server
+# --browser=chrome --driver=selenium
+CMD=`$ARROWCI ./data/arrow_test/sharelib-test-unit-no-lib.js --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/  --enableShareLibYUILoader=true --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json | tail -2 | head -1 >./data/actual_op/test26.txt`
+if [ $? != 0 ]; then
+{
+    echo "ERROR!"
+	echo "CMD: $CMD"
+	echo "RESULT: $RESULT"
+} fi

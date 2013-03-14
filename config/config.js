@@ -25,15 +25,20 @@ config.testRunner = config.arrowModuleRoot + "lib/client/yuitest-runner.js";
 config.autolib = config.arrowModuleRoot + "lib/common";
 
 // config for share lib
-config.scanShareLibPath = [];     // Arrow will scan all given path for share lib. Example: [config.arrowModuleRoot + "../"]
+
+config.shareLibPath = [];     // Arrow will scan all given path for share lib. Example: [config.arrowModuleRoot + "../"]
                                   // You can modify this to add multiple share lib path.
 config.scanShareLibPrefix = [];    // Arrow will only scan share lib with given prefix "martini_" if configured as ["martini_"]
                                   // Or it will scan all folders for share lib under given path if it is empty : []
                                   // You can modify this to add multiple prefix.
 config.scanShareLibRecursive = true;     // Only scan top level folders for the given prefix and given scan path if false,
                                          // Otherwise it will scan recursively with the given path.
-config.serverConfigName = "server_seed.js";
-config.clientConfigName = "client_seed.js";
+config.enableShareLibYUILoader = false;    // Default false , inject all necessary share lib source code into test cases .
+                                           // If true, generate and inject YUI group/modules info and let YUI loader to load modules.
+                                           // the reason we need this is because in yahoo network lot of time
+                                           // lab manager windows VM's don't have access to any non-80 port of hudson slaves.
+                                           // In those scenarios, YUI config would be a blocker and YUI loader wont work.
+
 
 config.descriptorName = "test_descriptor.json";
 config.minPort = 10000;
