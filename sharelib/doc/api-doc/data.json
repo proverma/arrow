@@ -1,0 +1,973 @@
+{
+    "project": {
+        "name": "share lib doc generate config",
+        "description": "cd arrow/sharelib && yuidoc . -c doc/yuidoc.json",
+        "version": "3.6.0",
+        "url": "http://yuilibrary.com/"
+    },
+    "files": {
+        "lib/common/cookieUtil.js": {
+            "name": "lib/common/cookieUtil.js",
+            "modules": {
+                "cookieUtil": 1
+            },
+            "classes": {
+                "CookieUtil": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib/server/oauth-automator.js": {
+            "name": "lib/server/oauth-automator.js",
+            "modules": {
+                "oauth-automator": 1
+            },
+            "classes": {
+                "OAuthAutomator": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "cookieUtil": {
+            "name": "cookieUtil",
+            "submodules": {},
+            "classes": {
+                "CookieUtil": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "lib/common/cookieUtil.js",
+            "line": 47
+        },
+        "oauth-automator": {
+            "name": "oauth-automator",
+            "submodules": {},
+            "classes": {
+                "OAuthAutomator": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "lib/server/oauth-automator.js",
+            "line": 91,
+            "description": "Yahoo OAuth (1.0A) test automation helper module.",
+            "example": [
+                "\n\nvar url = \"http://...\"; // test url protected by oauth\nvar oauth = new Y.OAuthAutomator(\"/path/to/oauth-configuration.json\");\noauth.generateOAuth(function (err, headers) {\n    if (!err) {\n        // user headers object which contains auth credentials.\n        Y.io(url, {\n             method: 'POST',\n             headers: headers,\n             on: {\n                 complete: function (id, response) {\n                     // validate response\n                 }\n             }\n         }\n    }\n}\n\nAttributes for external type of generateOAuth() :\n  oauthType - \"external\"(default). Keep \"internal\" for Yahoo! internal use\n  needUserCred(boolean) - true(default)\n  password - Required if needUserCred is true\n  username - Required if needUserCred is true\n  consumerKey - (Required)\n  consumerSecret - (Required)\n  wsUrl - (Required)\n  wsMethod - \"GET\"(default)\n  wsQueryParams\n  externalOAuthScope\n  signatureMethod - \"HMAC-SHA1\"(default)\n  oauthMode - \"header\"(default) Only default is supported as of now.\n  oauthVersion - \"1.0\"(default)\n  oauthProvider - \"yahoo\"(default)\n\nthis helper Generate authorization credentials which will be passed to the user\ngiven callback function. If the 'authType' was set to \"header\", the\ncallback function will be invoked with a 'headers' object. User will\nuse the auth headers when they request URIs that are protected by\nOAuth.\n"
+            ]
+        }
+    },
+    "classes": {
+        "CookieUtil": {
+            "name": "CookieUtil",
+            "shortname": "CookieUtil",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "cookieUtil",
+            "namespace": "",
+            "file": "lib/common/cookieUtil.js",
+            "line": 47,
+            "description": "CookieUtil class,Yahoo Cookie test helper module, and it could be use in both browser and node.js",
+            "is_constructor": 1
+        },
+        "OAuthAutomator": {
+            "name": "OAuthAutomator",
+            "shortname": "OAuthAutomator",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "oauth-automator",
+            "namespace": "",
+            "file": "lib/server/oauth-automator.js",
+            "line": 91,
+            "description": "OAuthAutomator class.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "config",
+                    "description": "[config] A confihuration object.\n If a string type is given, it should be the path of the configuration\n file(json) otherwise should an object with configuration elements.\n\n Valid configuration object properties:",
+                    "type": "String | Object",
+                    "props": [
+                        {
+                            "name": "configPath",
+                            "description": "A file path of configuration\n         file. If all configurations are contained in the file, the file\n         path can be directly passed to this constructor instead of placing\n         it to this configuation object. If the same property is also\n         given in this configuration object, the one in the file will be\n         overriden.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "timeoutForTokenGeneration",
+                            "description": "29(default)",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "wsUrl",
+                            "description": "",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "wsMethod",
+                            "description": "\"GET\"(default)",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "wsQueryParams",
+                            "description": "",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "signatureMethod",
+                            "description": "\"HMAC-SHA1\"(default)",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "oauthProvider",
+                            "description": "\"yahoo\"(default)",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "yahooAuthVersion",
+                            "description": "\"v1\" or \"v2\"(default)",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "oauthType",
+                            "description": "\"external\"(default),\n         keep \"internal\" for Yahoo! internal use.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "externalOAuthScope",
+                            "description": "Used to specify external\n         OAuth scope.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "oauthServer",
+                            "description": "An OAuth provider URL",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "oauthVersion",
+                            "description": "Either \"1.0\" or \"1.1\". Default\n         is \"1.0\".",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "oauthMode",
+                            "description": "Only \"header\"(default) is\n         available. The \"url\" is broken.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "consumerKey",
+                            "description": "OAuth consumer key",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "consumerSecret",
+                            "description": "OAuth consumer secret",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "appId",
+                            "description": "OAuth application id.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "ExtAllConsumerKey",
+                            "description": "This is an example property\n         name for the \"external\" type when \"externalOAuthScope\" is given\n         and its value is \"All\". Ext+\"{externalOAuthScope}\"Consumer[AppId |\n         Key | Secret] will be used for the given external scope.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "ExtAllConsumerSecret",
+                            "description": "This is an example property\n         name for the \"external\" type when \"externalOAuthScope\" is given\n         and its value is \"All\". Ext+\"{externalOAuthScope}\"Consumer[AppId |\n         Key | Secret] will be used for the given external scope.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "ExtAllConsumerAppId",
+                            "description": "This is an example property\n         name for the \"external\" type when \"externalOAuthScope\" is given\n         and its value is \"All\". Ext+\"{externalOAuthScope}\"Consumer[AppId |\n         Key | Secret] will be used for the given external scope.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "needUserCred",
+                            "description": "true(default) or false.\n         If true, 3-legged protocol will be used.",
+                            "type": "Boolean",
+                            "optional": true
+                        },
+                        {
+                            "name": "username",
+                            "description": "Username. Required if needUserCred\n         is set to \"true\".",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "password",
+                            "description": "Password. Required if needUserCred\n         is set to \"true\".",
+                            "type": "String",
+                            "optional": true
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "classitems": [
+        {
+            "file": "lib/common/cookieUtil.js",
+            "line": 58,
+            "description": "Init lifecycle implementation.",
+            "itemtype": "method",
+            "name": "initializer",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "Configuration object.",
+                    "type": "Object"
+                }
+            ],
+            "access": "protected",
+            "tagname": "",
+            "class": "CookieUtil",
+            "module": "cookieUtil"
+        },
+        {
+            "file": "lib/common/cookieUtil.js",
+            "line": 73,
+            "description": "to get separator in cookie value,\nif it is not urlEncode, return &\nif it is urlEncode, return %26",
+            "itemtype": "method",
+            "name": "_getSeparator",
+            "return": {
+                "description": "'=' or '%26'",
+                "type": "String"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "CookieUtil",
+            "module": "cookieUtil"
+        },
+        {
+            "file": "lib/common/cookieUtil.js",
+            "line": 88,
+            "description": "to get equal char in cookie,\nif it is not urlEncode, return =\nif it is urlEncode, return %3D",
+            "itemtype": "method",
+            "name": "_getEqualChar",
+            "return": {
+                "description": "'=' or '%3D'",
+                "type": "String"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "CookieUtil",
+            "module": "cookieUtil"
+        },
+        {
+            "file": "lib/common/cookieUtil.js",
+            "line": 103,
+            "description": "to get semi colon,\nif it is not urlEncode, return ;\nif it is urlEncode, return %3B",
+            "itemtype": "method",
+            "name": "_getSemicolon",
+            "return": {
+                "description": "';' or '%3B'",
+                "type": "String"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "CookieUtil",
+            "module": "cookieUtil"
+        },
+        {
+            "file": "lib/common/cookieUtil.js",
+            "line": 118,
+            "description": "to get comma,\nif it is not urlEncode, return ,\nif it is urlEncode, return %2C",
+            "itemtype": "method",
+            "name": "_getComma",
+            "return": {
+                "description": "',' or '%2C'",
+                "type": "String"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "CookieUtil",
+            "module": "cookieUtil"
+        },
+        {
+            "file": "lib/common/cookieUtil.js",
+            "line": 133,
+            "description": "to get white space in cookie,\nif it is not urlEncode, return space ' '\nif it is urlEncode, return %20",
+            "itemtype": "method",
+            "name": "_getSpace",
+            "return": {
+                "description": "' ' or '%20'",
+                "type": "String"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "CookieUtil",
+            "module": "cookieUtil"
+        },
+        {
+            "file": "lib/common/cookieUtil.js",
+            "line": 148,
+            "description": "generate a customized cookie for the user",
+            "itemtype": "method",
+            "name": "createCustCookie",
+            "example": [
+                "\n\ncreateCustCookie ( \"custcookie\",\n                       {\n\t\t\t\t\t\t\tfieldA: valueA,\n\t\t\t\t\t\t\tfieldB: valueB,\n\t\t\t\t    \t\t},\n                       {\n\t\t\t\t\t\t\tdomain: \".xx.com\",\n\t\t\t\t\t\t\tpath: \"/\",\n\t\t\t\t\t\t\tsecure: true,\n\t\t\t\t\t\t\texpires:  Wednesday, 09-Nov-99 23:12:40 GMT\n\t\t\t\t\t\t});\n   return cookie string like \"SSID=AHOkKrqp7_awIDQ2J;domain=**;expires=**\""
+            ],
+            "params": [
+                {
+                    "name": "name",
+                    "description": "the cookie name you want to generate"
+                },
+                {
+                    "name": "subFieldsObj",
+                    "description": "an object contains each value of the cookie"
+                },
+                {
+                    "name": "options",
+                    "description": "the options of the cookie. i.e path, domain, secure, expires."
+                },
+                {
+                    "name": "cb",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": "CookieUtil",
+            "module": "cookieUtil"
+        },
+        {
+            "file": "lib/common/cookieUtil.js",
+            "line": 253,
+            "description": "validate whether this is a valid cookie name, a cookie name cannot be empty, contains ; or , or ' ',\n and it is a string",
+            "itemtype": "method",
+            "name": "_validateCookieName",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "the cookie name or sub cookie name",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "CookieUtil",
+            "module": "cookieUtil"
+        },
+        {
+            "file": "lib/common/cookieUtil.js",
+            "line": 268,
+            "description": "the NAME=VALUE should be a string, and not contains ; or , or ' '.",
+            "itemtype": "method",
+            "name": "_validateCookieSpec",
+            "params": [
+                {
+                    "name": "field",
+                    "description": "- the field value",
+                    "type": "String"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "CookieUtil",
+            "module": "cookieUtil"
+        },
+        {
+            "file": "lib/common/cookieUtil.js",
+            "line": 288,
+            "description": "parse cookie string and return an object, the object would be:\n{\n\t_f1:\"ddesee\",\n\tb: \"3\",\n\ta: \"8q\",\n}",
+            "itemtype": "method",
+            "name": "_parseCookieString",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "- a string like \"ddesee&b=3&a=8q\""
+                },
+                {
+                    "name": "cb",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "CookieUtil",
+            "module": "cookieUtil"
+        },
+        {
+            "file": "lib/common/cookieUtil.js",
+            "line": 335,
+            "description": "parse cookie object and return an cookie string.",
+            "itemtype": "method",
+            "name": "_parseCookieObjToString",
+            "params": [
+                {
+                    "name": "cookieObj",
+                    "description": "- e.g.",
+                    "type": "!~YUIDOC_LINE~! _f1:\"bsse\",!~YUIDOC_LINE~! b: \"3\",!~YUIDOC_LINE~! a: \"8q\",!~YUIDOC_LINE~!"
+                },
+                {
+                    "name": "cb",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "CookieUtil",
+            "module": "cookieUtil"
+        },
+        {
+            "file": "lib/common/cookieUtil.js",
+            "line": 365,
+            "description": "delete a field or several fields in the cookie value, if all the sub fields are deleted,\nthen set the cookie expire, if the field is not in the cookie, warn and leave it,\nreturn the modified cookie string.",
+            "itemtype": "method",
+            "name": "deleteSubCookie",
+            "example": [
+                "\n\n deleteSubCookie('bsse&b=3&a=8q',['b','a']);"
+            ],
+            "params": [
+                {
+                    "name": "value",
+                    "description": "- a cookie string like \"bsse&b=3&a=8q\""
+                },
+                {
+                    "name": "subFieldsArray",
+                    "description": "- an array contains all the subfield' names"
+                },
+                {
+                    "name": "cb",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": "CookieUtil",
+            "module": "cookieUtil"
+        },
+        {
+            "file": "lib/common/cookieUtil.js",
+            "line": 409,
+            "description": "Add a sub cookie field to the existing cookie string",
+            "itemtype": "method",
+            "name": "addSubCookie",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "- a cookie string like \"ssssx&b=3&a=8q\""
+                },
+                {
+                    "name": "subFieldsObj",
+                    "description": "- an object includes all the new added field information, examples are:\n{\n  s: \"9j\"\n  d: \"asdfdsdfa\"\n}\nreturn the modified cookie string",
+                    "type": "Object"
+                },
+                {
+                    "name": "cb",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": "CookieUtil",
+            "module": "cookieUtil"
+        },
+        {
+            "file": "lib/common/cookieUtil.js",
+            "line": 460,
+            "description": "modify each field of the cookie if the field exist, otherwise warn the user and leave it be.",
+            "itemtype": "method",
+            "name": "modifyCookie",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "- cookie string"
+                },
+                {
+                    "name": "subFieldsObj",
+                    "description": "an object includes all the new added field information, examples are:\n{\n  s: \"9j\"\n  d: \"asdfdsdfa\"\n }",
+                    "type": "Object"
+                },
+                {
+                    "name": "cb",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": "CookieUtil",
+            "module": "cookieUtil"
+        },
+        {
+            "file": "lib/common/cookieUtil.js",
+            "line": 513,
+            "description": "append a cookie in the existing cookiejar",
+            "itemtype": "method",
+            "name": "appendCookieInCookiejar",
+            "params": [
+                {
+                    "name": "cookiejar",
+                    "description": "- the existing cookiejar"
+                },
+                {
+                    "name": "name",
+                    "description": "- the cookie name"
+                },
+                {
+                    "name": "value",
+                    "description": "- the cookie string value"
+                },
+                {
+                    "name": "cb",
+                    "description": "- a callback to return the error and modified cookie string",
+                    "type": "Function"
+                }
+            ],
+            "class": "CookieUtil",
+            "module": "cookieUtil"
+        },
+        {
+            "file": "lib/common/cookieUtil.js",
+            "line": 551,
+            "description": "modify a existing cookie in the cookie jar",
+            "itemtype": "method",
+            "name": "modifyCookieInCookiejar",
+            "params": [
+                {
+                    "name": "cookiejar",
+                    "description": "- the existing cookiejar"
+                },
+                {
+                    "name": "name",
+                    "description": "- the existing cookie name"
+                },
+                {
+                    "name": "value",
+                    "description": "- the cookie value"
+                },
+                {
+                    "name": "cb",
+                    "description": "- a callback to return the error and the modified cookie string",
+                    "type": "Function"
+                }
+            ],
+            "class": "CookieUtil",
+            "module": "cookieUtil"
+        },
+        {
+            "file": "lib/common/cookieUtil.js",
+            "line": 595,
+            "description": "delete a certain cookie in the cookie jar",
+            "itemtype": "method",
+            "name": "deleteCookieInCookiejar",
+            "params": [
+                {
+                    "name": "cookiejar",
+                    "description": "-  a existing cookiejar string"
+                },
+                {
+                    "name": "name",
+                    "description": "- the cookie you want to delete"
+                },
+                {
+                    "name": "cb",
+                    "description": "- a callback to return the error or modified cookie jar",
+                    "type": "Function"
+                }
+            ],
+            "class": "CookieUtil",
+            "module": "cookieUtil"
+        },
+        {
+            "file": "lib/common/cookieUtil.js",
+            "line": 639,
+            "description": "extract the whole cookie from the cookiejar",
+            "itemtype": "method",
+            "name": "getCookieInCookiejar",
+            "params": [
+                {
+                    "name": "cookiejar",
+                    "description": "- a cookie jar"
+                },
+                {
+                    "name": "name",
+                    "description": "-  a cookie name"
+                },
+                {
+                    "name": "cb",
+                    "description": "-  a callback to return the error and extracted cookie string",
+                    "type": "Function"
+                }
+            ],
+            "class": "CookieUtil",
+            "module": "cookieUtil"
+        },
+        {
+            "file": "lib/common/cookieUtil.js",
+            "line": 666,
+            "description": "Get cookies from \"set-cookie\" fields in response headers and return the cookies object with key-value pair.\ne.g. for cookie  'set-cookie: X=v=1&n=hhhhress; path=/; domain=.domain.com'\n     to get X cookie: cookies[\"X\"] , value is 'v=1&n=hhhhress', does not contain path, domain and other options",
+            "itemtype": "method",
+            "name": "getCookiesFromHeader",
+            "example": [
+                "\nvar responseCookies;\nYUI.io(url, {\n             method: 'POST',\n             headers: headers,\n             on: {\n                 complete: function (id, response) {\n                     responseCookies = cookieUtil.getCookiesFromHeader(response);\n                     //get X cookie;\n                     var Xcookie=responseCookies[\"X\"];\n                 }\n             }\n         });"
+            ],
+            "params": [
+                {
+                    "name": "response",
+                    "description": "- response http response object after send request"
+                },
+                {
+                    "name": "cb",
+                    "description": "- return cookies object with cookie name as key, cookie value as value.",
+                    "type": "Function"
+                }
+            ],
+            "class": "CookieUtil",
+            "module": "cookieUtil"
+        },
+        {
+            "file": "lib/common/cookieUtil.js",
+            "line": 726,
+            "description": "set cookiejar to http request header, e.g. set \"AO=o=1&s=1&dnt=1; X=fa683mt88i5me&b=xxx\" to header.\nafter set cookiejar to header, there is 'Cookie' header in request headers, e.g.\n\" Cookie: AO=o=1&s=1&dnt=1; X=fa683mt88i5me&b=xxx \".\n\nthis is different for client and server side\nfor client: set cookiejar to window.document.cookie, then browser will send the cookie in header\nfor server: set cookiejar to 'Cookie' header in http request.",
+            "itemtype": "method",
+            "name": "setCookiejarToHeader",
+            "params": [
+                {
+                    "name": "cookiejar",
+                    "description": "- a cookiejar string which can set to http header directly.e.g. AO=o=1&s=1&dnt=1; X=fa683mt88i5me&b=xxx"
+                },
+                {
+                    "name": "headers",
+                    "description": "current headers object, required if send the http request from nodejs"
+                },
+                {
+                    "name": "cb",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "example": [
+                "\n YUI.io(url, {\n             method: 'POST',\n             headers: headers,\n             on: {\n                 complete: function(id, response) {\n                     // validate response\n                 }\n             }\n         }"
+            ],
+            "class": "CookieUtil",
+            "module": "cookieUtil"
+        },
+        {
+            "file": "lib/common/cookieUtil.js",
+            "line": 769,
+            "description": "Both cookie name and value should not contain any semi-colon, comma or white space characters.\nthis method creates invalid format cookie by adding semi-colon, comma or white space characters in the cookie name and value,",
+            "itemtype": "method",
+            "name": "generateInvalidFormatCookie",
+            "params": [
+                {
+                    "name": "cookiejar",
+                    "description": "- valid format cookiejar which does not contain semi-colon, comma or white space\ne.g. 'X=bnas=0; H=1; K=a=nJN0&b=Jhio'"
+                },
+                {
+                    "name": "cb",
+                    "description": "- return invalidCookiejar invalid format cookiejar which contains semi-colon, comma or whitespace\ne.g. 'X,=bnas=0; H=1; K=a=nJN0&b=Jhio; '",
+                    "type": "Function"
+                }
+            ],
+            "class": "CookieUtil",
+            "module": "cookieUtil"
+        },
+        {
+            "file": "lib/common/cookieUtil.js",
+            "line": 788,
+            "itemtype": "method",
+            "name": "parseCookiesObjToCookiejar\n parse cookies object to cookiejar",
+            "params": [
+                {
+                    "name": "cookiesObj",
+                    "description": "- a object including cookies from \"set-cookie\" in http response header with key-value pair only , does not contain info about path, domain, expire etc.,\n                , e.g. cookies[\"X\"]=\"k=1&H=ab3\""
+                },
+                {
+                    "name": "cb",
+                    "description": "- return cookiejar, a String which can be used in http request 'Cookie' header and send out.",
+                    "type": "Function"
+                }
+            ],
+            "class": "CookieUtil",
+            "module": "cookieUtil"
+        },
+        {
+            "file": "lib/common/cookieUtil.js",
+            "line": 820,
+            "description": "whether this is run on the server side",
+            "itemtype": "method",
+            "name": "_isServer",
+            "return": {
+                "description": "return true if it is server side, otherwise it is client side",
+                "type": "Boolean"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "CookieUtil",
+            "module": "cookieUtil"
+        },
+        {
+            "file": "lib/server/oauth-automator.js",
+            "line": 153,
+            "description": "Init lifecycle implementation.",
+            "itemtype": "method",
+            "name": "initializer",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "Configuration object.",
+                    "type": "Object"
+                }
+            ],
+            "access": "protected",
+            "tagname": "",
+            "class": "OAuthAutomator",
+            "module": "oauth-automator"
+        },
+        {
+            "file": "lib/server/oauth-automator.js",
+            "line": 176,
+            "description": "Destroy lifecycle method.",
+            "itemtype": "method",
+            "name": "destructor",
+            "access": "protected",
+            "tagname": "",
+            "class": "OAuthAutomator",
+            "module": "oauth-automator"
+        },
+        {
+            "file": "lib/server/oauth-automator.js",
+            "line": 186,
+            "description": "Load the given configuration and update the this class attributes.",
+            "itemtype": "method",
+            "name": "_init",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "[config] A confihuration object.\n If a string type is given, it should be the path of the configuration\n file(json) otherwise should an object with configuration elements.",
+                    "type": "String | Object"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "OAuthAutomator",
+            "module": "oauth-automator"
+        },
+        {
+            "file": "lib/server/oauth-automator.js",
+            "line": 221,
+            "description": "Adjust consumerKey, consumerSecret and appId if external scope is set.\nThey will be replaced with these attributes.\n\nExt{externalOAuthScope}ConsumerKey\nExt{externalOAuthScope}ConsumerSecret\nExt{externalOAuthScope}ConsumerAppId",
+            "itemtype": "method",
+            "name": "_handleExternalScopeGiven",
+            "access": "private",
+            "tagname": "",
+            "class": "OAuthAutomator",
+            "module": "oauth-automator"
+        },
+        {
+            "file": "lib/server/oauth-automator.js",
+            "line": 253,
+            "description": "Use this method to clear mess from the prior generateOAuth() method.\nIt is called in the beginning of generateOAuth() method.",
+            "itemtype": "method",
+            "name": "_clear",
+            "access": "private",
+            "tagname": "",
+            "class": "OAuthAutomator",
+            "module": "oauth-automator"
+        },
+        {
+            "file": "lib/server/oauth-automator.js",
+            "line": 262,
+            "itemtype": "method",
+            "name": "generateOAuth",
+            "params": [
+                {
+                    "name": "attrs",
+                    "description": "(Optional) An object with configurations(attributes).\n  If this object is given, attributes determined in the constructor\n  will be overriden. The updated attributes will remain even after\n  this method is completed. All attributes except 'configPath' are\n  allowed here.",
+                    "type": "Object"
+                },
+                {
+                    "name": "cb",
+                    "description": "A callback function to be called once\n  authrization credentials are generated.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "An error object if auth credential\n          generation is failed.",
+                            "type": "Error",
+                            "optional": true
+                        },
+                        {
+                            "name": "headers",
+                            "description": "An object with generated auth\n          headers. Example: {\"Yahoo-App-Auth\": \"...\", \"Authorization\": \n          \"...\"}",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "token",
+                            "description": "An object with access token data for\n          the external type. The access token object has 5 properties;\n          oauthToken, oauthTokenSecret, oauthTokenExpires,\n          oauthTokenSessionHandle, oauthTokenSessionHandleExpires.\n          See the OAuth spec for details.",
+                            "type": "Object",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "class": "OAuthAutomator",
+            "module": "oauth-automator"
+        },
+        {
+            "file": "lib/server/oauth-automator.js",
+            "line": 369,
+            "description": "A private function to be called for the \"external\" type.",
+            "itemtype": "method",
+            "name": "_generateExternalOAuth",
+            "params": [
+                {
+                    "name": "cb",
+                    "description": "A callback function to be called once\n authrization credentials are generated.",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "OAuthAutomator",
+            "module": "oauth-automator"
+        },
+        {
+            "file": "lib/server/oauth-automator.js",
+            "line": 389,
+            "description": "Ideally this method should be responsible to get the access token\nof either 2-legged or 3-legged as described in\nhttp://blog.nerdbank.net/2011/06/what-is-2-legged-oauth.html\n\nHowever it actually handles only 3-legged as it appears Yahoo\ndoesn't have true 2-legged.\nWhat described as 2-legged is actually 0-legged according\nto the above url. This 0-legged(or 2-legged by Yahoo) is done\nby skipping this method (set needUserCred=false).",
+            "class": "OAuthAutomator",
+            "module": "oauth-automator"
+        },
+        {
+            "file": "lib/server/oauth-automator.js",
+            "line": 462,
+            "description": "A private function to be called for the \"external\" type.",
+            "itemtype": "method",
+            "name": "_generateExternalOAuthHeader",
+            "params": [
+                {
+                    "name": "cb",
+                    "description": "A callback function to be called once\n authrization credentials are generated.",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "OAuthAutomator",
+            "module": "oauth-automator"
+        },
+        {
+            "file": "lib/server/oauth-automator.js",
+            "line": 489,
+            "description": "A private function to be called for the \"external\" type.",
+            "itemtype": "method",
+            "name": "_generateExternalOAuthToken",
+            "params": [
+                {
+                    "name": "cb",
+                    "description": "A callback function to be called once\n authrization credentials are generated.",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "OAuthAutomator",
+            "module": "oauth-automator"
+        },
+        {
+            "file": "lib/server/oauth-automator.js",
+            "line": 591,
+            "description": "implentation of get Verifier For Yahoo",
+            "itemtype": "method",
+            "name": "_getVerifierForYahoo",
+            "params": [
+                {
+                    "name": "options",
+                    "description": ""
+                },
+                {
+                    "name": "cb",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "OAuthAutomator",
+            "module": "oauth-automator"
+        },
+        {
+            "file": "lib/server/oauth-automator.js",
+            "line": 663,
+            "itemtype": "method",
+            "name": "_submitForm",
+            "params": [
+                {
+                    "name": "page",
+                    "description": "get response and parse dom to click submit"
+                },
+                {
+                    "name": "options",
+                    "description": ""
+                },
+                {
+                    "name": "cb",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "OAuthAutomator",
+            "module": "oauth-automator"
+        },
+        {
+            "file": "lib/server/oauth-automator.js",
+            "line": 746,
+            "description": "create a oauth client",
+            "itemtype": "method",
+            "name": "_createOAuthClient",
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "OAuthAutomator",
+            "module": "oauth-automator"
+        }
+    ],
+    "warnings": [
+        {
+            "message": "Missing item type\nIdeally this method should be responsible to get the access token\nof either 2-legged or 3-legged as described in\nhttp://blog.nerdbank.net/2011/06/what-is-2-legged-oauth.html\n\nHowever it actually handles only 3-legged as it appears Yahoo\ndoesn't have true 2-legged.\nWhat described as 2-legged is actually 0-legged according\nto the above url. This 0-legged(or 2-legged by Yahoo) is done\nby skipping this method (set needUserCred=false).",
+            "line": " lib/server/oauth-automator.js:389"
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+{
+    "name": "share lib doc generate config",
+    "description": "cd arrow/sharelib && yuidoc . -c doc/yuidoc.json",
+    "version": "3.6.0",
+    "url": "http://yuilibrary.com/",
+    "options": {
+        "linkNatives": "true",        
+        "attributesEmit": "true",
+        "selleck": "true",
+        "ignorePaths": [ "simpleyui" ],
+        "paths": "*/js",
+        "outdir": "doc/api-doc"
+    }
+}
