@@ -19,7 +19,7 @@ YUI.add('arrowservermanager-tests', function (Y) {
         "Test get localhost ip":function () {
 
             Y.Assert.isTrue(/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/.test(servermanager.getLocalhostIPAddress()));
-            Y.Assert.isTrue(/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/.test(servermanager.getProperIPAddressForArrowServer()));
+            Y.Assert.isTrue(/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/.test(servermanager.getAllIPAddressForArrowServer()));
 
         },
         "Test server host":function () {
