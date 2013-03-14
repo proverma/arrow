@@ -22,6 +22,7 @@ config.defaultTestHost = config.arrowModuleRoot + "lib/client/testHost.html";
 config.defaultAppSeed = "http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js";
 config.testSeed = config.arrowModuleRoot + "lib/client/yuitest-seed.js";
 config.testRunner = config.arrowModuleRoot + "lib/client/yuitest-runner.js";
+config.yuiloaderchecker = config.arrowModuleRoot + "lib/client/yuitest-yuiloadercheck.js";
 config.autolib = config.arrowModuleRoot + "lib/common";
 
 // config for share lib
