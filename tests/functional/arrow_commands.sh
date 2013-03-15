@@ -201,7 +201,7 @@ if [ $? != 0 ]; then
 } fi
 
 echo "TEST22: "
-CMD=`$ARROWCI ./data/arrow_test/test-func.js --page=http://www.doctor46.com/tabview.html --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json | tail -2 | head -1 >./data/actual_op/test22.txt`
+CMD=`$ARROWCI ./data/arrow_test/test-func-use-martini.js --page=http://www.doctor46.com/tabview.html --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json | tail -2 | head -1 >./data/actual_op/test22.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
@@ -210,7 +210,7 @@ if [ $? != 0 ]; then
 } fi
 
 echo "TEST23: "
-CMD=`$ARROWCI ./data/arrow_test/test-func.js --browser=$BROWSERNAME  --shareLibPath=./data/undefined/undefined-path --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json | grep "ERROR" |head -1 >./data/actual_op/test23.txt`
+CMD=`$ARROWCI ./data/arrow_test/test-func-use-martini.js --browser=$BROWSERNAME  --shareLibPath=./data/undefined/undefined-path --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json | grep "ERROR" |head -1 >./data/actual_op/test23.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
@@ -219,7 +219,7 @@ if [ $? != 0 ]; then
 } fi
 
 echo "TEST24: "
-CMD=`$ARROWCI ./data/arrow_test/sharelib-test-func-no-commonlib.json --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./cap.json | grep "LOG" >./data/actual_op/test24.txt`
+CMD=`$ARROWCI ./data/arrow_test/sharelib-test-func-no-commonlib.json --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./cap.json --logLevel=info | tail -2 | head -1 >./data/actual_op/test24.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
