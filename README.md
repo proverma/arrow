@@ -27,12 +27,13 @@ npm install -g yahoo-arrow
 * **--lib** comma separated list of js files needed by the test
 * **--page** path to the mock or production html page, for example: http://www.yahoo.com or mock.html
 * **--driver** one of selenium|nodejs. (default: selenium)
+* **--shareLibPath** comma separated list of directories to be scaned to load module automatically
 * **--browser** firefox|chrome|opera|reuse.  Specify browser version with a hypen, ex.: firefox-4.0 or opera-11.0 (default: firefox)
 * **--report** true/false. Creates report files in junit and json format, and also prints a consolidated test report summary on console
 * **--reportFolder** : (optional) folderPath.  creates report files in that folder. (default: descriptor folder path)
 * **--testName** comma separated list of test names defined in test descriptor. all other tests will be ignored
 * **--group** comma separated list of groups defined in test descriptor, all other groups will be ignored
-* **--logLevel** DEBUG|INFO|WARN|ERROR|FATAL (default: INFO)
+* **--logLevel** TRACE|DEBUG|INFO|WARN|ERROR|FATAL (default: INFO)
 * **--dimension** a custom dimension file for defining ycb contexts
 * **--context** name of ycb context
 * **--seleniumHost** : (optional) override selenium host url (example: --seleniumHost=http://host.com:port/wd/hub)
@@ -84,6 +85,13 @@ arrow --lib=../src/greeter.js test-unit.js
 arrow --page=testMock.html --lib=./test-lib.js test-unit.js
 ```
 
+###Unit test with --shareLibPath to replace --lib:
+Please note that the folder passed to --shareLibPath need follow layout convention as described in arrow cookbook "Arrow In-Depth"
+
+```
+arrow --page=testMock.html --shareLibPath=../ test-unit.js
+```
+
 ###Unit test with selenium:
 
 ```
@@ -125,6 +133,7 @@ NPM Dependencies
 * **uglify-js** https://github.com/mishoo/UglifyJS
 * **xml-writer** https://github.com/lindory-project/node-xml-writer
 * **ycb** https://github.com/yahoo/ycb
+* **async** https://github.com/caolan/async
 
 NPM Dev Dependencies
 * **mockery** https://github.com/mfncooper/mockery

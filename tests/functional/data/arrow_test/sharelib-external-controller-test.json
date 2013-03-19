@@ -1,0 +1,36 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name": "controllers",
+
+        "config": {
+            "baseUrl": "http://finance.yahoo.com"
+        },
+
+        "dataprovider" : {
+
+            "Test YHOO Ticker using Finance Controller" : {
+                "group" : "func",
+                "params" :{
+                    "scenario": [
+                        {
+                            "controller": "martini_lib.martini-test-controller",
+                            "params": {
+                                "page" : "$$config.baseUrl$$",
+                                "txtLocator": "#txtQuotes",
+                                "typeText": "yhoo",
+                                "btnLocator": "#btnQuotes",
+                                "test": "test-quote.js",
+                                "quote": "Yahoo! Inc. (YHOO)"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "settings": [ "environment:development" ]
+    }
+]

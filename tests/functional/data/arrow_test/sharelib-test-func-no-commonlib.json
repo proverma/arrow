@@ -1,0 +1,29 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name" : "tabview",
+
+        "config" :{
+            "baseUrl" : "http://www.doctor46.com"
+        },
+
+        "dataprovider" : {
+
+           "dom_func" : {
+                "params" : {
+                    "test" : "test-func.js",
+                    "page" : "$$config.baseUrl$$/tabview.html"
+                  },
+                "group" : "smoke",
+                "enabled" : "true"
+            }
+        }
+
+    },
+
+    {
+        "settings": [ "environment:development" ]
+    }
+
+]

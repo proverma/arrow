@@ -568,6 +568,100 @@ Or
 
 Once Selenium is started, the same steps for *reusing* sessions apply.
 
+Auto scan share libraries and controllers
+---------
+
+A test case might need use some share libraries. The arrow command line option: ``--lib`` can be used to load the share lib module, but, for complex test case, it might need load a lot of share lib modules which is installed in many places, it would be hard to maintain such a long ``--lib`` list.
+
+The share library auto scanner makes it simple.
+
+Arrow provides a configuration item: config.scanShareLibPath to set scan path, or by command line option: ``--shareLibPath``, which will override configuration. Use comma to seperate if want to specify more than one directory to scan.
+
+Once share lib path is set, when arrow is launched, it will recursively search the YUI module (.js file) under the given path (directory), and follows the subfolder name convention as below:
+
+* directory name starts with a prefix like "martini_";
+* subfolder: lib for share libraries;
+* subfolder: lib/server for share libraries can be loaded on server side;
+* subfolder: lib/client for share libraries can be loaded on client side;
+* subfolder: lib/common for share libraries can be loaded on both server side and client side;
+* subfolder: controller for custom controllers;
+* there can be subfolders under above folders, and arrow will scan them recursively.
+
+::
+
+         martini_lib1
+              |-----lib/
+              |      |-----server/
+              |      |       |-----module1
+              |      |       |      |-----xxx.js
+              |      |       |
+              |      |       |-----module2
+              |      |       |      |-----xxx.js
+              |      |
+              |      |-----client/
+              |      |       |-----xxx.js
+              |      |
+              |      |-----common/
+              |              |-----xxx.js
+              |
+              |-----controller/
+              |      |-----my-sample-controller.js
+              |
+              |-----node_modules
+              |-----package.json
+
+The module under client directory will be registered as client module, the module under server directory will be registered as server module, the module under common directory will be registered as both client and server module. The controller directory is for custom controller.
+
+Arrow will register the share libraries which followed above directory layout convention, as server side modules, client side modules, or custom controllers,  then we can still use common methods to load these module as other YUI Gallery modules in our test code, like YUI().use('module') or YUI.add(xxx ... require('module')), arrow would find and load the required module for it. 
+
+For custom controller, arrow will add "package_name." as prefix, like for above sample, then to specify custom controller in test descriptor, we can use controller path, or use "martini_lib1.my-sample-controller" instead.
+
+How To Use ``--shareLibPath``
+==========
+1. Find or create a npm package which has share library and followed above convention, install it locally or globally, for example
+
+::
+
+  npm install martini_testlib1 -g
+
+2. specify the install path to ``--shareLibPath``
+
+::
+
+  arrow test-unit.js --shareLibPath=/usr/local/lib/node_modules/martini_testlib1
+
+If installed more than one share lib packages globally, like martini_testlib2, we can specify multiple paths to ``--shareLibPath``, or specify the parent folder to ``--shareLibPath``.
+
+::
+
+  arrow test-unit.js --shareLibPath=/usr/local/lib/node_modules/martini_testlib1,/usr/local/lib/node_modules/martini_testlib2
+  arrow test-unit.js --shareLibPath=/usr/local/lib/node_modules/
+
+3. use constom controller. In test descriptor, now we can use package_name.controller_name in **controller** node, as below:
+
+::
+
+  "controller": "martini_testlib1.my-test-controller"
+
+**Note:**
+1. if want to let ``--shareLibPath`` to scan some directory other than martini_xxx, you can configure
+ it on */path/to/arrow/install/path/config/config.js*, for example, to scan dev_xxx directory, you can configure it as below:
+
+::
+
+  config.scanShareLibPrefix = ["martini_", "dev_"];
+
+2.Another config is config.scanShareLibRecursive , if set to false, arrow will only scan top level folders for the given prefix and given scan path,Otherwise it will scan recursively with the given path.
+
+3.And the next config: config.enableShareLibYUILoader ,this is important configuration,
+ By default false ,arrow will inject all necessary share lib source code into test cases .
+ If true, arrow will generate and inject YUI group/modules info and let YUI loader to load modules.To ensure YUI loader to get these modules,arrow will auto detect if arrow server is running and will restart it for YUI loader if not.
+ The reason we need this switch is because in yahoo network lot of time lab manager windows VM's don't have access to any non-80 port of hudson slaves.In those scenarios, YUI config would be a blocker and YUI loader wont work.So if you can make sure the pages
+ you are testing have access to your host where arrow server runs, you can make enableShareLibYUILoader true to improve performance.
+
+ ::
+ arrow test-unit.js --shareLibPath=/usr/local/lib/node_modules/ --enableShareLibYUILoader=true
+
 Parallelism
 -----------
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2013, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2012-2013, Yahoo! Inc. All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
@@ -279,7 +279,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
 
             driver = new DriverClass(config, {});
             driver.createDriverJs = function () {
-                return 'if (time<20)  { a=3; }';
+                return 'if (time<20) { a=3; }';
             };
 
             function validate() {
@@ -347,7 +347,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
 
             driver = new DriverClass(config, {});
             driver.createDriverJs = createDriverJs;
-//            driver.maxAttempt = 1;//Added for test
+// driver.maxAttempt = 1;//Added for test
             driver.start(function (errMsg) {
                 var webdriver = driver.getWebDriver();
                 webdriver.scriptResults['return ARROW.actionReport;'] = '{"error": "action error"}';
@@ -383,17 +383,17 @@ YUI.add('selenium-tests', function (Y, NAME) {
 
         'test createDriverJs ': function () {
             var self = this,
-                testRunnerJs =  arrowRoot + '/tests/unit/lib/driver/config/testRunner.js',
-                libJs =  arrowRoot + '/tests/unit/lib/driver/config/lib.js',
-                seedJs =  arrowRoot + '/tests/unit/lib/driver/config/seed.js',
-                actionJs =  arrowRoot + '/tests/unit/lib/driver/config/action.js',
+                testRunnerJs = arrowRoot + '/tests/unit/lib/driver/config/testRunner.js',
+                libJs = arrowRoot + '/tests/unit/lib/driver/config/lib.js',
+                seedJs = arrowRoot + '/tests/unit/lib/driver/config/seed.js',
+                actionJs = arrowRoot + '/tests/unit/lib/driver/config/action.js',
                 testHtml = arrowRoot + '/tests/unit/lib/driver/config/test.html',
                 config = {coverage: 'true',
                     browser: 'mybrowser',
                     seleniumHost: 'http://wdhub',
                     testRunner: testRunnerJs,
                     testSeed: seedJs
-                    },
+                },
                 driver = new DriverClass(config, {});
 
             driver.createDriverJs({"test" : testRunnerJs,
@@ -405,11 +405,11 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 seleniumHost: 'http://wdhub',
                 testRunner: testRunnerJs,
                 testSeed: seedJs
-                };
+            };
             driver = new DriverClass(config, {});
             driver.createDriverJs({"test" : testRunnerJs,
                 "lib" : "," + libJs, "action" : actionJs}, function (e) {
-                 A.areEqual(null, e.toString(), "There should be no error");
+                A.areEqual(null, e.toString(), "There should be no error");
             });
 
             // Without test

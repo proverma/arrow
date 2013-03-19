@@ -32,6 +32,8 @@ global.reportMap =[];
 var knownOpts = {
         "browser": [String, null],
         "lib": [String, null],
+        "shareLibPath": [String, null],
+        "enableShareLibYUILoader":Boolean,
         "page": [String, null],
         "driver": [String, null],
         "controller": [String, null],
@@ -81,6 +83,7 @@ var knownOpts = {
 function showHelp() {
     console.info("\nOPTIONS :" + "\n" +
         "        --lib : a comma seperated list of js files needed by the test" + "\n\n" +
+        "        --shareLibPath: a comma seperated list of directory to be scanned and loaded modules by arrow automatically" + "\n\n" +
         "        --page : (optional) path to the mock or production html page" + "\n" +
         "                   example: http://www.yahoo.com or mock.html" + "\n\n" +
         "        --driver : (optional) one of selenium|nodejs. (default: selenium)" + "\n\n" +
@@ -137,6 +140,8 @@ function showHelp() {
     console.log("\nEXAMPLES :" + "\n" +
         "        Unit test: " + "\n" +
         "          arrow test-unit.js --lib=../src/greeter.js" + "\n\n" +
+        "        Unit test that load the share library automatically " + "\n" +
+        "          arrow test-unit.js --shareLibPath=../" + "\n\n" +
         "        Unit test with a mock page: " + "\n" +
         "          arrow test-unit.js --page=testMock.html --lib=./test-lib.js" + "\n\n" +
         "        Unit test with selenium: \n" +
@@ -207,23 +212,36 @@ global.keepIstanbulCoverageJson = config.keepIstanbulCoverageJson;
 global.color = config.color;
 
 
-// TODO: arrowSetup move to Arrow
-arrowSetup = new ArrowSetup(config, argv);
-this.arrow = Arrow;
-
-// Setup Arrow Tests
-if (argv.arrowChildProcess) {
-    //console.log("Child Process");
-    arrowSetup.childSetup();
-    argv.descriptor = argv.argv.remain[0];
-    arrow = new Arrow(config, argv);
-    arrow.run();
+// scan libraries
+if (config.shareLibPath !== undefined)
+{
+    var libScanner = require('./lib/util/sharelibscanner');
+    new libScanner(config).genSeedFile(config.shareLibPath, startArrow);
 } else {
-    //console.log("Master Process");
-    arrowSetup.setup();
-    if (false === arrowSetup.startRecursiveProcess) {
+    startArrow();
+}
+
+function startArrow()
+{
+
+    // TODO: arrowSetup move to Arrow
+    arrowSetup = new ArrowSetup(config, argv);
+    this.arrow = Arrow;
+
+    // Setup Arrow Tests
+    if (argv.arrowChildProcess) {
+        //console.log("Child Process");
+        arrowSetup.childSetup();
+        argv.descriptor = argv.argv.remain[0];
         arrow = new Arrow(config, argv);
         arrow.run();
+    } else {
+        //console.log("Master Process");
+        arrowSetup.setup();
+        if (false === arrowSetup.startRecursiveProcess) {
+            arrow = new Arrow(config, argv);
+            arrow.run();
+        }
     }
 }
 

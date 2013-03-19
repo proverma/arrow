@@ -9,6 +9,7 @@ Arrow Usage
 --help			display this help page
 --version		display installed arrow version
 --lib			comma separated list of js files needed by the test
+--shareLibPath		comma separated list of directories to be scan for share libraries
 --page			(optional) path to the mock or production html page, for example: http://www.yahoo.com or mock.html
 --driver		(optional) selenium|phantomjs|browser, default: phantomjs
 --browser		(optional) firefox|chrome|opera|reuse, default: firefox
@@ -29,6 +30,9 @@ Arrow Usage
   Unit test: 
     arrow test-unit.js   --lib=../src/greeter.js
     
+  Unit test that load the share library automatically:
+    arrow test-unit.js --shareLibPath=../src/
+
   Unit test with a mock page: 
     arrow test-unit.js   --page=testMock.html   --lib=./test-lib.js
 
