@@ -211,7 +211,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
         fs.readFile(path.resolve(proxyManager.fileName), function (err, data) {
 
-            A.areEqual(proxyMsg + '\n', data, 'Proxy logs doesn\t match');
+            A.areEqual(proxyMsg + '\n', data, 'Proxy logs doesn\'t match');
             fs.unlink(proxyManager.fileName, function (err) {
                 if (err) {
                     logger.info('Can\'t cleanup the log file..' + err);
@@ -329,9 +329,9 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
             testRouterInvalidJsonPath();
         },
 
-        ',test proxy manager writeLog': function () {
+        /*',test proxy manager writeLog': function () {
             testWriteLog();
-        },
+        },*/
 
         ',test proxy manager get options': function () {
             testGetOptions();
