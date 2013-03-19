@@ -10,6 +10,8 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
     var path = require('path'),
         http = require('http'),
+        log4js = require("log4js"),
+        logger = log4js.getLogger("ProxyManagerTests"),
         arrowRoot =  path.join(__dirname, '../../../../'),
         ProxyManager = require("../../../../lib/proxy/proxymanager.js"),
         portchecker = require("../../../../ext-lib/portchecker"),
@@ -21,68 +23,74 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
     /**
      * If port is available, proxy server should be started
      */
-    function testSendRequestToProxyServer() {
-
-        //TODO - Not complete
-        var
-        // TODO - Check the first available port here starting from minPort
-            minPort = 10801,
-            maxPort = 10900,
-            hostName = "localhost",
-            routerJsonPath = __dirname + "/config/router.json",
-            proxyManager = new ProxyManager(routerJsonPath),
-            options,
-            req;
-
-        function createProxyServerRequest(minPort, maxPort, hostName, callback) {
-
-            proxyManager.runRouterProxy(minPort, maxPort, hostName, function (proxyHostMsg) {
-
-                A.areEqual(proxyHostMsg, 'localhost:' + minPort, 'Proxy host doesn\'t match');
-                callback();
-
-            });
-        }
-
-        A.areEqual(routerJsonPath, proxyManager.routerJsonPath, 'Router jsonpath doesn\'t match');
-
-        createProxyServerRequest(minPort, maxPort, hostName, function () {
-
-            function onRequest(request, response) {
-
-                response.writeHead(200, {"Content-Type" : "text/plain"});
-                response.write("Hello world");
-                response.end();
-
-            }
-
-            http.createServer(onRequest).listen(8888);
-            options = {
-                host: hostName,
-                port: minPort,
-                path: '/',
-                method: 'GET'
-            };
-
-            req = http.request(options, function (res) {
-                res.setEncoding('utf8');
-                res.on('data', function (chunk) {
-                    console.log('BODY: ' + chunk);
-                });
-            });
-
-            req.on('error', function (e) {
-                console.log('problem with request: ' + e.message);
-            });
-
-            // write data to request body
-            req.write('my data\n');
-            req.end();
-
-        });
-
-
-    }
+//    function testSendRequestToProxyServer() {
+//
+//        //TODO - Not complete
+//        var
+//        // TODO - Check the first available port here starting from minPort
+//            minPort = 10801,
+//            maxPort = 10900,
+//            hostName = "localhost",
+//            routerJsonPath = __dirname + "/config/router.json",
+//            proxyManager = new ProxyManager(routerJsonPath),
+//            options,
+//            req;
+//
+//        function createProxyServerRequest(minPort, maxPort, hostName, callback) {
+//
+//            proxyManager.runRouterProxy(minPort, maxPort, hostName, function (proxyHostMsg) {
+//
+//                A.areEqual(proxyHostMsg, 'localhost:' + minPort, 'Proxy host doesn\'t match');
+//                callback();
+//
+//            });
+//        }
+//
+//        A.areEqual(routerJsonPath, proxyManager.routerJsonPath, 'Router jsonpath doesn\'t match');
+//
+//        createProxyServerRequest(minPort, maxPort, hostName, function () {
+//
+//            function onRequest(request, response) {
+//
+//                response.writeHead(200, {"Content-Type" : "text/plain"});
+//                response.write("Hello world");
+//                response.end();
+//
+//            }
+//
+//            portchecker.getFirstAvailable(11000, 11100, "localhost", function(p){
+//
+//                http.createServer(onRequest).listen(p);
+//
+//                options = {
+//                    host: hostName,
+//                    port: minPort,
+//                    path: '/',
+//                    method: 'GET'
+//                };
+//
+//                req = http.request(options, function (res) {
+//                    res.setEncoding('utf8');
+//                    res.on('data', function (chunk) {
+//                        console.log('BODY: ' + chunk);
+//                    });
+//                });
+//
+//                req.on('error', function (e) {
+//                    console.log('problem with request: ' + e.message);
+//                });
+//
+//                // write data to request body
+//                req.write('my data\n');
+//                req.end();
+//
+//            });
+//
+//
+//        });
+//
+//
+//    }
 
     /*
      The router file's path is valid
@@ -198,17 +206,17 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
         proxyManager.fileName = proxyLogfile;
         proxyManager.writeLog(proxyMsg);
-        console.log('Log file::'+proxyManager.fileName);
+
         A.areEqual(proxyManager.fileName, "proxy_" + timestamp + ".log", 'Log file doesn\'t match');
 
         fs.readFile(path.resolve(proxyManager.fileName), function (err, data) {
 
-            A.areEqual(proxyMsg + '\n', data, 'Proxy logs doesn\t match');
+            A.areEqual(proxyMsg + '\n', data, 'Proxy logs doesn\'t match');
             fs.unlink(proxyManager.fileName, function (err) {
                 if (err) {
-                    console.log('Can\'t cleanup the log file..' + err);
+                    logger.info('Can\'t cleanup the log file..' + err);
                 } else {
-                    console.log('Cleaned up the log file..');
+                    logger.info('Cleaned up the log file..');
                 }
             });
         });
@@ -270,17 +278,17 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
             options = proxyManager.getOptions(router, request);
 
-        A.areEqual(options["host"], "def.yahoo.com", "Host doesnt match");
-        A.areEqual(options["port"], "4080", "Port doesnt match");
-        A.areEqual(options["path"], "http://www.def.yahoo.com:4080/", "Path doesnt match");
-        A.areEqual(options.headers["host"], "yahoo.com", "Headers host doesnt match");
+        A.areEqual(options.host, "def.yahoo.com", "Host doesnt match");
+        A.areEqual(options.port, "4080", "Port doesnt match");
+        A.areEqual(options.path, "http://www.def.yahoo.com:4080/", "Path doesnt match");
+        A.areEqual(options.headers.host, "yahoo.com", "Headers host doesnt match");
         A.areEqual(options.headers["user-agent"], "Mozilla5.0", "Headers - user agent doesnt match");
-        A.areEqual(options.headers["accept"], "text/json", "Headers - accept doesnt match");
+        A.areEqual(options.headers.accept, "text/json", "Headers - accept doesnt match");
         A.areEqual(options.headers["accept-language"], "es-ES;q=0.5", "Headers - accept-language doesnt match");
         A.areEqual(options.headers["accept-encoding"], "gzip, deflate", "Headers - accept-encoding doesnt match");
         A.areEqual(options.headers["proxy-connection"], "keep-alive", "Headers - proxy-connection doesnt match");
-        A.areEqual(options.headers["referer"], "ref.yahoo.com", "Headers - referer doesnt match");
-        A.areEqual(options.headers["cookie"], "ProxyCookie", "Headers - cookie doesnt match");
+        A.areEqual(options.headers.referer, "ref.yahoo.com", "Headers - referer doesnt match");
+        A.areEqual(options.headers.cookie, "ProxyCookie", "Headers - cookie doesnt match");
 
     }
 
@@ -288,11 +296,11 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
     suite.add(new Y.Test.Case({
 
         'setUp': function () {
-           //console.log('>>>setup Proxymanager tests');
+           //logger.info('>>>setup Proxymanager tests');
         },
 
         'tearDown': function () {
-            //console.log('>>>teardown Proxymanager tests');
+            //logger.info('>>>teardown Proxymanager tests');
         },
 
         'test proxy manager No Ports Available': function () {
@@ -300,8 +308,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
         },
 
 //        'test proxy manager Send Request to Proxy Server': function () {
-//            var test = this;
-//            testSendRequestToProxyServer(test);
+//            testSendRequestToProxyServer();
 //        },
 
         'test proxy manager Ports Available': function () {
@@ -322,9 +329,9 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
             testRouterInvalidJsonPath();
         },
 
-        ',test proxy manager writeLog': function () {
+        /*',test proxy manager writeLog': function () {
             testWriteLog();
-        },
+        },*/
 
         ',test proxy manager get options': function () {
             testGetOptions();
