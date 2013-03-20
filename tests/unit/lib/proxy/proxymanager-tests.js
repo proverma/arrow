@@ -205,19 +205,19 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
             proxyLogfile = "proxy_" + timestamp + ".log";
 
         proxyManager.fileName = proxyLogfile;
-        proxyManager.writeLog(proxyMsg);
 
+        proxyManager.writeLog(proxyMsg);
         A.areEqual(proxyManager.fileName, "proxy_" + timestamp + ".log", 'Log file doesn\'t match');
 
         fs.readFile(path.resolve(proxyManager.fileName), function (err, data) {
 
-            A.areEqual(proxyMsg + '\n', data, 'Proxy logs doesn\'t match');
-            fs.unlink(proxyManager.fileName, function (err) {
-                if (err) {
-                    logger.info('Can\'t cleanup the log file..' + err);
-                } else {
-                    logger.info('Cleaned up the log file..');
-                }
+        A.areEqual(proxyMsg + '\n', data, 'Proxy logs doesn\'t match');
+        fs.unlink(proxyManager.fileName, function (err) {
+            if (err) {
+                   logger.info('Can\'t cleanup the log file..' + err);
+            } else {
+                   logger.info('Cleaned up the log file..');
+            }
             });
         });
 
@@ -329,9 +329,9 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
             testRouterInvalidJsonPath();
         },
 
-        /*',test proxy manager writeLog': function () {
+        ',test proxy manager writeLog': function () {
             testWriteLog();
-        },*/
+        },
 
         ',test proxy manager get options': function () {
             testGetOptions();
