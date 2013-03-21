@@ -99,6 +99,8 @@ function runTest() {
     };
 
     require(seed);
+	console.log(seed);
+	console.log(runner);
 }
 
 if(coverageFlag) {

@@ -53,7 +53,8 @@ var knownOpts = {
         "retryCount": [Number, null],
         "exitCode": Boolean,
         "color": Boolean,
-        "keepIstanbulCoverageJson": Boolean
+        "keepIstanbulCoverageJson": Boolean,
+		"container":String
     },
     shortHands = {},
 //TODO : Investigate and implement shorthands

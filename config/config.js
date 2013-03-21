@@ -16,6 +16,7 @@ config.browser = "firefox";
 config.parallel = false;
 config.baseUrl = "";
 // Framework config
+config.container="yui";
 config.arrowModuleRoot = global.appRoot + "/";
 config.dimensions = config.arrowModuleRoot + "config/dimensions.json";
 config.defaultTestHost = config.arrowModuleRoot + "lib/client/testHost.html";
