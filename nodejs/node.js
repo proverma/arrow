@@ -82,6 +82,7 @@ function runTest() {
     ARROW.testScript = "";
     ARROW.scriptType = "test";
     ARROW.shareLibServerSeed = shareLibServerSeed;
+	ARROW.testfile=testFile;
     ARROW.onSeeded = function () {
         var depFile,
             i;
