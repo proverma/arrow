@@ -28,7 +28,7 @@ function onReportReady(result) {
         try {
             process.send({
                 results: ARROW.testReport,
-                coverage:coverage.getFinalCoverage()
+                coverage: coverage.getFinalCoverage()
             });
             process.exit(0);
         } catch (e) {
@@ -90,7 +90,7 @@ function runTest() {
             depFile = depFiles[i];
             if (0 === depFile.length) { continue; }
             console.log("Loading dependency: " + depFile);
-            coverage.addInstrumentCandidate(depFile)
+            coverage.addInstrumentCandidate(depFile);
             require(path.resolve("", depFile));
         }
         console.log("Executing test: " + testFile);
@@ -104,7 +104,7 @@ function runTest() {
 	console.log(runner);
 }
 
-if(coverageFlag) {
+if (coverageFlag) {
     coverage.hookRequire();
 }
 runTest();

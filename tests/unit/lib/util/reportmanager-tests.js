@@ -54,7 +54,7 @@ YUI.add('reportmanager-tests', function(Y) {
 
                 rm.addTest(time, className, name, failureMessage);
 
-                A.areEqual(rm.xw.toString(), '<testcase time="136.03" classname="testClass" name="test"><failure>&lt;![CDATA[fail]]&gt;</failure></testcase>',
+                A.areEqual(rm.xw.toString(), '<testcase time="136.03" classname="testClass" name="test"><failure>fail</failure></testcase>',
                     'xml string - add test failure doesn\'t match');
 
             } catch (e) {

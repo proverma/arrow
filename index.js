@@ -30,33 +30,32 @@ global.reportMap = [];
 //getting command line args
 
 var knownOpts = {
-		"browser":[String, null],
-		"lib":[String, null],
-		"shareLibPath":[String, null],
-		"enableShareLibYUILoader":Boolean,
-		"page":[String, null],
-		"driver":[String, null],
-		"controller":[String, null],
-		"reuseSession":Boolean,
-		"parallel":[Number, null],
-		"report":Boolean,
-		"coverage":Boolean,
-		"coverageExclude":[String, null],
-		"reportFolder":[String, null],
-		"testName":[String, null],
-		"group":[String, null],
-		"logLevel":[String, null],
-		"context":[String, null],
-		"dimensions":[String, null],
-		"capabilities":[String, null],
-		"seleniumHost":[String, null],
-		"retryCount":[Number, null],
-		"exitCode":Boolean,
-		"color":Boolean,
-		"keepIstanbulCoverageJson":Boolean,
-		"container":String
-	},
-	shortHands = {},
+        "browser": [String, null],
+        "lib": [String, null],
+        "shareLibPath": [String, null],
+        "enableShareLibYUILoader": Boolean,
+        "page": [String, null],
+        "driver": [String, null],
+        "controller": [String, null],
+        "reuseSession": Boolean,
+        "parallel": [Number, null],
+        "report": Boolean,
+        "coverage": Boolean,
+        "coverageExclude": [String, null],
+        "reportFolder": [String, null],
+        "testName": [String, null],
+        "group": [String, null],
+        "logLevel": [String, null],
+        "context": [String, null],
+        "dimensions": [String, null],
+        "capabilities": [String, null],
+        "seleniumHost": [String, null],
+        "retryCount": [Number, null],
+        "exitCode": Boolean,
+        "color": Boolean,
+        "keepIstanbulCoverageJson": Boolean
+    },
+    shortHands = {},
 //TODO : Investigate and implement shorthands
 //    , "br" : ["--browser"]
 //    , "lb" : ["--lib"]
@@ -213,7 +212,29 @@ global.keepIstanbulCoverageJson = config.keepIstanbulCoverageJson;
 global.color = config.color;
 
 
+function startArrow() {
+    // TODO: arrowSetup move to Arrow
+    arrowSetup = new ArrowSetup(config, argv);
+    this.arrow = Arrow;
+
+    // Setup Arrow Tests
+    if (argv.arrowChildProcess) {
+        //console.log("Child Process");
+        arrowSetup.childSetup();
+        argv.descriptor = argv.argv.remain[0];
+        arrow = new Arrow(config, argv);
+        arrow.run();
+    } else {
+        //console.log("Master Process");
+        arrowSetup.setup();
+        if (false === arrowSetup.startRecursiveProcess) {
+            arrow = new Arrow(config, argv);
+            arrow.run();
+        }
+    }
+}
 // some changes for container
+
 if(config.container && config.container !=="yui"){
 	try {
 		var containerFloder = path.join(config['arrowModuleRoot'], "lib/container");
@@ -232,36 +253,12 @@ if(config.container && config.container !=="yui"){
 		throw e;
 	}
 }
-
 // scan libraries
 if (config.shareLibPath !== undefined) {
-	var libScanner = require('./lib/util/sharelibscanner');
-	new libScanner(config).genSeedFile(config.shareLibPath, startArrow);
+    var LibScanner = require('./lib/util/sharelibscanner');
+    var libScanner = new LibScanner(config);
+    libScanner.genSeedFile(config.shareLibPath, startArrow);
 } else {
-	startArrow();
+    startArrow();
 }
-
-function startArrow() {
-
-	// TODO: arrowSetup move to Arrow
-	arrowSetup = new ArrowSetup(config, argv);
-	this.arrow = Arrow;
-
-	// Setup Arrow Tests
-	if (argv.arrowChildProcess) {
-		//console.log("Child Process");
-		arrowSetup.childSetup();
-		argv.descriptor = argv.argv.remain[0];
-		arrow = new Arrow(config, argv);
-		arrow.run();
-	} else {
-		//console.log("Master Process");
-		arrowSetup.setup();
-		if (false === arrowSetup.startRecursiveProcess) {
-			arrow = new Arrow(config, argv);
-			arrow.run();
-		}
-	}
-}
-
 

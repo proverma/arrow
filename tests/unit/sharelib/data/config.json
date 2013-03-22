@@ -1,0 +1,15 @@
+{
+    "consumerKey":"kkkkkkkkkkkk",
+    "consumerSecret":"ssssssssssss",
+    "username":"xxxxxx",
+    "password":"yyyyyy",
+
+    "needUserCred":true,
+    "oauthType":"external",
+    "yahooAuthVersion":"v2",
+
+    "externalOAuthScope":"All",
+    "ExtAllConsumerKey":"kkkkkkkkkkkk",
+    "ExtAllConsumerSecret":"ssssssssssss",
+
+}
