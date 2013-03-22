@@ -1,4 +1,5 @@
-/*global require: true, console: true, escape: true, window:true, process:true, module:true */
+/*jslint forin:true sub:true anon:true, sloppy:true, stupid:true nomen:true, node:true continue:true*/
+/*global require: true, console: true, escape: true, window:true, process:true, module:true*/
 
 /*
  * Copyright (c) 2012 Yahoo! Inc. All rights reserved.
@@ -10,38 +11,39 @@
  * @module cookieUtil
  */
 YUI.add('cookieUtil', function (Y) {
+    'use strict';
     Y.namespace("Arrow");
     var ERRORMSG = {
-        UNKNOWN_COOKIE_NAME:"unknown cookie name ",
-        INVALID_COOKIE_NAME:"invalid cookie name ",
-        INVALID_COOKIE_VALUE:"invalid cookie value",
-        MISSING_PARAMETER_NAME:"missing parameter: name is expected. ",
-        MISSING_PARAMETER_VALUE:"missing parameter: cookie value is expected.",
-        UNSUPPORTED_OPTION:"unsupported option is found.",
-        INVALID_SUBCOOKIE:"invalid subcookie name or subcookie value.",
-        UNEXPECTED_RESPONSE:"unexpected response received. either cookies or location is missing.",
-        INVALID_OBJECT:" is expected as an object.",
-        WRONG_PARAMETER_COOKIEVALUE:"wrong parameter: cookie value(string) is expected.",
-        WRONG_PARAMETER_SUBFIELDS_ARRAY:"wrong parameter: a subFields array expected.",
-        WRONG_PARAMETER_SUBFIELDS_OBJECT:"wrong parameter: a subFields object is expected.",
-        WRONG_PARAMETER_CALLBACK:"wrong parameter: a callback is expected.",
-        INVALID_PARAMETER:"wrong parameter: following parameters are expected:",
-        EXISTING_COOKIE:"the cookie has existed. name: ",
-        NONEXISTING_COOKIE:"the cookie doesn't exist. name: ",
-        INVALID_COOKIEJAR:"cookiejar is undefined or blank, please input a valid value. ",
-        UNDEFINED_HEADER:"header is undfined, please input a valid header. ",
-        WRONG_PARAMETER_COOKIES_OBJECT:"wrong parameter: a cookies object is expected.",
-        ILLEGAL_RESPONSE:"illegal response",
-        NO_COOKIE_FROM_SERVER:"no cookies info from server side",
-        INVALID_CONFIG:"invalid configuration file type."
+        UNKNOWN_COOKIE_NAME: "unknown cookie name ",
+        INVALID_COOKIE_NAME: "invalid cookie name ",
+        INVALID_COOKIE_VALUE: "invalid cookie value",
+        MISSING_PARAMETER_NAME: "missing parameter: name is expected. ",
+        MISSING_PARAMETER_VALUE: "missing parameter: cookie value is expected.",
+        UNSUPPORTED_OPTION: "unsupported option is found.",
+        INVALID_SUBCOOKIE: "invalid subcookie name or subcookie value.",
+        UNEXPECTED_RESPONSE: "unexpected response received. either cookies or location is missing.",
+        INVALID_OBJECT: " is expected as an object.",
+        WRONG_PARAMETER_COOKIEVALUE: "wrong parameter: cookie value(string) is expected.",
+        WRONG_PARAMETER_SUBFIELDS_ARRAY: "wrong parameter: a subFields array expected.",
+        WRONG_PARAMETER_SUBFIELDS_OBJECT: "wrong parameter: a subFields object is expected.",
+        WRONG_PARAMETER_CALLBACK: "wrong parameter: a callback is expected.",
+        INVALID_PARAMETER: "wrong parameter: following parameters are expected:",
+        EXISTING_COOKIE: "the cookie has existed. name: ",
+        NONEXISTING_COOKIE: "the cookie doesn't exist. name: ",
+        INVALID_COOKIEJAR: "cookiejar is undefined or blank, please input a valid value. ",
+        UNDEFINED_HEADER: "header is undfined, please input a valid header. ",
+        WRONG_PARAMETER_COOKIES_OBJECT: "wrong parameter: a cookies object is expected.",
+        ILLEGAL_RESPONSE: "illegal response",
+        NO_COOKIE_FROM_SERVER: "no cookies info from server side",
+        INVALID_CONFIG: "invalid configuration file type."
     };
     var defaultconfig = {
-        separator:'&',
-        equalChar:"=",
-        semiColon:";",
-        comma:",",
-        space:" ",
-        userAgent:'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:16.0) Gecko/20100101 Firefox/16.0'
+        separator: '&',
+        equalChar: "=",
+        semiColon: ";",
+        comma: ",",
+        space: " ",
+        userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:16.0) Gecko/20100101 Firefox/16.0'
     };
 
     /**
@@ -62,7 +64,7 @@ YUI.add('cookieUtil', function (Y) {
          * @param {Object} config Configuration object.
          * @protected
          */
-        initializer:function (config) {
+        initializer: function (config) {
             if (config && typeof (config) === "object") {
                 this.config = config || {};
             } else {
@@ -78,7 +80,7 @@ YUI.add('cookieUtil', function (Y) {
          * @return {String} '=' or '%26'
          * @private
          */
-        _getSeparator:function () {
+        _getSeparator: function () {
             var separator = defaultconfig.separator;
             if (this.config.urlEncode) {
                 separator = escape(separator);
@@ -93,7 +95,7 @@ YUI.add('cookieUtil', function (Y) {
          * @return {String} '=' or '%3D'
          * @private
          */
-        _getEqualChar:function () {
+        _getEqualChar: function () {
             var equalChar = defaultconfig.equalChar;
             if (this.config.urlEncode) {
                 equalChar = escape(equalChar);
@@ -108,7 +110,7 @@ YUI.add('cookieUtil', function (Y) {
          * @return {String} ';' or '%3B'
          * @private
          */
-        _getSemicolon:function () {
+        _getSemicolon: function () {
             var semiColon = defaultconfig.semiColon;
             if (this.config.urlEncode) {
                 semiColon = escape(semiColon);
@@ -123,7 +125,7 @@ YUI.add('cookieUtil', function (Y) {
          * @return {String} ',' or '%2C'
          * @private
          */
-        _getComma:function () {
+        _getComma: function () {
             var comma = defaultconfig.comma;
             if (this.config.urlEncode) {
                 comma = escape(comma);
@@ -138,7 +140,7 @@ YUI.add('cookieUtil', function (Y) {
          * @return {String} ' ' or '%20'
          * @private
          */
-        _getSpace:function () {
+        _getSpace: function () {
             var space = defaultconfig.space;
             if (this.config.urlEncode) {
                 space = escape(space);
@@ -151,7 +153,7 @@ YUI.add('cookieUtil', function (Y) {
          * @return {Boolean}  return true if it is server side, otherwise it is client side
          * @private
          */
-        _isServer:function () {
+        _isServer: function () {
             if (typeof process === 'object') {
                 if (process.versions && process.versions.node) {
                     return true;
@@ -166,25 +168,25 @@ YUI.add('cookieUtil', function (Y) {
          * @example
          *
          * createCustCookie ( "custcookie",
-         *                        {
-     *							fieldA: valueA,
-     *							fieldB: valueB,
-     *				    		},
-         *                        {
-     *							domain: ".xx.com",
-     *							path: "/",
-     *							secure: true,
-     *							expires:  Wednesday, 09-Nov-99 23:12:40 GMT
-     *						});
+         *     {
+         *         fieldA: valueA,
+         *         fieldB: valueB,
+         *     },
+         *     {
+         *         domain: ".xx.com",
+         *         path: "/",
+         *         secure: true,
+         *         expires:  Wednesday, 09-Nov-99 23:12:40 GMT
+         *     });
          *    return cookie string like "SSID=AHOkKrqp7_awIDQ2J;domain=**;expires=**"
          * @param name the cookie name you want to generate
          * @param subFieldsObj an object contains each value of the cookie
          * @param options the options of the cookie. i.e path, domain, secure, expires.
          * @param cb {Function}
          */
-        createCustCookie:function (name, subFieldsObj, options, cb) {
+        createCustCookie: function (name, subFieldsObj, options, cb) {
             if (!Y.Lang.isFunction(cb)) {
-                throw Error(ERRORMSG.WRONG_PARAMETER_CALLBACK);
+                throw new Error(ERRORMSG.WRONG_PARAMETER_CALLBACK);
             }
             if ((Y.Lang.isUndefined(subFieldsObj))) {
                 cb(new Error(ERRORMSG.MISSING_PARAMETER_VALUE));
@@ -273,7 +275,7 @@ YUI.add('cookieUtil', function (Y) {
          * @return {*}
          * @private
          */
-        _validateCookieName:function (name) {
+        _validateCookieName: function (name) {
             if ((name === "") || (name === null)) {
                 console.log("the cookie name(sub cookie name) shoud not be empty or null", "error");
                 return false;
@@ -286,7 +288,7 @@ YUI.add('cookieUtil', function (Y) {
          * @param {String} field - the field value
          * @private
          */
-        _validateCookieSpec:function (field) {
+        _validateCookieSpec: function (field) {
             if (!Y.Lang.isString(field)) {
                 console.log("'" + field + "' is not string");
                 return false;
@@ -303,16 +305,16 @@ YUI.add('cookieUtil', function (Y) {
         /**
          * parse cookie string and return an object, the object would be:
          *{
-         *	_f1:"ddesee",
-         *	b: "3",
-         *	a: "8q",
+         *    _f1:"ddesee",
+         *    b: "3",
+         *    a: "8q",
          *}
          * @method _parseCookieString
          * @param value  - a string like "ddesee&b=3&a=8q"
          * @param cb {Function}
          * @private
          */
-        _parseCookieString:function (value, cb) {
+        _parseCookieString: function (value, cb) {
             var separator = this._getSeparator(), equalChar = this._getEqualChar(), text = {}, subFieldsArray = value.split(separator);
             for (var i = 0; i < subFieldsArray.length; i++) {
                 var subField = subFieldsArray[i], element = subField.split(equalChar);
@@ -358,7 +360,7 @@ YUI.add('cookieUtil', function (Y) {
          * @param cb {Function}
          * @private
          */
-        _parseCookieObjToString:function (cookieObj, cb) {
+        _parseCookieObjToString: function (cookieObj, cb) {
             var separator = this._getSeparator(), equalChar = this._getEqualChar(), text = "", begin = "", v, k;
             for (k in cookieObj) {
                 if (cookieObj.hasOwnProperty(k)) {
@@ -389,9 +391,9 @@ YUI.add('cookieUtil', function (Y) {
          * @param subFieldsArray - an array contains all the subfield' names
          * @param cb {Function}
          */
-        deleteSubCookie:function (value, subFieldsArray, cb) {
+        deleteSubCookie: function (value, subFieldsArray, cb) {
             if (!Y.Lang.isFunction(cb)) {
-                throw Error(ERRORMSG.WRONG_PARAMETER_CALLBACK);
+                throw new Error(ERRORMSG.WRONG_PARAMETER_CALLBACK);
             }
 
             if (Y.Lang.isUndefined(value) || value === "") {
@@ -433,9 +435,9 @@ YUI.add('cookieUtil', function (Y) {
          * return the modified cookie string
          * @param cb {Function}
          */
-        addSubCookie:function (value, subFieldsObj, cb) {
+        addSubCookie: function (value, subFieldsObj, cb) {
             if (!Y.Lang.isFunction(cb)) {
-                throw Error(ERRORMSG.WRONG_PARAMETER_CALLBACK);
+                throw new Error(ERRORMSG.WRONG_PARAMETER_CALLBACK);
             }
             if (Y.Lang.isUndefined(value) || value === "") {
                 cb(new Error(ERRORMSG.WRONG_PARAMETER_COOKIEVALUE));
@@ -483,7 +485,7 @@ YUI.add('cookieUtil', function (Y) {
          *  }
          * @param cb {Function}
          */
-        modifyCookie:function (value, subFieldsObj, cb) {
+        modifyCookie: function (value, subFieldsObj, cb) {
             var self = this, error = null;
             if (!Y.Lang.isFunction(cb)) {
                 throw new Error(ERRORMSG.WRONG_PARAMETER_CALLBACK);
@@ -533,7 +535,7 @@ YUI.add('cookieUtil', function (Y) {
          * @param value - the cookie string value
          * @param cb {Function}- a callback to return the error and modified cookie string
          */
-        appendCookieInCookiejar:function (cookiejar, name, value, cb) {
+        appendCookieInCookiejar: function (cookiejar, name, value, cb) {
             if (!(Y.Lang.isString(cookiejar) && Y.Lang.isString(name) && Y.Lang.isString(value) && Y.Lang.isFunction(cb))) {
                 throw new Error(ERRORMSG.INVALID_PARAMETER + "\ncookiejar {String}, name {String}, value {String}, cb {Function}");
             }
@@ -571,7 +573,7 @@ YUI.add('cookieUtil', function (Y) {
          * @param value - the cookie value
          * @param cb {Function}- a callback to return the error and the modified cookie string
          */
-        modifyCookieInCookiejar:function (cookiejar, name, value, cb) {
+        modifyCookieInCookiejar: function (cookiejar, name, value, cb) {
             var cookieValue = value, self = this;
             if (!(Y.Lang.isString(cookiejar) && Y.Lang.isString(name) && Y.Lang.isString(value) && Y.Lang.isFunction(cb))) {
                 throw new Error(ERRORMSG.INVALID_PARAMETER + "\ncookiejar {String}, name {String}, value {String}, cb {Function}");
@@ -614,7 +616,7 @@ YUI.add('cookieUtil', function (Y) {
          * @param name - the cookie you want to delete
          * @param cb {Function}- a callback to return the error or modified cookie jar
          */
-        deleteCookieInCookiejar:function (cookiejar, name, cb) {
+        deleteCookieInCookiejar: function (cookiejar, name, cb) {
             var self = this;
             if (!(Y.Lang.isString(cookiejar) && Y.Lang.isString(name) && Y.Lang.isFunction(cb))) {
                 throw new Error(ERRORMSG.INVALID_PARAMETER + "\ncookiejar {String}, name {String}, cb {Function}");
@@ -658,7 +660,7 @@ YUI.add('cookieUtil', function (Y) {
          * @param name -  a cookie name
          * @param cb {Function}-  a callback to return the error and extracted cookie string
          */
-        getCookieInCookiejar:function (cookiejar, name, cb) {
+        getCookieInCookiejar: function (cookiejar, name, cb) {
             var self = this;
             if (!(Y.Lang.isString(cookiejar) && Y.Lang.isString(name) && Y.Lang.isFunction(cb))) {
                 throw new Error(ERRORMSG.INVALID_PARAMETER + "\ncookiejar {String}, name {String}, cb {Function}");
@@ -687,20 +689,20 @@ YUI.add('cookieUtil', function (Y) {
          * @example
          * var responseCookies;
          * YUI.io(url, {
-     *              method: 'POST',
-     *              headers: headers,
-     *              on: {
-     *                  complete: function (id, response) {
-     *                      responseCookies = cookieUtil.getCookiesFromHeader(response);
-     *                      //get X cookie;
-     *                      var Xcookie=responseCookies["X"];
-     *                  }
-     *              }
-     *          });
+         *     method: 'POST',
+         *     headers: headers,
+         *     on: {
+         *         complete: function (id, response) {
+         *             responseCookies = cookieUtil.getCookiesFromHeader(response);
+         *             //get X cookie;
+         *             var Xcookie=responseCookies["X"];
+         *         }
+         *     }
+         * });
          * @param response - response http response object after send request
          * @param cb {Function}- return cookies object with cookie name as key, cookie value as value.
          */
-        getCookiesFromHeader:function (response, cb) {
+        getCookiesFromHeader: function (response, cb) {
             var cookies = {};
             if (Y.Lang.isUndefined(response) || response === null || !Y.Lang.isObject(response)) {
                 cb(new Error(ERRORMSG.ILLEGAL_RESPONSE));
@@ -762,7 +764,7 @@ YUI.add('cookieUtil', function (Y) {
          *
          * @param cb {Function}
          */
-        setCookiejarToHeader:function (cookiejar, headers, cb) {
+        setCookiejarToHeader: function (cookiejar, headers, cb) {
             if (Y.Lang.isUndefined(cookiejar) || cookiejar === null || cookiejar.length === 0) {
                 console.log("cookiejar is undefined, did not set cookie to header");
                 cb(new Error(ERRORMSG.INVALID_COOKIEJAR));
@@ -790,7 +792,7 @@ YUI.add('cookieUtil', function (Y) {
          * @param cb {Function}- return invalidCookiejar invalid format cookiejar which contains semi-colon, comma or whitespace
          * e.g. 'X,=bnas=0; H=1; K=a=nJN0&b=Jhio; '
          */
-        generateInvalidFormatCookie:function (cookiejar, cb) {
+        generateInvalidFormatCookie: function (cookiejar, cb) {
             var semiColon = this._getSemicolon(), comma = this._getComma(), space = this._getSpace();
 
             if (!Y.Lang.isUndefined(cookiejar) && Y.Lang.isString(cookiejar)) {
@@ -807,7 +809,7 @@ YUI.add('cookieUtil', function (Y) {
          *                 , e.g. cookies["X"]="k=1&H=ab3"
          * @param cb {Function}- return cookiejar, a String which can be used in http request 'Cookie' header and send out.
          */
-        parseCookiesObjToCookiejar:function (cookiesObj, cb) {
+        parseCookiesObjToCookiejar: function (cookiesObj, cb) {
             var separator = this._getSeparator(), equalChar = this._getEqualChar(), cookiejar, self = this;
             if (Y.Lang.isUndefined(cookiesObj) || !Y.Lang.isObject(cookiesObj) || Y.Object.isEmpty(cookiesObj)) {
                 cb(new Error(ERRORMSG.WRONG_PARAMETER_COOKIES_OBJECT));
