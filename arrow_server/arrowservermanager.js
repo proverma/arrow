@@ -12,24 +12,29 @@ var path = require('path'),
 var log4js = require("log4js");
 var serverManagerLogger = new log4js.getLogger("arrowServerManager");
 var arrowConfig = require('../config/config');
-var portchecker=require('../ext-lib/portchecker');
+var portchecker = require('../ext-lib/portchecker');
 var child;
 
-var servermanager=module.exports={};
+var servermanager = module.exports = {};
 
 /**
  * get local host ip(return first one)
  * @return {*}
  */
-servermanager.getLocalhostIPAddress =function() {
+servermanager.getLocalhostIPAddress = function () {
+    'use strict';
     var os = require('os'),
+        k,
+        k2,
+        address,
         interfaces = os.networkInterfaces(),
         addresses = [];
+
     for (k in interfaces) {
         for (k2 in interfaces[k]) {
-            var address = interfaces[k][k2];
-            if (address.family == 'IPv4' && !address.internal) {
-                addresses.push(address.address)
+            address = interfaces[k][k2];
+            if (address.family === 'IPv4' && !address.internal) {
+                addresses.push(address.address);
             }
         }
     }
@@ -88,7 +93,10 @@ servermanager.getAllIPAddressForArrowServer = function () {
     // maybe we should add method to get "proper" ip if the local host has multiply ip address
     var os = require('os'),
         interfaces = os.networkInterfaces(),
+        k,
+        k2,
         addresses = [];
+
     for (k in interfaces) {
         for (k2 in interfaces[k]) {
             var address = interfaces[k][k2];

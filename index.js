@@ -13,7 +13,7 @@ var ArrowSetup = require('./lib/util/arrowsetup');
 var nopt = require("nopt");
 var Properties = require("./lib/util/properties");
 var fs = require("fs");
-var path = require ("path");
+var path = require("path");
 
 //setting appRoot
 global.appRoot = __dirname;
@@ -25,7 +25,7 @@ global.workingDirectory = process.cwd();
 global.coverageMap = [];
 
 //Array for Holding Report Files
-global.reportMap =[];
+global.reportMap = [];
 
 //getting command line args
 
@@ -33,7 +33,7 @@ var knownOpts = {
         "browser": [String, null],
         "lib": [String, null],
         "shareLibPath": [String, null],
-        "enableShareLibYUILoader":Boolean,
+        "enableShareLibYUILoader": Boolean,
         "page": [String, null],
         "driver": [String, null],
         "controller": [String, null],
@@ -211,19 +211,7 @@ global.retryCount = config.retryCount;
 global.keepIstanbulCoverageJson = config.keepIstanbulCoverageJson;
 global.color = config.color;
 
-
-// scan libraries
-if (config.shareLibPath !== undefined)
-{
-    var libScanner = require('./lib/util/sharelibscanner');
-    new libScanner(config).genSeedFile(config.shareLibPath, startArrow);
-} else {
-    startArrow();
-}
-
-function startArrow()
-{
-
+function startArrow() {
     // TODO: arrowSetup move to Arrow
     arrowSetup = new ArrowSetup(config, argv);
     this.arrow = Arrow;
@@ -245,4 +233,12 @@ function startArrow()
     }
 }
 
+// scan libraries
+if (config.shareLibPath !== undefined) {
+    var LibScanner = require('./lib/util/sharelibscanner');
+    var libScanner = new LibScanner(config);
+    libScanner.genSeedFile(config.shareLibPath, startArrow);
+} else {
+    startArrow();
+}
 
