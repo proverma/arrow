@@ -56,7 +56,7 @@ if (parsed["host"]) {
     arrowHost = parsed["host"];
 }
 if (!arrowHost || arrowHost === "localhost") {
-    var servermanager=require("../lib/util/arrowservermanager");
+    var servermanager=require("./arrowservermanager");
     arrowHost = servermanager.getLocalhostIPAddress() || "localhost" ;
 }
 
