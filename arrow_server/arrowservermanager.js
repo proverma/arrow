@@ -1,10 +1,18 @@
+/*jslint forin:true sub:true anon:true sloppy:true stupid:true nomen:true node:true continue:true*/
+
+/*
+ * Copyright (c) 2012, Yahoo! Inc.  All rights reserved.
+ * Copyrights licensed under the New BSD License.
+ * See the accompanying LICENSE file for terms.
+ */
+
 var path = require('path'),
     fs = require('fs');
 
 var log4js = require("log4js");
 var serverManagerLogger = new log4js.getLogger("arrowServerManager");
-var arrowConfig = require('../../config/config');
-var portchecker = require('../../ext-lib/portchecker');
+var arrowConfig = require('../config/config');
+var portchecker = require('../ext-lib/portchecker');
 var child;
 
 var servermanager = module.exports = {};
@@ -51,7 +59,7 @@ servermanager.getArrowServerHost =function() {
             }
         }
     } catch (e) {
-        serverManagerLogger.warn("Arrow server status does not exist");
+        serverManagerLogger.debug("Arrow server status does not exist");
     }
     return ip;
 }
@@ -72,7 +80,7 @@ servermanager.getArrowServerHostIP =function() {
             }
         }
     } catch (e) {
-        serverManagerLogger.warn("Arrow server status does not exist");
+        serverManagerLogger.debug("Arrow server status does not exist");
     }
     return ip;
 }

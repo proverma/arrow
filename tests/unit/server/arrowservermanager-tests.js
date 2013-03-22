@@ -8,10 +8,10 @@
 YUI.add('arrowservermanager-tests', function (Y) {
 
     var path = require('path');
-    global.appRoot = path.join(__dirname, '../../../..');
+    global.appRoot = path.join(__dirname, '../../..');
     var fs = require('fs'),
         arrowRoot = global.appRoot,
-        servermanager = require(arrowRoot + '/lib/util/arrowservermanager.js'),
+        servermanager = require(arrowRoot + '/arrow_server/arrowservermanager.js'),
         suite = new Y.Test.Suite("arrow server manager test suite");
 
      suite.add(new Y.Test.Case({
