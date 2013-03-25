@@ -4,11 +4,10 @@
  * See the accompanying LICENSE file for terms.
  */
 
-
+if(!global.appRoot)global.appRoot = require('path').join(__dirname, '../../../..');
 YUI.add('sharelibscanner-tests', function (Y) {
 
     var path = require('path');
-    global.appRoot = path.join(__dirname, '../../../..');
     var fs = require('fs'),
         arrowRoot = global.appRoot,
         sharelibScanner = require(arrowRoot + '/lib/util/sharelibscanner.js'),
@@ -72,7 +71,6 @@ YUI.add('sharelibscanner-tests', function (Y) {
         });
 
     }
-    global.appRoot = path.join(__dirname, '../../../..');
     suite.add(new Y.Test.Case({
         "Test generate Seed File given no scan path":function () {
             setup();
