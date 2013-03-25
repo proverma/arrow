@@ -23,12 +23,12 @@ YUI.add('oauth-automator-tests', function (Y, NAME) {
 
         _should: {
             ignore: {
-                "test invaild attr and cb": true, //ignore this test
+                //"test invaild attr and cb": true, //ignore this test
                 "test external 3 legged oauth": true,
-                "test external 2 legged oauth": true,
-                "test external 2 legged oauth with no-yahoo cert": true,
-                "test external 3 legged oauth with wrong pass": true,
-                "test errer branch for generate oauth": true
+                //"test external 2 legged oauth": true,
+                //"test external 2 legged oauth with no-yahoo cert": true,
+                //"test external 3 legged oauth with wrong pass": true,
+                //"test errer branch for generate oauth": true
             }
         },
 
