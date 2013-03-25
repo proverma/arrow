@@ -3,12 +3,11 @@
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
-
+if(!global.appRoot)global.appRoot = require('path').join(__dirname, '../../..');
 
 YUI.add('arrowservermanager-tests', function (Y) {
 
 	var path = require('path');
-	global.appRoot = path.join(__dirname, '../../..');
 	var fs = require('fs'),
 		arrowRoot = global.appRoot,
 		servermanager = require(arrowRoot + '/arrow_server/arrowservermanager.js'),
@@ -79,6 +78,7 @@ YUI.add('arrowservermanager-tests', function (Y) {
 							Y.Assert.isTrue(started);
 							Y.Assert.isTrue(servermanager.getArrowServerHost() !== undefined);
 							servermanager.stopArrowServer(true);
+							clearup();
 						})
 					});
 					self.wait(5000);
