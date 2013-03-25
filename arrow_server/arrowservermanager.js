@@ -199,5 +199,4 @@ servermanager.stopArrowServer = function (killall) {
 				}
 			});
 	}
-
 };
