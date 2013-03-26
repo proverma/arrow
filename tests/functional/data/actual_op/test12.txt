@@ -1,1 +1,1 @@
-[31m[2012-10-23 16:16:43.201] [ERROR] SeleniumDriver - [39mUncaught exception: undefined
+Total Time of Execution :26.24 seconds
