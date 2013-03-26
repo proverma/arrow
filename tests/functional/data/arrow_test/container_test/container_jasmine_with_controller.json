@@ -39,7 +39,7 @@
                             "page": "http://finance.yahoo.com"
                         },
                         {
-                            "test": "qunit-test.js"
+                            "test": "jasmine-bdd-test.js"
                         }
                     ]
                 }
