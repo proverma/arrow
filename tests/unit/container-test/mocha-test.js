@@ -29,13 +29,26 @@ describe('Array', function(){
 			var arr = [1,2,3];
 			assert(arr.pop() == 3);
 			assert(arr.pop() == 2);
-			assert(arr.pop() == -1);
+			assert(arr.pop() == 1);
 		})
-
 		it('should adjust .length', function(){
 			var arr = [1,2,3];
 			arr.pop();
 			assert(arr.length == 2);
 		})
 	})
+})
+
+xdescribe('#we can use yui share lib', function(){
+	it('should be able to use yui instance and share lib', function(){
+
+		YUI().use('cookieUtil',function(Y){
+			var cookieUtil = new Y.Arrow.CookieUtil({});
+			cookieUtil.getCookiesFromHeader(null, function (err, cookies) {
+				assert("illegal response" == err.message);
+			});
+		})
+
+	})
+
 })
