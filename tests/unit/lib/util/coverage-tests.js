@@ -78,7 +78,7 @@ YUI.add('coverage-tests', function (Y, NAME) {
      * test instrumentCode
      */
     function testInstrumentCode() {
-        var code = ' aaa', filename;
+        var code = ' aaa', filename = "";
         coverage.instrumentCode(code, filename);
     }
 
