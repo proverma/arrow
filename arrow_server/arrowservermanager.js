@@ -59,7 +59,7 @@ servermanager.getArrowServerHost = function () {
             }
         }
     } catch (e) {
-        serverManagerLogger.debug("Arrow server status does not exist");
+        serverManagerLogger.trace("Arrow server status does not exist");
     }
     return ip;
 }
@@ -80,7 +80,7 @@ servermanager.getArrowServerHostIP = function () {
             }
         }
     } catch (e) {
-        serverManagerLogger.debug("Arrow server status does not exist");
+        serverManagerLogger.trace("Arrow server status does not exist");
     }
     return ip;
 }
