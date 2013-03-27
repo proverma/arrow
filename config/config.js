@@ -16,7 +16,6 @@ config.browser = "firefox";
 config.parallel = false;
 config.baseUrl = "";
 // Framework config
-config.container="yui";
 config.arrowModuleRoot = global.appRoot + "/";
 config.dimensions = config.arrowModuleRoot + "config/dimensions.json";
 config.defaultTestHost = config.arrowModuleRoot + "lib/client/testHost.html";
@@ -25,6 +24,11 @@ config.testSeed = config.arrowModuleRoot + "lib/client/yuitest-seed.js";
 config.testRunner = config.arrowModuleRoot + "lib/client/yuitest-runner.js";
 config.yuiloaderchecker = config.arrowModuleRoot + "lib/client/yuitest-yuiloadercheck.js";
 config.autolib = config.arrowModuleRoot + "lib/common";
+
+// for container
+config.container="yui";
+config.containerSeed=config.arrowModuleRoot + "lib/container/interface/container-seed.js";
+config.containerRunner=config.arrowModuleRoot + "lib/container/interface/container-runner.js";
 
 // config for share lib
 

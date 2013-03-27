@@ -8,6 +8,7 @@
 
 var fs = require('fs');
 var path = require('path');
+var log4js = require("log4js").getLogger("runNodejsTest");;
 var coverage = require('../lib/util/coverage');
 
 ARROW = {};
@@ -98,10 +99,11 @@ function runTest() {
         require(runner);
         waitFor(getReportStatus, onReportReady);
     };
+	console.log(fs.readFileSync(seed,'utf8'));
+	console.log(fs.readFileSync(runner,'utf8'));
 
     require(seed);
-	console.log(seed);
-	console.log(runner);
+
 }
 
 if (coverageFlag) {
