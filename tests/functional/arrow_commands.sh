@@ -219,7 +219,7 @@ if [ $? != 0 ]; then
 } fi
 
 echo "TEST24: "
-CMD=`$ARROWCI ./data/arrow_test/sharelib-test-func-no-commonlib.json --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./cap.json | grep "LOG" >./data/actual_op/test24.txt`
+CMD=`$ARROWCI ./data/arrow_test/sharelib-test-func-no-commonlib.json --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./cap.json | tail -2 | head -1 >./data/actual_op/test24.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
@@ -228,7 +228,7 @@ if [ $? != 0 ]; then
 } fi
 
 echo "TEST25: "
-CMD=`$ARROWCI ./data/arrow_test/sharelib-external-controller-test.json --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./cap.json | grep "LOG" >./data/actual_op/test25.txt`
+CMD=`$ARROWCI ./data/arrow_test/sharelib-external-controller-test.json --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./cap.json | tail -2 | head -1 >./data/actual_op/test25.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
