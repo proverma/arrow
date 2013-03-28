@@ -99,8 +99,8 @@ function runTest() {
         require(runner);
         waitFor(getReportStatus, onReportReady);
     };
-	console.log(fs.readFileSync(seed,'utf8'));
-	console.log(fs.readFileSync(runner,'utf8'));
+	log4js.trace(fs.readFileSync(seed,'utf8'));
+	log4js.trace(fs.readFileSync(runner,'utf8'));
 
     require(seed);
 

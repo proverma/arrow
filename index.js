@@ -233,26 +233,6 @@ function startArrow() {
         }
     }
 }
-// some changes for container
-
-if(config.container && config.container !=="yui"){
-	try {
-		var containerFloder = path.join(config['arrowModuleRoot'], "lib/container");
-		var containerName = config.container;
-		var seedfile = path.join(containerFloder, containerName, containerName + "-seed.js");
-		var runnerfile = path.join(containerFloder, containerName, containerName + "-runner.js");
-		if (!fs.statSync(seedfile).isFile() || !fs.statSync(runnerfile).isFile()) {
-			throw new Error("test seed or runner not exist");
-		}
-		config['testSeed'] = seedfile;
-		config['testRunner'] = runnerfile;
-		config['defaultTestHost'] = path.join(containerFloder, containerName, containerName + "Host.html");
-
-	} catch (e) {
-		console.error("Finding container " + containerName + " error , maybe it is not supported yet");
-		throw e;
-	}
-}
 // scan libraries
 if (config.shareLibPath !== undefined) {
     var LibScanner = require('./lib/util/sharelibscanner');

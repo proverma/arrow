@@ -1,0 +1,55 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name" : "hybrid engine",
+
+        "commonlib" : "./mocha-lib.js",
+ 
+        "config" :{
+            "baseUrl" : "http://finance.yahoo.com"
+        },
+
+        "dataprovider" : {
+
+           "mocha" : {
+                "params" : {
+                    "test" : "mocha-test.js",
+                    "page" : "$$config.baseUrl$$",
+                    "engine":"mocha"
+                  },
+                "group" : "smoke"
+            },
+
+            "jasmine" : {
+                "params" : {
+                    "test" : "jasmine-bdd-test.js",
+                    "page" : "$$config.baseUrl$$",
+                    "engine":"jasmine"
+                },
+                "group" : "smoke"
+            },
+            "qunit" : {
+                "params" : {
+                    "test" : "qunit-test.js",
+                    "page" : "$$config.baseUrl$$",
+                    "engine":"qunit"
+                },
+                "group" : "smoke"
+            },
+            "yui" : {
+                "params" : {
+                    "test" : "yui-test.js",
+                    "page" : "$$config.baseUrl$$"
+                },
+                "group" : "smoke"
+            }
+        }
+        
+    },
+
+    {
+        "settings": [ "environment:development" ]
+    }
+
+]

@@ -25,10 +25,11 @@ config.testRunner = config.arrowModuleRoot + "lib/client/yuitest-runner.js";
 config.yuiloaderchecker = config.arrowModuleRoot + "lib/client/yuitest-yuiloadercheck.js";
 config.autolib = config.arrowModuleRoot + "lib/common";
 
-// for container
-config.container="yui";
-config.containerSeed=config.arrowModuleRoot + "lib/container/interface/container-seed.js";
-config.containerRunner=config.arrowModuleRoot + "lib/container/interface/container-runner.js";
+// for test engine
+config.engine="yui";   // support yui,mocha,jasmine and qunit now...
+config.engineConfigPath="";  // fs path to the engine config if supported by engine(like mocha)
+config.engineSeed=config.arrowModuleRoot + "lib/engine/interface/engine-seed.js";
+config.engineRunner=config.arrowModuleRoot + "lib/engine/interface/engine-runner.js";
 
 // config for share lib
 

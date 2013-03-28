@@ -42,7 +42,15 @@
                             "page": "http://finance.yahoo.com"
                         },
                         {
-                            "test": "mocha-test.js"
+                            "test": "mocha-test.js",
+                            "engine":"mocha"
+                        },
+                        {
+                            "page": "http://www.yahoo.com"
+                        },
+                        {
+                            "test": "jasmine-bdd-test.js",
+                            "engine":"jasmine"
                         }
                     ]
                 }
