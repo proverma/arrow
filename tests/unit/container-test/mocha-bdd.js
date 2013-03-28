@@ -39,7 +39,7 @@ describe('Array', function(){
 	})
 })
 
-xdescribe('#we can use yui share lib', function(){
+describe('#we can use yui share lib', function(){
 	it('should be able to use yui instance and share lib', function(){
 
 		YUI().use('cookieUtil',function(Y){

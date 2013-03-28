@@ -5,6 +5,9 @@
         "config": {
             "baseUrl": "http://login.yahoo.com"
         },
+
+        "commonlib" : "./mocha-lib.js",
+
         "dataprovider" : {
 
             "Use Locator to Login" : {
