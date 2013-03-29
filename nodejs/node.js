@@ -66,6 +66,7 @@ if (!testSpec) {
     process.exit();
 }
 
+var engineConfig = testSpec.engineConfig;
 var seed = testSpec.seed;
 var shareLibServerSeed = testSpec.shareLibServerSeed;
 var runner = testSpec.runner;
@@ -84,6 +85,7 @@ function runTest() {
     ARROW.scriptType = "test";
     ARROW.shareLibServerSeed = shareLibServerSeed;
 	ARROW.testfile=testFile;
+	ARROW.engineConfig = engineConfig;
     ARROW.onSeeded = function () {
         var depFile,
             i;

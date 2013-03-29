@@ -1,53 +1,54 @@
 [
     {
-        "settings": [ "master" ],
+        "settings":[ "master" ],
 
-        "name" : "hybrid engine server side",
+        "name":"hybrid engine server side",
 
-        "dataprovider" : {
+        "dataprovider":{
 
-           "mocha" : {
-                "params" : {
-                    "test" : "mocha-bdd.js",
+            "mocha":{
+                "params":{
+                    "test":"mocha-bdd.js",
                     "engine":"mocha"
-                  },
-                "group" : "unit"
-            },
-            "mocha-tdd" : {
-                "params" : {
-                    "test" : "mocha-tdd.js",
-                    "engine":"mocha-tdd"
                 },
-                "group" : "unit"
+                "group":"unit"
+            },
+            "mocha-tdd":{
+                "params":{
+                    "test":"mocha-tdd.js",
+                    "engine":"mocha",
+                    "engineConfig":"./mocha-config.json"
+                },
+                "group":"unit"
             },
 
-            "jasmine" : {
-                "params" : {
-                    "test" : "jasmine-bdd-test.js",
+            "jasmine":{
+                "params":{
+                    "test":"jasmine-bdd-test.js",
                     "engine":"jasmine"
                 },
-                "group" : "unit"
+                "group":"unit"
             },
-            "qunit" : {
-                "params" : {
-                    "test" : "qunit-test.js",
+            "qunit":{
+                "params":{
+                    "test":"qunit-test.js",
                     "engine":"qunit"
                 },
-                "group" : "unit"
+                "group":"unit"
             },
-            "yui" : {
-                "params" : {
-                    "test" : "yui-test-unit.js",
+            "yui":{
+                "params":{
+                    "test":"yui-test-unit.js",
                     "lib":"./yui-lib.js"
                 },
-                "group" : "unit"
+                "group":"unit"
             }
         }
-        
+
     },
 
     {
-        "settings": [ "environment:development" ]
+        "settings":[ "environment:development" ]
     }
 
 ]

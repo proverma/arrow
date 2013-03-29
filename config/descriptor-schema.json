@@ -26,7 +26,8 @@
                                 "page" : { "type" : "string" },
                                 "test" : { "type" : "string" },
                                 "lib" : { "type" : "string" },
-                                "engine" :{ "type" : "string" }
+                                "engine" :{ "type" : "string" },
+                                "engineConfig" :{ "type" : "string" }
                             }
                             
                         }
