@@ -233,12 +233,17 @@ function startArrow() {
     }
 }
 
-// scan libraries
-if (config.shareLibPath !== undefined) {
-    var LibScanner = require('./lib/util/sharelibscanner');
-    var libScanner = new LibScanner(config);
-    libScanner.genSeedFile(config.shareLibPath, startArrow);
-} else {
+// Ensuring share lib/controller scan happens only once and not for each descriptor
+if (argv.arrowChildProcess) {
     startArrow();
+} else {
+    if (config.shareLibPath !== undefined) {
+        var LibScanner = require('./lib/util/sharelibscanner');
+        var libScanner = new LibScanner(config);
+        libScanner.genSeedFile(config.shareLibPath, startArrow);
+    } else {
+        startArrow();
+    }
 }
+
 
