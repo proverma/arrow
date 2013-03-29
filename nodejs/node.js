@@ -84,7 +84,7 @@ function runTest() {
     ARROW.testScript = "";
     ARROW.scriptType = "test";
     ARROW.shareLibServerSeed = shareLibServerSeed;
-	ARROW.testfile=testFile;
+	ARROW.testfile = testFile;
 	ARROW.engineConfig = engineConfig;
     ARROW.onSeeded = function () {
         var depFile,
@@ -93,6 +93,7 @@ function runTest() {
             depFile = depFiles[i];
             if (0 === depFile.length) { continue; }
             console.log("Loading dependency: " + depFile);
+			ARROW.testLibs.push(depFile);
             coverage.addInstrumentCandidate(depFile);
             require(path.resolve("", depFile));
         }

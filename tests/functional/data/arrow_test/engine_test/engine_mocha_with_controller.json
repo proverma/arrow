@@ -12,6 +12,7 @@
 
             "Use Locator to Login" : {
                 "group" : "func",
+                "browser":"chrome",
                 "params" :{
                     "scenario": [
                         {
@@ -44,13 +45,6 @@
                         {
                             "test": "mocha-test.js",
                             "engine":"mocha"
-                        },
-                        {
-                            "page": "http://www.yahoo.com"
-                        },
-                        {
-                            "test": "jasmine-bdd-test.js",
-                            "engine":"jasmine"
                         }
                     ]
                 }

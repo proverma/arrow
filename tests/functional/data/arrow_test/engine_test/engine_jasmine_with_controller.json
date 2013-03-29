@@ -9,6 +9,7 @@
 
             "Use Locator to Login" : {
                 "group" : "func",
+                "browser":"phantomjs",
                 "params" :{
                     "scenario": [
                         {
@@ -39,7 +40,8 @@
                             "page": "http://finance.yahoo.com"
                         },
                         {
-                            "test": "jasmine-bdd-test.js"
+                            "test": "jasmine-bdd-test.js",
+                            "engine":"jasmine"
                         }
                     ]
                 }

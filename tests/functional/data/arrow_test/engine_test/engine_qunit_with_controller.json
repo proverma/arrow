@@ -9,6 +9,7 @@
 
             "Use Locator to Login" : {
                 "group" : "func",
+                "browser":"chrome",
                 "params" :{
                     "scenario": [
                         {
@@ -39,7 +40,8 @@
                             "page": "http://finance.yahoo.com"
                         },
                         {
-                            "test": "qunit-test.js"
+                            "test": "qunit-test.js",
+                            "engine":"qunit"
                         }
                     ]
                 }

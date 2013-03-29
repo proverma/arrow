@@ -11,14 +11,14 @@
         },
 
         "dataprovider" : {
-
            "mocha" : {
                 "params" : {
                     "test" : "mocha-test.js",
                     "page" : "$$config.baseUrl$$",
                     "engine":"mocha"
                   },
-                "group" : "smoke"
+                "group" : "smoke",
+               "browser":"chrome"
             },
 
             "jasmine" : {
@@ -27,6 +27,7 @@
                     "page" : "$$config.baseUrl$$",
                     "engine":"jasmine"
                 },
+                "browser":"chrome",
                 "group" : "smoke"
             },
             "qunit" : {
@@ -35,6 +36,7 @@
                     "page" : "$$config.baseUrl$$",
                     "engine":"qunit"
                 },
+                "browser":"chrome",
                 "group" : "smoke"
             },
             "yui" : {
@@ -42,6 +44,7 @@
                     "test" : "yui-test.js",
                     "page" : "$$config.baseUrl$$"
                 },
+                "browser":"chrome",
                 "group" : "smoke"
             }
         }
