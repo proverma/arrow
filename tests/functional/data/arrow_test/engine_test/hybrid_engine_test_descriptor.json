@@ -7,7 +7,8 @@
         "commonlib" : "./mocha-lib.js",
  
         "config" :{
-            "baseUrl" : "http://finance.yahoo.com"
+            "baseUrl" : "http://finance.yahoo.com",
+            "browser":"phantomjs"
         },
 
         "dataprovider" : {
@@ -18,7 +19,7 @@
                     "engine":"mocha"
                   },
                 "group" : "smoke",
-               "browser":"chrome"
+               "browser":"$$config.browser$$"
             },
 
             "jasmine" : {
@@ -27,7 +28,7 @@
                     "page" : "$$config.baseUrl$$",
                     "engine":"jasmine"
                 },
-                "browser":"chrome",
+                "browser":"$$config.browser$$",
                 "group" : "smoke"
             },
             "qunit" : {
@@ -36,7 +37,7 @@
                     "page" : "$$config.baseUrl$$",
                     "engine":"qunit"
                 },
-                "browser":"chrome",
+                "browser":"$$config.browser$$",
                 "group" : "smoke"
             },
             "yui" : {
@@ -44,7 +45,7 @@
                     "test" : "yui-test.js",
                     "page" : "$$config.baseUrl$$"
                 },
-                "browser":"chrome",
+                "browser":"$$config.browser$$",
                 "group" : "smoke"
             }
         }
