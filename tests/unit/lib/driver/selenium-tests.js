@@ -374,10 +374,11 @@ YUI.add('selenium-tests', function (Y, NAME) {
         'test createDriverJs with bad testJs': function () {
             var self = this,
                 config = {browser: 'mybrowser', seleniumHost: 'http://wdhub', testRunner: arrowRoot + '/lib/client/yuitest-runner.js', testSeed: arrowRoot + '/lib/client/yuitest-seed.js'},
+                driver = new DriverClass(config, {}),
+                filePath = "'" + arrowRoot + "/not-found.js" + "'";
 
-                driver = new DriverClass(config, {});
             A.isFalse(driver.createDriverJs({"test" : "not-found.js"}, function (e) {
-                A.areEqual("Error: ENOENT, no such file or directory 'not-found.js'", e.toString(), "File not found error should be caught");
+                A.areEqual("Error: ENOENT, no such file or directory " + filePath, e.toString(), "File not found error should be caught");
             }), "createDriverJs should return false for blank testParams");
         },
 
