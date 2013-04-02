@@ -1,7 +1,7 @@
 // Stub webdriver to use with several test cases
 
 /*
- * Copyright (c) 2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2012, Yahoo! Inc. All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
@@ -44,7 +44,7 @@ var Builder = function () {
 };
 
 Application.getInstance = function () {
-    return Application._instance;
+    return new Application();
 };
 Application.prototype.on = function (eventName, callback) {
     this.callbacks[eventName] = callback;
@@ -154,4 +154,3 @@ this.promise = promise;
 this.By = By;
 this.Builder = Builder;
 this.WebDriver = WebDriver;
-
