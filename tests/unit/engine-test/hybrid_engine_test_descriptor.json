@@ -8,7 +8,8 @@
 
             "mocha":{
                 "params":{
-                    "test":"mocha-bdd.js",
+                    "test":"mocha-bdd-with-assertion.js",
+                    "lib":"expect.js",
                     "engine":"mocha"
                 },
                 "group":"unit"

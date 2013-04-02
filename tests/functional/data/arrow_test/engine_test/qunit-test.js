@@ -1,5 +1,5 @@
 
 QUnit.test('#test get title', function (assert) {
-	var title = "Yahoo! Finance - Business Finance, Stock Market, Quotes, News";
+	var title = "Yahoo! Search - Web Search";
 	assert.ok(title == document.title);
 });

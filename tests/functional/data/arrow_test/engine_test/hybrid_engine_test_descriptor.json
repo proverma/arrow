@@ -4,11 +4,9 @@
 
         "name" : "hybrid engine",
 
-        "commonlib" : "./mocha-lib.js",
- 
         "config" :{
-            "baseUrl" : "http://finance.yahoo.com",
-            "browser":"phantomjs"
+            "baseUrl" : "http://search.yahoo.com/",
+            "browser":"chrome"
         },
 
         "dataprovider" : {
@@ -16,6 +14,7 @@
                 "params" : {
                     "test" : "mocha-test.js",
                     "page" : "$$config.baseUrl$$",
+                    "lib" : "./mocha-lib.js",
                     "engine":"mocha"
                   },
                 "group" : "smoke",

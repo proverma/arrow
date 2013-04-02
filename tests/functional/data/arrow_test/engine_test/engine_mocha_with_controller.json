@@ -40,7 +40,7 @@
                             }
                         },
                         {
-                            "page": "http://finance.yahoo.com"
+                            "page": "http://search.yahoo.com/"
                         },
                         {
                             "test": "mocha-test.js",
