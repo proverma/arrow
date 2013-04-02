@@ -237,7 +237,9 @@ function startArrow() {
 if (config.shareLibPath !== undefined) {
     var LibScanner = require('./lib/util/sharelibscanner');
     var libScanner = new LibScanner(config);
-    libScanner.genSeedFile(config.shareLibPath, startArrow);
+    libScanner.genSeedFile(config.shareLibPath, function(){
+		startArrow();
+	});
 } else {
     startArrow();
 }

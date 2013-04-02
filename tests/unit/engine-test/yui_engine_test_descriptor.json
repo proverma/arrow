@@ -1,0 +1,25 @@
+[
+    {
+        "settings":[ "master" ],
+
+        "name":"mocha engine server side",
+
+        "commonlib" : "tests/unit/engine-test//yui-lib.js",
+
+        "dataprovider":{
+
+            "mocha":{
+                "params":{
+                    "test":"tests/unit/engine-test/yui-test-unit.js"
+                },
+                "group":"unit"
+            }
+        }
+
+    },
+
+    {
+        "settings":[ "environment:development" ]
+    }
+
+]
