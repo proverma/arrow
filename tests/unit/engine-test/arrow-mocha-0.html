@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang="en" class="yui3-js-enabled"><div id="yui3-css-stamp" style="position: absolute !important; visibility: hidden !important"></div><head>
+  <meta charset="utf-8">
+  <title>Default test host</title>
+
+  <!--<script src="yui/3.4.1/yui-event-intl-io-node-test.js"></script>-->
+  <script src="../../node_modules/yui/yui/yui-min.js"></script>
+  <script src="../../node_modules/yui/loader/loader-min.js"></script>
+  <link rel="stylesheet" href="../../node_modules/yui/test/assets/skins/sam/test.css">
+</head>
+
+<body>
+
+<script type="text/javascript" src="http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js"></script><div id="mocha">mocha<ul id="mocha-stats"><li class="progress"><canvas width="40" height="40"></canvas></li><li class="passes"><a href="#">passes:</a> <em>4</em></li><li class="failures"><a href="#">failures:</a> <em>1</em></li><li class="duration">duration: <em>0.29</em>s</li></ul><ul id="mocha-report"><li class="suite"><h1><a href="?grep=Array">Array</a></h1><ul><li class="suite"><h1><a href="?grep=Array%20%23push()">#push()</a></h1><ul><li class="test pass fast"><h2>should append a value<span class="duration">0ms</span> <a href="?grep=Array%20%23push()%20should%20append%20a%20value" class="replay">‣</a></h2><pre style="display: none;"><code><span class="keyword">var</span> arr = [];
+			arr.push(<span class="string">'foo'</span>);
+			arr.push(<span class="string">'bar'</span>);
+			arr.push(<span class="string">'baz'</span>);
+			assert(<span class="string">'foo'</span> == arr[<span class="number">0</span>]); <span class="comment">// to test indentation</span>
+			assert(<span class="string">'bar'</span> == arr[<span class="number">1</span>]);
+			assert(<span class="string">'baz'</span> == arr[<span class="number">2</span>]);</code></pre></li><li class="test pass fast"><h2>should return the length<span class="duration">0ms</span> <a href="?grep=Array%20%23push()%20should%20return%20the%20length" class="replay">‣</a></h2><pre style="display: none;"><code><span class="keyword">var</span> arr = [];
+			assert(<span class="number">1</span> == arr.push(<span class="string">'foo'</span>));
+			assert(<span class="number">2</span> == arr.push(<span class="string">'bar'</span>));
+			assert(<span class="number">3</span> == arr.push(<span class="string">'baz'</span>));</code></pre></li></ul></li></ul></li><li class="suite"><h1><a href="?grep=Array">Array</a></h1><ul><li class="suite"><h1><a href="?grep=Array%20%23pop()">#pop()</a></h1><ul><li class="test pass fast"><h2>expect remove and return the last value<span class="duration">4ms</span> <a href="?grep=Array%20%23pop()%20expect%20remove%20and%20return%20the%20last%20value" class="replay">‣</a></h2><pre style="display: none;"><code><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];
+			expect(arr.pop()).to.equal(<span class="number">3</span>);
+			expect(arr.pop()).to.equal(<span class="number">2</span>);
+			expect(arr.pop()).to.equal(<span class="number">1</span>);</code></pre></li><li class="test pass fast"><h2>expect adjust .length<span class="duration">1ms</span> <a href="?grep=Array%20%23pop()%20expect%20adjust%20.length" class="replay">‣</a></h2><pre style="display: none;"><code><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];
+			arr.pop();
+			expect(arr.length).to.equal(<span class="number">2</span>);</code></pre></li></ul></li></ul></li><li class="suite"><h1><a href="?grep=%23we%20can%20use%20yui%20share%20lib">#we can use yui share lib</a></h1><ul><li class="test fail"><h2>should be able to use yui instance and share lib <a href="?grep=%23we%20can%20use%20yui%20share%20lib%20should%20be%20able%20to%20use%20yui%20instance%20and%20share%20lib" class="replay">‣</a></h2><pre class="error">TypeError: Cannot read property 'CookieUtil' of undefined
+    at &lt;anonymous&gt;:1329:32
+    at q._notify (http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js:8:1192)
+    at http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js:8:901
+    at q._notify (http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js:8:1192)
+    at H (http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js:8:2257)
+    at Object.d.Loader._finish (http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js:15:2728)
+    at Object.d.Loader._onSuccess (http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js:15:3273)
+    at y (http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js:15:4534)
+    at Object.d.Loader._insert (http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js:15:4604)
+    at http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js:15:5622</pre><pre style="display: none;"><code>YUI().use(<span class="string">'cookieUtil'</span>,<span class="keyword">function</span>(Y){
+			<span class="keyword">var</span> cookieUtil = <span class="keyword"><span class="keyword">new</span></span> <span class="init">Y</span>.Arrow.CookieUtil({});
+			cookieUtil.getCookiesFromHeader(null, <span class="keyword">function</span> (err, cookies) {
+				assert("illegal response" == err.message);
+				done();
+			});
+		})</code></pre></li></ul></li></ul></div><script type="text/javascript" src="http://ydn.zenfs.com/yahoo-arrow/container/mocha/mocha.js"></script></body></html>
