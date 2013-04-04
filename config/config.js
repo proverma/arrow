@@ -50,6 +50,7 @@ config.exitCode = false;
 config.retryCount = 0;
 config.keepIstanbulCoverageJson = false;
 config.color = true;
+config.report = true;
 
 config.testTimeOut = 30000; // if test does not get over in these many ms, Arrow fails the test.
 
