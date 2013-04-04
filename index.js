@@ -221,6 +221,7 @@ function startArrow() {
 
 }
 
+//TODO - Pranav - Remove code related to child process code
 // Ensuring share lib/controller scan happens only once and not for each descriptor
 if (argv.arrowChildProcess) {
     startArrow();
