@@ -1,1 +1,1 @@
-1 Passed, 0 Failed , 0 skipped 
+Total Test Execution Time:0.91 seconds

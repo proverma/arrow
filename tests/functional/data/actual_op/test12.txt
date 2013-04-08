@@ -1,1 +1,1 @@
-Total Time of Execution :26.24 seconds
+[32m[2013-04-08 18:18:26.747] [INFO] SessionFactory - [39mBrowser filtering. Skipping test/browser: undefined/chrome

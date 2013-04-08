@@ -1,1 +1,1 @@
-1 Passed, 0 Failed , 0 skipped 
+Report Created: test_descriptor-report.xml

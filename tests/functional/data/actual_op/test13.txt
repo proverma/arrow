@@ -1,9 +1,7 @@
-********************************************
-Total Number of Executed Tests  :5
-Total Number of Passed Tests  : 5
-Total Number of Failed Tests  : 0
-Total Number of Skipped Tests  : 0
-********************************************
-
-Total Time of Execution :20.76 seconds
-********************************************
+[32m[2013-04-08 18:18:27.548] [INFO] ArrowSetup - [39mGlob result: ./data/arrow_test/engine_test/hybrid_engine_test_descriptor.json
+[32m[2013-04-08 18:18:27.551] [INFO] ArrowSetup - [39mSwitching directory to: ./data/arrow_test/engine_test
+[32m[2013-04-08 18:18:27.949] [INFO] SessionFactory - [39mBrowser filtering. Skipping test/browser: undefined/chrome
+[32m[2013-04-08 18:18:27.949] [INFO] SessionFactory - [39mBrowser filtering. Skipping test/browser: undefined/chrome
+[32m[2013-04-08 18:18:27.950] [INFO] SessionFactory - [39mBrowser filtering. Skipping test/browser: undefined/chrome
+[32m[2013-04-08 18:18:27.950] [INFO] SessionFactory - [39mBrowser filtering. Skipping test/browser: undefined/chrome
+[32m[2013-04-08 18:18:27.950] [INFO] SessionFactory - [39mTotal test sessions: 0

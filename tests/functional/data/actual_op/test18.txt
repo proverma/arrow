@@ -1,2 +1,2 @@
-1 Passed, 0 Failed , 0 skipped 
-
+Report Created: test-descriptor-dimensions-report.xml
+Report Created: test-descriptor-dimensions-report.json
