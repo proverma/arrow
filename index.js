@@ -81,7 +81,6 @@ var knownOpts = {
 
 //help messages
 function showHelp() {
-    console.log('****In help..');
     console.info("\nOPTIONS :" + "\n" +
         "        --lib : a comma seperated list of js files needed by the test" + "\n\n" +
         "        --shareLibPath: a comma seperated list of directory to be scanned and loaded modules by arrow automatically" + "\n\n" +
@@ -214,29 +213,18 @@ global.color = config.color;
 
 function startArrow() {
     // TODO: arrowSetup move to Arrow
-    console.log('****-In startArrow..001');
     arrowSetup = new ArrowSetup(config, argv);
     this.arrow = Arrow;
     arrowSetup.setup();
     arrow = new Arrow(config, argv);
-    arrow.run(); //TODO - Pranav - Uncomment this line
+    arrow.run();
 
 }
 
-//TODO - Pranav - Remove code related to child process
-// Ensuring share lib/controller scan happens only once and not for each descriptor
-//if (argv.arrowChildProcess) {
-//    startArrow();
-//} else {
-    console.log('****config.shareLibPath::' + config.shareLibPath);
     if (config.shareLibPath !== undefined) {
         var LibScanner = require('./lib/util/sharelibscanner');
         var libScanner = new LibScanner(config);
-        console.log('****-Calling genSeedFile..');
         libScanner.genSeedFile(config.shareLibPath, startArrow);
     } else {
         startArrow();
     }
-//}
-
-
