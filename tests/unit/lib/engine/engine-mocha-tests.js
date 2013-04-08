@@ -1,3 +1,4 @@
+/*jslint forin:true sub:true anon:true, sloppy:true, stupid:true, nomen:true, node:true continue:true*/
 /*
  * Copyright (c) 2012-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
@@ -16,28 +17,30 @@ YUI.add('engine-mocha-tests', function (Y, NAME) {
 		global.ARROW.testLibs = [__dirname + "/test-data.js"];
 		global.ARROW.testfile = __dirname + "/test-data.js";
 	}
-	if(typeof window !== "undefined") delete window;
+	if (typeof window !== "undefined") delete window;
 
 	var EventEmitter = require('events').EventEmitter
-	function mockrunner(suite){
+
+	function mockrunner(suite) {
 		this.suite = suite;
 	}
+
 	mockrunner.prototype.__proto__ = EventEmitter.prototype;
 
 	var mrunner = new mockrunner();
 
-	var mocha = function(config){
+	var mocha = function (config) {
 		return {
-			ui:function(){
+			ui:function () {
 
 			},
-			addFile:function(){
+			addFile:function () {
 
 			},
-			loadFiles:function(){
+			loadFiles:function () {
 
 			},
-			run:function(){
+			run:function () {
 				return mrunner;
 			}
 		}
@@ -64,9 +67,11 @@ YUI.add('engine-mocha-tests', function (Y, NAME) {
 		},
 		'test new interface seed':function () {
 			require(arrowRoot + '/lib/engine/mocha/mocha-seed');
+			A.isTrue(true);
 		},
 		'test new interface runner':function () {
 			require(arrowRoot + '/lib/engine/mocha/mocha-runner');
+			A.isTrue(true);
 		}
 	}));
 

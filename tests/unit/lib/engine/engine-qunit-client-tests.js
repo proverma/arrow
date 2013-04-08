@@ -1,3 +1,4 @@
+/*jslint forin:true sub:true anon:true, sloppy:true, stupid:true, nomen:true, node:true continue:true*/
 /*
  * Copyright (c) 2012-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
@@ -51,7 +52,7 @@ YUI.add('engine-qunit-client-tests', function (Y, NAME) {
 			require("module")._cache = {};
 			window = {};
 			window.setTimeout = global.setTimeout;
-			window.clearTimeout =global.clearTimeout;
+			window.clearTimeout = global.clearTimeout;
 			window.setInterval = global.setInterval;
 			window.clearInterval = global.clearInterval;
 			window.QUnit = qunit;
@@ -65,7 +66,8 @@ YUI.add('engine-qunit-client-tests', function (Y, NAME) {
 
 			document = {};
 			document.createElement = function (type) {
-				return {onload:function(){}};
+				return {onload:function () {
+				}};
 			}
 			document.body = {};
 			document.body.appendChild = function (type) {
@@ -75,6 +77,7 @@ YUI.add('engine-qunit-client-tests', function (Y, NAME) {
 			require(arrowRoot + '/lib/engine/interface/engine-seed');
 
 			require(arrowRoot + '/lib/engine/qunit/qunit-seed');
+			A.isTrue(true);
 
 			document.createElement = function (type) {
 				return {readyState:"loaded"};
@@ -83,13 +86,14 @@ YUI.add('engine-qunit-client-tests', function (Y, NAME) {
 				type.onreadystatechange();
 			}
 			require(arrowRoot + '/lib/engine/qunit/qunit-seed');
+			A.isTrue(true);
 
 		},
 
 		'test new qunit runner':function () {
 			require(arrowRoot + '/lib/engine/interface/engine-runner');
-
 			require(arrowRoot + '/lib/engine/qunit/qunit-runner');
+			A.isTrue(true);
 
 		}
 	}));

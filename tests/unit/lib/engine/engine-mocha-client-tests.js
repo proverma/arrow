@@ -1,3 +1,5 @@
+/*jslint forin:true sub:true anon:true, sloppy:true, stupid:true, nomen:true, node:true continue:true*/
+
 /*
  * Copyright (c) 2012-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
@@ -65,18 +67,22 @@ YUI.add('engine-mocha-client-tests', function (Y, NAME) {
 
 			require(arrowRoot + '/lib/engine/mocha/mocha-runner');
 
-			setTimeout(mrunner.emit("suite",{title:"testsuite"}),2000);
+			setTimeout(function () {
+				mrunner.emit("suite", {title:"testsuite"})
+			}, 1000);
 
-			setTimeout((function () {
+			setTimeout(function () {
 				mrunner.emit("test end", {title:"test", state:"passed"});
 				mrunner.emit("test end", {title:"test", pending:true});
 				mrunner.emit("test end", {title:"test", err:{message:"err message"}});
-			})(), 2000);
+			}, 1500);
 
-			setTimeout((function () {
+			setTimeout(function () {
 				mrunner.emit("suite end", {title:"test"});
 				mrunner.emit("end", {title:"test"});
-			})(), 2000);
+			}, 2000);
+
+			A.isTrue(true);
 
 		},
 		'test new mocha seed':function () {
@@ -95,6 +101,8 @@ YUI.add('engine-mocha-client-tests', function (Y, NAME) {
 
 			require(arrowRoot + '/lib/engine/mocha/mocha-seed');
 
+			A.isTrue(true);
+
 			document.createElement = function (type) {
 				return {readyState:"loaded"};
 			}
@@ -102,7 +110,7 @@ YUI.add('engine-mocha-client-tests', function (Y, NAME) {
 				type.onreadystatechange();
 			}
 			require(arrowRoot + '/lib/engine/mocha/mocha-seed');
-
+			A.isTrue(true);
 		}
 	}));
 

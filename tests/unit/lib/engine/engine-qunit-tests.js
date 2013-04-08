@@ -1,3 +1,5 @@
+/*jslint forin:true sub:true anon:true, sloppy:true, stupid:true, nomen:true, node:true continue:true*/
+
 /*
  * Copyright (c) 2012-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
@@ -6,6 +8,7 @@
 
 YUI.add('engine-qunit-tests', function (Y, NAME) {
 
+	// mocked qunit
 	var qunit = global.QUnit = {
 		init:function () {
 		},
@@ -18,10 +21,10 @@ YUI.add('engine-qunit-tests', function (Y, NAME) {
 			cb({name:"testdone"});
 		},
 		log:function (cb) {
-			cb({message:"testlog",expected:"expected"});
+			cb({message:"testlog", expected:"expected"});
 		},
 		done:function (cb) {
-			cb({runtime:0,total:0,failed:0,passed:0});
+			cb({runtime:0, total:0, failed:0, passed:0});
 		}
 	};
 
@@ -57,10 +60,13 @@ YUI.add('engine-qunit-tests', function (Y, NAME) {
 			mockery.deregisterMock('qunit');
 		},
 		'test new interface seed':function () {
+			// if can require,it will run we assert its true
 			require(arrowRoot + '/lib/engine/qunit/qunit-seed');
+			Y.Assert.isTrue(true);
 		},
 		'test new interface runner':function () {
 			require(arrowRoot + '/lib/engine/qunit/qunit-runner');
+			Y.Assert.isTrue(true);
 		}
 	}));
 

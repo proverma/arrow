@@ -1,3 +1,4 @@
+/*jslint forin:true sub:true anon:true, sloppy:true, stupid:true, nomen:true, node:true continue:true*/
 /*
  * Copyright (c) 2012-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
@@ -14,12 +15,11 @@ YUI.add('engine-interface-tests', function (Y, NAME) {
 		global.ARROW.shareLibServerSeed = seed;
 		global.ARROW.consoleLog = "";
 	}
-	if(typeof window !== "undefined") delete window;
+	if (typeof window !== "undefined") delete window;
 
 	var path = require('path'),
 		curDir,
 		arrowRoot = path.join(__dirname, '../../../..'),
-
 
 		runner = require(arrowRoot + '/lib/engine/interface/engine-runner').engineRunner,
 		seed = require(arrowRoot + '/lib/engine/interface/engine-seed').engineSeed,
@@ -54,6 +54,8 @@ YUI.add('engine-interface-tests', function (Y, NAME) {
 			});
 
 			_runner.run();
+
+			A.isTrue(true); // no exception
 		},
 		'test new interface seed':function () {
 			var _seed = new seed({});
@@ -67,6 +69,8 @@ YUI.add('engine-interface-tests', function (Y, NAME) {
 			});
 
 			_seed.run();
+
+			A.isTrue(true); // no exception
 		}
 	}));
 

@@ -1,3 +1,5 @@
+/*jslint forin:true sub:true anon:true, sloppy:true, stupid:true, nomen:true, node:true continue:true*/
+
 /*
  * Copyright (c) 2012-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
@@ -7,19 +9,21 @@
 YUI.add('engine-jasmine-tests', function (Y, NAME) {
 
 	var jasmine = global.jasmine = {
-		getEnv:function(){
+		getEnv:function () {
+
 			return {
-				addReporter:function(item){
-
+				addReporter:function (report) {
+					this.reporter = report;
+					this.reporter.reportSpecResults();
+					this.reporter.reportSuiteResults();
 				},
-				addReporter:function(item){
-
-				},
-				execute:function(item){
+				execute:function (report) {
+					report.reportSpecResults();
+					report.reportSuiteResults();
 				}
 			}
 		},
-		ArrowReporter:function(){
+		ArrowReporter:function () {
 
 		}
 	};
@@ -34,7 +38,7 @@ YUI.add('engine-jasmine-tests', function (Y, NAME) {
 		global.ARROW.testLibs = [__dirname + "/test-data.js"];
 		global.ARROW.testfile = __dirname + "/test-data.js";
 	}
-	if(typeof window !== "undefined") delete window;
+	if (typeof window !== "undefined") delete window;
 
 
 	var path = require('path'),
@@ -59,9 +63,11 @@ YUI.add('engine-jasmine-tests', function (Y, NAME) {
 		},
 		'test new interface seed':function () {
 			require(arrowRoot + '/lib/engine/jasmine/jasmine-seed');
+			A.isTrue(true);
 		},
 		'test new interface runner':function () {
 			require(arrowRoot + '/lib/engine/jasmine/jasmine-runner');
+			A.isTrue(true);
 		}
 	}));
 

@@ -1,3 +1,5 @@
+/*jslint forin:true sub:true anon:true, sloppy:true, stupid:true, nomen:true, node:true continue:true*/
+
 /*
  * Copyright (c) 2012-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
@@ -28,7 +30,7 @@ YUI.add('engine-interface-client-tests', function (Y, NAME) {
 			require("module")._cache = {};
 			window = {};
 			window.setTimeout = global.setTimeout;
-			window.clearTimeout =global.clearTimeout;
+			window.clearTimeout = global.clearTimeout;
 			window.setInterval = global.setInterval;
 			window.clearInterval = global.clearInterval;
 		},
@@ -105,7 +107,7 @@ YUI.add('engine-interface-client-tests', function (Y, NAME) {
 				type.onload();
 			}
 			_seed.run();
-
+			A.isTrue(true);
 			document.createElement = function (type) {
 				return {readyState:"loaded"};
 			}
@@ -115,6 +117,7 @@ YUI.add('engine-interface-client-tests', function (Y, NAME) {
 			_seed.loadScript("url", function () {
 				console.log("loaded");
 			});
+			A.isTrue(true);
 		}
 	}));
 
