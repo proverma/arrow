@@ -44,7 +44,7 @@ var Builder = function () {
 };
 
 Application.getInstance = function () {
-    return Application._instance;
+    return new Application();
 };
 Application.prototype.on = function (eventName, callback) {
     this.callbacks[eventName] = callback;

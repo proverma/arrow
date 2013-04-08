@@ -33,7 +33,7 @@ config.engineRunner=config.arrowModuleRoot + "lib/engine/interface/engine-runner
 
 // config for share lib
 
-config.shareLibPath = [];     // Arrow will scan all given path for share lib. Example: [config.arrowModuleRoot + "../"]
+config.shareLibPath = ["./common"];     // Arrow will scan all given path for share lib. Example: [config.arrowModuleRoot + "../"]
                                   // You can modify this to add multiple share lib path.
 config.scanShareLibPrefix = [];    // Arrow will only scan share lib with given prefix "martini_" if configured as ["martini_"]
                                   // Or it will scan all folders for share lib under given path if it is empty : []
@@ -56,6 +56,9 @@ config.exitCode = false;
 config.retryCount = 0;
 config.keepIstanbulCoverageJson = false;
 config.color = true;
+config.report = true;
+
+config.testTimeOut = 30000; // if test does not get over in these many ms, Arrow fails the test.
 
 
 module.exports = config;
