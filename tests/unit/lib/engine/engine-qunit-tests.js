@@ -4,7 +4,26 @@
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('engine-mocha-tests', function (Y, NAME) {
+YUI.add('engine-qunit-tests', function (Y, NAME) {
+
+	var qunit = global.QUnit = {
+		init:function () {
+		},
+		start:function () {
+		},
+		moduleStart:function (cb) {
+			cb({name:"teststart"});
+		},
+		testDone:function (cb) {
+			cb({name:"testdone"});
+		},
+		log:function (cb) {
+			cb({message:"testlog",expected:"expected"});
+		},
+		done:function (cb) {
+			cb({runtime:0,total:0,failed:0,passed:0});
+		}
+	};
 
 	if (!global.ARROW || !global.ARROW.testLibs) {
 		global.ARROW = {};
@@ -16,32 +35,7 @@ YUI.add('engine-mocha-tests', function (Y, NAME) {
 		global.ARROW.testLibs = [__dirname + "/test-data.js"];
 		global.ARROW.testfile = __dirname + "/test-data.js";
 	}
-	if(typeof window !== "undefined") delete window;
-
-	var EventEmitter = require('events').EventEmitter
-	function mockrunner(suite){
-		this.suite = suite;
-	}
-	mockrunner.prototype.__proto__ = EventEmitter.prototype;
-
-	var mrunner = new mockrunner();
-
-	var mocha = function(config){
-		return {
-			ui:function(){
-
-			},
-			addFile:function(){
-
-			},
-			loadFiles:function(){
-
-			},
-			run:function(){
-				return mrunner;
-			}
-		}
-	}
+	if (typeof window !== "undefined") delete window;
 
 	var path = require('path'),
 		curDir,
@@ -56,17 +50,17 @@ YUI.add('engine-mocha-tests', function (Y, NAME) {
 			curDir = process.cwd();
 			process.chdir(arrowRoot);
 			require("module")._cache = {};
-			mockery.registerMock('mocha', mocha);
+			mockery.registerMock('qunit', qunit);
 		},
 		'tearDown':function () {
 			process.chdir(curDir);
-			mockery.deregisterMock('mocha');
+			mockery.deregisterMock('qunit');
 		},
 		'test new interface seed':function () {
-			require(arrowRoot + '/lib/engine/mocha/mocha-seed');
+			require(arrowRoot + '/lib/engine/qunit/qunit-seed');
 		},
 		'test new interface runner':function () {
-			require(arrowRoot + '/lib/engine/mocha/mocha-runner');
+			require(arrowRoot + '/lib/engine/qunit/qunit-runner');
 		}
 	}));
 

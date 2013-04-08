@@ -4,7 +4,27 @@
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('engine-mocha-client-tests', function (Y, NAME) {
+YUI.add('engine-qunit-client-tests', function (Y, NAME) {
+
+	var qunit = global.QUnit = {
+		init:function () {
+		},
+		moduleStart:function (cb) {
+			cb();
+		},
+		testDone:function (cb) {
+			cb();
+		},
+		log:function (cb) {
+			cb();
+		},
+		start:function (cb) {
+			cb();
+		},
+		done:function (cb) {
+			cb();
+		}
+	};
 
 	if (!global.ARROW || !global.ARROW.testLibs) {
 		global.ARROW = {};
@@ -22,17 +42,7 @@ YUI.add('engine-mocha-client-tests', function (Y, NAME) {
 		arrowRoot = path.join(__dirname, '../../../..'),
 
 		suite = new Y.Test.Suite(NAME),
-		A = Y.Assert,
-		mockery = require("mockery"),
-		EventEmitter = require('events').EventEmitter;
-
-	function mockrunner(suite) {
-		this.suite = suite;
-	}
-
-	mockrunner.prototype.__proto__ = EventEmitter.prototype;
-
-	var mrunner = new mockrunner();
+		A = Y.Assert;
 
 	suite.add(new Y.Test.Case({
 		'setUp':function () {
@@ -41,50 +51,21 @@ YUI.add('engine-mocha-client-tests', function (Y, NAME) {
 			require("module")._cache = {};
 			window = {};
 			window.setTimeout = global.setTimeout;
-			window.clearTimeout = global.clearTimeout;
+			window.clearTimeout =global.clearTimeout;
 			window.setInterval = global.setInterval;
 			window.clearInterval = global.clearInterval;
-			mocha = {};
-			mocha.reporter = function (reporter) {
-			}
-			mocha.run = function () {
-				return mrunner;
-			}
-			mocha.setup = function () {
-			}
+			window.QUnit = qunit;
 		},
 		'tearDown':function () {
 			process.chdir(curDir);
 			delete window;
 			delete document;
-			delete mocha;
 		},
-
-		'test new mocha runner':function () {
-			require(arrowRoot + '/lib/engine/interface/engine-runner');
-
-			require(arrowRoot + '/lib/engine/mocha/mocha-runner');
-
-			setTimeout(mrunner.emit("suite",{title:"testsuite"}),2000);
-
-			setTimeout((function () {
-				mrunner.emit("test end", {title:"test", state:"passed"});
-				mrunner.emit("test end", {title:"test", pending:true});
-				mrunner.emit("test end", {title:"test", err:{message:"err message"}});
-			})(), 2000);
-
-			setTimeout((function () {
-				mrunner.emit("suite end", {title:"test"});
-				mrunner.emit("end", {title:"test"});
-			})(), 2000);
-
-		},
-		'test new mocha seed':function () {
+		'test new qunit seed':function () {
 
 			document = {};
 			document.createElement = function (type) {
-				return {onload:function () {
-				}};
+				return {onload:function(){}};
 			}
 			document.body = {};
 			document.body.appendChild = function (type) {
@@ -93,7 +74,7 @@ YUI.add('engine-mocha-client-tests', function (Y, NAME) {
 
 			require(arrowRoot + '/lib/engine/interface/engine-seed');
 
-			require(arrowRoot + '/lib/engine/mocha/mocha-seed');
+			require(arrowRoot + '/lib/engine/qunit/qunit-seed');
 
 			document.createElement = function (type) {
 				return {readyState:"loaded"};
@@ -101,7 +82,14 @@ YUI.add('engine-mocha-client-tests', function (Y, NAME) {
 			document.body.appendChild = function (type) {
 				type.onreadystatechange();
 			}
-			require(arrowRoot + '/lib/engine/mocha/mocha-seed');
+			require(arrowRoot + '/lib/engine/qunit/qunit-seed');
+
+		},
+
+		'test new qunit runner':function () {
+			require(arrowRoot + '/lib/engine/interface/engine-runner');
+
+			require(arrowRoot + '/lib/engine/qunit/qunit-runner');
 
 		}
 	}));

@@ -52,8 +52,8 @@ YUI.add('enginemanager-tests', function (Y) {
 		"Test get config json":function () {
 			assert.isTrue(Object.keys(new enginemgr().getConfigJason()).length==0);
 			assert.isTrue(Object.keys(new enginemgr().getConfigJason("no-exist-config-path")).length==0);
-			assert.isTrue(Object.keys(new enginemgr().getConfigJason(arrowRoot+"/tests/unit/sharelib/data/config2.json")).length>=0);
-			assert.isTrue(Object.keys(new enginemgr().getConfigJason(arrowRoot+"/tests/unit/sharelib/lib/common/common-tests.js")).length>=0);
+			assert.isTrue(Object.keys(new enginemgr().getConfigJason(arrowRoot+"/tests/unit/lib/util/dimensions.json")).length>=0);
+			assert.isTrue(Object.keys(new enginemgr().getConfigJason(arrowRoot+"/tests/unit/lib/util/testSession.js")).length>=0);
 			assert.isTrue(Object.keys(new enginemgr().getConfigJason("{\"ui\":\"ui\"}")).length>=0);
 			assert.isTrue(Object.keys(new enginemgr().getConfigJason("ui:\"ui\"")).length==0);
 			assert.isTrue(Object.keys(new enginemgr().getConfigJason({ui:"ui"})).length>=0);

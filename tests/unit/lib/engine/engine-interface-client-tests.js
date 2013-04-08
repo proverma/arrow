@@ -27,8 +27,10 @@ YUI.add('engine-interface-client-tests', function (Y, NAME) {
 			process.chdir(arrowRoot);
 			require("module")._cache = {};
 			window = {};
-
-
+			window.setTimeout = global.setTimeout;
+			window.clearTimeout =global.clearTimeout;
+			window.setInterval = global.setInterval;
+			window.clearInterval = global.clearInterval;
 		},
 		'tearDown':function () {
 			process.chdir(curDir);
