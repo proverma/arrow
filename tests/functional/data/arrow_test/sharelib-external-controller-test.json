@@ -15,7 +15,7 @@
                 "params" :{
                     "scenario": [
                         {
-                            "controller": "martini_lib.martini-test-controller",
+                            "controller": "martini-test-controller",
                             "params": {
                                 "page" : "$$config.baseUrl$$",
                                 "txtLocator": "#txtQuotes",

@@ -10,7 +10,7 @@
     },
     "scripts": {
         "pretest" : "./arrow_commands.sh",
-        "test": "./node_modules/.bin/nodeunit ./tests/nodeunit/test*.js --reporter junit --output report.xml"
+        "test": "./node_modules/.bin/nodeunit ./tests/nodeunit/test*.js --reporter junit --output reportxml"
 
     },
     "yahoo": {

@@ -1,1 +1,6 @@
-Report Created: test_descriptor-report.xml
+Test Report Summary
+
+Total Number of Executed Tests: 4
+Total Number of Passed Tests: 4
+Total Number of Failed Tests: 0
+Total Number of Skipped Tests: 0

@@ -13,6 +13,7 @@ exports.testMartiniCtllerwithScanPath = function(test){
     var test25 = fs.readFileSync("data/actual_op/test25.txt", "utf-8")
     var expected_test25 = fs.readFileSync("data/expected_op/expected_test25.txt", "utf-8")
 
-    test.equal(test25,expected_test25,"The expected output for config.js should be "+expected_test25+ " but it is " +test25);
+	var contains= test25.toString().indexOf(expected_test25)!=-1;
+	test.equal(contains,true,"The expected output "+test25+ " should contains " +expected_test25);
     test.done();
 };
