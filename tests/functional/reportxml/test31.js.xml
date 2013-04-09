@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  
+  <testsuite name="test31.js"
+             errors="0"
+             failures="0"
+             tests="1">
+    
+      
+      <testcase name="testunitwithScanPath">
+        
+      </testcase>
+    
+  </testsuite>
+
