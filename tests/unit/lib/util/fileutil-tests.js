@@ -26,11 +26,8 @@ YUI.add('fileutil-tests', function (Y) {
 
             fileUtil.createDirectory(dirPath, function() {
 
-                A.areEqual(fs.existsSync(dirPath), true, 'Not able to create directory ' + dirPath);
-
-                // Clean up
-                fileUtil.removeDirectory(dirPath, function() {
-                    A.areEqual(fs.existsSync(dirPath), false, 'Not able to remove directory ' + dirPath);
+                path.exists(dirPath, function(exists) {
+                    A.areEqual(exists, true, 'Not able to create directory ' + dirPath);
                 });
 
             });
@@ -62,44 +59,36 @@ YUI.add('fileutil-tests', function (Y) {
         "Remove Directory": function() {
 
             var fileUtil = new FileUtil(),
-                dirAPath = process.cwd() + path.sep + 'tmpFiles' + path.sep + 'dirA',
-                dirBPath = dirAPath + path.sep + 'dirB',
-                fd;
+                dirAPath = path.resolve(process.cwd(), 'tmpFiles', 'dirA'),
+                dirBPath = path.resolve(dirAPath, 'dirB'),
+                fd,
+                exists;
 
-            function setup(callback) {
+            fileUtil.createDirectory(dirAPath, function() {
+                logger.info('DirAPath..' + dirAPath);
+                logger.info('In callback of createDirectory..' + dirAPath);
+                fd = fs.openSync(path.resolve(dirAPath, 'fileA.txt'), 'w');
+                fs.writeSync(fd, 'This is file A');
+                fs.closeSync(fd);
 
-                logger.info('In setup..creating directory..' + dirAPath);
-                fileUtil.createDirectory(dirAPath, function() {
-
-                    logger.info('In callback of create directory..created..' + dirAPath);
-                    fd = fs.openSync(dirAPath + path.sep + 'fileA.txt', 'w');
-                    logger.info('In callback of setup..opening directory..' + dirAPath + path.sep + 'fileA.txt');
-                    fs.writeSync(fd, 'This is file A');
+                fileUtil.createDirectory(dirBPath, function() {
+                    logger.info('In callback of createDirectory..' + dirBPath);
+                    fd = fs.openSync(path.resolve(dirBPath, 'fileB.txt'), 'w');
+                    fs.writeSync(fd, 'This is file B');
                     fs.closeSync(fd);
 
-                    fileUtil.createDirectory(dirBPath, function() {
-                        logger.info('In callback of create directory..created..' + dirBPath);
-                        fd = fs.openSync(dirBPath + path.sep + 'fileB.txt', 'w');
-                        logger.info('In callback of setup..opening directory..' + dirBPath + path.sep + 'fileB.txt');
-                        fs.writeSync(fd, 'This is file B');
-                        fs.closeSync(fd);
-
-
-                        fileUtil.removeDirectory(process.cwd() + path.sep + 'tmpFiles', function() {
-                            A.areEqual(fs.existsSync(process.cwd() + path.sep + 'tmpFiles'),
-                                false, 'Not able to remove directory ' + process.cwd() + path.sep + 'tmpFiles');
+                    fileUtil.removeDirectory(path.resolve(process.cwd(), 'tmpFiles'), function() {
+                        logger.info('In callback of removeDirectory..' + path.resolve(process.cwd(), 'tmpFiles'));
+                        path.exists(path.resolve(process.cwd(), 'tmpFiles'), function(exists) {
+                            A.areEqual(exists, false, 'Not able to remove directory... ' + path.resolve(process.cwd(), 'tmpFiles'));
                         });
 
                     });
 
                 });
 
-            }
-
-            setup(function() {
-                logger.info('In callback of setup directory..created..' + dirBPath);
-
             });
+
 
         }
     }));
