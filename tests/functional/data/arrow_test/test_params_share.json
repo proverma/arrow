@@ -1,7 +1,7 @@
 [
     {
         "settings": [ "master" ],
-        "name": "YahooLogin",
+        "name": "Sharing test params",
         "config": {
             "baseUrl": "http://login.yahoo.com"
         },

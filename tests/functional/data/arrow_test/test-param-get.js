@@ -10,7 +10,7 @@ YUI.add("test-params-get-tests", function (Y) {
         "test title": function() {
 
             // get test params share variable 
-            var shared = this.testParams.shm;
+            var shared = this.testParams.shared;
 
             Y.Assert.areEqual(shared.name, "value");
         }
@@ -18,5 +18,5 @@ YUI.add("test-params-get-tests", function (Y) {
 
     //Never "run" the tests, simply add them to the suite. Arrow takes care of running them
     Y.Test.Runner.add(suite);
-}, "0.1", {requires:["test","node"]});
+}, "0.1", {requires:["test"]});
 
