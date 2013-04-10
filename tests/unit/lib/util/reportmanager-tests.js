@@ -12,9 +12,12 @@ YUI.add('reportmanager-tests', function(Y) {
 
     var suite = new Y.Test.Suite("Report Manager test suite"),
         path = require('path'),
+        log4js = require("log4js"),
+        logger = log4js.getLogger("ReportManagerTests"),
         fs = require('fs'),
         arrowRoot = path.join(__dirname, '../../../..'),
         RepManager = require(arrowRoot + '/lib/util/reportmanager.js'),
+        FileUtil = require(arrowRoot + '/lib/util/fileutil.js'),
         A = Y.Assert;
 
     suite.add(new Y.Test.Case({
@@ -186,218 +189,215 @@ YUI.add('reportmanager-tests', function(Y) {
 //        },
 
 
-//        "writeReports With reportObj - Only report folder": function() {
-//
-//            try {
-//                //                global.color = false;
-//                var reportObj = JSON.parse(fs.readFileSync(__dirname + "/config/reportObjectReportFolder.json")),
-//                    rm = new RepManager(reportObj);
-//                //                rm.writeReports();
-//                //                global.color = true;
-//            } catch (e) {
-//                Y.Assert.areEqual(null, e.toString(), "There should be no error");
-//            }
-//            Y.Assert.areEqual(true, true);
-//        },
+        "writeReports With reportObj - Only report folder": function() {
+
+            try {
+                //                global.color = false;
+                var reportObj = JSON.parse(fs.readFileSync(__dirname + "/config/reportObjectReportFolder.json")),
+                    rm = new RepManager(reportObj);
+                //                rm.writeReports();
+                //                global.color = true;
+            } catch (e) {
+                Y.Assert.areEqual(null, e.toString(), "There should be no error");
+            }
+            Y.Assert.areEqual(true, true);
+        },
 
 
-//        "writeReports With Proper reportObj": function() {
-////
-//            try {
-//                //                global.color = false;
-//                var reportObj = JSON.parse(fs.readFileSync(__dirname + "/config/reportObject.json")),
-//                    rm = new RepManager(reportObj);
-//                reportObj.reportFolder = arrowRoot + "/tests/unit/lib/util/config/reportFolder";
+        "writeReports With Proper reportObj": function() {
 //
-//                //rm.writeReports();   //TODO
-//                //                global.color = true;
-//            } catch (e) {
-//                Y.Assert.areEqual(null, e.toString(), "There should be no error");
-//            }
-//            Y.Assert.areEqual(true, true);
-//        },
+            try {
+                //                global.color = false;
+                var reportObj = JSON.parse(fs.readFileSync(__dirname + "/config/reportObject.json")),
+                    rm = new RepManager(reportObj);
+                reportObj.reportFolder = arrowRoot + "/tests/unit/lib/util/config/reportFolder";
+
+                //rm.writeReports();   //TODO
+                //                global.color = true;
+            } catch (e) {
+                Y.Assert.areEqual(null, e.toString(), "There should be no error");
+            }
+            Y.Assert.areEqual(true, true);
+        },
+
+        "writeReports With Scenario Report" : function() {
+
+            var testSessionObj,
+                arrowRoot = path.join(__dirname, '../../../..'),
+                TestSession = require(arrowRoot + '/tests/unit/lib/util/testSession.js'),
+                report = JSON.parse(fs.readFileSync(__dirname + "/config/scenarioreport.json")),
+                testSessionsArr = [],
+                rm,
+                i,
+                reportObj,
+                fileUtil = new FileUtil();
+
+            // Instantiate test session object, true for scenario
+            testSessionObj = new TestSession(report, true);
+
+            testSessionsArr.push(testSessionObj);
+
+            // Instantiate report manager with report object
+
+            reportObj = {
+                "arrTestSessions" : testSessionsArr,
+                "arrWDSessions" : "",
+                "descriptor" : "dummyDescriptor.json",
+                "reuseSession" : "dummyReuseSession",
+                "testSuiteName" : "dummyTestSuite",
+                "driver" : "dummyDriver",
+                "browser" : "dummyBrowser",
+                "group" : "dummyGroup",
+                "testName" : "dummyTestname"
+            };
+            reportObj.reportFolder =  "reportFolder";
+            fileUtil.createDirectory(path.resolve(reportObj.reportFolder, 'arrow-report'));
+
+            rm = new RepManager(reportObj);
+
+            rm.writeReports();
+
+            // Clean up
+
+            fs.unlink(path.resolve(reportObj.reportFolder, 'arrow-report', 'dummyDescriptor-report.json'),
+
+                function(err) {
+                    if (err) {
+                        console.log('Can\'t cleanup the dummy descriptor json report file..' + err);
+                    } else {
+                        console.log('Cleaned up the dummy descriptor json report file..');
+                    }
+                });
+
+            fs.unlink(path.resolve(reportObj.reportFolder, 'arrow-report', 'dummyDescriptor-report.xml'),
+                function(err) {
+                    if (err) {
+                        console.log('Can\'t cleanup the dummy descriptor xml report file..' + err);
+                    } else {
+                        console.log('Cleaned up the dummy descriptor xml report file..');
+                    }
+                });
+
+        },
 
 
-
-//        "writeReports With Scenario Report" : function() {
-//
-//            var testSessionObj,
-//                arrowRoot = path.join(__dirname, '../../../..'),
-//                TestSession = require(arrowRoot + '/tests/unit/lib/util/testSession.js'),
-//                report = JSON.parse(fs.readFileSync(__dirname + "/config/scenarioreport.json")),
-//                testSessionsArr = [],
-//                rm,
-//                i,
-//                reportObj;
-//
-//            // Instantiate test session object, true for scenario
-//            testSessionObj = new TestSession(report, true);
-//
-//            testSessionsArr.push(testSessionObj);
-//
-//            // Instantiate report manager with report object
-//
-//            reportObj = {
-//                "arrTestSessions" : testSessionsArr,
-//                "arrWDSessions" : "",
-//                "descriptor" : "dummyDescriptor",
-//                "reuseSession" : "dummyReuseSession",
-//                "testSuiteName" : "dummyTestSuite",
-//                "driver" : "dummyDriver",
-//                "browser" : "dummyBrowser",
-//                "group" : "dummyGroup",
-//                "testName" : "dummyTestname"
-//            };
-//            reportObj.reportFolder = arrowRoot + "/tests/unit/lib/util/config/reportFolder";
-//
-//            rm = new RepManager(reportObj);
-//
-//
-//            rm.writeReports();
-//
-//            // Clean up
-//
-//            fs.unlink(path.resolve(global.workingDirectory,
-//                arrowRoot + "/tests/unit/lib/util/config/" + "reportFolderdummyDescriptor-report.json"),
-//                function(err) {
-//                    if (err) {
-//                        console.log('Can\'t cleanup the dummy descriptor json report file..' + err);
-//                    } else {
-//                        console.log('Cleaned up the dummy descriptor json report file..');
-//                    }
-//                });
-//
-//            fs.unlink(path.resolve(global.workingDirectory,
-//                arrowRoot + "/tests/unit/lib/util/config/" + "reportFolderdummyDescriptor-report.xml"),
-//                function(err) {
-//                    if (err) {
-//                        console.log('Can\'t cleanup the dummy descriptor xml report file..' + err);
-//                    } else {
-//                        console.log('Cleaned up the dummy descriptor xml report file..');
-//                    }
-//                });
-//
-//        },
+        "writeReports With Result Report" : function() {
+            var testSessionObj,
+                arrowRoot = path.join(__dirname, '../../../..'),
+                TestSession = require(arrowRoot + '/tests/unit/lib/util/testSession.js'),
+                report = JSON.parse(fs.readFileSync(__dirname + "/config/resultreport.json")),
+                testSessionsArr = [],
+                rm,
+                i,
+                reportObj,
+                fileUtil = new FileUtil();
 
 
-//        "writeReports With Result Report" : function() {
-//
-//            var testSessionObj,
-//                arrowRoot = path.join(__dirname, '../../../..'),
-//                TestSession = require(arrowRoot + '/tests/unit/lib/util/testSession.js'),
-//                report = JSON.parse(fs.readFileSync(__dirname + "/config/resultreport.json")),
-//                testSessionsArr = [],
-//                rm,
-//                i,
-//                reportObj;
-//
-//            testSessionObj = new TestSession(report);
-//
-//            testSessionsArr.push(testSessionObj);
-//
-//            // Instantiate report manager with report object
-//
-//            reportObj = {
-//                "arrTestSessions" : testSessionsArr,
-//                "arrWDSessions" : "",
-//                "descriptor" : "dummyDescriptor",
-//                "reuseSession" : "dummyReuseSession",
-//                "testSuiteName" : "dummyTestSuite",
-//                "driver" : "dummyDriver",
-//                "browser" : "dummyBrowser",
-//                "group" : "dummyGroup",
-//                "testName" : "dummyTestname"
-//            };
-//            reportObj.reportFolder = arrowRoot + "/tests/unit/lib/util/config/reportFolder";
-//
-//            rm = new RepManager(reportObj);
-//
-//
-//            rm.writeReports();
-//
-//            // Clean up
-//
-//            fs.unlink(path.resolve(global.workingDirectory,
-//                arrowRoot + "/tests/unit/lib/util/config/" + "reportFolderdummyDescriptor-report.json"),
-//                function(err) {
-//                    if (err) {
-//                        console.log('Can\'t cleanup the dummy descriptor json report file..' + err);
-//                    } else {
-//                        console.log('Cleaned up the dummy descriptor json report file..');
-//                    }
-//                });
-//
-//            fs.unlink(path.resolve(global.workingDirectory,
-//                arrowRoot + "/tests/unit/lib/util/config/" + "reportFolderdummyDescriptor-report.xml"),
-//                function(err) {
-//                    if (err) {
-//                        console.log('Can\'t cleanup the dummy descriptor xml report file..' + err);
-//                    } else {
-//                        console.log('Cleaned up the dummy descriptor xml report file..');
-//                    }
-//                });
-//
-//        },
+            testSessionObj = new TestSession(report);
+
+            testSessionsArr.push(testSessionObj);
+
+            // Instantiate report manager with report object
+
+            reportObj = {
+                "arrTestSessions" : testSessionsArr,
+                "arrWDSessions" : "",
+                "descriptor" : "dummyDescriptor.json",
+                "reuseSession" : "dummyReuseSession",
+                "testSuiteName" : "dummyTestSuite",
+                "driver" : "dummyDriver",
+                "browser" : "dummyBrowser",
+                "group" : "dummyGroup",
+                "testName" : "dummyTestname"
+            };
+            reportObj.reportFolder =  "reportFolder";
+            fileUtil.createDirectory(path.resolve(reportObj.reportFolder, 'arrow-report'));
+
+            rm = new RepManager(reportObj);
 
 
-//        "writeReports With Result Report - Result not present" : function() {
-//
-//            var testSessionObj,
-//                arrowRoot = path.join(__dirname, '../../../..'),
-//                TestSession = require(arrowRoot + '/tests/unit/lib/util/testSession.js'),
-//                report = JSON.parse(fs.readFileSync(__dirname + "/config/resultreportResultNotPresent.json")),
-//                testSessionsArr = [],
-//                rm,
-//                i,
-//                reportObj;
-//
-//            testSessionObj = new TestSession(report);
-//
-//            testSessionsArr.push(testSessionObj);
-//
-//            // Instantiate report manager with report object
-//
-//            reportObj = {
-//                "arrTestSessions" : testSessionsArr,
-//                "arrWDSessions" : "",
-//                "descriptor" : "dummyDescriptor",
-//                "reuseSession" : "dummyReuseSession",
-//                "testSuiteName" : "dummyTestSuite",
-//                "driver" : "dummyDriver",
-//                "browser" : "dummyBrowser",
-//                "group" : "dummyGroup",
-//                "testName" : "dummyTestname"
-//            };
-//            reportObj.reportFolder = arrowRoot + "/tests/unit/lib/util/config/reportFolder";
-//
-//            rm = new RepManager(reportObj);
-//
-//
-//            rm.writeReports();
-//
-//            // Clean up
-//
-//            fs.unlink(path.resolve(global.workingDirectory,
-//                arrowRoot + "/tests/unit/lib/util/config/" + "reportFolderdummyDescriptor-report.json"),
-//                function(err) {
-//                    if (err) {
-//                        console.log('Can\'t cleanup the dummy descriptor json report file..' + err);
-//                    } else {
-//                        console.log('Cleaned up the dummy descriptor json report file..');
-//                    }
-//                });
-//
-//            fs.unlink(path.resolve(global.workingDirectory,
-//                arrowRoot + "/tests/unit/lib/util/config/" + "reportFolderdummyDescriptor-report.xml"),
-//                function(err) {
-//                    if (err) {
-//                        console.log('Can\'t cleanup the dummy descriptor xml report file..' + err);
-//                    } else {
-//                        console.log('Cleaned up the dummy descriptor xml report file..');
-//                    }
-//                });
-//
-//        }
+            rm.writeReports();
+
+            // Clean up
+
+            fs.unlink(path.resolve(reportObj.reportFolder, 'arrow-report', 'dummyDescriptor-report.json'),
+                function(err) {
+                    if (err) {
+                        console.log('Can\'t cleanup the dummy descriptor json report file..' + err);
+                    } else {
+                        console.log('Cleaned up the dummy descriptor json report file..');
+                    }
+                });
+
+            fs.unlink(path.resolve(reportObj.reportFolder, 'arrow-report', 'dummyDescriptor-report.xml'),
+                function(err) {
+                    if (err) {
+                        console.log('Can\'t cleanup the dummy descriptor xml report file..' + err);
+                    } else {
+                        console.log('Cleaned up the dummy descriptor xml report file..');
+                    }
+                });
+
+        },
+
+
+        "writeReports With Result Report - Result not present" : function() {
+
+            var testSessionObj,
+                arrowRoot = path.join(__dirname, '../../../..'),
+                TestSession = require(arrowRoot + '/tests/unit/lib/util/testSession.js'),
+                report = JSON.parse(fs.readFileSync(__dirname + "/config/resultreportResultNotPresent.json")),
+                testSessionsArr = [],
+                rm,
+                i,
+                reportObj,
+                fileUtil = new FileUtil();
+
+            testSessionObj = new TestSession(report);
+
+            testSessionsArr.push(testSessionObj);
+
+            // Instantiate report manager with report object
+
+            reportObj = {
+                "arrTestSessions" : testSessionsArr,
+                "arrWDSessions" : "",
+                "descriptor" : "dummyDescriptor.json",
+                "reuseSession" : "dummyReuseSession",
+                "testSuiteName" : "dummyTestSuite",
+                "driver" : "dummyDriver",
+                "browser" : "dummyBrowser",
+                "group" : "dummyGroup",
+                "testName" : "dummyTestname"
+            };
+            reportObj.reportFolder = "reportFolder";
+            fileUtil.createDirectory(path.resolve(reportObj.reportFolder, 'arrow-report'));
+
+            rm = new RepManager(reportObj);
+
+            rm.writeReports();
+
+            // Clean up
+
+            fs.unlink(path.resolve(reportObj.reportFolder, 'arrow-report', 'dummyDescriptor-report.json'),
+                function(err) {
+                    if (err) {
+                        console.log('Can\'t cleanup the dummy descriptor json report file..' + err);
+                    } else {
+                        console.log('Cleaned up the dummy descriptor json report file..');
+                    }
+                });
+
+            fs.unlink(path.resolve(reportObj.reportFolder, 'arrow-report', 'dummyDescriptor-report.xml'),
+                function(err) {
+                    if (err) {
+                        console.log('Can\'t cleanup the dummy descriptor xml report file..' + err);
+                    } else {
+                        console.log('Cleaned up the dummy descriptor xml report file..');
+                    }
+                });
+
+        }
 
 
 
