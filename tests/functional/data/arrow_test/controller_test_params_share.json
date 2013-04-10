@@ -1,0 +1,28 @@
+[
+    {
+        "settings": [ "master" ],
+        "name": "YahooLogin",
+        "config": {
+            "baseUrl": "http://login.yahoo.com"
+        },
+        "dataprovider" : {
+
+            "Use Locator to Login" : {
+                "group" : "func",
+                "params" :{
+                    "scenario": [
+                        {
+                            "test": "test-param-set.js"
+                        },
+                        {
+                            "test": "test-param-get.js"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "settings": [ "environment:development" ]
+    }
+]
