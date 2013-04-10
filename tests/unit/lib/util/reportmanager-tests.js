@@ -210,7 +210,7 @@ YUI.add('reportmanager-tests', function(Y) {
                 //                global.color = false;
                 var reportObj = JSON.parse(fs.readFileSync(__dirname + "/config/reportObject.json")),
                     rm = new RepManager(reportObj);
-                reportObj.reportFolder = arrowRoot + "/tests/unit/lib/util/config/reportFolder";
+                global.reportFolder = arrowRoot + "/tests/unit/lib/util/config/reportFolder";
 
                 //rm.writeReports();   //TODO
                 //                global.color = true;
@@ -250,8 +250,8 @@ YUI.add('reportmanager-tests', function(Y) {
                 "group" : "dummyGroup",
                 "testName" : "dummyTestname"
             };
-            reportObj.reportFolder =  "reportFolder";
-            fileUtil.createDirectory(path.resolve(reportObj.reportFolder, 'arrow-report'));
+            global.reportFolder =  "reportFolder";
+            fileUtil.createDirectory(path.resolve(global.reportFolder, 'arrow-report'));
 
             rm = new RepManager(reportObj);
 
@@ -259,7 +259,7 @@ YUI.add('reportmanager-tests', function(Y) {
 
             // Clean up
 
-            fs.unlink(path.resolve(reportObj.reportFolder, 'arrow-report', 'dummyDescriptor-report.json'),
+            fs.unlink(path.resolve(global.reportFolder, 'arrow-report', 'dummyDescriptor-report.json'),
 
                 function(err) {
                     if (err) {
@@ -269,7 +269,7 @@ YUI.add('reportmanager-tests', function(Y) {
                     }
                 });
 
-            fs.unlink(path.resolve(reportObj.reportFolder, 'arrow-report', 'dummyDescriptor-report.xml'),
+            fs.unlink(path.resolve(global.reportFolder, 'arrow-report', 'dummyDescriptor-report.xml'),
                 function(err) {
                     if (err) {
                         console.log('Can\'t cleanup the dummy descriptor xml report file..' + err);
@@ -310,8 +310,8 @@ YUI.add('reportmanager-tests', function(Y) {
                 "group" : "dummyGroup",
                 "testName" : "dummyTestname"
             };
-            reportObj.reportFolder =  "reportFolder";
-            fileUtil.createDirectory(path.resolve(reportObj.reportFolder, 'arrow-report'));
+            global.reportFolder =  "reportFolder";
+            fileUtil.createDirectory(path.resolve(global.reportFolder, 'arrow-report'));
 
             rm = new RepManager(reportObj);
 
@@ -320,7 +320,7 @@ YUI.add('reportmanager-tests', function(Y) {
 
             // Clean up
 
-            fs.unlink(path.resolve(reportObj.reportFolder, 'arrow-report', 'dummyDescriptor-report.json'),
+            fs.unlink(path.resolve(global.reportFolder, 'arrow-report', 'dummyDescriptor-report.json'),
                 function(err) {
                     if (err) {
                         console.log('Can\'t cleanup the dummy descriptor json report file..' + err);
@@ -329,7 +329,7 @@ YUI.add('reportmanager-tests', function(Y) {
                     }
                 });
 
-            fs.unlink(path.resolve(reportObj.reportFolder, 'arrow-report', 'dummyDescriptor-report.xml'),
+            fs.unlink(path.resolve(global.reportFolder, 'arrow-report', 'dummyDescriptor-report.xml'),
                 function(err) {
                     if (err) {
                         console.log('Can\'t cleanup the dummy descriptor xml report file..' + err);
@@ -370,8 +370,8 @@ YUI.add('reportmanager-tests', function(Y) {
                 "group" : "dummyGroup",
                 "testName" : "dummyTestname"
             };
-            reportObj.reportFolder = "reportFolder";
-            fileUtil.createDirectory(path.resolve(reportObj.reportFolder, 'arrow-report'));
+            global.reportFolder = "reportFolder";
+            fileUtil.createDirectory(path.resolve(global.reportFolder, 'arrow-report'));
 
             rm = new RepManager(reportObj);
 
@@ -379,7 +379,7 @@ YUI.add('reportmanager-tests', function(Y) {
 
             // Clean up
 
-            fs.unlink(path.resolve(reportObj.reportFolder, 'arrow-report', 'dummyDescriptor-report.json'),
+            fs.unlink(path.resolve(global.reportFolder, 'arrow-report', 'dummyDescriptor-report.json'),
                 function(err) {
                     if (err) {
                         console.log('Can\'t cleanup the dummy descriptor json report file..' + err);
@@ -388,7 +388,7 @@ YUI.add('reportmanager-tests', function(Y) {
                     }
                 });
 
-            fs.unlink(path.resolve(reportObj.reportFolder, 'arrow-report', 'dummyDescriptor-report.xml'),
+            fs.unlink(path.resolve(global.reportFolder, 'arrow-report', 'dummyDescriptor-report.xml'),
                 function(err) {
                     if (err) {
                         console.log('Can\'t cleanup the dummy descriptor xml report file..' + err);
