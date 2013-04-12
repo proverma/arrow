@@ -1,1 +1,1 @@
-{"ui":"tdd"}
+{"ui":"tdd","require":["chai","should"]}
