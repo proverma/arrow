@@ -520,16 +520,16 @@ For example, you could have the following in your test descriptor
 
 Complex Test Runner(engine) Support
 -----------------------------------
-Arrow default support tests/libs written in YUI which may limit the usage as test framework.Arrow should extend to be able to support other test cases style like BDD/TDD/QUnit besides YUI.
-With test engine extension,Arrow can:
-     Any test cases written in YUI,QUnit,BDD(mocha or jasmine style),TDD(mocha style) can be run in server side(node environment).
-     Any test cases written in YUI,QUnit,BDD(mocha or jasmine style),TDD(mocha style) can be run in client side(in multiple browser) with certain page without any extra effort.
+Arrow default support tests/libs written in YUI which may limit the usage as a test framework.
+With test engine extension arrow now has been able to support some other test cases like BDD/TDD/QUnit besides YUI:
+     * Any test cases written in YUI,QUnit,BDD(mocha or jasmine style),TDD(mocha style) can be run in server side(node environment).
+     * Any test cases written in YUI,QUnit,BDD(mocha or jasmine style),TDD(mocha style) can be run in client side(in multiple browser) with selenium and web-driver without any extra effort.
 
-Users can run multiple style test cases simply by using --engine=yui/mocha/jasmine/qunit...
+Users can run multiple test cases and runner simply by specify engine using --engine=yui/mocha/jasmine/qunit ...
 
 Using --engine in arrow cmd
 ===========================
-Suppose you have a test case written in popular BDD way,like:
+Suppose you have a test case written in the popular BDD way,like:
 
 ::
 
@@ -547,15 +547,15 @@ describe('Array', function(){
 	})
 })
 
-then you can use other test runner to run it ,for example:
+Then you can use test runner mocha to run it ,for example:
 
 ::
 
  arrow mocha-bdd.js --engine=mocha (For globally installed Arrow)
- ./node_modules/.bin/arrow mocha-bdd.js --engine=moch (For locally installed Arrow)
+ ./node_modules/.bin/arrow mocha-bdd.js --engine=mocha (For locally installed Arrow)
 
 
-And even more if you want to run it in client side ,just simply run :
+And if you want to run it in client side ,just simply run :
 
 ::
 
@@ -565,7 +565,9 @@ And even more if you want to run it in client side ,just simply run :
  arrow mocha-bdd.js --engine=mocha --browser=phantomjs --page=http://serach.yahoo.com (For globally installed Arrow)
  ./node_modules/.bin/arrow mocha-bdd.js --engine=mocha --browser=phantomjs --page=http://serach.yahoo.com (For locally installed Arrow)
 
-Then if you have a test case written in tdd way,like:
+We can see that you just need to focus on how to implement test cases itself but no need to worry how to test it in server/client side,arrow will take care of it and set up test environment for you.
+
+Suppose you have a test case written in tdd way and you want to use chai as assertion :
 
 ::
 
@@ -584,7 +586,7 @@ suite('Array', function(){
 	});
 });
 
-then you can still use mocha run it ,like this:
+then you can still want mocha run it but using different "interface" in mocha like this:
 
 ::
 
@@ -596,10 +598,13 @@ then you can still use mocha run it ,like this:
  arrow mocha-bdd.js --engine=mocha --engineConfig=./config.josn  --browser=chrome (For globally installed Arrow)
  ./node_modules/.bin/arrow mocha-tdd.js --engine=mocha  --engineConfig=./config.josn  --browser=chrome (For locally installed Arrow)
 
-in config.json:
+you can define any configuration recognized by mocha like "ui","reporter" etc. in config.json:
+
 ::
 
 {"ui":"tdd","require":"chai"}
+
+It will be passed to test engine and take effect in test execution.
 
 NOTE: Here we support chai as mocha's offical assertion set.Users just need to add it to "require" field in engine config,
       Also npm package or http links are supported,arrow will take case to require it in node side or load the js in browser side:
@@ -611,18 +616,15 @@ NOTE: Here we support chai as mocha's offical assertion set.Users just need to a
 Using engine in arrow's test descriptor
 =======================================
 
-If you have multiple style test cases and want to test it in one test descriptor ,just need to specify which engine to use:
+If you have multiple style test cases and want to test it in one test descriptor ,you just need to specify which engine to use in descriptor:
 
 ::
 
 [
     {
         "settings":[ "master" ],
-
         "name":"hybrid engine server side",
-
         "dataprovider":{
-
             "mocha":{
                 "params":{
                     "test":"mocha-bdd.js",
@@ -638,7 +640,6 @@ If you have multiple style test cases and want to test it in one test descriptor
                 },
                 "group":"unit"
             },
-
             "jasmine":{
                 "params":{
                     "test":"jasmine-bdd-test.js",
@@ -661,13 +662,7 @@ If you have multiple style test cases and want to test it in one test descriptor
                 "group":"unit"
             }
         }
-
-    },
-
-    {
-        "settings":[ "environment:development" ]
     }
-
 ]
 
 Here qunit-test.js and jasmine-bdd-test.js are test cases can be run within qunit and jasmine.By default arrow will use yui to run tests,so in test "yui" ,
@@ -684,11 +679,8 @@ Test engine can also works well with arrow controller:
         "config": {
             "baseUrl": "http://login.yahoo.com"
         },
-
         "commonlib" : "./mocha-lib.js",
-
         "dataprovider" : {
-
             "Use Locator to Login" : {
                 "group" : "func",
                 "browser":"chrome",
@@ -732,7 +724,7 @@ Test engine can also works well with arrow controller:
     }
 ]
 
-In this test,arrow will use the controller-locator to find elements in login page and then after that it will go to search page to run a mocha-style test.
+In this test,arrow will use the controller/locator to find elements in login page and after that it will go to search page to run a mocha-style test.
 users can add any kind of test cases only if test runner is specified with "engine" field.
 
 Re-Using Browser Sessions
