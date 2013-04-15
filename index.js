@@ -37,6 +37,8 @@ var knownOpts = {
         "page": [String, null],
         "driver": [String, null],
         "controller": [String, null],
+		"engine": [String ,null],
+		"engineConfig":[String ,null],
         "reuseSession": Boolean,
         "parallel": [Number, null],
         "report": Boolean,
@@ -89,6 +91,11 @@ function showHelp() {
 		"        --driver : (optional) one of selenium|nodejs. (default: selenium)" + "\n\n" +
 		"        --browser : (optional) a comma seperated list of browser names, optionally with a hypenated version number.\n" +
 		"                      Example : 'firefox-12.0,chrome-10.0' or 'firefox,chrome' or 'firefox'. (default: firefox)" + "\n\n" +
+		"        --engine : (optional) engine is kind of which test runner you want to use according to your test case,default yui testrunner" + "\n" +
+		"                      Arrow also integrate with other test runner ,now yui,mocha,jasmine,qunit is supported " + "\n\n" +
+		"                      Example : --engine=mocha " + "\n\n" +
+		"        --engineConfig : (optional) the file path to config file or a config string  " + "\n" +
+		"                      Example : --engineConfig=./mocha-config.json or --engineConfig={\'ui\':\'tdd\'} " + "\n\n" +
 		"        --parallel : (optional) test thread count. Determines how many tests to run in parallel for current session. (default: 1)\n" +
 		"                          Example : --parallel=3 , will run three tests in parallel" + "\n\n" +
 		"        --report : (optional) true/false.  creates report files in junit and json format. (default: true)" + "\n" +
