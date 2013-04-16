@@ -518,14 +518,16 @@ For example, you could have the following in your test descriptor
       }
   }
 
-Complex Test Runner(engine) Support
+Test Engine
 -----------------------------------
-Arrow default support tests/libs written in YUI which may limit the usage as a test framework.
-With test engine extension arrow now has been able to support some other test cases like BDD/TDD/QUnit besides YUI:
-     * Any test cases written in YUI,QUnit,BDD(mocha or jasmine style),TDD(mocha style) can be run in server side(node environment).
-     * Any test cases written in YUI,QUnit,BDD(mocha or jasmine style),TDD(mocha style) can be run in client side(in multiple browser) with selenium and web-driver without any extra effort.
 
-Users can run multiple test cases and runner simply by specify engine using --engine=yui/mocha/jasmine/qunit ...
+Internally, test engine is an adaptor to support different styles test cases, like YUI, QUnit, BDD, TDD.
+
+By default, Arrow is using YUI style testing. It can be changed by specifying ``--engine``, with below supported:
+* yui (default)
+* mocha
+* jasmin
+* qunit
 
 Using --engine in arrow cmd
 ===========================
@@ -547,7 +549,7 @@ describe('Array', function(){
 	})
 })
 
-Then you can use test runner mocha to run it ,for example:
+Then you can use test engine mocha to run it ,for example:
 
 ::
 
@@ -565,7 +567,6 @@ And if you want to run it in client side ,just simply run :
  arrow mocha-bdd.js --engine=mocha --browser=phantomjs --page=http://serach.yahoo.com (For globally installed Arrow)
  ./node_modules/.bin/arrow mocha-bdd.js --engine=mocha --browser=phantomjs --page=http://serach.yahoo.com (For locally installed Arrow)
 
-We can see that you just need to focus on how to implement test cases itself but no need to worry how to test it in server/client side,arrow will take care of it and set up test environment for you.
 
 Suppose you have a test case written in tdd way and you want to use chai as assertion :
 
@@ -606,8 +607,8 @@ you can define any configuration recognized by mocha like "ui","reporter" etc. i
 
 It will be passed to test engine and take effect in test execution.
 
-NOTE: Here we support chai as mocha's offical assertion set.Users just need to add it to "require" field in engine config,
-      Also npm package or http links are supported,arrow will take case to require it in node side or load the js in browser side:
+NOTE: This example shows that we just need to add chai to "require" field in engine config to support chai as mocha's offical assertion set.
+      Also npm package or http links are supported in engine config.
 
 ::
 
@@ -665,10 +666,10 @@ If you have multiple style test cases and want to test it in one test descriptor
     }
 ]
 
-Here qunit-test.js and jasmine-bdd-test.js are test cases can be run within qunit and jasmine.By default arrow will use yui to run tests,so in test "yui" ,
+Here qunit-test.js and jasmine-bdd-test.js are test cases can be run within qunit and jasmine. By default arrow will use yui to run tests,so in test "yui" ,
 we didn't need to specify the engine for test yui-test-unit.js.
 
-Test engine can also works well with arrow controller:
+Test engine can also works in scenario node:
 
 ::
 
@@ -724,8 +725,8 @@ Test engine can also works well with arrow controller:
     }
 ]
 
-In this test,arrow will use the controller/locator to find elements in login page and after that it will go to search page to run a mocha-style test.
-users can add any kind of test cases only if test runner is specified with "engine" field.
+In this test, arrow will use the locator controller to find elements in login page and after that it will go to search page to run a mocha-style test.
+Users can add any kind of test cases only if the related test engine is suppported and specified with "engine" field.
 
 Re-Using Browser Sessions
 -------------------------
