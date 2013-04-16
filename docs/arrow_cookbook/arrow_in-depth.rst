@@ -417,8 +417,8 @@ Complex Test Scenarios
 
 There are situations where the default arrow controller will not allow you to create the type of test scenario you require. If you recall, the default arrow controller assumes the page you load is the page under test. To solve this you can use a different arrow controller called *locator*. The *locator* controller allows you to navigate to the page under test by allowing you to perform actions such as clicking and typing.
 
-| The controller samples can be found `here <https://github.com/yahoo/arrow/tree/master/docs/arrow_tutorial/controllers/test>`_.
-| .. The controller samples can be found `here. - TODO... need the link to the controller samples (@dmitris)
+The controller samples can be found `here <https://github.com/yahoo/arrow/tree/master/docs/arrow_tutorial/controllers/test>`_.
+.. The controller samples can be found `here. - TODO... need the link to the controller samples (@dmitris)
 
 .. TODO... needs to be updated
 
@@ -525,8 +525,8 @@ Sharing test parameters among custom conrollers and tests in a scenario node
 In a complex test scenario, we maybe need multiple controllers or tests in a scenario node. Arrow provides a way to share variables among the controllers or tests, by this.testParams.shared.
 Custom controller or test can set a Json object to this.testParams.shared, then it will pass to downstream controllers and tests.
 
-| The sample of sharing testParams from a test to another test can be found `here <https://github.com/yahoo/arrow/tree/master/tests/functional/data/arrow_test/share_test_params/test_params_share-simple.json>`_.
-| The sample of sharing testParams for a custom controller to downstream custom controller and test can be found `here <https://github.com/yahoo/arrow/tree/master/tests/functional/data/arrow_test/share_test_params/search-descriptor-test-params.json>`_.
+The sample of sharing testParams from a test to another test can be found `here <https://github.com/yahoo/arrow/tree/master/tests/functional/data/arrow_test/share_test_params/test_params_share-simple.json>`_.
+The sample of sharing testParams for a custom controller to downstream custom controller and test can be found `here <https://github.com/yahoo/arrow/tree/master/tests/functional/data/arrow_test/share_test_params/search-descriptor-test-params.json>`_.
 
 Re-Using Browser Sessions
 -------------------------
