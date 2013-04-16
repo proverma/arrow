@@ -7,76 +7,76 @@
 
 YUI.add('engine-mocha-tests', function (Y, NAME) {
 
-	if (!global.ARROW || !global.ARROW.testLibs) {
-		global.ARROW = {};
-		global.ARROW.onSeeded = function () {
-			console.log("seeded");
-		}
-		global.ARROW.shareLibServerSeed = "server seed";
-		global.ARROW.consoleLog = "";
-		global.ARROW.testLibs = [__dirname + "/test-data.js"];
-		global.ARROW.testfile = __dirname + "/test-data.js";
-	}
-	global.ARROW.engineConfig = {"require":["chai","http://chaijs.com/chai.js"]}
+    if (!global.ARROW || !global.ARROW.testLibs) {
+        global.ARROW = {};
+        global.ARROW.onSeeded = function () {
+            console.log("seeded");
+        }
+        global.ARROW.shareLibServerSeed = "server seed";
+        global.ARROW.consoleLog = "";
+        global.ARROW.testLibs = [__dirname + "/test-data.js"];
+        global.ARROW.testfile = __dirname + "/test-data.js";
+    }
+    global.ARROW.engineConfig = {"require":["chai", "http://chaijs.com/chai.js"]}
 
-	if (typeof window !== "undefined") delete window;
+    if (typeof window !== "undefined") delete window;
 
-	var EventEmitter = require('events').EventEmitter
+    var EventEmitter = require('events').EventEmitter
 
-	function mockrunner(suite) {
-		this.suite = suite;
-	}
+    function mockrunner(suite) {
+        this.suite = suite;
+    }
 
-	mockrunner.prototype.__proto__ = EventEmitter.prototype;
+    mockrunner.prototype.__proto__ = EventEmitter.prototype;
 
-	var mrunner = new mockrunner();
+    var mrunner = new mockrunner();
 
-	var mocha = function (config) {
-		return {
-			ui:function () {
+    var mocha = function (config) {
+        return {
+            ui:function () {
 
-			},
-			addFile:function () {
+            },
+            addFile:function () {
 
-			},
-			loadFiles:function () {
+            },
+            loadFiles:function () {
 
-			},
-			run:function () {
-				return mrunner;
-			}
-		}
-	}
+            },
+            run:function () {
+                return mrunner;
+            }
+        }
+    }
 
-	var path = require('path'),
-		curDir,
-		arrowRoot = path.join(__dirname, '../../../..'),
+    var path = require('path'),
+        curDir,
+        arrowRoot = path.join(__dirname, '../../../..'),
 
-		suite = new Y.Test.Suite(NAME),
-		A = Y.Assert,
-		mockery = require("mockery");
+        suite = new Y.Test.Suite(NAME),
+        A = Y.Assert,
+        mockery = require("mockery");
 
-	suite.add(new Y.Test.Case({
-		'setUp':function () {
-			curDir = process.cwd();
-			process.chdir(arrowRoot);
-			require("module")._cache = {};
-			mockery.registerMock('mocha', mocha);
-		},
-		'tearDown':function () {
-			process.chdir(curDir);
-			mockery.deregisterMock('mocha');
-		},
-		'test new interface seed':function () {
-			require(arrowRoot + '/lib/engine/mocha/mocha-seed');
-			A.isTrue(true);
-		},
-		'test new interface runner':function () {
-			require(arrowRoot + '/lib/engine/mocha/mocha-runner');
-			A.isTrue(true);
-		}
-	}));
+    suite.add(new Y.Test.Case({
+        'setUp':function () {
+            curDir = process.cwd();
+            process.chdir(arrowRoot);
+            require("module")._cache = {};
+            mockery.registerMock('mocha', mocha);
+        },
+        'tearDown':function () {
+            process.chdir(curDir);
+            mockery.deregisterMock('mocha');
+        },
+        'test new interface seed':function () {
+            require(arrowRoot + '/lib/engine/mocha/mocha-seed');
+            A.isTrue(true);
+        },
+        'test new interface runner':function () {
+            require(arrowRoot + '/lib/engine/mocha/mocha-runner');
+            A.isTrue(true);
+        }
+    }));
 
-	Y.Test.Runner.add(suite);
+    Y.Test.Runner.add(suite);
 }, '0.0.1', {requires:['test']});
 

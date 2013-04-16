@@ -1,14 +1,14 @@
 /*jslint forin:true sub:true anon:true sloppy:true stupid:true nomen:true node:true continue:true*/
 /*jslint undef: true*/
 /*
-* Copyright (c) 2012, Yahoo! Inc.  All rights reserved.
-* Copyrights licensed under the New BSD License.
-* See the accompanying LICENSE file for terms.
-*/
+ * Copyright (c) 2012, Yahoo! Inc.  All rights reserved.
+ * Copyrights licensed under the New BSD License.
+ * See the accompanying LICENSE file for terms.
+ */
 
 var fs = require('fs');
 var path = require('path');
-var log4js = require("log4js").getLogger("runNodejsTest");;
+var log4js = require("log4js").getLogger("runNodejsTest");
 var coverage = require('../lib/util/coverage');
 
 ARROW = {};
@@ -28,8 +28,8 @@ function onReportReady(result) {
     } else {
         try {
             process.send({
-                results: ARROW.testReport,
-                coverage: coverage.getFinalCoverage()
+                results:ARROW.testReport,
+                coverage:coverage.getFinalCoverage()
             });
             process.exit(0);
         } catch (e) {
@@ -84,16 +84,18 @@ function runTest() {
     ARROW.testScript = "";
     ARROW.scriptType = "test";
     ARROW.shareLibServerSeed = shareLibServerSeed;
-	ARROW.testfile = testFile;
-	ARROW.engineConfig = engineConfig;
+    ARROW.testfile = testFile;
+    ARROW.engineConfig = engineConfig;
     ARROW.onSeeded = function () {
         var depFile,
             i;
         for (i in depFiles) {
             depFile = depFiles[i];
-            if (0 === depFile.length) { continue; }
+            if (0 === depFile.length) {
+                continue;
+            }
             console.log("Loading dependency: " + depFile);
-			ARROW.testLibs.push(depFile);
+            ARROW.testLibs.push(depFile);
             coverage.addInstrumentCandidate(depFile);
             require(path.resolve("", depFile));
         }
