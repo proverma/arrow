@@ -18,6 +18,7 @@ YUI.add('engine-mocha-client-tests', function (Y, NAME) {
 		global.ARROW.testLibs = [__dirname + "/test-data.js"];
 		global.ARROW.testfile = __dirname + "/test-data.js";
 	}
+	global.ARROW.engineConfig = {"require":["chai","http://chaijs.com/chai.js"]}
 
 	var path = require('path'),
 		curDir,

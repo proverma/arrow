@@ -17,6 +17,8 @@ YUI.add('engine-mocha-tests', function (Y, NAME) {
 		global.ARROW.testLibs = [__dirname + "/test-data.js"];
 		global.ARROW.testfile = __dirname + "/test-data.js";
 	}
+	global.ARROW.engineConfig = {"require":["chai","http://chaijs.com/chai.js"]}
+
 	if (typeof window !== "undefined") delete window;
 
 	var EventEmitter = require('events').EventEmitter

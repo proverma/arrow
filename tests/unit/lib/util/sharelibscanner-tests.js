@@ -107,45 +107,49 @@ YUI.add('sharelibscanner-tests', function (Y) {
             });
             self.wait(5000);
         },
-        "Test generate specified folder Seed File":function () {
+        "ignore:Test generate specified folder Seed File":function () {
             var self = this;
             setup();
             new sharelibScanner({arrowModuleRoot:arrowRoot,scanShareLibPrefix:"martini",scanShareLibRecursive:true}).genSeedFile(scanFolder, function () {
                 self.resume(function () {
                     console.log("~~~~~~~~~~specified folder");
                     fs.readdir(metaPath, function (err, list) {
-                        self.resume(function () {
-                            console.log("++++++++++++++++ assert file");
-                            assertFileExsit(list);
-                            assertFileContentExsit();
-                        });
+						self.resume(function () {
+							console.log("++++++++++++++++ assert file");
+							assertFileExsit(list);
+							assertFileContentExsit();
+							servermanager.stopArrowServer(true);
+						});
                     });
-                    self.wait(1000);
+					self.wait(1000);
                 });
             });
-            self.wait(10000);
+            self.wait(1000);
         },
 
 		"Test generate specified martini modules Seed File":function () {
 			var self = this;
 			setup();
 			servermanager.startArrowServer(function(started){
-				new sharelibScanner({arrowModuleRoot:arrowRoot,enableShareLibYUILoader:true,scanShareLibRecursive:true}).genSeedFile(scanMartiniFolder, function () {
-					self.resume(function () {
-						console.log("~~~~~~~~~~ matini folder");
-						fs.readdir(metaPath, function (err, list) {
-							self.resume(function () {
-								console.log("++++++++++++++++ assert file");
-								assertFileExsit(list);
-								assertFileContentExsit();
-								servermanager.stopArrowServer(true);
+				self.resume(function(){
+					new sharelibScanner({arrowModuleRoot:arrowRoot,enableShareLibYUILoader:true,scanShareLibRecursive:true}).genSeedFile(scanMartiniFolder, function () {
+						self.resume(function () {
+							console.log("~~~~~~~~~~ matini folder");
+							fs.readdir(metaPath, function (err, list) {
+								self.resume(function () {
+									console.log("++++++++++++++++ assert file");
+									assertFileExsit(list);
+									assertFileContentExsit();
+									servermanager.stopArrowServer(true);
+								});
 							});
+							self.wait(1000);
 						});
-						self.wait(1000);
 					});
-				});
+					self.wait(5000)
+				})
 			});
-			self.wait(5000);
+			self.wait(2000);
 		}
 		,
 		"Test generate specified martini modules Seed File":function () {
