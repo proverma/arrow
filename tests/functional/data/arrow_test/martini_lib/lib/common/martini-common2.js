@@ -1,4 +1,4 @@
-YUI.add("martini-test-function-common", function (Y) {
+YUI.add("martini-test-function-common2", function (Y) {
     Y.namespace("Media");
 
     var Greeter = Y.Media.Greeter = function() {};
@@ -8,4 +8,4 @@ YUI.add("martini-test-function-common", function (Y) {
     Greeter.prototype.greet = function(firstName, lastName) {
         return lastName + ", " + firstName;
     }
-}, "0.1", {requires:["martini-test-function-common2"]});
+}, "0.1", {requires:["martini-test-function-common"]});
