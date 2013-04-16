@@ -7,7 +7,7 @@
         },
         "dataprovider" : {
 
-            "Use Locator to Login" : {
+            "set and get testParams" : {
                 "group" : "func",
                 "params" :{
                     "scenario": [
