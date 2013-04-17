@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  
+  <testsuite name="test9.js"
+             errors="0"
+             failures="0"
+             tests="1">
+    
+      
+      <testcase name="testArrow_testDescriptor5">
+        
+      </testcase>
+    
+  </testsuite>
+

@@ -30,30 +30,32 @@ global.reportMap = [];
 //getting command line args
 
 var knownOpts = {
-        "browser": [String, null],
-        "lib": [String, null],
-        "shareLibPath": [String, null],
-        "enableShareLibYUILoader": Boolean,
-        "page": [String, null],
-        "driver": [String, null],
-        "controller": [String, null],
-        "reuseSession": Boolean,
-        "parallel": [Number, null],
-        "report": Boolean,
-        "coverage": Boolean,
-        "coverageExclude": [String, null],
-        "reportFolder": [String, null],
-        "testName": [String, null],
-        "group": [String, null],
-        "logLevel": [String, null],
-        "context": [String, null],
-        "dimensions": [String, null],
-        "capabilities": [String, null],
-        "seleniumHost": [String, null],
-        "retryCount": [Number, null],
-        "exitCode": Boolean,
-        "color": Boolean,
-        "keepIstanbulCoverageJson": Boolean
+        "browser":[String, null],
+        "lib":[String, null],
+        "shareLibPath":[String, null],
+        "enableShareLibYUILoader":Boolean,
+        "page":[String, null],
+        "driver":[String, null],
+        "controller":[String, null],
+        "engine":[String , null],
+        "engineConfig":[String , null],
+        "reuseSession":Boolean,
+        "parallel":[Number, null],
+        "report":Boolean,
+        "coverage":Boolean,
+        "coverageExclude":[String, null],
+        "reportFolder":[String, null],
+        "testName":[String, null],
+        "group":[String, null],
+        "logLevel":[String, null],
+        "context":[String, null],
+        "dimensions":[String, null],
+        "capabilities":[String, null],
+        "seleniumHost":[String, null],
+        "retryCount":[Number, null],
+        "exitCode":Boolean,
+        "color":Boolean,
+        "keepIstanbulCoverageJson":Boolean
     },
     shortHands = {},
 //TODO : Investigate and implement shorthands
@@ -89,11 +91,16 @@ function showHelp() {
         "        --driver : (optional) one of selenium|nodejs. (default: selenium)" + "\n\n" +
         "        --browser : (optional) a comma seperated list of browser names, optionally with a hypenated version number.\n" +
         "                      Example : 'firefox-12.0,chrome-10.0' or 'firefox,chrome' or 'firefox'. (default: firefox)" + "\n\n" +
+        "        --engine : (optional) engine is kind of which test runner you want to use according to your test case,default yui testrunner" + "\n" +
+        "                      Arrow also integrate with other test runner ,now yui,mocha,jasmine,qunit is supported " + "\n\n" +
+        "                      Example : --engine=mocha " + "\n\n" +
+        "        --engineConfig : (optional) the file path to config file or a config string  " + "\n" +
+        "                      Example : --engineConfig=./mocha-config.json or --engineConfig={\'ui\':\'tdd\'} " + "\n\n" +
         "        --parallel : (optional) test thread count. Determines how many tests to run in parallel for current session. (default: 1)\n" +
         "                          Example : --parallel=3 , will run three tests in parallel" + "\n\n" +
         "        --report : (optional) true/false.  creates report files in junit and json format. (default: true)" + "\n" +
         "                     also prints a consolidated test report summary on console. " + "\n\n" +
-        "        --reportFolder : (optional) folderPath.  creates report files in that folder. (default: descriptor folder path)" +  "\n\n" +
+        "        --reportFolder : (optional) folderPath.  creates report files in that folder. (default: descriptor folder path)" + "\n\n" +
         "        --testName : (optional) comma seprated list of test name(s) defined in test descriptor" + "\n" +
         "                       all other tests will be ignored." + "\n\n" +
         "        --group : (optional) comma seprated list of group(s) defined in test descriptor." + "\n" +
@@ -211,6 +218,7 @@ global.retryCount = config.retryCount;
 global.keepIstanbulCoverageJson = config.keepIstanbulCoverageJson;
 global.color = config.color;
 
+
 function startArrow() {
     // TODO: arrowSetup move to Arrow
     arrowSetup = new ArrowSetup(config, argv);
@@ -232,7 +240,6 @@ function startArrow() {
         }
     }
 }
-
 // Ensuring share lib/controller scan happens only once and not for each descriptor
 if (argv.arrowChildProcess) {
     startArrow();

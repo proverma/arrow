@@ -1,20 +1,21 @@
 /*jslint forin:true sub:true anon:true sloppy:true stupid:true nomen:true node:true continue:true*/
 /*jslint undef: true*/
 /*
-* Copyright (c) 2012, Yahoo! Inc.  All rights reserved.
-* Copyrights licensed under the New BSD License.
-* See the accompanying LICENSE file for terms.
-*/
+ * Copyright (c) 2012, Yahoo! Inc.  All rights reserved.
+ * Copyrights licensed under the New BSD License.
+ * See the accompanying LICENSE file for terms.
+ */
 
 var fs = require('fs');
 var path = require('path');
+var log4js = require("log4js").getLogger("runNodejsTest");
 var coverage = require('../lib/util/coverage');
 
 ARROW = {};
 var testReport = null;
 function getReportStatus() {
     console.log("Waiting for the test report");
-    if ((null === ARROW.testReport) || (0 === ARROW.testReport.length)) {
+    if ((null === ARROW.testReport) || ARROW.testReport == undefined || (0 === ARROW.testReport.length)) {
         return false;
     }
     return true;
@@ -27,8 +28,8 @@ function onReportReady(result) {
     } else {
         try {
             process.send({
-                results: ARROW.testReport,
-                coverage: coverage.getFinalCoverage()
+                results:ARROW.testReport,
+                coverage:coverage.getFinalCoverage()
             });
             process.exit(0);
         } catch (e) {
@@ -65,6 +66,7 @@ if (!testSpec) {
     process.exit();
 }
 
+var engineConfig = testSpec.engineConfig;
 var seed = testSpec.seed;
 var shareLibServerSeed = testSpec.shareLibServerSeed;
 var runner = testSpec.runner;
@@ -82,13 +84,18 @@ function runTest() {
     ARROW.testScript = "";
     ARROW.scriptType = "test";
     ARROW.shareLibServerSeed = shareLibServerSeed;
+    ARROW.testfile = testFile;
+    ARROW.engineConfig = engineConfig;
     ARROW.onSeeded = function () {
         var depFile,
             i;
         for (i in depFiles) {
             depFile = depFiles[i];
-            if (0 === depFile.length) { continue; }
+            if (0 === depFile.length) {
+                continue;
+            }
             console.log("Loading dependency: " + depFile);
+            ARROW.testLibs.push(depFile);
             coverage.addInstrumentCandidate(depFile);
             require(path.resolve("", depFile));
         }
@@ -99,10 +106,12 @@ function runTest() {
     };
 
     require(seed);
+
 }
 
 if (coverageFlag) {
     coverage.hookRequire();
 }
 runTest();
+
 

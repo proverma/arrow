@@ -1,0 +1,55 @@
+[
+    {
+        "settings":[ "master" ],
+
+        "name":"hybrid engine server side",
+
+        "dataprovider":{
+
+            "mocha":{
+                "params":{
+                    "test":"mocha-bdd-with-assertion.js",
+                    "lib":"expect.js",
+                    "engine":"mocha"
+                },
+                "group":"unit"
+            },
+            "mocha-tdd":{
+                "params":{
+                    "test":"mocha-tdd.js",
+                    "engine":"mocha",
+                    "engineConfig":"./mocha-config.json"
+                },
+                "group":"unit"
+            },
+
+            "jasmine":{
+                "params":{
+                    "test":"jasmine-bdd-test.js",
+                    "engine":"jasmine"
+                },
+                "group":"unit"
+            },
+            "qunit":{
+                "params":{
+                    "test":"qunit-test.js",
+                    "engine":"qunit"
+                },
+                "group":"unit"
+            },
+            "yui":{
+                "params":{
+                    "test":"yui-test-unit.js",
+                    "lib":"./yui-lib.js"
+                },
+                "group":"unit"
+            }
+        }
+
+    },
+
+    {
+        "settings":[ "environment:development" ]
+    }
+
+]

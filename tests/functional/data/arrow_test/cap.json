@@ -5,6 +5,11 @@
             "platform": "ANY"
 
         },
+        "sauce_chrome": {
+            "browserName" : "chrome",
+            "platform": "ANY"
+
+        },
         "sauce_phantomjs": {
              "browserName" : "phantomjs",
              "platform": "ANY"
