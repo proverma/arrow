@@ -50,14 +50,12 @@ YUI.add('engine-qunit-tests', function (Y, NAME) {
 
     suite.add(new Y.Test.Case({
         'setUp':function () {
-            curDir = process.cwd();
-            process.chdir(arrowRoot);
-            require("module")._cache = {};
+            mockery.enable({ useCleanCache: true });
             mockery.registerMock('qunit', qunit);
         },
         'tearDown':function () {
-            process.chdir(curDir);
             mockery.deregisterMock('qunit');
+            mockery.disable();
         },
         'test new interface seed':function () {
             // if can require,it will run we assert its true

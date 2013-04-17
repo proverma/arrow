@@ -17,7 +17,7 @@ YUI.add('engine-mocha-tests', function (Y, NAME) {
         global.ARROW.testLibs = [__dirname + "/test-data.js"];
         global.ARROW.testfile = __dirname + "/test-data.js";
     }
-    global.ARROW.engineConfig = {"require":["chai", "http://chaijs.com/chai.js"]}
+    global.ARROW.engineConfig = {"require":["chai", "http://chaijs.com/chai.js","http://no-chai/chai.js"]}
 
     if (typeof window !== "undefined") delete window;
 
@@ -44,6 +44,8 @@ YUI.add('engine-mocha-tests', function (Y, NAME) {
             },
             run:function () {
                 return mrunner;
+            },
+            reporter : function (reporter) {
             }
         }
     }
@@ -60,18 +62,18 @@ YUI.add('engine-mocha-tests', function (Y, NAME) {
         'setUp':function () {
             curDir = process.cwd();
             process.chdir(arrowRoot);
-            require("module")._cache = {};
+            mockery.enable({ useCleanCache: true });
             mockery.registerMock('mocha', mocha);
         },
         'tearDown':function () {
             process.chdir(curDir);
             mockery.deregisterMock('mocha');
+            mockery.disable();
         },
-        'test new interface seed':function () {
+        'ignore:test new interface seed and runner':function () {
             require(arrowRoot + '/lib/engine/mocha/mocha-seed');
             A.isTrue(true);
-        },
-        'test new interface runner':function () {
+            if(!global.mocha)global.mocha = mocha();
             require(arrowRoot + '/lib/engine/mocha/mocha-runner');
             A.isTrue(true);
         }

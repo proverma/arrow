@@ -15,14 +15,14 @@ ARROW = {};
 var testReport = null;
 function getReportStatus() {
     console.log("Waiting for the test report");
-    if ((null === ARROW.testReport) || ARROW.testReport == undefined || ( 0 === ARROW.testReport.length)) {
+    if ((null === ARROW.testReport) || ARROW.testReport == undefined || (0 === ARROW.testReport.length)) {
         return false;
     }
     return true;
 }
 
 function onReportReady(result) {
-    if ((null === ARROW.testReport) || ( 0 === ARROW.testReport.length)) {
+    if ((null === ARROW.testReport) || (0 === ARROW.testReport.length)) {
         console.log("Test failed to execute/timedout");
         process.exit(1);
     } else {

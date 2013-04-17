@@ -18,7 +18,7 @@ YUI.add('engine-mocha-client-tests', function (Y, NAME) {
         global.ARROW.testLibs = [__dirname + "/test-data.js"];
         global.ARROW.testfile = __dirname + "/test-data.js";
     }
-    global.ARROW.engineConfig = {"require":["chai", "http://chaijs.com/chai.js"]}
+    global.ARROW.engineConfig = {"require":["chai", "http://chaijs.com/chai.js","http://no-chai/chai.js"]}
 
     var path = require('path'),
         curDir,
@@ -76,12 +76,12 @@ YUI.add('engine-mocha-client-tests', function (Y, NAME) {
                 mrunner.emit("test end", {title:"test", state:"passed"});
                 mrunner.emit("test end", {title:"test", pending:true});
                 mrunner.emit("test end", {title:"test", err:{message:"err message"}});
-            }, 1500);
+            }, 1000);
 
             setTimeout(function () {
                 mrunner.emit("suite end", {title:"test"});
                 mrunner.emit("end", {title:"test"});
-            }, 2000);
+            }, 1000);
 
             A.isTrue(true);
 
