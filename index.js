@@ -91,8 +91,7 @@ function showHelp() {
         "        --driver : (optional) one of selenium|nodejs. (default: selenium)" + "\n\n" +
         "        --browser : (optional) a comma seperated list of browser names, optionally with a hypenated version number.\n" +
         "                      Example : 'firefox-12.0,chrome-10.0' or 'firefox,chrome' or 'firefox'. (default: firefox)" + "\n\n" +
-        "        --engine : (optional) engine is kind of which test runner you want to use according to your test case,default yui testrunner" + "\n" +
-        "                      Arrow also integrate with other test runner ,now yui,mocha,jasmine,qunit is supported " + "\n\n" +
+        "        --engine : (optional) specify the test runner to run test case. Arrow supports test runner of yui, mocha, jasmine, qunit (default: yui)" + "\n" +
         "                      Example : --engine=mocha " + "\n\n" +
         "        --engineConfig : (optional) the file path to config file or a config string  " + "\n" +
         "                      Example : --engineConfig=./mocha-config.json or --engineConfig={\'ui\':\'tdd\'} " + "\n\n" +
