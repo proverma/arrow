@@ -27,7 +27,7 @@ global.coverageMap = [];
 //Array for Holding Report Files
 global.reportMap = [];
 
-global.pathSep = path.sep || '/'
+global.pathSep = path.sep || '/';
 //getting command line args
 
 global.routerMap = {};
