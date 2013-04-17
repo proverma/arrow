@@ -26,7 +26,7 @@ config.yuiloaderchecker = config.arrowModuleRoot + "lib/client/yuitest-yuiloader
 config.autolib = config.arrowModuleRoot + "lib/common";
 
 // for test engine
-config.engine="yui";   // support yui,mocha,jasmine and qunit now...
+config.engine="yui";   // yui, mocha, jasmine or qunit
 config.engineConfig="";  // config object or fs path to the engine config if supported by engine(like mocha)
 config.engineSeed=config.arrowModuleRoot + "lib/engine/interface/engine-seed.js";
 config.engineRunner=config.arrowModuleRoot + "lib/engine/interface/engine-runner.js";
