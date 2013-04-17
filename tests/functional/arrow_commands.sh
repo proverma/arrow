@@ -30,369 +30,301 @@ HEADCOUNT="-n 6"
 
 echo =====  Start to run Arrow Functional test using : "$ARROWCI " =====
 
-
-function echo_and_save()
-{
-    echo "--- Test$1 Result:"$2" "
-    echo "$2" > ./data/actual_op/test$1.txt
-    echo "--- Expect Result:`cat ./data/expected_op/expected_test$1.txt`"
-}
-
-CNT=1
-echo "TEST$CNT: get arrow version"
-CMD=`$ARROWCI  --version `
-echo_and_save $CNT "$CMD"
+echo "TEST1: get arrow version"
+CMD=`$ARROWCI  --version >./data/actual_op/test1.txt`
+RESULT=`$CMD`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT: arrow --help"
+echo "TEST2: arrow --help"
 CMD=`$ARROWCI --help`
-echo_and_save $CNT "$CMD"
+echo $CMD >./data/actual_op/test2.txt
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT: test func js"
-CMD=`$ARROWCI ./data/arrow_test/test-func.js --browser=$BROWSERNAME --driver=selenium --logLevel=INFO --lib=data/arrow_test/test-lib.js --capabilities=./data/arrow_test/cap.json --page=http://www.doctor46.com/tabview.html --seleniumHost=$HUBHOST | tail -15 | head -n 9 `
-echo_and_save $CNT "$CMD"
+echo "TEST3: test func js"
+CMD=`$ARROWCI ./data/arrow_test/test-func.js --browser=$BROWSERNAME --driver=selenium --logLevel=INFO --lib=data/arrow_test/test-lib.js --capabilities=./data/arrow_test/cap.json --page=http://www.doctor46.com/tabview.html --seleniumHost=$HUBHOST | tail -15 | head -n 9  >./data/actual_op/test3.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT:test func descriptor"
-CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail $TAILCOUNT | head $HEADCOUNT  `
-echo_and_save $CNT "$CMD"
+
+echo "TEST4:test func descriptor"
+CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail $TAILCOUNT | head $HEADCOUNT  >./data/actual_op/test4.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT:test --group"
-CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --group=smoke --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail $TAILCOUNT | head $HEADCOUNT  `
-echo_and_save $CNT "$CMD"
+echo "TEST5:test --group"
+CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --group=smoke --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail $TAILCOUNT | head $HEADCOUNT  >./data/actual_op/test5.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT: test --testName"
-CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --testName=int --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail $TAILCOUNT | head $HEADCOUNT `
-echo_and_save $CNT "$CMD"
+echo "TEST6: test --testName"
+CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --testName=int --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail $TAILCOUNT | head $HEADCOUNT  >./data/actual_op/test6.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT:test --report"
-CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --report=true --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail $TAILCOUNT | head $HEADCOUNT `
-echo_and_save $CNT "$CMD"
+echo "TEST7:test --report"
+CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --report=true --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail $TAILCOUNT | head $HEADCOUNT  >./data/actual_op/test7.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT: test --report=false"
-CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail $TAILCOUNT | head $HEADCOUNT`
-echo_and_save $CNT "$CMD"
+echo "TEST8: test --report=false"
+CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail $TAILCOUNT | head $HEADCOUNT  >./data/actual_op/test8.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT: test --parallel=2"
-CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --parallel=2 --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail $TAILCOUNT | head $HEADCOUNT `
-echo_and_save $CNT "$CMD"
+echo "TEST9: test --parallel=2"
+CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --parallel=2 --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail $TAILCOUNT | head $HEADCOUNT  >./data/actual_op/test9.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT: test --parallel=1"
-CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail $TAILCOUNT | head $HEADCOUNT  `
-echo_and_save $CNT "$CMD"
+echo "TEST10: test --parallel=1"
+CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail $TAILCOUNT | head $HEADCOUNT  >./data/actual_op/test10.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT: test --reportFolder  "
-CMD=`$ARROWCI ./data/arrow_test/test1_descriptor.json --reportFolder=../report/ --browser=$BROWSERNAME --report=true --logLevel=INFO --capabilities=./cap.json |  tail $TAILCOUNT | head $HEADCOUNT`
-echo_and_save $CNT "$CMD"
+echo "TEST11: test --reportFolder  "
+CMD=`$ARROWCI ./data/arrow_test/test1_descriptor.json --reportFolder=../report/ --browser=$BROWSERNAME --report=true --logLevel=INFO --capabilities=./cap.json |  tail $TAILCOUNT | head $HEADCOUNT > ./data/actual_op/test11.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT: test all descriptor"
-CMD=`$ARROWCI ./data/arrow_test/**/*_descriptor.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json |  tail $TAILCOUNT | head -n 10  `
-echo_and_save $CNT "$CMD"
+echo "TEST12: test all descriptor"
+CMD=`$ARROWCI ./data/arrow_test/**/*_descriptor.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json |  tail $TAILCOUNT | head -n 10  >./data/actual_op/test12.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT:test all descriptor with report true"
-CMD=`$ARROWCI ./data/arrow_test/**/*_descriptor.json --report=true --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail $TAILCOUNT | head -n 10 `
-echo_and_save $CNT "$CMD"
+echo "TEST13:test all descriptor with report true"
+CMD=`$ARROWCI ./data/arrow_test/**/*_descriptor.json --report=true --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail $TAILCOUNT | head -n 10  >./data/actual_op/test13.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT: test controller"
-CMD=`$ARROWCI ./data/arrow_test/controller_descriptor_fix.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json |  tail $TAILCOUNT | head $HEADCOUNT `
-echo_and_save $CNT "$CMD"
+echo "TEST14: test controller"
+CMD=`$ARROWCI ./data/arrow_test/controller_descriptor_fix.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json |  tail $TAILCOUNT | head $HEADCOUNT  >./data/actual_op/test14.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT:test func with page and lib"
-CMD=`$ARROWCI ./data/arrow_test/test-func.js --page=http://www.doctor46.com/tabview.html --lib=./data/arrow_test/test-lib.js --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./data/arrow_test/cap.json |  tail $TAILCOUNT | head $HEADCOUNT  `
-echo_and_save $CNT "$CMD"
+echo "TEST15:test func with page and lib"
+CMD=`$ARROWCI ./data/arrow_test/test-func.js --page=http://www.doctor46.com/tabview.html --lib=./data/arrow_test/test-lib.js --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./data/arrow_test/cap.json |  tail $TAILCOUNT | head $HEADCOUNT  >./data/actual_op/test15.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT: test wrong descriptor"
-CMD=`$ARROWCI ./data/arrow_test/controller-descriptor-fail.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --report=true --logLevel=INFO --capabilities=./cap.json | grep "Total Number of"  `
-echo_and_save $CNT "$CMD"
+echo "TEST16: test wrong descriptor"
+CMD=`$ARROWCI ./data/arrow_test/controller-descriptor-fail.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --report=true --logLevel=INFO --capabilities=./cap.json | grep "Total Number of"  >./data/actual_op/test16.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT: test descriptor disabled"
-CMD=`$ARROWCI ./data/arrow_test/test-descriptor-disabled.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --capabilities=./cap.json --report=true --logLevel=INFO --capabilities=./cap.json | grep "SessionFactory" `
-CMD1=`sed -e s/'^.\{31\}'//g ./data/arrow_test/dummy_test.txt `
-echo_and_save $CNT "$CMD"
+echo "TEST17: test descriptor disabled"
+CMD=`$ARROWCI ./data/arrow_test/test-descriptor-disabled.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --capabilities=./cap.json --report=true --logLevel=INFO --capabilities=./cap.json | grep "SessionFactory" >./data/arrow_test/dummy_test.txt`
+CMD1=`sed -e s/'^.\{31\}'//g ./data/arrow_test/dummy_test.txt > ./data/actual_op/test17.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT: test dimensions"
-CMD=`$ARROWCI ./data/arrow_test/test-descriptor-dimensions.json --context=environment:development --browser=$BROWSERNAME --logLevel=INFO --capabilities=./cap.json| tail $TAILCOUNT | head $HEADCOUNT `
-echo_and_save $CNT "$CMD"
+echo "TEST18: test dimensions"
+CMD=`$ARROWCI ./data/arrow_test/test-descriptor-dimensions.json --context=environment:development --browser=$BROWSERNAME --logLevel=INFO --capabilities=./cap.json| tail $TAILCOUNT | head $HEADCOUNT >./data/actual_op/test18.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT: test sauce_phantomjs"
-CMD=`$ARROWCI ./data/arrow_test/test-unit.js --browser=sauce_phantomjs --lib=./data/arrow_test/greeter.js --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./data/arrow_test/cap.json |  tail $TAILCOUNT | head $HEADCOUNT `
-echo_and_save $CNT "$CMD"
+echo "TEST19: test sauce_phantomjs"
+CMD=`$ARROWCI ./data/arrow_test/test-unit.js --browser=sauce_phantomjs --lib=./data/arrow_test/greeter.js --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./data/arrow_test/cap.json |  tail $TAILCOUNT | head $HEADCOUNT >./data/actual_op/test19.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT: test sauce_phantomjs and log info"
-CMD=`$ARROWCI ./data/arrow_test/test-unit.js --browser=sauce_phantomjs --lib=./data/arrow_test/greeter.js --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json | grep "LOG" | head -1 `
-echo_and_save $CNT "$CMD"
+echo "TEST20: test sauce_phantomjs and log info"
+CMD=`$ARROWCI ./data/arrow_test/test-unit.js --browser=sauce_phantomjs --lib=./data/arrow_test/greeter.js --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json | grep "LOG" | head -1 >./data/actual_op/test20.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT: for scan lib test server side"
+echo "TEST21: for scan lib test server side"
 # for scan lib test
 # --browser=chrome --driver=selenium
-CMD=`$ARROWCI ./data/arrow_test/sharelib-test-unit-no-lib.js --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json |  tail $TAILCOUNT | head $HEADCOUNT`
-echo_and_save $CNT "$CMD"
+CMD=`$ARROWCI ./data/arrow_test/sharelib-test-unit-no-lib.js --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json |  tail $TAILCOUNT | head $HEADCOUNT >./data/actual_op/test21.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT: for scan lib test client side"
-CMD=`$ARROWCI ./data/arrow_test/test-func-use-martini.js --page=http://www.doctor46.com/tabview.html --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json |  tail $TAILCOUNT | head $HEADCOUNT `
-echo_and_save $CNT "$CMD"
+echo "TEST22: for scan lib test client side"
+CMD=`$ARROWCI ./data/arrow_test/test-func-use-martini.js --page=http://www.doctor46.com/tabview.html --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json |  tail $TAILCOUNT | head $HEADCOUNT >./data/actual_op/test22.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT: for scan lib test no exist lib"
-CMD=`$ARROWCI ./data/arrow_test/test-func-use-martini.js --browser=$BROWSERNAME  --shareLibPath=./data/undefined/undefined-path --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json | grep "ERROR" |head -1 `
-echo_and_save $CNT "$CMD"
+echo "TEST23: for scan lib test no exist lib"
+CMD=`$ARROWCI ./data/arrow_test/test-func-use-martini.js --browser=$BROWSERNAME  --shareLibPath=./data/undefined/undefined-path --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json | grep "ERROR" |head -1 >./data/actual_op/test23.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT: test descriptor and common lib"
-CMD=`$ARROWCI ./data/arrow_test/sharelib-test-func-no-commonlib.json --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./cap.json --logLevel=info |  tail $TAILCOUNT | head $HEADCOUNT `
-echo_and_save $CNT "$CMD"
+echo "TEST24: test descriptor and common lib"
+CMD=`$ARROWCI ./data/arrow_test/sharelib-test-func-no-commonlib.json --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./cap.json --logLevel=info |  tail $TAILCOUNT | head $HEADCOUNT >./data/actual_op/test24.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT: sharelib external controller test"
-CMD=`$ARROWCI ./data/arrow_test/sharelib-external-controller-test.json --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./cap.json --report=false --logLevel=debug |grep 'Loading controller'| tail $TAILCOUNT | head $HEADCOUNT `
-echo_and_save $CNT "$CMD"
+echo "TEST25: sharelib external controller test"
+CMD=`$ARROWCI ./data/arrow_test/sharelib-external-controller-test.json --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./cap.json --report=false --logLevel=debug |grep 'Loading controller'| tail $TAILCOUNT | head $HEADCOUNT >./data/actual_op/test25.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT:  scan lib test with enable ShareLib YUI Loader"
+echo "TEST26:  scan lib test with enable ShareLib YUI Loader"
 # for scan lib test with enable ShareLib YUI Loader
 # this will auto start arrow server
 # --browser=chrome --driver=selenium
-#CMD=`$ARROWCI ./data/arrow_test/sharelib-test-unit-no-lib.js --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/  --enableShareLibYUILoader=true --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json | tail $TAILCOUNT | head $HEADCOUNT`
-#echo_and_save $CNT "$CMD"
+CMD=`$ARROWCI ./data/arrow_test/sharelib-test-unit-no-lib.js --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/  --enableShareLibYUILoader=true --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json | tail $TAILCOUNT | head $HEADCOUNT >./data/actual_op/test26.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT: engine test ,test --engine=jasmine"
-CMD=`$ARROWCI ./data/arrow_test/engine_test/engine_unit_test/jasmine-bdd-test.js --engine=jasmine |  tail $TAILCOUNT | head $HEADCOUNT `
-echo_and_save $CNT "$CMD"
+echo "TEST27: engine test ,test --engine=jasmine"
+
+CMD=`$ARROWCI ./data/arrow_test/engine_test/engine_unit_test/jasmine-bdd-test.js --engine=jasmine |  tail $TAILCOUNT | head $HEADCOUNT >./data/actual_op/test27.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT: engine test ,test --engine=mocha and --engineConfig"
-CMD=`$ARROWCI ./data/arrow_test/engine_test/engine_unit_test/mocha-tdd.js --engine=mocha  --engineConfig=./data/arrow_test/engine_test/engine_unit_test/mocha-config.json |  tail $TAILCOUNT | head $HEADCOUNT `
-echo_and_save $CNT "$CMD"
+echo "TEST28: engine test ,test --engine=mocha and --engineConfig"
+CMD=`$ARROWCI ./data/arrow_test/engine_test/engine_unit_test/mocha-tdd.js --engine=mocha  --engineConfig=./data/arrow_test/engine_test/engine_unit_test/mocha-config.json |  tail $TAILCOUNT | head $HEADCOUNT >./data/actual_op/test28.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT: engine test ,test descriptor with engine=mocha and lib"
-CMD=`$ARROWCI ./data/arrow_test/engine_test/engine_unit_test/mocha_engine_test.json |  tail $TAILCOUNT | head $HEADCOUNT`
-echo_and_save $CNT "$CMD"
+echo "TEST29: engine test ,test descriptor with engine=mocha and lib"
+CMD=`$ARROWCI ./data/arrow_test/engine_test/engine_unit_test/mocha_engine_test.json |  tail $TAILCOUNT | head $HEADCOUNT >./data/actual_op/test29.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT: engine test ,test hybrid engine in server side"
-CMD=`$ARROWCI ./data/arrow_test/engine_test/engine_unit_test/hybrid_engine_test.json |  tail $TAILCOUNT | head $HEADCOUNT `
-echo_and_save $CNT "$CMD"
+echo "TEST30: engine test ,test hybrid engine in server side"
+CMD=`$ARROWCI ./data/arrow_test/engine_test/engine_unit_test/hybrid_engine_test.json |  tail $TAILCOUNT | head $HEADCOUNT >./data/actual_op/test30.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT: engine test ,test descriptor with controller"
-CMD=`$ARROWCI ./data/arrow_test/engine_test/engine_mocha_with_controller.json |  tail $TAILCOUNT | head $HEADCOUNT `
-echo_and_save $CNT "$CMD"
+echo "TEST31: engine test ,test descriptor with controller"
+CMD=`$ARROWCI ./data/arrow_test/engine_test/engine_mocha_with_controller.json |  tail $TAILCOUNT | head $HEADCOUNT >./data/actual_op/test31.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
-let "CNT=$CNT+1"
-echo "TEST$CNT: engine test ,test hybrid engine in client side"
-CMD=`$ARROWCI ./data/arrow_test/engine_test/hybrid_engine_test.json |  tail $TAILCOUNT | head $HEADCOUNT `
-echo_and_save $CNT "$CMD"
+echo "TEST32: engine test ,test hybrid engine in client side"
+CMD=`$ARROWCI ./data/arrow_test/engine_test/hybrid_engine_test.json |  tail $TAILCOUNT | head $HEADCOUNT >./data/actual_op/test32.txt`
 if [ $? != 0 ]; then
 {
     echo "ERROR!"
-	echo "CMD: "$CMD""
+	echo "CMD: $CMD"
 	echo "RESULT: $RESULT"
 } fi
 
