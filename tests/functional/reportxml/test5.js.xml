@@ -2,12 +2,26 @@
 
   
   <testsuite name="test5.js"
-             errors="0"
+             errors="1"
              failures="0"
              tests="1">
     
       
       <testcase name="testArrow_testDescriptor1">
+        
+          <failure message="The output of arrow test_descriptor.json is not correct">
+            AssertionError: 'Test Report Summary\n\nTotal Number of Executed Tests: 4\nTotal Number of Passed Tests: 3\nTotal Number of Failed Tests: 1\nTotal Number of Skipped Tests: 0\n' == 'Test Report Summary\n\nTotal Number of Executed Tests: 4\nTotal Number of Passed Tests: 4\nTotal Number of Failed Tests: 0\nTotal Number of Skipped Tests: 0\n'
+    at Object.assertWrapper [as equal] (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/lib/types.js:83:39)
+    at Object.exports.testArrow_testDescriptor1 (/Users/jiliang/dev_env/git_source/arrow/tests/functional/tests/nodeunit/test5.js:16:10)
+    at Object.wrapTest (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/lib/core.js:235:16)
+    at wrapTest (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/lib/core.js:235:16)
+    at Object.exports.runTest (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/lib/core.js:69:9)
+    at exports.runSuite (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/lib/core.js:117:25)
+    at _concat (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/deps/async.js:508:13)
+    at async.forEachSeries.iterate (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/deps/async.js:118:13)
+    at async.forEachSeries (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/deps/async.js:134:9)
+    at _concat (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/deps/async.js:507:9)
+          </failure>
         
       </testcase>
     

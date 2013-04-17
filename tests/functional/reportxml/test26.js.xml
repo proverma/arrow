@@ -2,12 +2,38 @@
 
   
   <testsuite name="test26.js"
-             errors="0"
+             errors="1"
              failures="0"
              tests="1">
     
       
       <testcase name="testunitwithScanPath">
+        
+          <failure message="The expected output for config.js should be Test Report Summary
+
+Total Number of Executed Tests: 1
+Total Number of Passed Tests: 1
+Total Number of Failed Tests: 0
+Total Number of Skipped Tests: 0
+ but it is ">
+            AssertionError: The expected output for config.js should be Test Report Summary
+
+Total Number of Executed Tests: 1
+Total Number of Passed Tests: 1
+Total Number of Failed Tests: 0
+Total Number of Skipped Tests: 0
+ but it is 
+    at Object.assertWrapper [as equal] (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/lib/types.js:83:39)
+    at Object.exports.testunitwithScanPath (/Users/jiliang/dev_env/git_source/arrow/tests/functional/tests/nodeunit/test26.js:16:10)
+    at Object.wrapTest (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/lib/core.js:235:16)
+    at wrapTest (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/lib/core.js:235:16)
+    at Object.exports.runTest (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/lib/core.js:69:9)
+    at exports.runSuite (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/lib/core.js:117:25)
+    at _concat (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/deps/async.js:508:13)
+    at async.forEachSeries.iterate (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/deps/async.js:118:13)
+    at async.forEachSeries (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/deps/async.js:134:9)
+    at _concat (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/deps/async.js:507:9)
+          </failure>
         
       </testcase>
     
