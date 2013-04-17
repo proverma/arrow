@@ -30,6 +30,8 @@ global.reportMap = [];
 global.pathSep = path.sep || '/'
 //getting command line args
 
+global.routerMap = {};
+
 var knownOpts = {
         "browser": [String, null],
         "lib": [String, null],
