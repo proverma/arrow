@@ -2,30 +2,12 @@
 
   
   <testsuite name="test20.js"
-             errors="1"
+             errors="0"
              failures="0"
              tests="1">
     
       
       <testcase name="testfail_Controller">
-        
-          <failure message="The expected output for config.js should be [LOG] TestRunner: test greet: passed.
- but it is 
-">
-            AssertionError: '\n' == '[LOG] TestRunner: test greet: passed.\n'
- but it is 
-
-    at Object.assertWrapper [as equal] (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/lib/types.js:83:39)
-    at Object.exports.testfail_Controller (/Users/jiliang/dev_env/git_source/arrow/tests/functional/tests/nodeunit/test20.js:16:10)
-    at Object.wrapTest (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/lib/core.js:235:16)
-    at wrapTest (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/lib/core.js:235:16)
-    at Object.exports.runTest (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/lib/core.js:69:9)
-    at exports.runSuite (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/lib/core.js:117:25)
-    at _concat (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/deps/async.js:508:13)
-    at async.forEachSeries.iterate (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/deps/async.js:118:13)
-    at async.forEachSeries (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/deps/async.js:134:9)
-    at _concat (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/deps/async.js:507:9)
-          </failure>
         
       </testcase>
     

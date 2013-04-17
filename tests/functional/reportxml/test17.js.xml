@@ -2,26 +2,12 @@
 
   
   <testsuite name="test17.js"
-             errors="1"
+             errors="0"
              failures="0"
              tests="1">
     
       
       <testcase name="testfail_Controller">
-        
-          <failure message="The output for enabled=false is not correct">
-            AssertionError: '\u001b[32m[2013-04-17 14:09:50.339] [INFO] SessionFactory - \u001b[39mDisabled, skipping test: int1\n\u001b[32m[2013-04-17 14:09:50.339] [INFO] SessionFactory - \u001b[39mDisabled, skipping test: int2\n\u001b[32m[2013-04-17 14:09:50.340] [INFO] SessionFactory - \u001b[39mTotal test sessions: 1\n' == '[INFO] SessionFactory - \u001b[39mDisabled, skipping test: int1\n[INFO] SessionFactory - \u001b[39mDisabled, skipping test: int2\n[INFO] SessionFactory - \u001b[39mTotal test sessions: 1\n'
-    at Object.assertWrapper [as equal] (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/lib/types.js:83:39)
-    at Object.exports.testfail_Controller (/Users/jiliang/dev_env/git_source/arrow/tests/functional/tests/nodeunit/test17.js:16:10)
-    at Object.wrapTest (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/lib/core.js:235:16)
-    at wrapTest (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/lib/core.js:235:16)
-    at Object.exports.runTest (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/lib/core.js:69:9)
-    at exports.runSuite (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/lib/core.js:117:25)
-    at _concat (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/deps/async.js:508:13)
-    at async.forEachSeries.iterate (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/deps/async.js:118:13)
-    at async.forEachSeries (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/deps/async.js:134:9)
-    at _concat (/Users/jiliang/dev_env/git_source/arrow/tests/functional/node_modules/nodeunit/deps/async.js:507:9)
-          </failure>
         
       </testcase>
     
