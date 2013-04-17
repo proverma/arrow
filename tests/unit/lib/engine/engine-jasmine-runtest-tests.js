@@ -6,27 +6,7 @@
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('engine-jasmine-tests', function (Y, NAME) {
-
-    var jasmine = global.jasmine = {
-        getEnv:function () {
-
-            return {
-                addReporter:function (report) {
-                    this.reporter = report;
-                    this.reporter.reportSpecResults();
-                    this.reporter.reportSuiteResults();
-                },
-                execute:function (report) {
-                    report.reportSpecResults();
-                    report.reportSuiteResults();
-                }
-            }
-        },
-        ArrowReporter:function () {
-
-        }
-    };
+YUI.add('engine-jasmine-runtest-tests', function (Y, NAME) {
 
     if (!global.ARROW || !global.ARROW.testLibs) {
         global.ARROW = {};
@@ -49,27 +29,26 @@ YUI.add('engine-jasmine-tests', function (Y, NAME) {
         A = Y.Assert,
         mockery = require("mockery");
 
+    // real jasmine seed and runner
     suite.add(new Y.Test.Case({
         'setUp':function () {
             curDir = process.cwd();
             process.chdir(arrowRoot);
-            mockery.enable({ useCleanCache:true });
-            mockery.registerMock('jasmine-node', jasmine);
+            require("module")._cache = {};
         },
         'tearDown':function () {
             process.chdir(curDir);
-            mockery.deregisterMock('jasmine-node');
-            mockery.disable();
         },
-        'ignore:test new interface seed':function () {
+        'test new interface seed':function () {
             require(arrowRoot + '/lib/engine/jasmine/jasmine-seed');
             A.isTrue(true);
-
+        },
+        'test new interface runner':function () {
             require(arrowRoot + '/lib/engine/jasmine/jasmine-runner');
             A.isTrue(true);
-
         }
     }));
+
 
     Y.Test.Runner.add(suite);
 }, '0.0.1', {requires:['test']});

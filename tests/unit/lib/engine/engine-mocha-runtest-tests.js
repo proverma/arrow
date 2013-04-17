@@ -1,32 +1,11 @@
 /*jslint forin:true sub:true anon:true, sloppy:true, stupid:true, nomen:true, node:true continue:true*/
-
 /*
  * Copyright (c) 2012-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('engine-jasmine-tests', function (Y, NAME) {
-
-    var jasmine = global.jasmine = {
-        getEnv:function () {
-
-            return {
-                addReporter:function (report) {
-                    this.reporter = report;
-                    this.reporter.reportSpecResults();
-                    this.reporter.reportSuiteResults();
-                },
-                execute:function (report) {
-                    report.reportSpecResults();
-                    report.reportSuiteResults();
-                }
-            }
-        },
-        ArrowReporter:function () {
-
-        }
-    };
+YUI.add('engine-mocha-runtest-tests', function (Y, NAME) {
 
     if (!global.ARROW || !global.ARROW.testLibs) {
         global.ARROW = {};
@@ -38,8 +17,38 @@ YUI.add('engine-jasmine-tests', function (Y, NAME) {
         global.ARROW.testLibs = [__dirname + "/test-data.js"];
         global.ARROW.testfile = __dirname + "/test-data.js";
     }
+    global.ARROW.engineConfig = {"require":["chai", "http://chaijs.com/chai.js","http://no-chai/chai.js"]}
+
     if (typeof window !== "undefined") delete window;
 
+    var EventEmitter = require('events').EventEmitter
+
+    function mockrunner(suite) {
+        this.suite = suite;
+    }
+
+    mockrunner.prototype.__proto__ = EventEmitter.prototype;
+
+    var mrunner = new mockrunner();
+
+    var mocha = function (config) {
+        return {
+            ui:function () {
+
+            },
+            addFile:function () {
+
+            },
+            loadFiles:function () {
+
+            },
+            run:function () {
+                return mrunner;
+            },
+            reporter : function (reporter) {
+            }
+        }
+    }
 
     var path = require('path'),
         curDir,
@@ -53,21 +62,17 @@ YUI.add('engine-jasmine-tests', function (Y, NAME) {
         'setUp':function () {
             curDir = process.cwd();
             process.chdir(arrowRoot);
-            mockery.enable({ useCleanCache:true });
-            mockery.registerMock('jasmine-node', jasmine);
-        },
+            require("module")._cache = {};
+            if(global.mocha)delete global.mocha;
+         },
         'tearDown':function () {
             process.chdir(curDir);
-            mockery.deregisterMock('jasmine-node');
-            mockery.disable();
-        },
-        'ignore:test new interface seed':function () {
-            require(arrowRoot + '/lib/engine/jasmine/jasmine-seed');
+         },
+        'test new interface seed and runner':function () {
+            require(arrowRoot + '/lib/engine/mocha/mocha-seed');
             A.isTrue(true);
-
-            require(arrowRoot + '/lib/engine/jasmine/jasmine-runner');
+            require(arrowRoot + '/lib/engine/mocha/mocha-runner');
             A.isTrue(true);
-
         }
     }));
 

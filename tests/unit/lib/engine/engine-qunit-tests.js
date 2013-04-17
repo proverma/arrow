@@ -8,68 +8,66 @@
 
 YUI.add('engine-qunit-tests', function (Y, NAME) {
 
-	// mocked qunit
-	var qunit = global.QUnit = {
-		init:function () {
-		},
-		start:function () {
-		},
-		moduleStart:function (cb) {
-			cb({name:"teststart"});
-		},
-		testDone:function (cb) {
-			cb({name:"testdone"});
-		},
-		log:function (cb) {
-			cb({message:"testlog", expected:"expected"});
-		},
-		done:function (cb) {
-			cb({runtime:0, total:0, failed:0, passed:0});
-		}
-	};
+    // mocked qunit
+    var qunit = global.QUnit = {
+        init:function () {
+        },
+        start:function () {
+        },
+        moduleStart:function (cb) {
+            cb({name:"teststart"});
+        },
+        testDone:function (cb) {
+            cb({name:"testdone"});
+        },
+        log:function (cb) {
+            cb({message:"testlog", expected:"expected"});
+        },
+        done:function (cb) {
+            cb({runtime:0, total:0, failed:0, passed:0});
+        }
+    };
 
-	if (!global.ARROW || !global.ARROW.testLibs) {
-		global.ARROW = {};
-		global.ARROW.onSeeded = function () {
-			console.log("seeded");
-		}
-		global.ARROW.shareLibServerSeed = "server seed";
-		global.ARROW.consoleLog = "";
-		global.ARROW.testLibs = [__dirname + "/test-data.js"];
-		global.ARROW.testfile = __dirname + "/test-data.js";
-	}
-	if (typeof window !== "undefined") delete window;
+    if (!global.ARROW || !global.ARROW.testLibs) {
+        global.ARROW = {};
+        global.ARROW.onSeeded = function () {
+            console.log("seeded");
+        }
+        global.ARROW.shareLibServerSeed = "server seed";
+        global.ARROW.consoleLog = "";
+        global.ARROW.testLibs = [__dirname + "/test-data.js"];
+        global.ARROW.testfile = __dirname + "/test-data.js";
+    }
+    if (typeof window !== "undefined") delete window;
 
-	var path = require('path'),
-		curDir,
-		arrowRoot = path.join(__dirname, '../../../..'),
+    var path = require('path'),
+        curDir,
+        arrowRoot = path.join(__dirname, '../../../..'),
 
-		suite = new Y.Test.Suite(NAME),
-		A = Y.Assert,
-		mockery = require("mockery");
+        suite = new Y.Test.Suite(NAME),
+        A = Y.Assert,
+        mockery = require("mockery");
 
-	suite.add(new Y.Test.Case({
-		'setUp':function () {
-			curDir = process.cwd();
-			process.chdir(arrowRoot);
-			require("module")._cache = {};
-			mockery.registerMock('qunit', qunit);
-		},
-		'tearDown':function () {
-			process.chdir(curDir);
-			mockery.deregisterMock('qunit');
-		},
-		'test new interface seed':function () {
-			// if can require,it will run we assert its true
-			require(arrowRoot + '/lib/engine/qunit/qunit-seed');
-			Y.Assert.isTrue(true);
-		},
-		'test new interface runner':function () {
-			require(arrowRoot + '/lib/engine/qunit/qunit-runner');
-			Y.Assert.isTrue(true);
-		}
-	}));
+    suite.add(new Y.Test.Case({
+        'setUp':function () {
+            mockery.enable({ useCleanCache: true });
+            mockery.registerMock('qunit', qunit);
+        },
+        'tearDown':function () {
+            mockery.deregisterMock('qunit');
+            mockery.disable();
+        },
+        'test new interface seed':function () {
+            // if can require,it will run we assert its true
+            require(arrowRoot + '/lib/engine/qunit/qunit-seed');
+            Y.Assert.isTrue(true);
+        },
+        'test new interface runner':function () {
+            require(arrowRoot + '/lib/engine/qunit/qunit-runner');
+            Y.Assert.isTrue(true);
+        }
+    }));
 
-	Y.Test.Runner.add(suite);
+    Y.Test.Runner.add(suite);
 }, '0.0.1', {requires:['test']});
 
