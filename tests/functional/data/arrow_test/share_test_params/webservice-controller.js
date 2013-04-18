@@ -92,11 +92,13 @@ WebServiceController.prototype.execute = function(callback) {
                 self.testParams.shared = shared;
                 callback();
             } else {
+                self.testParams.shared = shared;
                 callback('Only json or xml content type is supported');
             }
         });
 
         res.on('error', function (e) {
+            self.testParams.shared = shared;
             callback('Got error: ' + e.message);
         });
     });
