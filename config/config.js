@@ -25,6 +25,9 @@ config.testRunner = config.arrowModuleRoot + "lib/client/yuitest-runner.js";
 config.yuiloaderchecker = config.arrowModuleRoot + "lib/client/yuitest-yuiloadercheck.js";
 config.autolib = config.arrowModuleRoot + "lib/common";
 
+config.useYUISandbox = true;  // when this is set to true,arrow will use self-defined YUI instead of YUI on the page.
+config.yuiSandboxRuntime = config.arrowModuleRoot + "lib/client/yui-test-runtime.js";
+
 // for test engine
 config.engine="yui";   // support yui,mocha,jasmine and qunit now...
 config.engineConfig="";  // config object or fs path to the engine config if supported by engine(like mocha)
