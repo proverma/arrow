@@ -25,7 +25,7 @@ config.testRunner = config.arrowModuleRoot + "lib/client/yuitest-runner.js";
 config.yuiloaderchecker = config.arrowModuleRoot + "lib/client/yuitest-yuiloadercheck.js";
 config.autolib = config.arrowModuleRoot + "lib/common";
 
-git // for test engine
+// for test engine
 config.engine="yui";   // yui, mocha, jasmine or qunit
 config.engineConfig="";  // config object or fs path to the engine config if supported by engine(like mocha)
 config.engineSeed=config.arrowModuleRoot + "lib/engine/interface/engine-seed.js";
