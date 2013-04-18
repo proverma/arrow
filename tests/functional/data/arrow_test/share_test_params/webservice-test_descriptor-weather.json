@@ -14,11 +14,17 @@
                         {
                             "controller": "webservice-controller",
                             "params": {
-                                "url": "http://media.query.yahoo.com/v1/public/yql?q=select%20*%20from%20media.stream.recommended.content%20where%20image_tag='ios:size=medium,ios:size=square'&format=json&env=store://oJItKSKcuQ2SVu7dtQUaj0&jsonCompat=new"
+                                "url": "http://weather.yahooapis.com/forecastrss?p=94089"
                             }
                         },
                         {
-                            "test": "webservice-test.js"
+                            "test": "../../../../../lib/common/tests/webservice-test.js",
+                            "assertStatusCode": "200",
+                            "assertHeaders": {
+                                "content-type": "text/xml;charset=UTF-8",
+                                "server": "YTS/1.20.13"
+                            },
+                            "assertPresent": ["$..xmlns:yweather", "$..title"]
                         }
                     ]
                 }
