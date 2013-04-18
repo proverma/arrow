@@ -31,9 +31,6 @@ config.engineConfig="";  // config object or fs path to the engine config if sup
 config.engineSeed=config.arrowModuleRoot + "lib/engine/interface/engine-seed.js";
 config.engineRunner=config.arrowModuleRoot + "lib/engine/interface/engine-runner.js";
 
-config.testSeed = config.arrowModuleRoot + "lib/engine/yuitest/yuitest-seed.js";
-config.testRunner = config.arrowModuleRoot + "lib/engine/yuitest/yuitest-runner.js";
-
 // config for share lib
 config.shareLibPath = ["./common"];     // Arrow will scan all given path for share lib. Example: [config.arrowModuleRoot + "../"]
                                   // You can modify this to add multiple share lib path.
