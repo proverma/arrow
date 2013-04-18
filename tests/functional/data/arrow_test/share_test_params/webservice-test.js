@@ -12,7 +12,9 @@ YUI.add("webservice-controller-tests", function (Y) {
             // get test params share variable 
             var shared = this.testParams["shared"];
 
-            Y.Assert.areEqual(shared.query.count, 1); 
+            Y.Assert.areEqual(shared.statusCode, 200); 
+            Y.Assert.isNotNull(shared.data); 
+            Y.Assert.areEqual(shared.data.query.count, 1); 
 
             // You can add more asserts here
         }

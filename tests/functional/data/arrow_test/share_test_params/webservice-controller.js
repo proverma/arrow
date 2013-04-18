@@ -12,8 +12,8 @@ var http = require('http');
 var https = require('https');
 var xml2js = require('xml2js');
 var urlParser = require("url");
-var log4js = require("../../../../../index").log4js;
-var Controller = require("../../../../../index").controller;
+var log4js = require("yahoo-arrow").log4js;
+var Controller = require("yahoo-arrow").controller;
 
 function WebServiceController(testConfig,args,driver) {
     Controller.call(this, testConfig,args,driver);
@@ -67,6 +67,10 @@ WebServiceController.prototype.execute = function(callback) {
         self.logger.debug("Content type: " + content_type);
         res.setEncoding('utf8');
 
+        var shared = {};
+        shared.statusCode = res.statusCode;
+        shared.headers = res.headers;
+
         var data = '';
         res.on('data', function (chunk) {
             data += chunk;
@@ -77,13 +81,15 @@ WebServiceController.prototype.execute = function(callback) {
                 var xmlParser = new xml2js.Parser();
                 xmlParser.parseString(data, function (err, result) {
                     self.logger.debug("Response data:" + JSON.stringify(result));
-                    self.testParams.shared = result;
+                    shared.data = result;
+                    self.testParams.shared = shared;
                     callback();
                 });
             } else if (content_type.indexOf('json') > -1) { // content type is json
                 var result = JSON.parse(data);
                 self.logger.debug("Response data:" + JSON.stringify(result));
-                self.testParams.shared = result;
+                shared.data = result;
+                self.testParams.shared = shared;
                 callback();
             } else {
                 callback('Only json or xml content type is supported');
