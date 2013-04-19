@@ -12,9 +12,7 @@ OPTIONS :
         --browser : (optional) a comma seperated list of browser names, optionally with a hypenated version number.
                       Example : 'firefox-12.0,chrome-10.0' or 'firefox,chrome' or 'firefox'. (default: firefox)
 
-        --engine : (optional) engine is kind of which test runner you want to use according to your test case,default yui testrunner
-                      Arrow also integrate with other test runner ,now yui,mocha,jasmine,qunit is supported 
-
+        --engine : (optional) specify the test runner to run test case. Arrow supports test runner of yui, mocha, jasmine, qunit (default: yui)
                       Example : --engine=mocha 
 
         --engineConfig : (optional) the file path to config file or a config string  
