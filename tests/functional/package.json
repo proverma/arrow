@@ -9,8 +9,8 @@
     "url": "https://github.com/yahoo/arrow.git"
     },
     "scripts": {
-        "pretest" : "./arrow_commands.sh; rm -rf report.xml",
-        "test": "./node_modules/.bin/nodeunit ./tests/nodeunit/test*.js --reporter junit --output report.xml"
+        "pretest" : "rm -rf report.xml; ./arrow_commands.sh ",
+        "test": "./node_modules/.bin/nodeunit ./tests/nodeunit/test*.js --reporter junit --output report_xml"
 
     },
     "yahoo": {
