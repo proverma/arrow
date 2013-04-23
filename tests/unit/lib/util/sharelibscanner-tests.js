@@ -207,10 +207,10 @@ YUI.add('sharelibscanner-tests', function (Y) {
                             data = sharelibScanner.scannerUtil.getShareLibServerSideModulesMeta();
                             Y.Assert.isTrue(fs.statSync(data).isFile());
 
-                            var libs = sharelibScanner.scannerUtil.getShareLibSrcByPath('test-martini-lib-client', 'client');
+                            var libs = sharelibScanner.scannerUtil.getSrcDependencyByPath('test-martini-lib-client', 'client');
                             Y.Assert.isFalse(libs == null);
-                            Y.Assert.isTrue(sharelibScanner.scannerUtil.getShareLibSrcByPath(__dirname + '/sharelibtestdata/martini_lib/lib/common/mymartini.common.js', 'client') != null);
-                            Y.Assert.isTrue(sharelibScanner.scannerUtil.getShareLibSrcByPath(__dirname + '/sharelibtestdata/martini_lib/lib/client/errormartini.client.js', 'client') != null);
+                            Y.Assert.isTrue(sharelibScanner.scannerUtil.getSrcDependencyByPath(__dirname + '/sharelibtestdata/martini_lib/lib/common/mymartini.common.js', 'client') != null);
+                            Y.Assert.isTrue(sharelibScanner.scannerUtil.getSrcDependencyByPath(__dirname + '/sharelibtestdata/martini_lib/lib/client/errormartini.client.js', 'client') != null);
 
 
                             try {
@@ -226,7 +226,7 @@ YUI.add('sharelibscanner-tests', function (Y) {
                             var data = sharelibScanner.scannerUtil.getShareLibClientSideModulesMeta();
                             Y.Assert.isFalse(data.indexOf("mymartini.client.js") != -1
                                 && data.indexOf("mymartini.common.js") != -1);
-                            var client = sharelibScanner.scannerUtil.getShareLibSrcByPath(__dirname + '/sharelibtestdata/martini_lib/lib/common/mymartini.common.js', 'client');
+                            var client = sharelibScanner.scannerUtil.getSrcDependencyByPath(__dirname + '/sharelibtestdata/martini_lib/lib/common/mymartini.common.js', 'client');
                             console.log(client);
                             Y.Assert.isTrue(client.length > 0);
                         });
