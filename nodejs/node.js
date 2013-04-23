@@ -28,6 +28,7 @@ function onReportReady(result) {
         try {
             process.send({
                 results: ARROW.testReport,
+                testParams: ARROW.testParams,
                 coverage: coverage.getFinalCoverage()
             });
             process.exit(0);

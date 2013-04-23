@@ -519,6 +519,15 @@ For example, you could have the following in your test descriptor
   }
 
 
+Sharing test parameters among custom conrollers and tests in a scenario node
+======================
+
+In a complex test scenario, we maybe need multiple controllers or tests in a scenario node. Arrow provides a way to share variables among the controllers or tests, via this.testParams.shared.
+Custom controller or test can set a Json object to this.testParams.shared, then it will pass to downstream controllers and tests.
+
+The sample of sharing testParams from a test to another test can be found `here <https://github.com/yahoo/arrow/tree/master/tests/functional/data/arrow_test/share_test_params/test_params_share-simple.json>`_.
+The sample of sharing testParams for a custom controller to downstream custom controller and test can be found `here <https://github.com/yahoo/arrow/tree/master/tests/functional/data/arrow_test/share_test_params/search-descriptor-test-params.json>`_.
+
 Re-Using Browser Sessions
 -------------------------
 
