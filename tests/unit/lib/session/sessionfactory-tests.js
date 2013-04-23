@@ -100,7 +100,6 @@ YUI.add('sessionfactory-tests', function (Y) {
             A.areEqual(err.toString(), "Error: ENOENT, no such file or directory 'NotFoundDescriptor.json'", "Error should be thrown if invalid descriptor path is passed");
         }
     }));
-//All tests pass upto this
 
     //Fails with 0.10.1
     suite.add(new Y.Test.Case({
