@@ -263,7 +263,7 @@ let "CNT=$CNT+1"
 echo "TEST$CNT: for scan lib test server side"
 # for scan lib test
 # --browser=chrome --driver=selenium
-CMD=`$ARROWCI ./data/arrow_test/sharelib-test-unit-no-lib.js --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json |  tail $TAILCOUNT | head $HEADCOUNT`
+CMD=`$ARROWCI ./data/arrow_test/sharelib-test-unit-no-lib.js  --shareLibPath=./data/arrow_test/martini_lib/  --capabilities=./data/arrow_test/cap.json |  tail $TAILCOUNT | head $HEADCOUNT`
 echo_and_save $CNT "$CMD"
 if [ $? != 0 ]; then
 {
@@ -321,8 +321,8 @@ echo "TEST$CNT:  scan lib test with enable ShareLib YUI Loader"
 # for scan lib test with enable ShareLib YUI Loader
 # this will auto start arrow server
 # --browser=chrome --driver=selenium
-#CMD=`$ARROWCI ./data/arrow_test/sharelib-test-unit-no-lib.js --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/  --enableShareLibYUILoader=true --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json | tail $TAILCOUNT | head $HEADCOUNT`
-#echo_and_save $CNT "$CMD"
+CMD=`$ARROWCI ./data/arrow_test/sharelib-test-unit-no-lib.js --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/  --enableShareLibYUILoader=true --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json | tail $TAILCOUNT | head $HEADCOUNT`
+echo_and_save $CNT "$CMD"
 if [ $? != 0 ]; then
 {
     echo "ERROR!"

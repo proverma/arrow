@@ -4,6 +4,7 @@ node_modules
 package.json.pl
 .DS_Store
 .idea
+lcov*
 lib/.DS_Store
 results.xml
 report.*
