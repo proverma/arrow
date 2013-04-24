@@ -73,7 +73,7 @@ if [ $? != 0 ]; then
 
 let "CNT=$CNT+1"  # TEST 4
 echo "TEST$CNT:test func descriptor"
-CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail $TAILCOUNT | head $HEADCOUNT  `
+CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./data/arrow_test/cap.json | tail $TAILCOUNT | head $HEADCOUNT  `
 echo_and_save $CNT "$CMD"
 if [ $? != 0 ]; then
 {
@@ -84,7 +84,7 @@ if [ $? != 0 ]; then
 
 let "CNT=$CNT+1" # TEST 5
 echo "TEST$CNT:test --group"
-CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --group=smoke --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail $TAILCOUNT | head $HEADCOUNT  `
+CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --group=smoke --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./data/arrow_test/cap.json | tail $TAILCOUNT | head $HEADCOUNT  `
 echo_and_save $CNT "$CMD"
 if [ $? != 0 ]; then
 {
@@ -95,7 +95,7 @@ if [ $? != 0 ]; then
 
 let "CNT=$CNT+1" # TEST 6
 echo "TEST$CNT: test --testName"
-CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --testName=int --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail $TAILCOUNT | head $HEADCOUNT `
+CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --testName=int --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./data/arrow_test/cap.json | tail $TAILCOUNT | head $HEADCOUNT `
 echo_and_save $CNT "$CMD"
 if [ $? != 0 ]; then
 {
@@ -106,7 +106,7 @@ if [ $? != 0 ]; then
 
 let "CNT=$CNT+1" # TEST 7
 echo "TEST$CNT:test --report"
-CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --report=true --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail $TAILCOUNT | head $HEADCOUNT `
+CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME  --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./data/arrow_test/cap.json | tail $TAILCOUNT | head $HEADCOUNT `
 echo_and_save $CNT "$CMD"
 if [ $? != 0 ]; then
 {
@@ -116,8 +116,8 @@ if [ $? != 0 ]; then
 } fi
 
 let "CNT=$CNT+1" # TEST 8
-echo "TEST$CNT: test --report=false"
-CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail $TAILCOUNT | head $HEADCOUNT`
+echo "TEST$CNT: test "
+CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./data/arrow_test/cap.json | tail $TAILCOUNT | head $HEADCOUNT`
 echo_and_save $CNT "$CMD"
 if [ $? != 0 ]; then
 {
@@ -128,7 +128,7 @@ if [ $? != 0 ]; then
 
 let "CNT=$CNT+1" # TEST 9
 echo "TEST$CNT: test --parallel=2"
-CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --parallel=2 --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail $TAILCOUNT | head $HEADCOUNT `
+CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --parallel=2 --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./data/arrow_test/cap.json | tail $TAILCOUNT | head $HEADCOUNT `
 echo_and_save $CNT "$CMD"
 if [ $? != 0 ]; then
 {
@@ -139,7 +139,7 @@ if [ $? != 0 ]; then
 
 let "CNT=$CNT+1" # TEST 10
 echo "TEST$CNT: test --parallel=1"
-CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail $TAILCOUNT | head $HEADCOUNT  `
+CMD=`$ARROWCI ./data/arrow_test/test_descriptor.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./data/arrow_test/cap.json | tail $TAILCOUNT | head $HEADCOUNT  `
 echo_and_save $CNT "$CMD"
 if [ $? != 0 ]; then
 {
@@ -150,7 +150,7 @@ if [ $? != 0 ]; then
 
 let "CNT=$CNT+1" # TEST 11
 echo "TEST$CNT: test --reportFolder  "
-CMD=`$ARROWCI ./data/arrow_test/test1_descriptor.json --reportFolder=../report/ --browser=$BROWSERNAME --report=true --logLevel=INFO --capabilities=./cap.json |  tail $TAILCOUNT | head $HEADCOUNT`
+CMD=`$ARROWCI ./data/arrow_test/test1_descriptor.json --reportFolder=../report/ --browser=$BROWSERNAME  --logLevel=INFO --capabilities=./data/arrow_test/cap.json |  tail $TAILCOUNT | head $HEADCOUNT`
 echo_and_save $CNT "$CMD"
 if [ $? != 0 ]; then
 {
@@ -161,7 +161,7 @@ if [ $? != 0 ]; then
 
 let "CNT=$CNT+1" # TEST 12
 echo "TEST$CNT: test all descriptor"
-CMD=`$ARROWCI ./data/arrow_test/**/*_descriptor.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json |  tail $TAILCOUNT | head -n 10  `
+CMD=`$ARROWCI ./data/arrow_test/**/*_descriptor.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./data/arrow_test/cap.json |  tail $TAILCOUNT | head -n 10  `
 echo_and_save $CNT "$CMD"
 if [ $? != 0 ]; then
 {
@@ -172,7 +172,7 @@ if [ $? != 0 ]; then
 
 let "CNT=$CNT+1" # TEST 13
 echo "TEST$CNT:test all descriptor with report true"
-CMD=`$ARROWCI ./data/arrow_test/**/*_descriptor.json --report=true --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json | tail $TAILCOUNT | head -n 10 `
+CMD=`$ARROWCI ./data/arrow_test/**/*_descriptor.json  --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./data/arrow_test/cap.json | tail $TAILCOUNT | head -n 10 `
 echo_and_save $CNT "$CMD"
 if [ $? != 0 ]; then
 {
@@ -183,7 +183,7 @@ if [ $? != 0 ]; then
 
 let "CNT=$CNT+1" # TEST 14
 echo "TEST$CNT: test controller"
-CMD=`$ARROWCI ./data/arrow_test/controller_descriptor_fix.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./cap.json |  tail $TAILCOUNT | head $HEADCOUNT `
+CMD=`$ARROWCI ./data/arrow_test/controller_descriptor_fix.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --logLevel=INFO --capabilities=./data/arrow_test/cap.json |  tail $TAILCOUNT | head $HEADCOUNT `
 echo_and_save $CNT "$CMD"
 if [ $? != 0 ]; then
 {
@@ -205,7 +205,7 @@ if [ $? != 0 ]; then
 
 let "CNT=$CNT+1" # TEST 16
 echo "TEST$CNT: test wrong descriptor"
-CMD=`$ARROWCI ./data/arrow_test/controller-descriptor-fail.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --report=true --logLevel=INFO --capabilities=./cap.json | grep "Total Number of"  `
+CMD=`$ARROWCI ./data/arrow_test/controller-descriptor-fail.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST  --logLevel=INFO --capabilities=./data/arrow_test/cap.json | grep "Total Number of"  `
 echo_and_save $CNT "$CMD"
 if [ $? != 0 ]; then
 {
@@ -216,7 +216,7 @@ if [ $? != 0 ]; then
 
 let "CNT=$CNT+1" # TEST 17
 echo "TEST$CNT: test descriptor disabled"
-CMD=`$ARROWCI ./data/arrow_test/test-descriptor-disabled.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --capabilities=./cap.json --report=true --logLevel=INFO --capabilities=./cap.json | grep "SessionFactory" `
+CMD=`$ARROWCI ./data/arrow_test/test-descriptor-disabled.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST --capabilities=./cap.json  --logLevel=INFO --capabilities=./data/arrow_test/cap.json | grep "SessionFactory" `
 CMD1=`sed -e s/'^.\{31\}'//g ./data/arrow_test/dummy_test.txt `
 echo_and_save $CNT "$CMD"
 if [ $? != 0 ]; then
@@ -228,7 +228,7 @@ if [ $? != 0 ]; then
 
 let "CNT=$CNT+1" # TEST 18
 echo "TEST$CNT: test dimensions"
-CMD=`$ARROWCI ./data/arrow_test/test-descriptor-dimensions.json --context=environment:development --browser=$BROWSERNAME --logLevel=INFO --capabilities=./cap.json| tail $TAILCOUNT | head $HEADCOUNT `
+CMD=`$ARROWCI ./data/arrow_test/test-descriptor-dimensions.json --context=environment:development --browser=$BROWSERNAME --logLevel=INFO --capabilities=./data/arrow_test/cap.json| tail $TAILCOUNT | head $HEADCOUNT `
 echo_and_save $CNT "$CMD"
 if [ $? != 0 ]; then
 {
@@ -296,7 +296,7 @@ if [ $? != 0 ]; then
 
 let "CNT=$CNT+1" # TEST 24
 echo "TEST$CNT: test descriptor and common lib"
-CMD=`$ARROWCI ./data/arrow_test/sharelib-test-func-no-commonlib.json --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./cap.json --logLevel=info |  tail $TAILCOUNT | head $HEADCOUNT `
+CMD=`$ARROWCI ./data/arrow_test/sharelib-test-func-no-commonlib.json --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json --logLevel=info |  tail $TAILCOUNT | head $HEADCOUNT `
 echo_and_save $CNT "$CMD"
 if [ $? != 0 ]; then
 {
@@ -307,7 +307,7 @@ if [ $? != 0 ]; then
 
 let "CNT=$CNT+1" # TEST 25
 echo "TEST$CNT: sharelib external controller test"
-CMD=`$ARROWCI ./data/arrow_test/sharelib-external-controller-test.json --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./cap.json --report=false --logLevel=debug |grep 'Loading controller'| tail $TAILCOUNT | head $HEADCOUNT `
+CMD=`$ARROWCI ./data/arrow_test/sharelib-external-controller-test.json --browser=$BROWSERNAME --shareLibPath=./data/arrow_test/martini_lib/ --seleniumHost=$HUBHOST --capabilities=./data/arrow_test/cap.json  --logLevel=debug |grep 'Loading controller'| tail $TAILCOUNT | head $HEADCOUNT `
 echo_and_save $CNT "$CMD"
 if [ $? != 0 ]; then
 {

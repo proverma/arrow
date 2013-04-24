@@ -1,5 +1,5 @@
-2 Passed, 0 Failed , 0 skipped 
-
+*************************************************************************************
+                            Consolidated Report                                          
 
 Test Report Summary
 
