@@ -1,0 +1,58 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name" : "hybrid engine",
+
+        "config" :{
+            "baseUrl" : "http://search.yahoo.com/",
+            "browser":"chrome"
+        },
+
+        "dataprovider" : {
+           "mocha" : {
+                "params" : {
+                    "test" : "mocha-test.js",
+                    "page" : "$$config.baseUrl$$",
+                    "lib" : "./mocha-lib.js",
+                    "engine":"mocha"
+                  },
+                "group" : "smoke",
+               "browser":"$$config.browser$$"
+            },
+
+            "jasmine" : {
+                "params" : {
+                    "test" : "jasmine-bdd-test.js",
+                    "page" : "$$config.baseUrl$$",
+                    "engine":"jasmine"
+                },
+                "browser":"$$config.browser$$",
+                "group" : "smoke"
+            },
+            "qunit" : {
+                "params" : {
+                    "test" : "qunit-test.js",
+                    "page" : "$$config.baseUrl$$",
+                    "engine":"qunit"
+                },
+                "browser":"$$config.browser$$",
+                "group" : "smoke"
+            },
+            "yui" : {
+                "params" : {
+                    "test" : "yui-test.js",
+                    "page" : "$$config.baseUrl$$"
+                },
+                "browser":"$$config.browser$$",
+                "group" : "smoke"
+            }
+        }
+        
+    },
+
+    {
+        "settings": [ "environment:development" ]
+    }
+
+]

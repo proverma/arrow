@@ -15,7 +15,7 @@ function startAgent() {
     var date = new Date();
     var sessionId = "session-" + date.getTime();
     var Y = YUI();
-    Y.use("node", "event", "node-event-simulate", "io", "json-parse", "json-stringify", function() { 
+    Y.use("node", "event", "node-event-simulate", "io", "json-parse", "json-stringify", function() {
         window.setTimeout(queryTask, 0);
     });
 
@@ -52,7 +52,7 @@ function queryTask() {
 function runTask() {
     var taskDone = true;
 try {
-    
+
     switch(task.params.type) {
     case "title": {
        task.result = (autw.document ? autw.document.title : "");
@@ -154,7 +154,7 @@ function findElement(all) {
         startNode = Y.one(autw.document.body);
     }
 
-    var strategy = task.params.using; 
+    var strategy = task.params.using;
     var value = task.params.value;
     var findFunction = all ? findAllElements : findSingleElement;
 
@@ -312,7 +312,7 @@ function getFrame() {
 }
 
 // Will get replaced once agent starts
-function onContainerLoaded() {} 
+function onContainerLoaded() {}
 </script>
 </head>
 
