@@ -3,6 +3,9 @@ YUI.add("martini-function-tests", function (Y) {
     //We're calling it "unit test suite"
     var suite = new Y.Test.Suite("unit test suite");
 
+	console.log("YUI version in this closure:"+YUI.version);
+	console.log("YUI config in this closure:");
+	console.log(YUI.config);
 
     /**
      * NOTE:

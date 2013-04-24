@@ -73,15 +73,15 @@ YUI.add('sharelibscanner-tests', function (Y) {
     }
 
     suite.add(new Y.Test.Case({
-        "Test generate Seed File given no scan path":function () {
+        "Test generate Seed File given no scan path": function () {
             setup();
             new sharelibScanner().genSeedFile([], function () {
             });
         },
-        "Test generate Non-Exsit-Path Seed File":function () {
+        "Test generate Non-Exsit-Path Seed File": function () {
             var self = this;
             setup();
-            new sharelibScanner({arrowModuleRoot:arrowRoot}).genSeedFile(["Non-Exsit-Path", scanMartiniFolder + '/lib/common/mymartini.common.js'], function () {
+            new sharelibScanner({arrowModuleRoot: arrowRoot}).genSeedFile(["Non-Exsit-Path", scanMartiniFolder + '/lib/common/mymartini.common.js'], function () {
                 console.log("~~~~~~~~~~Non-exist-path");
                 fs.readdir(metaPath, function (err, list) {
                     self.resume(function () {
@@ -91,10 +91,10 @@ YUI.add('sharelibscanner-tests', function (Y) {
             });
             self.wait(5000);
         },
-        "Test generate default Seed File":function () {
+        "Test generate default Seed File": function () {
             var self = this;
             setup();
-            new sharelibScanner({arrowModuleRoot:arrowRoot}).genSeedFile(undefined, function () {
+            new sharelibScanner({arrowModuleRoot: arrowRoot}).genSeedFile(undefined, function () {
                 self.resume(function () {
                     console.log("~~~~~~~~~~default");
                     fs.readdir(metaPath, function (err, list) {
@@ -108,10 +108,10 @@ YUI.add('sharelibscanner-tests', function (Y) {
             });
             self.wait(5000);
         },
-        "ignore:Test generate specified folder Seed File":function () {
+        "ignore:Test generate specified folder Seed File": function () {
             var self = this;
             setup();
-            new sharelibScanner({arrowModuleRoot:arrowRoot, scanShareLibPrefix:"martini", scanShareLibRecursive:true}).genSeedFile(scanFolder, function () {
+            new sharelibScanner({arrowModuleRoot: arrowRoot, scanShareLibPrefix: "martini", scanShareLibRecursive: true}).genSeedFile(scanFolder, function () {
                 self.resume(function () {
                     console.log("~~~~~~~~~~specified folder");
                     fs.readdir(metaPath, function (err, list) {
@@ -128,12 +128,12 @@ YUI.add('sharelibscanner-tests', function (Y) {
             self.wait(1000);
         },
 
-        "Test generate specified martini modules Seed File":function () {
+        "Test generate specified martini modules Seed File": function () {
             var self = this;
             setup();
             servermanager.startArrowServer(function (started) {
                 self.resume(function () {
-                    new sharelibScanner({arrowModuleRoot:arrowRoot, enableShareLibYUILoader:true, scanShareLibRecursive:true}).genSeedFile(scanMartiniFolder, function () {
+                    new sharelibScanner({arrowModuleRoot: arrowRoot, enableShareLibYUILoader: true, scanShareLibRecursive: true}).genSeedFile(scanMartiniFolder, function () {
                         self.resume(function () {
                             console.log("~~~~~~~~~~ matini folder");
                             fs.readdir(metaPath, function (err, list) {
@@ -152,10 +152,10 @@ YUI.add('sharelibscanner-tests', function (Y) {
             });
             self.wait(2000);
         },
-        "Test generate specified martini modules Seed File":function () {
+        "Test generate specified martini modules Seed File": function () {
             var self = this;
             setup();
-            new sharelibScanner({arrowModuleRoot:arrowRoot, enableShareLibYUILoader:true, scanShareLibRecursive:true}).genSeedFile(scanMartiniFolder, function () {
+            new sharelibScanner({arrowModuleRoot: arrowRoot, enableShareLibYUILoader: true, scanShareLibRecursive: true}).genSeedFile(scanMartiniFolder, function () {
                 self.resume(function () {
                     console.log("~~~~~~~~~~ matini folder");
                     fs.readdir(metaPath, function (err, list) {
@@ -171,10 +171,10 @@ YUI.add('sharelibscanner-tests', function (Y) {
             });
             self.wait(5000);
         },
-        "Test generate arrow root Seed File":function () {
+        "Test generate arrow root Seed File": function () {
             var self = this;
             setup();
-            new sharelibScanner({arrowModuleRoot:arrowRoot, scanShareLibRecursive:true}).genSeedFile([arrowRoot + "/sharelib", scanMartiniFolder], function () {
+            new sharelibScanner({arrowModuleRoot: arrowRoot, scanShareLibRecursive: true}).genSeedFile([arrowRoot + "/sharelib", scanMartiniFolder], function () {
                 self.resume(function () {
                     console.log("~~~~~~~~~~ matini folder");
                     fs.readdir(metaPath, function (err, list) {
@@ -189,9 +189,9 @@ YUI.add('sharelibscanner-tests', function (Y) {
             });
             self.wait(5000);
         },
-        "Test get generated Seed File":function () {
+        "Test get generated Seed File": function () {
             var self = this;
-            new sharelibScanner({arrowModuleRoot:arrowRoot, scanShareLibRecursive:true}).genSeedFile(scanMartiniFolder, function () {
+            new sharelibScanner({arrowModuleRoot: arrowRoot, scanShareLibRecursive: true}).genSeedFile(scanMartiniFolder, function () {
                 self.resume(function () {
                     console.log("~~~~~~~~~~ matini folder");
                     fs.readdir(metaPath, function (err, list) {
@@ -205,42 +205,44 @@ YUI.add('sharelibscanner-tests', function (Y) {
                                 && data.indexOf("mymartini.common.js") != -1);
 
                             data = sharelibScanner.scannerUtil.getShareLibServerSideModulesMeta();
-                            Y.Assert.isTrue(fs.statSync(data).isFile());
+                            Y.Assert.isTrue(fs.statSync(data).isFile(),'should get server meta');
 
-                            var libs = sharelibScanner.scannerUtil.getShareLibSrcByPath('test-martini-lib-client', 'client');
-                            Y.Assert.isFalse(libs == null);
-                            Y.Assert.isTrue(sharelibScanner.scannerUtil.getShareLibSrcByPath(__dirname + '/sharelibtestdata/martini_lib/lib/common/mymartini.common.js', 'client') != null);
-                            Y.Assert.isTrue(sharelibScanner.scannerUtil.getShareLibSrcByPath(__dirname + '/sharelibtestdata/martini_lib/lib/client/errormartini.client.js', 'client') != null);
+                            var libs = sharelibScanner.scannerUtil.getSrcDependencyByPath('test-martini-lib-client', 'client');
+                            Y.Assert.isFalse(libs == {},'should get empty object');
+                            Y.Assert.isTrue(sharelibScanner.scannerUtil.getSrcDependencyByPath(__dirname + '/sharelibtestdata/martini_lib/lib/common/mymartini.common.js', 'client') != null,'should get empty object');
+                            Y.Assert.isTrue(sharelibScanner.scannerUtil.getSrcDependencyByPath(__dirname + '/sharelibtestdata/martini_lib/lib/client/errormartini.client.js', 'client') != null,'should get empty object');
 
-
-                            try {
-                                sharelibScanner.scannerUtil.createYuiLoaderCheckerJS(arrowRoot + "/lib/client/yuitest-yuiloadercheck-no-exsit.js");
-                            } catch (e) {
-                                Y.Assert.isTrue(true);
-                            }
-
-                            var data = sharelibScanner.scannerUtil.createYuiLoaderCheckerJS(arrowRoot + "/lib/client/yuitest-yuiloadercheck.js");
-                            Y.Assert.isTrue(data.length > 0);
+                            var data = sharelibScanner.scannerUtil.createYuiLoaderCheckerJS();
+                            Y.Assert.isTrue(data.length > 0,'should get checker js');
 
                             setup();
                             var data = sharelibScanner.scannerUtil.getShareLibClientSideModulesMeta();
                             Y.Assert.isFalse(data.indexOf("mymartini.client.js") != -1
                                 && data.indexOf("mymartini.common.js") != -1);
-                            var client = sharelibScanner.scannerUtil.getShareLibSrcByPath(__dirname + '/sharelibtestdata/martini_lib/lib/common/mymartini.common.js', 'client');
+                            var client = sharelibScanner.scannerUtil.getSrcDependencyByPath(__dirname + '/sharelibtestdata/martini_lib/lib/common/mymartini.common.js', 'client');
                             console.log(client);
-                            Y.Assert.isTrue(client.length > 0);
+                            Y.Assert.isTrue(client.shareDepLibs.length > 0,'should get share lib array');
                         });
                     });
                     self.wait(1000);
                 });
             });
             self.wait(5000);
+        },
+        "Test scanner util": function () {
+            var self = this;
+           sharelibScanner.scannerUtil.resolveYUIDenpendency(['base-base'], {}, function (err,src) {
+                self.resume(function () {
+                    Y.Assert.isTrue(src.length > 0);
+                });
+            });
+            self.wait(10000);
         }
     }));
 
     Y.Test.Runner.add(suite);
 
-}, '0.0.1', {requires:['test']});
+}, '0.0.1', {requires: ['test']});
  
  
  

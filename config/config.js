@@ -20,16 +20,18 @@ config.arrowModuleRoot = global.appRoot + "/";
 config.dimensions = config.arrowModuleRoot + "config/dimensions.json";
 config.defaultTestHost = config.arrowModuleRoot + "lib/client/testHost.html";
 config.defaultAppSeed = "http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js";
-config.testSeed = config.arrowModuleRoot + "lib/client/yuitest-seed.js";
-config.testRunner = config.arrowModuleRoot + "lib/client/yuitest-runner.js";
-config.yuiloaderchecker = config.arrowModuleRoot + "lib/client/yuitest-yuiloadercheck.js";
 config.autolib = config.arrowModuleRoot + "lib/common";
 
+//for yui sandbox
+config.useYUISandbox = true;  // when this is set to true,arrow will use self-defined YUI instead of the YUI on (or injected on) the page.
+config.sandboxYUIVersion = '3.6.0'; // please try make this the same with yui npm package version
+config.yuiSandboxRuntime = config.arrowModuleRoot + "lib/client/yui-test-runtime.js";  // default runtime js if download yui modules failed
+
 // for test engine
-config.engine="yui";   // yui, mocha, jasmine or qunit
+config.engine="yui";   // yui, mocha, jasmine or qunit,default to "yui"
 config.engineConfig="";  // config object or fs path to the engine config if supported by engine(like mocha)
-config.engineSeed=config.arrowModuleRoot + "lib/engine/interface/engine-seed.js";
-config.engineRunner=config.arrowModuleRoot + "lib/engine/interface/engine-runner.js";
+config.testSeed = config.arrowModuleRoot + "lib/engine/yuitest/yuitest-seed.js";
+config.testRunner = config.arrowModuleRoot + "lib/engine/yuitest/yuitest-runner.js";
 
 // config for share lib
 config.shareLibPath = ["./common"];     // Arrow will scan all given path for share lib. Example: [config.arrowModuleRoot + "../"]

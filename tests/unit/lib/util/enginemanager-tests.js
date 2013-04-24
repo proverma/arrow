@@ -29,8 +29,8 @@ YUI.add('enginemanager-tests', function (Y) {
         },
         "Test get test seed":function () {
             var self = this;
-//            assert.isTrue(new enginemgr().getTestSeed("yui").indexOf("lib/client/yuitest-seed.js") != -1);
-//            assert.isTrue(new enginemgr().getTestRunner("yui").indexOf("lib/client/yuitest-runner.js") != -1);
+            assert.isTrue(new enginemgr().getTestSeed("yui").indexOf("lib/engine/yuitest/yuitest-seed.js") != -1);
+            assert.isTrue(new enginemgr().getTestRunner("yui").indexOf("lib/engine/yuitest/yuitest-runner.js") != -1);
 
             assert.isTrue(new enginemgr().getTestSeed("mocha").indexOf("lib/engine/mocha/mocha-seed.js") != -1);
             assert.isTrue(new enginemgr().getTestRunner("mocha").indexOf("lib/engine/mocha/mocha-runner.js") != -1);
