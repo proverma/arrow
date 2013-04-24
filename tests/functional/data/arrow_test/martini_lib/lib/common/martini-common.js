@@ -8,4 +8,4 @@ YUI.add("martini-test-function-common", function (Y) {
     Greeter.prototype.greet = function(firstName, lastName) {
         return lastName + ", " + firstName;
     }
-}, "0.1", {requires:[]});
+}, "0.1", {requires:["martini-test-function-common2"]});

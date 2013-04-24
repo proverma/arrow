@@ -518,6 +518,215 @@ For example, you could have the following in your test descriptor
       }
   }
 
+Test Engine
+-----------------------------------
+
+Internally, test engine is an adaptor to support different styles test cases, like YUI, QUnit, BDD, TDD.
+
+By default, Arrow is using YUI style testing. It can be changed by specifying ``--engine``, with below supported:
+* yui (default)
+* mocha
+* jasmin
+* qunit
+
+Using --engine in arrow cmd
+===========================
+Suppose you have a test case written in the popular BDD way,like:
+
+::
+
+describe('Array', function(){
+	describe('#push()', function(){
+		it('should return the length', function(){
+			var arr = [],
+			 assert = function(expr, msg) {
+            	if (!expr) throw new Error(msg || 'failed');
+            }
+			assert(1 == arr.push('foo'));
+			assert(2 == arr.push('bar'));
+			assert(3 == arr.push('baz'));
+		})
+	})
+})
+
+Then you can use test engine mocha to run it ,for example:
+
+::
+
+ arrow mocha-bdd.js --engine=mocha (For globally installed Arrow)
+ ./node_modules/.bin/arrow mocha-bdd.js --engine=mocha (For locally installed Arrow)
+
+
+And if you want to run it in client side ,just simply run :
+
+::
+
+ arrow mocha-bdd.js --engine=mocha --browser=chrome (For globally installed Arrow)
+ ./node_modules/.bin/arrow mocha-bdd.js --engine=moch --browser=chrome (For locally installed Arrow)
+
+ arrow mocha-bdd.js --engine=mocha --browser=phantomjs --page=http://serach.yahoo.com (For globally installed Arrow)
+ ./node_modules/.bin/arrow mocha-bdd.js --engine=mocha --browser=phantomjs --page=http://serach.yahoo.com (For locally installed Arrow)
+
+
+Suppose you have a test case written in tdd way and you want to use chai as assertion :
+
+::
+
+suite('Array', function(){
+	suite('#indexOf()', function(){
+		test('should return -1 when not present', function(){
+		    var chai;
+            if(typeof window  == "undefined" && typeof chai  == "undefined"){
+            		chai = require('chai');
+            }
+            else{
+            		chai = window.chai;
+            }
+			chai.assert(-1 == [1,2,3].indexOf(4));
+		});
+	});
+});
+
+then you can still want mocha run it but using different "interface" in mocha like this:
+
+::
+
+ arrow mocha-bdd.js --engine=mocha --engineConfig=./config.josn (For globally installed Arrow)
+ ./node_modules/.bin/arrow mocha-tdd.js --engine=mocha  --engineConfig=./config.josn(For locally installed Arrow)
+
+ or in browser side:
+
+ arrow mocha-bdd.js --engine=mocha --engineConfig=./config.josn  --browser=chrome (For globally installed Arrow)
+ ./node_modules/.bin/arrow mocha-tdd.js --engine=mocha  --engineConfig=./config.josn  --browser=chrome (For locally installed Arrow)
+
+you can define any configuration recognized by mocha like "ui","reporter" etc. in config.json:
+
+::
+
+{"ui":"tdd","require":"chai"}
+
+It will be passed to test engine and take effect in test execution.
+
+NOTE: This example shows that we just need to add chai to "require" field in engine config to support chai as mocha's offical assertion set.
+      Also npm package or http links are supported in engine config.
+
+::
+
+{"ui":"tdd","require":["chai","should","http://chaijs.com/chai.js"]}
+
+Using engine in arrow's test descriptor
+=======================================
+
+If you have multiple style test cases and want to test it in one test descriptor ,you just need to specify which engine to use in descriptor:
+
+::
+
+[
+    {
+        "settings":[ "master" ],
+        "name":"hybrid engine server side",
+        "dataprovider":{
+            "mocha":{
+                "params":{
+                    "test":"mocha-bdd.js",
+                    "engine":"mocha"
+                },
+                "group":"unit"
+            },
+            "mocha-tdd":{
+                "params":{
+                    "test":"mocha-tdd.js",
+                    "engine":"mocha",
+                    "engineConfig":"./mocha-config.json"
+                },
+                "group":"unit"
+            },
+            "jasmine":{
+                "params":{
+                    "test":"jasmine-bdd-test.js",
+                    "engine":"jasmine"
+                },
+                "group":"unit"
+            },
+            "qunit":{
+                "params":{
+                    "test":"qunit-test.js",
+                    "engine":"qunit"
+                },
+                "group":"unit"
+            },
+            "yui":{
+                "params":{
+                    "test":"yui-test-unit.js",
+                    "lib":"./yui-lib.js"
+                },
+                "group":"unit"
+            }
+        }
+    }
+]
+
+Here qunit-test.js and jasmine-bdd-test.js are test cases can be run within qunit and jasmine. By default arrow will use yui to run tests,so in test "yui" ,
+we didn't need to specify the engine for test yui-test-unit.js.
+
+Test engine can also works in scenario node:
+
+::
+
+[
+    {
+        "settings": [ "master" ],
+        "name": "YahooLogin",
+        "config": {
+            "baseUrl": "http://login.yahoo.com"
+        },
+        "commonlib" : "./mocha-lib.js",
+        "dataprovider" : {
+            "Use Locator to Login" : {
+                "group" : "func",
+                "browser":"chrome",
+                "params" :{
+                    "scenario": [
+                        {
+                            "page": "$$config.baseUrl$$"
+                        },
+                        {
+                            "controller": "locator",
+                            "params": {
+                                "value": "#username",
+                                "text": "arrowtestuser1"
+                            }
+                        },
+                        {
+                            "controller": "locator",
+                            "params": {
+                                "value": "#passwd",
+                                "text": "123456"
+                            }
+                        },
+                        {
+                            "controller": "locator",
+                            "params": {
+                                "value": "#submit",
+                                "click": true
+                            }
+                        },
+                        {
+                            "page": "http://search.yahoo.com/"
+                        },
+                        {
+                            "test": "mocha-test.js",
+                            "engine":"mocha"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+]
+
+In this test, arrow will use the locator controller to find elements in login page and after that it will go to search page to run a mocha-style test.
+Users can add any kind of test cases only if the related test engine is suppported and specified with "engine" field.
 
 Sharing test parameters among custom conrollers and tests in a scenario node
 ======================

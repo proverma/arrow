@@ -40,6 +40,8 @@ var knownOpts = {
         "page": [String, null],
         "driver": [String, null],
         "controller": [String, null],
+        "engine": [String, null],
+        "engineConfig": [String, null],
         "reuseSession": Boolean,
         "parallel": [Number, null],
         "report": Boolean,
@@ -92,11 +94,15 @@ function showHelp() {
         "        --driver : (optional) one of selenium|nodejs. (default: selenium)" + "\n\n" +
         "        --browser : (optional) a comma seperated list of browser names, optionally with a hypenated version number.\n" +
         "                      Example : 'firefox-12.0,chrome-10.0' or 'firefox,chrome' or 'firefox'. (default: firefox)" + "\n\n" +
+        "        --engine : (optional) specify the test runner to run test case. Arrow supports test runner of yui, mocha, jasmine, qunit (default: yui)" + "\n" +
+        "                      Example : --engine=mocha " + "\n\n" +
+        "        --engineConfig : (optional) the file path to config file or a config string  " + "\n" +
+        "                      Example : --engineConfig=./mocha-config.json or --engineConfig={\'ui\':\'tdd\'} " + "\n\n" +
         "        --parallel : (optional) test thread count. Determines how many tests to run in parallel for current session. (default: 1)\n" +
         "                          Example : --parallel=3 , will run three tests in parallel" + "\n\n" +
         "        --report : (optional) true/false.  creates report files in junit and json format. (default: true)" + "\n" +
         "                     also prints a consolidated test report summary on console. " + "\n\n" +
-        "        --reportFolder : (optional) folderPath.  creates report files in that folder. (default: descriptor folder path)" +  "\n\n" +
+        "        --reportFolder : (optional) folderPath.  creates report files in that folder. (default: descriptor folder path)" + "\n\n" +
         "        --testName : (optional) comma seprated list of test name(s) defined in test descriptor" + "\n" +
         "                       all other tests will be ignored." + "\n\n" +
         "        --group : (optional) comma seprated list of group(s) defined in test descriptor." + "\n" +
@@ -213,6 +219,7 @@ config = prop.getAll();
 global.retryCount = config.retryCount;
 global.keepIstanbulCoverageJson = config.keepIstanbulCoverageJson;
 global.color = config.color;
+
 
 function startArrow() {
     // TODO: arrowSetup move to Arrow

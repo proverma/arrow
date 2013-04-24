@@ -1,1 +1,6 @@
-Passed:1 Failed:0 Total:1 (0 ignored)
+Test Report Summary
+
+Total Number of Executed Tests: 1
+Total Number of Passed Tests: 1
+Total Number of Failed Tests: 0
+Total Number of Skipped Tests: 0

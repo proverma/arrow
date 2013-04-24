@@ -1,0 +1,57 @@
+[
+    {
+        "settings": [ "master" ],
+        "name": "YahooLogin",
+        "config": {
+            "baseUrl": "http://login.yahoo.com"
+        },
+
+        "commonlib" : "./mocha-lib.js",
+
+        "dataprovider" : {
+
+            "Use Locator to Login" : {
+                "group" : "func",
+                "browser":"chrome",
+                "params" :{
+                    "scenario": [
+                        {
+                            "page": "$$config.baseUrl$$"
+                        },
+                        {
+                            "controller": "locator",
+                            "params": {
+                                "value": "#username",
+                                "text": "arrowtestuser1"
+                            }
+                        },
+                        {
+                            "controller": "locator",
+                            "params": {
+                                "value": "#passwd",
+                                "text": "123456"
+                            }
+                        },
+                        {
+                            "controller": "locator",
+                            "params": {
+                                "value": "#submit",
+                                "click": true
+                            }
+                        },
+                        {
+                            "page": "http://search.yahoo.com/"
+                        },
+                        {
+                            "test": "mocha-test.js",
+                            "engine":"mocha"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "settings": [ "environment:development" ]
+    }
+]
