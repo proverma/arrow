@@ -27,6 +27,8 @@ function onReportReady(result) {
         process.exit(1);
     } else {
         try {
+            console.log("getttttt report");
+            console.log(coverage.getFinalCoverage());
             process.send({
                 results:ARROW.testReport,
                 coverage:coverage.getFinalCoverage()
@@ -77,6 +79,9 @@ var testParams = decodeURI(args[3]);
 var depFiles = libs.split(",");
 coverage.configure(testSpec);
 
+if (coverageFlag) {
+    coverage.hookRequire(true);
+}
 
 function runTest() {
     ARROW.testParams = JSON.parse(testParams);
@@ -86,6 +91,15 @@ function runTest() {
     ARROW.shareLibServerSeed = shareLibServerSeed;
     ARROW.testfile = testFile;
     ARROW.engineConfig = engineConfig;
+    // we must add candidate before require seed/runner for sometimes if you require seed ,the test will be required too:
+    // like in mocha seed,the mocha.loadFiles() will require these file then it would be late to add candidate
+    for (i in depFiles) {
+        depFile = depFiles[i];
+        if (0 === depFile.length) {
+            continue;
+        }
+        coverage.addInstrumentCandidate(depFile);
+    }
     ARROW.onSeeded = function () {
         var depFile,
             i;
@@ -95,9 +109,9 @@ function runTest() {
                 continue;
             }
             console.log("Loading dependency: " + depFile);
+            depFile = path.resolve("", depFile);
             ARROW.testLibs.push(depFile);
-            coverage.addInstrumentCandidate(depFile);
-            require(path.resolve("", depFile));
+            require(depFile);
         }
         console.log("Executing test: " + testFile);
         require(path.resolve("", testFile));
@@ -109,9 +123,6 @@ function runTest() {
 
 }
 
-if (coverageFlag) {
-    coverage.hookRequire();
-}
 runTest();
 
 
