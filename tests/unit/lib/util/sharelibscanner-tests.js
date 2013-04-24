@@ -212,13 +212,6 @@ YUI.add('sharelibscanner-tests', function (Y) {
                             Y.Assert.isTrue(sharelibScanner.scannerUtil.getSrcDependencyByPath(__dirname + '/sharelibtestdata/martini_lib/lib/common/mymartini.common.js', 'client') != null);
                             Y.Assert.isTrue(sharelibScanner.scannerUtil.getSrcDependencyByPath(__dirname + '/sharelibtestdata/martini_lib/lib/client/errormartini.client.js', 'client') != null);
 
-
-                            try {
-                                sharelibScanner.scannerUtil.createYuiLoaderCheckerJS(arrowRoot + "/lib/client/yuitest-yuiloadercheck-no-exsit.js");
-                            } catch (e) {
-                                Y.Assert.isTrue(true);
-                            }
-
                             var data = sharelibScanner.scannerUtil.createYuiLoaderCheckerJS(arrowRoot + "/lib/client/yuitest-yuiloadercheck.js");
                             Y.Assert.isTrue(data.length > 0);
 
