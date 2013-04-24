@@ -13,6 +13,29 @@ var coverage = require('../lib/util/coverage');
 
 ARROW = {};
 var testReport = null;
+var args = process.argv;
+//console.log(args);
+var testSpecStr = decodeURI(args[2]);
+//console.log(testSpecStr);
+var testSpec = JSON.parse(testSpecStr);
+if (!testSpec) {
+    console.log("Invalid node test args: " + testSpecStr);
+    process.exit();
+}
+
+var engineConfig = testSpec.engineConfig;
+var seed = testSpec.seed;
+var shareLibServerSeed = testSpec.shareLibServerSeed;
+var runner = testSpec.runner;
+var libs = testSpec.libs;
+var testFile = testSpec.test;
+var coverageFlag = testSpec.coverage;
+var testParams = decodeURI(args[3]);
+var depFiles = libs.split(",");
+var testTimeOut = testSpec.testTimeOut;
+testTimeOut = typeof testTimeOut === "string" ? parseInt(testTimeOut) : testTimeOut;
+coverage.configure(testSpec);
+
 function getReportStatus() {
     console.log("Waiting for the test report");
     if ((null === ARROW.testReport) || ARROW.testReport == undefined || (0 === ARROW.testReport.length)) {
@@ -28,8 +51,8 @@ function onReportReady(result) {
     } else {
         try {
             process.send({
-                results:ARROW.testReport,
-                coverage:coverage.getFinalCoverage()
+                results: ARROW.testReport,
+                coverage: coverage.getFinalCoverage()
             });
             process.exit(0);
         } catch (e) {
@@ -55,28 +78,6 @@ function waitFor(testFx, onReady, timeOutMillis) {
         }
     }, timeoutInterval);
 }
-
-var args = process.argv;
-//console.log(args);
-var testSpecStr = decodeURI(args[2]);
-//console.log(testSpecStr);
-var testSpec = JSON.parse(testSpecStr);
-if (!testSpec) {
-    console.log("Invalid node test args: " + testSpecStr);
-    process.exit();
-}
-
-var engineConfig = testSpec.engineConfig;
-var seed = testSpec.seed;
-var shareLibServerSeed = testSpec.shareLibServerSeed;
-var runner = testSpec.runner;
-var libs = testSpec.libs;
-var testFile = testSpec.test;
-var coverageFlag = testSpec.coverage;
-var testParams = decodeURI(args[3]);
-var depFiles = libs.split(",");
-var testTimeOut = testSpec.testTimeOut;
-coverage.configure(testSpec);
 
 function runTest() {
     ARROW.testParams = JSON.parse(testParams);
