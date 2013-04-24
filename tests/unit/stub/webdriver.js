@@ -1,7 +1,7 @@
 // Stub webdriver to use with several test cases
 
 /*
- * Copyright (c) 2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2012, Yahoo! Inc. All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
@@ -154,4 +154,3 @@ this.promise = promise;
 this.By = By;
 this.Builder = Builder;
 this.WebDriver = WebDriver;
-

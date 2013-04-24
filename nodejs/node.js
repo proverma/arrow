@@ -52,6 +52,7 @@ function onReportReady(result) {
         try {
             process.send({
                 results: ARROW.testReport,
+                testParams: ARROW.testParams,
                 coverage: coverage.getFinalCoverage()
             });
             process.exit(0);
@@ -110,7 +111,8 @@ function runTest() {
             require(depFile);
         }
         console.log("Executing test: " + testFile);
-        require(path.resolve("", testFile));
+        //TODO - Why global.workingDirectory is not working here ( instead of process.cwd())
+        require(path.resolve(process.cwd(), testFile));
         require(runner);
         waitFor(getReportStatus, onReportReady);
     };

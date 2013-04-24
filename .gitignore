@@ -14,6 +14,7 @@ tmp/arrow_server.status
 tmp/*.js
 tmp/*.json
 tests/functional/report.xml
-tests/functional/data/arrow-test/*-report.xml
-tests/functional/data/arrow-test/*-report.html
+tests/functional/data/arrow_test/*-report.xml
+tests/functional/data/arrow_test/*-report.html
+tests/functional/data/arrow_test/*-report.json
 tests/functional/data/actual_op/*.txt

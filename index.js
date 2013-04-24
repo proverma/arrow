@@ -27,7 +27,10 @@ global.coverageMap = [];
 //Array for Holding Report Files
 global.reportMap = [];
 
+global.pathSep = path.sep || '/';
 //getting command line args
+
+global.routerMap = {};
 
 var knownOpts = {
         "browser": [String, null],
@@ -222,34 +225,16 @@ function startArrow() {
     // TODO: arrowSetup move to Arrow
     arrowSetup = new ArrowSetup(config, argv);
     this.arrow = Arrow;
+    arrowSetup.setup();
+    arrow = new Arrow(config, argv);
+    arrow.run();
 
-    // Setup Arrow Tests
-    if (argv.arrowChildProcess) {
-        //console.log("Child Process");
-        arrowSetup.childSetup();
-        argv.descriptor = argv.argv.remain[0];
-        arrow = new Arrow(config, argv);
-        arrow.run();
-    } else {
-        //console.log("Master Process");
-        arrowSetup.setup();
-        if (false === arrowSetup.startRecursiveProcess) {
-            arrow = new Arrow(config, argv);
-            arrow.run();
-        }
-    }
 }
-// Ensuring share lib/controller scan happens only once and not for each descriptor
-if (argv.arrowChildProcess) {
-    startArrow();
+
+if (config.shareLibPath !== undefined) {
+    var LibScanner = require('./lib/util/sharelibscanner');
+    var libScanner = new LibScanner(config);
+    libScanner.genSeedFile(config.shareLibPath, startArrow);
 } else {
-    if (config.shareLibPath !== undefined) {
-        var LibScanner = require('./lib/util/sharelibscanner');
-        var libScanner = new LibScanner(config);
-        libScanner.genSeedFile(config.shareLibPath, startArrow);
-    } else {
-        startArrow();
-    }
+    startArrow();
 }
-
-
