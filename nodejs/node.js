@@ -27,8 +27,6 @@ function onReportReady(result) {
         process.exit(1);
     } else {
         try {
-            console.log("getttttt report");
-            console.log(coverage.getFinalCoverage());
             process.send({
                 results:ARROW.testReport,
                 coverage:coverage.getFinalCoverage()
@@ -79,10 +77,6 @@ var testParams = decodeURI(args[3]);
 var depFiles = libs.split(",");
 coverage.configure(testSpec);
 
-if (coverageFlag) {
-    coverage.hookRequire();
-}
-
 function runTest() {
     ARROW.testParams = JSON.parse(testParams);
     ARROW.testLibs = [];
@@ -121,6 +115,10 @@ function runTest() {
 
     require(seed);
 
+}
+
+if (coverageFlag) {
+    coverage.hookRequire();
 }
 
 runTest();
