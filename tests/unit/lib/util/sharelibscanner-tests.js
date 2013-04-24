@@ -233,7 +233,7 @@ YUI.add('sharelibscanner-tests', function (Y) {
             var self = this;
            sharelibScanner.scannerUtil.resolveYUIDenpendency(['yui'], {}, function (err,src) {
                 self.resume(function () {
-                    Y.Assert.isTrue(err.length >0 || src.length > 0);
+                    Y.Assert.isTrue((err ==null && src.length > 0) || (err!=null && !src));
                 });
             });
             self.wait(15000);
