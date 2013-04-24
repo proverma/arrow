@@ -94,7 +94,8 @@ function runTest() {
             require(path.resolve("", depFile));
         }
         console.log("Executing test: " + testFile);
-        require(path.resolve("", testFile));
+        //TODO - Why global.workingDirectory is not working here ( instead of process.cwd())
+        require(path.resolve(process.cwd(), testFile));
         require(runner);
         waitFor(getReportStatus, onReportReady);
     };
