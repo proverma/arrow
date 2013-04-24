@@ -29,8 +29,8 @@ YUI.add('node-tests', function (Y, NAME) {
             report,
             executed = false;
 
-        config = {testSeed: 'seed', testRunner: 'runner'};
-        testParams = {test: 'test.js', param: 'value'};
+        config = {testSeed: 'seed', testRunner: 'runner',arrowModuleRoot:"root"};
+        testParams = {test: 'test.js', param: 'value',arrowModuleRoot:"root"};
         driver = new DriverClass(config, {});
         driver.executeTest({}, testParams, function (errMsg) {
             executed = true;
@@ -61,8 +61,8 @@ YUI.add('node-tests', function (Y, NAME) {
         }
 
         pNodeArgs = JSON.parse(decodeURI(nodeProcess.args[0]));
-        A.areEqual(pNodeArgs.seed, 'seed', 'Seed should be passed');
-        A.areEqual(pNodeArgs.runner, 'runner', 'Runner should be passed');
+        A.areEqual(pNodeArgs.seed, 'root/lib/engine/yuitest/yuitest-seed.js', 'Seed should be passed');
+        A.areEqual(pNodeArgs.runner, 'root/lib/engine/yuitest/yuitest-runner.js', 'Runner should be passed');
         A.areEqual(pNodeArgs.test, 'test.js', 'Test should be passed');
         pTestParams = JSON.parse(decodeURI(nodeProcess.args[1]));
         A.areEqual(pTestParams.param, 'value', 'Params should have been passed');

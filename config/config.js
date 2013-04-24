@@ -30,6 +30,8 @@ config.yuiSandboxRuntime = config.arrowModuleRoot + "lib/client/yui-test-runtime
 // for test engine
 config.engine="yui";   // yui, mocha, jasmine or qunit,default to "yui"
 config.engineConfig="";  // config object or fs path to the engine config if supported by engine(like mocha)
+config.testSeed = config.arrowModuleRoot + "lib/engine/yuitest/yuitest-seed.js";
+config.testRunner = config.arrowModuleRoot + "lib/engine/yuitest/yuitest-runner.js";
 
 // config for share lib
 config.shareLibPath = ["./common"];     // Arrow will scan all given path for share lib. Example: [config.arrowModuleRoot + "../"]

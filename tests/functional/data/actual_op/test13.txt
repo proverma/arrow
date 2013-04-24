@@ -1,9 +1,10 @@
-[35m[1mList of Failed Test Descriptors[22m[39m
-[35m[1m********************************************[22m[39m
-[90mFailed Descriptor Path : [39m[31m./data/arrow_test/test1_descriptor.json[39m
-[90mTotal Number of Failed Tests : [39m[31m1[39m
-[35m[1m--------------------------------------------[22m[39m
-[90mFailed Descriptor Path : [39m[31m./data/arrow_test/test_descriptor.json[39m
-[90mTotal Number of Failed Tests : [39m[31m3[39m
-[35m[1m--------------------------------------------[22m[39m
-
+Report Created: test_descriptor-report.xml
+Report Created: test_descriptor-report.json
+********************************************
+Consolidated Test Report Summary
+********************************************
+Total Number of Executed Tests  :5
+Total Number of Passed Tests  : 5
+Total Number of Failed Tests  : 0
+Total Number of Skipped Tests  : 0
+********************************************
