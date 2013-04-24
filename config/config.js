@@ -25,7 +25,9 @@ config.testRunner = config.arrowModuleRoot + "lib/client/yuitest-runner.js";
 config.yuiloaderchecker = config.arrowModuleRoot + "lib/client/yuitest-yuiloadercheck.js";
 config.autolib = config.arrowModuleRoot + "lib/common";
 
+//for yui sandbox
 config.useYUISandbox = true;  // when this is set to true,arrow will use self-defined YUI instead of YUI on the page.
+config.sandboxYUIVersion = '3.8.0';
 config.yuiSandboxRuntime = config.arrowModuleRoot + "lib/client/yui-test-runtime.js";
 
 // for test engine
