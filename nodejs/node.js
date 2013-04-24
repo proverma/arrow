@@ -80,7 +80,7 @@ var depFiles = libs.split(",");
 coverage.configure(testSpec);
 
 if (coverageFlag) {
-    coverage.hookRequire(true);
+    coverage.hookRequire();
 }
 
 function runTest() {
