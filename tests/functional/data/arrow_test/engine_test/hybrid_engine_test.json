@@ -20,7 +20,17 @@
                 "group" : "smoke",
                "browser":"$$config.browser$$"
             },
-
+            "mocha-tdd" : {
+                "params" : {
+                    "test" : "mocha-test.js",
+                    "page" : "$$config.baseUrl$$",
+                    "lib" : "./mocha-lib.js",
+                    "engine":"mocha",
+                    "engineConfig":"./mocha-config.json"
+                },
+                "group" : "smoke",
+                "browser":"$$config.browser$$"
+            },
             "jasmine" : {
                 "params" : {
                     "test" : "jasmine-bdd-test.js",

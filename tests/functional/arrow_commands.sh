@@ -150,7 +150,7 @@ if [ $? != 0 ]; then
 
 let "CNT=$CNT+1" # TEST 11
 echo "TEST$CNT: test --reportFolder  "
-CMD=`$ARROWCI ./data/arrow_test/test1_descriptor.json --reportFolder=../report/ --browser=$BROWSERNAME  --logLevel=INFO --capabilities=./data/arrow_test/cap.json |  tail $TAILCOUNT | head $HEADCOUNT`
+CMD=`$ARROWCI ./data/arrow_test/test1_descriptor.json --reportFolder=../report/ --browser=$BROWSERNAME  --logLevel=INFO --capabilities=./data/arrow_test/cap.json |  tail -16 | head -n 6`
 echo_and_save $CNT "$CMD"
 if [ $? != 0 ]; then
 {
@@ -205,7 +205,7 @@ if [ $? != 0 ]; then
 
 let "CNT=$CNT+1" # TEST 16
 echo "TEST$CNT: test wrong descriptor"
-CMD=`$ARROWCI ./data/arrow_test/controller-descriptor-fail.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST  --logLevel=INFO --capabilities=./data/arrow_test/cap.json | grep "Total Number of"  `
+CMD=`$ARROWCI ./data/arrow_test/controller-descriptor-fail.json --browser=$BROWSERNAME --seleniumHost=$HUBHOST   --report=false --logLevel=INFO --capabilities=./data/arrow_test/cap.json | grep "Total Number of"  `
 echo_and_save $CNT "$CMD"
 if [ $? != 0 ]; then
 {
