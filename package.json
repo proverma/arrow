@@ -30,8 +30,8 @@
     ],
     "bin": {
         "arrow": "./index.js",
-        "arrow_server" : "arrow_server/server.js",
-        "arrow_selenium" : "arrow_selenium/selenium.js"
+        "arrow_server": "arrow_server/server.js",
+        "arrow_selenium": "arrow_selenium/selenium.js"
     },
     "engines": [ "node >=0.6" ],
     "dependencies": {
@@ -49,16 +49,17 @@
         "xml-writer": "1.2.3",
         "ycb": "1.0.4",
         "async": "~0.2.5",
-        "oauth": "0.9.8",
         "xml2js": "0.1.14",
         "JSONPath": "0.9.1",
-        "cheerio": "0.9.2",
-        "cheerio-select": "0.0.3",
-        "jasmine-node":"1.4.0",
-        "mocha":"1.7.4",
-        "qunitjs":"1.11.0",
-        "chai":"1.5.0",
         "mkdirp": "0.3.5"
+    },
+    "optionalDependencies": {
+        "mocha": "1.7.4",
+        "jasmine-node": "1.4.0",
+        "qunitjs": "1.11.0",
+        "oauth": "0.9.8",
+        "cheerio": "0.9.2",
+        "cheerio-select": "0.0.3"
     },
     "devDependencies": {
         "ytestrunner": "0.3.3",
