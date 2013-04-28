@@ -62,8 +62,8 @@ YUI.add('node-tests', function (Y, NAME) {
         }
 
         pNodeArgs = JSON.parse(decodeURI(nodeProcess.args[0]));
-        A.areEqual(pNodeArgs.seed, 'root/lib/engine/yuitest/yuitest-seed.js', 'Seed should be passed');
-        A.areEqual(pNodeArgs.runner, 'root/lib/engine/yuitest/yuitest-runner.js', 'Runner should be passed');
+        A.areEqual(pNodeArgs.seed, 'seed', 'Seed should be passed');
+        A.areEqual(pNodeArgs.runner, 'runner', 'Runner should be passed');
         A.isTrue(pNodeArgs.test.indexOf('test.js')!=-1, 'Test should be passed');
         pTestParams = JSON.parse(decodeURI(nodeProcess.args[1]));
         A.areEqual(pTestParams.param, 'value', 'Params should have been passed');
