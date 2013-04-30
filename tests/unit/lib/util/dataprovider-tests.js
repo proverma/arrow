@@ -86,7 +86,7 @@ YUI.add('dataprovider-tests', function (Y) {
             var dp = new dataProv(conf, __dirname + "/testDescriptor.json");
             var dpvalues = dp.getTestData();
 
-            Y.Assert.areEqual("http://dimensions.url.override.com/testMock.html", dpvalues.dataprovider.test2.params.page);
+            Y.Assert.areEqual("http://overridebase.url.com/testMock.html", dpvalues.dataprovider.test2.params.page);
             Y.Assert.areEqual("sometest.js", dpvalues.dataprovider.test2.params.test);
         }
     }));

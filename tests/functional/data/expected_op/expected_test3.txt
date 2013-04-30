@@ -1,1 +1,9 @@
-[32m2 Passed[39m, [31m0 Failed [39m, [90m0 skipped [39m
+*************************************************************************************
+                            Consolidated Report                                          
+
+Test Report Summary
+
+Total Number of Executed Tests: 2
+Total Number of Passed Tests: 2
+Total Number of Failed Tests: 0
+Total Number of Skipped Tests: 0

@@ -13,7 +13,7 @@ var ArrowSetup = require('./lib/util/arrowsetup');
 var nopt = require("nopt");
 var Properties = require("./lib/util/properties");
 var fs = require("fs");
-var path = require ("path");
+var path = require("path");
 
 //setting appRoot
 global.appRoot = __dirname;
@@ -25,16 +25,23 @@ global.workingDirectory = process.cwd();
 global.coverageMap = [];
 
 //Array for Holding Report Files
-global.reportMap =[];
+global.reportMap = [];
 
+global.pathSep = path.sep || '/';
 //getting command line args
+
+global.routerMap = {};
 
 var knownOpts = {
         "browser": [String, null],
         "lib": [String, null],
+        "shareLibPath": [String, null],
+        "enableShareLibYUILoader": Boolean,
         "page": [String, null],
         "driver": [String, null],
         "controller": [String, null],
+        "engine": [String, null],
+        "engineConfig": [String, null],
         "reuseSession": Boolean,
         "parallel": [Number, null],
         "report": Boolean,
@@ -81,16 +88,21 @@ var knownOpts = {
 function showHelp() {
     console.info("\nOPTIONS :" + "\n" +
         "        --lib : a comma seperated list of js files needed by the test" + "\n\n" +
+        "        --shareLibPath: a comma seperated list of directory to be scanned and loaded modules by arrow automatically" + "\n\n" +
         "        --page : (optional) path to the mock or production html page" + "\n" +
         "                   example: http://www.yahoo.com or mock.html" + "\n\n" +
         "        --driver : (optional) one of selenium|nodejs. (default: selenium)" + "\n\n" +
         "        --browser : (optional) a comma seperated list of browser names, optionally with a hypenated version number.\n" +
         "                      Example : 'firefox-12.0,chrome-10.0' or 'firefox,chrome' or 'firefox'. (default: firefox)" + "\n\n" +
+        "        --engine : (optional) specify the test runner to run test case. Arrow supports test runner of yui, mocha, jasmine, qunit (default: yui)" + "\n" +
+        "                      Example : --engine=mocha " + "\n\n" +
+        "        --engineConfig : (optional) the file path to config file or a config string  " + "\n" +
+        "                      Example : --engineConfig=./mocha-config.json or --engineConfig={\'ui\':\'tdd\'} " + "\n\n" +
         "        --parallel : (optional) test thread count. Determines how many tests to run in parallel for current session. (default: 1)\n" +
         "                          Example : --parallel=3 , will run three tests in parallel" + "\n\n" +
         "        --report : (optional) true/false.  creates report files in junit and json format. (default: true)" + "\n" +
         "                     also prints a consolidated test report summary on console. " + "\n\n" +
-        "        --reportFolder : (optional) folderPath.  creates report files in that folder. (default: descriptor folder path)" +  "\n\n" +
+        "        --reportFolder : (optional) folderPath.  creates report files in that folder. (default: descriptor folder path)" + "\n\n" +
         "        --testName : (optional) comma seprated list of test name(s) defined in test descriptor" + "\n" +
         "                       all other tests will be ignored." + "\n\n" +
         "        --group : (optional) comma seprated list of group(s) defined in test descriptor." + "\n" +
@@ -137,6 +149,8 @@ function showHelp() {
     console.log("\nEXAMPLES :" + "\n" +
         "        Unit test: " + "\n" +
         "          arrow test-unit.js --lib=../src/greeter.js" + "\n\n" +
+        "        Unit test that load the share library automatically " + "\n" +
+        "          arrow test-unit.js --shareLibPath=../" + "\n\n" +
         "        Unit test with a mock page: " + "\n" +
         "          arrow test-unit.js --page=testMock.html --lib=./test-lib.js" + "\n\n" +
         "        Unit test with selenium: \n" +
@@ -207,24 +221,20 @@ global.keepIstanbulCoverageJson = config.keepIstanbulCoverageJson;
 global.color = config.color;
 
 
-// TODO: arrowSetup move to Arrow
-arrowSetup = new ArrowSetup(config, argv);
-this.arrow = Arrow;
-
-// Setup Arrow Tests
-if (argv.arrowChildProcess) {
-    //console.log("Child Process");
-    arrowSetup.childSetup();
-    argv.descriptor = argv.argv.remain[0];
+function startArrow() {
+    // TODO: arrowSetup move to Arrow
+    arrowSetup = new ArrowSetup(config, argv);
+    this.arrow = Arrow;
+    arrowSetup.setup();
     arrow = new Arrow(config, argv);
     arrow.run();
-} else {
-    //console.log("Master Process");
-    arrowSetup.setup();
-    if (false === arrowSetup.startRecursiveProcess) {
-        arrow = new Arrow(config, argv);
-        arrow.run();
-    }
+
 }
 
-
+if (config.shareLibPath !== undefined) {
+    var LibScanner = require('./lib/util/sharelibscanner');
+    var libScanner = new LibScanner(config);
+    libScanner.genSeedFile(config.shareLibPath, startArrow);
+} else {
+    startArrow();
+}

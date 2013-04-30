@@ -1,2 +1,6 @@
-[7mReport Created: test1_descriptor-report.xml[27m
-[7mReport Created: test1_descriptor-report.json[27m
+Test Report Summary
+
+Total Number of Executed Tests: 1
+Total Number of Passed Tests: 1
+Total Number of Failed Tests: 0
+Total Number of Skipped Tests: 0

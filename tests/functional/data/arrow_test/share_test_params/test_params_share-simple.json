@@ -1,0 +1,28 @@
+[
+    {
+        "settings": [ "master" ],
+        "name": "Sharing test params",
+        "config": {
+            "baseUrl": "http://login.yahoo.com"
+        },
+        "dataprovider" : {
+
+            "set and get testParams" : {
+                "group" : "func",
+                "params" :{
+                    "scenario": [
+                        {
+                            "test": "test-param-set.js"
+                        },
+                        {
+                            "test": "test-param-get.js"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "settings": [ "environment:development" ]
+    }
+]

@@ -1,0 +1,36 @@
+       {
+            "passed": 2,
+            "failed": 0,
+            "total": 2,
+            "ignored": 0,
+            "duration": 16,
+            "type": "report",
+            "name": "TabView functional test suite",
+            "testCaseyui_3_4_1_3_1360726271757_27": {
+                "passed": 2,
+                "failed": 0,
+                "total": 2,
+                "ignored": 0,
+                "duration": 11,
+                "type": "testcase",
+                "name": "testCaseyui_3_4_1_3_1360726271757_27",
+                "test tab structure": {
+                    "result": "pass",
+                    "message": "Test passed",
+                    "type": "test",
+                    "name": "test tab structure",
+                    "duration": 1
+                },
+                "test tab selection": {
+                    "result": "pass",
+                    "message": "Test passed",
+                    "type": "test",
+                    "name": "test tab selection",
+                    "duration": 7
+                }
+            },
+            "timestamp": "Tue Feb 12 19:31:12 2013",
+            "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:16.0) Gecko/20100101 Firefox/16.0",
+            "currentUrl": "http://localhost:10000/arrow/static/Users/pranavp/Documents/arrow_master/arrow/docs/arrow_tutorial/func_test/test/testMock.html"
+        }
+

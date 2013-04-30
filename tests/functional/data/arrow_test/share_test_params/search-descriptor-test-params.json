@@ -1,0 +1,34 @@
+[
+    {
+        "settings": [ "master" ],
+        "name": "Sharing test params in yahoo search",
+        "config": {
+            "baseUrl": "http://login.yahoo.com"
+        },
+        "dataprovider" : {
+
+            "set/get testParams in yahoo search" : {
+                "group" : "func",
+                "params" :{
+                    "scenario": [
+                        {
+                            "page": "http://search.yahoo.com/search?ei=UTF-8&fr=crmas&p=flowers"
+                        },
+                        {
+                            "controller": "./search-controller-query.js"
+                        },
+                        {
+                            "controller": "./search-controller-get-input.js"
+                        },
+                        {
+                            "test": "search-test-param-test.js"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "settings": [ "environment:development" ]
+    }
+]

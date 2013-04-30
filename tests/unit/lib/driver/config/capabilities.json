@@ -1,0 +1,30 @@
+{
+    "capabilities": {
+
+        "firefox": {
+            "browserName": "firefox",
+            "platform": "WINDOWS",
+            "version": "16.0"
+        },
+
+        "win_xp_ff_6": {
+            "browserName": "firefox",
+            "platform": "WINDOWS",
+            "version": "6.0"
+        },
+        "mac_chrome_18": {
+            "browserName": "chrome",
+            "platform": "MAC",
+            "version": "18.0"
+        },
+        "phantomjs": {
+            "browserName": "phantomjs",
+            "platform": "MAC",
+            "version": "1.0"
+        }
+
+    },
+    "common_capabilities": {
+        "javascriptEnabled": "true"
+    }
+}

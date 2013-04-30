@@ -2,30 +2,38 @@
 Arrow In-Depth
 ==============
 
-Arrow provides you with a variety of tools to help you organize, execute and configure your tests
+Arrow provides you with a variety of tools to help you organize, execute and configure your tests.
 
 Test Suite Organization
 -----------------------
 
-Test Descriptor files allow you to organize your tests into test suites, while also allowing you to control when and which tests execute at a given phase of your development cycle.
+Test descriptor files allow you to organize your tests into test suites, while also allowing you to control when and which tests execute at a given phase of your development cycle.
 
 Consider the following scenario:
 You have just finished creating a suite of tests that validate the application we discussed in the `Arrow Tutorial <./arrow_tutorial.rst>`_ chapter.
 
 At this point you have the following test files:
 
-* Fuctional Tests
+* Functional Tests
 * Integration Tests
 
 For this sample, we'll pretend unit tests are being addressed elsewhere.
 
-If you recall, to execute the two test files above against our mock and HTTP End-Ponit, we'd type something like this:
+If you recall, to execute the two test files above against our mock and HTTP endpoint, we'd type something like this:
 
 ::
 
-  arrow test-func.js  --page=testMock.html --lib=test-lib.js
-  arrow test-func.js  --page=http://www.doctor46.com/tabview.html --lib=test-lib.js
-  arrow test-int.js  --page=http://www.doctor46.com/tabview.html --lib=test-lib.js
+  For globally installed Arrow
+
+   arrow test-func.js  --page=testMock.html --lib=test-lib.js
+   arrow test-func.js  --page=http://www.doctor46.com/tabview.html --lib=test-lib.js
+   arrow test-int.js  --page=http://www.doctor46.com/tabview.html --lib=test-lib.js
+
+  For locally installed Arrow
+
+   ./node_modules/.bin/arrow test-func.js  --page=testMock.html --lib=test-lib.js
+   ./node_modules/.bin/arrow test-func.js  --page=http://www.doctor46.com/tabview.html --lib=test-lib.js
+   ./node_modules/.bin/arrow test-int.js  --page=http://www.doctor46.com/tabview.html --lib=test-lib.js
 
 Let's pretend we wanted to easily decide which test files executed and which didn't. Test Descriptors_ allow you to do this easily and in one location
 
@@ -36,8 +44,7 @@ Test Descriptors
 
 Test descriptors provide a way to describe, organize and factorize your tests. During test development, you'll probably execute each test from the Arrow command line. However, once you have created tests to validate your module, you need a way to organize and factorize the tests.
 
-.. TODO... needs to be updated
-
+Lets look at this `test descriptor <https://github.com/yahoo/arrow/tree/master/docs/arrow_tutorial/func_test/test/test_descriptor.json>`_.
 
 ::
 
@@ -135,7 +142,7 @@ This section uses the `Suite Settings` and the `Suite Configuration` to create i
 * The first object is the name of the test. In this case, the test name is `dom_int`.
 * The next object, `params`, includes the necessary parameters for the test.
 * `test`: Tells Arrow which file to execute
-* `page`: Tells Arrow against which page to execute. The `page` value can be a local mock page served by arrow_server, or an HTTP End-Point
+* `page`: Tells Arrow against which page to execute. The `page` value can be a local mock page served by arrow_server, or an HTTP endpoint
 * `group`: Allows you to *group* your tests for execution. Each test `file` contains a set of tests or assertions. At the time of creation, tests do not have a context (at least not implied). A `group` gives those test `files` context, enabling you to execute only a given set of tests during a given execution.
 
 Executing using a Test Descriptor
@@ -145,19 +152,22 @@ To Execute *All* tests in a given test descriptor file simply type (remember in 
 
 ::
 
-  arrow test-descriptor.json
+  arrow test-descriptor.json (For globally installed arrow)
+  ./node_modules/.bin/arrow test-descriptor.json (For locally installed arrow)
 
 However, if you wanted to *only* execute tests `grouped` as `func`, you would type:
 
 ::
 
- arrow test-descriptor.json --group=func
+ arrow test-descriptor.json --group=func (For globally installed arrow)
+ ./node_modules/.bin/arrow test-descriptor.json --group=func (For locally installed arrow)
 
 Similarly, you can choose to *only* execute a given test, based on its name. You can do that by typing:
 
 ::
 
- arrow test-descriptor.json --testName=dom
+ arrow test-descriptor.json --testName=dom (For globally installed Arrow)
+ ./node_modules/.bin/arrow test-descriptor.json --testName=dom (For locally installed Arrow)
 
 
 Test Descriptor Best Practices
@@ -197,7 +207,8 @@ To execute *All* test descriptor files *within* each module, simply navigate to 
 
 ::
 
-  arrow "**/*-descriptor.json"
+  arrow "**/*-descriptor.json" (For globally installed Arrow)
+  ./node_modules/.bin/arrow "**/*-descriptor.json" (For locally installed Arrow)
 
 Arrow will traverse through all sub-folders, pick up the test descriptors which match ``"**/*-descriptor.json"`` glob, and execute them sequentially.
 
@@ -232,7 +243,7 @@ Where `"defaultAppHost" : "http://doctor46.com"`
 Test Descriptor Parametrization and Test Environments
 -----------------------------------------------------
 
-So far our parametrization examples have only applied to our curent file. If we want to run our tests across different environments (with different hostnames), we'd have to create multiple test-descriptor.json files to do this. However, we can use a `dimension` file to give our paramters additional `dimension` or context.
+So far our parametrization examples have only applied to our current file. If we want to run our tests across different environments (with different hostnames), we'd have to create multiple test-descriptor.json files to do this. However, we can use a `dimension` file to give our parameters additional `dimension` or context.
 
 At the bottom of our test descriptor file there was this line:
 
@@ -272,7 +283,7 @@ With this `dimension` file we can set different contexts in our test descriptor:
         }
     ]
 
-Now we can update our test decriptor like this
+Now we can update our test descriptor like this
 
 ::
 
@@ -312,13 +323,15 @@ During execution, we can set the context like this:
 
 ::
 
-     arrow test-descriptor.json --context=environment:development --dimensions=./dimensions.json
+     arrow test-descriptor.json --context=environment:development --dimensions=./dimensions.json (For globally installed Arrow)
+     ./node_modules/.bin/arrow test-descriptor.json --context=environment:development --dimensions=./dimensions.json (For locally installed Arrow)
 
 Or
 
 ::
 
-     arrow test-descriptor.json --context=environment:stage --dimensions=./dimensions.json
+     arrow test-descriptor.json --context=environment:stage --dimensions=./dimensions.json (For globally installed arrow)
+     ./node_modules/.bin/arrow test-descriptor.json --context=environment:stage --dimensions=./dimensions.json (For locally installed arrow)
 
 In each case, Arrow will take the `context` and `dimensions` file and use those to map the correct `config` value for the current execution
 
@@ -326,7 +339,7 @@ In each case, Arrow will take the `context` and `dimensions` file and use those 
 
 Configuration
 -------------
-There are various ways to configure arrow. Normally, Arrow's configuration file will be installed here
+There are various ways to configure Arrow. Normally, Arrow's configuration file will be installed here
 
 .. todo need to update the location for NON-Yahoo Linux.
 
@@ -380,19 +393,19 @@ Obviously, you can update the config file to *override* its settings. However, y
 
 ::
 
-  arrow <some test or test descriptor> --config=value
+  arrow or ./node_modules/.bin/arrow <some test or test descriptor> --config=value
 
 Or
 
 ::
 
-  arrow <some test or test descriptor> --seleniumHost=http://some.url.com:1234/wd/hub
+  arrow or ./node_modules/.bin/arrow <some test or test descriptor> --seleniumHost=http://some.url.com:1234/wd/hub
 
 Or
 
 ::
 
-  arrow <some test or test descriptor> --logLevel=debug --baseUrl=http://basesurl.com --browser=chrome
+  arrow/ or ./node_modules/.bin/arrow <some test or test descriptor> --logLevel=debug --baseUrl=http://baseurl.com --browser=chrome
 
 You can basically override any config parameter in the command line.
 
@@ -404,6 +417,7 @@ Complex Test Scenarios
 
 There are situations where the default arrow controller will not allow you to create the type of test scenario you require. If you recall, the default arrow controller assumes the page you load is the page under test. To solve this you can use a different arrow controller called *locator*. The *locator* controller allows you to navigate to the page under test by allowing you to perform actions such as clicking and typing.
 
+The controller samples can be found `here <https://github.com/yahoo/arrow/tree/master/docs/arrow_tutorial/controllers/test>`_.
 .. The controller samples can be found `here. - TODO... need the link to the controller samples (@dmitris)
 
 .. TODO... needs to be updated
@@ -468,7 +482,7 @@ Our test continues being a simple YUI test which takes input from the test descr
      suite.add(new Y.Test.Case({
          "test quote": function() {
 
-             //In order to paramertize this, instead of having a static quote, we call it from the config
+             //In order to parametrize this, instead of having a static quote, we call it from the config
              var quote = this.testParams["quote"];
              Y.Assert.areEqual(quote, Y.one(".yfi_rt_quote_summary").one("h2").get('text'));
          }
@@ -481,7 +495,8 @@ To execute we simply type the following:
 
 ::
 
- arrow test-descriptor.json --driver=selenium
+ arrow test-descriptor.json --driver=selenium (For globally installed Arrow)
+ ./node_modules/.bin/arrow test-descriptor.json --driver=selenium (For locally installed Arrow)
 
 As you can see, the *locator* controller is quite powerful. It can take the following *params*
 
@@ -503,11 +518,229 @@ For example, you could have the following in your test descriptor
       }
   }
 
+Test Engine
+-----------------------------------
+
+Internally, test engine is an adaptor to support different styles test cases, like YUI, QUnit, BDD, TDD.
+
+By default, Arrow is using YUI style testing. It can be changed by specifying ``--engine``, with below supported:
+* yui (default)
+* mocha
+* jasmin
+* qunit
+
+Using --engine in arrow cmd
+===========================
+Suppose you have a test case written in the popular BDD way,like:
+
+::
+
+describe('Array', function(){
+	describe('#push()', function(){
+		it('should return the length', function(){
+			var arr = [],
+			 assert = function(expr, msg) {
+            	if (!expr) throw new Error(msg || 'failed');
+            }
+			assert(1 == arr.push('foo'));
+			assert(2 == arr.push('bar'));
+			assert(3 == arr.push('baz'));
+		})
+	})
+})
+
+Then you can use test engine mocha to run it ,for example:
+
+::
+
+ arrow mocha-bdd.js --engine=mocha (For globally installed Arrow)
+ ./node_modules/.bin/arrow mocha-bdd.js --engine=mocha (For locally installed Arrow)
+
+
+And if you want to run it in client side ,just simply run :
+
+::
+
+ arrow mocha-bdd.js --engine=mocha --browser=chrome (For globally installed Arrow)
+ ./node_modules/.bin/arrow mocha-bdd.js --engine=moch --browser=chrome (For locally installed Arrow)
+
+ arrow mocha-bdd.js --engine=mocha --browser=phantomjs --page=http://serach.yahoo.com (For globally installed Arrow)
+ ./node_modules/.bin/arrow mocha-bdd.js --engine=mocha --browser=phantomjs --page=http://serach.yahoo.com (For locally installed Arrow)
+
+
+Suppose you have a test case written in tdd way and you want to use chai as assertion :
+
+::
+
+suite('Array', function(){
+	suite('#indexOf()', function(){
+		test('should return -1 when not present', function(){
+		    var chai;
+            if(typeof window  == "undefined" && typeof chai  == "undefined"){
+            		chai = require('chai');
+            }
+            else{
+            		chai = window.chai;
+            }
+			chai.assert(-1 == [1,2,3].indexOf(4));
+		});
+	});
+});
+
+then you can still want mocha run it but using different "interface" in mocha like this:
+
+::
+
+ arrow mocha-bdd.js --engine=mocha --engineConfig=./config.josn (For globally installed Arrow)
+ ./node_modules/.bin/arrow mocha-tdd.js --engine=mocha  --engineConfig=./config.josn(For locally installed Arrow)
+
+ or in browser side:
+
+ arrow mocha-bdd.js --engine=mocha --engineConfig=./config.josn  --browser=chrome (For globally installed Arrow)
+ ./node_modules/.bin/arrow mocha-tdd.js --engine=mocha  --engineConfig=./config.josn  --browser=chrome (For locally installed Arrow)
+
+you can define any configuration recognized by mocha like "ui","reporter" etc. in config.json:
+
+::
+
+{"ui":"tdd","require":"chai"}
+
+It will be passed to test engine and take effect in test execution.
+
+NOTE: This example shows that we just need to add chai to "require" field in engine config to support chai as mocha's offical assertion set.
+      Also npm package or http links are supported in engine config.
+
+::
+
+{"ui":"tdd","require":["chai","should","http://chaijs.com/chai.js"]}
+
+Using engine in arrow's test descriptor
+=======================================
+
+If you have multiple style test cases and want to test it in one test descriptor ,you just need to specify which engine to use in descriptor:
+
+::
+
+[
+    {
+        "settings":[ "master" ],
+        "name":"hybrid engine server side",
+        "dataprovider":{
+            "mocha":{
+                "params":{
+                    "test":"mocha-bdd.js",
+                    "engine":"mocha"
+                },
+                "group":"unit"
+            },
+            "mocha-tdd":{
+                "params":{
+                    "test":"mocha-tdd.js",
+                    "engine":"mocha",
+                    "engineConfig":"./mocha-config.json"
+                },
+                "group":"unit"
+            },
+            "jasmine":{
+                "params":{
+                    "test":"jasmine-bdd-test.js",
+                    "engine":"jasmine"
+                },
+                "group":"unit"
+            },
+            "qunit":{
+                "params":{
+                    "test":"qunit-test.js",
+                    "engine":"qunit"
+                },
+                "group":"unit"
+            },
+            "yui":{
+                "params":{
+                    "test":"yui-test-unit.js",
+                    "lib":"./yui-lib.js"
+                },
+                "group":"unit"
+            }
+        }
+    }
+]
+
+Here qunit-test.js and jasmine-bdd-test.js are test cases can be run within qunit and jasmine. By default arrow will use yui to run tests,so in test "yui" ,
+we didn't need to specify the engine for test yui-test-unit.js.
+
+Test engine can also works in scenario node:
+
+::
+
+[
+    {
+        "settings": [ "master" ],
+        "name": "YahooLogin",
+        "config": {
+            "baseUrl": "http://login.yahoo.com"
+        },
+        "commonlib" : "./mocha-lib.js",
+        "dataprovider" : {
+            "Use Locator to Login" : {
+                "group" : "func",
+                "browser":"chrome",
+                "params" :{
+                    "scenario": [
+                        {
+                            "page": "$$config.baseUrl$$"
+                        },
+                        {
+                            "controller": "locator",
+                            "params": {
+                                "value": "#username",
+                                "text": "arrowtestuser1"
+                            }
+                        },
+                        {
+                            "controller": "locator",
+                            "params": {
+                                "value": "#passwd",
+                                "text": "123456"
+                            }
+                        },
+                        {
+                            "controller": "locator",
+                            "params": {
+                                "value": "#submit",
+                                "click": true
+                            }
+                        },
+                        {
+                            "page": "http://search.yahoo.com/"
+                        },
+                        {
+                            "test": "mocha-test.js",
+                            "engine":"mocha"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+]
+
+In this test, arrow will use the locator controller to find elements in login page and after that it will go to search page to run a mocha-style test.
+Users can add any kind of test cases only if the related test engine is suppported and specified with "engine" field.
+
+Sharing test parameters among custom conrollers and tests in a scenario node
+======================
+
+In a complex test scenario, we maybe need multiple controllers or tests in a scenario node. Arrow provides a way to share variables among the controllers or tests, via this.testParams.shared.
+Custom controller or test can set a Json object to this.testParams.shared, then it will pass to downstream controllers and tests.
+
+The sample of sharing testParams from a test to another test can be found `here <https://github.com/yahoo/arrow/tree/master/tests/functional/data/arrow_test/share_test_params/test_params_share-simple.json>`_.
+The sample of sharing testParams for a custom controller to downstream custom controller and test can be found `here <https://github.com/yahoo/arrow/tree/master/tests/functional/data/arrow_test/share_test_params/search-descriptor-test-params.json>`_.
 
 Re-Using Browser Sessions
 -------------------------
 
-As you develop your tests, you may find it necessary to *test* them against a real browser, such as those supported by Selenium. However, one of the disadvantages of this approach is that normally, for each test file, a new browser sesssion is started and stopped. This is time consuming and counter-productive during development.
+As you develop your tests, you may find it necessary to *test* them against a real browser, such as those supported by Selenium. However, one of the disadvantages of this approach is that normally, for each test file, a new browser session is started and stopped. This is time consuming and counter-productive during development.
 
 Arrow supports the concept of **Session Reuse**.
 
@@ -552,6 +785,100 @@ Or
  java -Dwebdriver.firefox.profile=profile_name -jar ./path/to/selenium/sever.jar
 
 Once Selenium is started, the same steps for *reusing* sessions apply.
+
+Auto scan share libraries and controllers
+---------
+
+A test case might need use some share libraries. The arrow command line option: ``--lib`` can be used to load the share lib module, but, for complex test case, it might need load a lot of share lib modules which is installed in many places, it would be hard to maintain such a long ``--lib`` list.
+
+The share library auto scanner makes it simple.
+
+Arrow provides a configuration item: config.scanShareLibPath to set scan path, or by command line option: ``--shareLibPath``, which will override configuration. Use comma to seperate if want to specify more than one directory to scan.
+
+Once share lib path is set, when arrow is launched, it will recursively search the YUI module (.js file) under the given path (directory), and follows the subfolder name convention as below:
+
+* directory name starts with a prefix like "martini_";
+* subfolder: lib for share libraries;
+* subfolder: lib/server for share libraries can be loaded on server side;
+* subfolder: lib/client for share libraries can be loaded on client side;
+* subfolder: lib/common for share libraries can be loaded on both server side and client side;
+* subfolder: controller for custom controllers;
+* there can be subfolders under above folders, and arrow will scan them recursively.
+
+::
+
+         martini_lib1
+              |-----lib/
+              |      |-----server/
+              |      |       |-----module1
+              |      |       |      |-----xxx.js
+              |      |       |
+              |      |       |-----module2
+              |      |       |      |-----xxx.js
+              |      |
+              |      |-----client/
+              |      |       |-----xxx.js
+              |      |
+              |      |-----common/
+              |              |-----xxx.js
+              |
+              |-----controller/
+              |      |-----my-sample-controller.js
+              |
+              |-----node_modules
+              |-----package.json
+
+The module under client directory will be registered as client module, the module under server directory will be registered as server module, the module under common directory will be registered as both client and server module. The controller directory is for custom controller.
+
+Arrow will register the share libraries which followed above directory layout convention, as server side modules, client side modules, or custom controllers,  then we can still use common methods to load these module as other YUI Gallery modules in our test code, like YUI().use('module') or YUI.add(xxx ... require('module')), arrow would find and load the required module for it. 
+
+For custom controller, arrow will add "package_name." as prefix, like for above sample, then to specify custom controller in test descriptor, we can use controller path, or use "martini_lib1.my-sample-controller" instead.
+
+How To Use ``--shareLibPath``
+==========
+1. Find or create a npm package which has share library and followed above convention, install it locally or globally, for example
+
+::
+
+  npm install martini_testlib1 -g
+
+2. specify the install path to ``--shareLibPath``
+
+::
+
+  arrow test-unit.js --shareLibPath=/usr/local/lib/node_modules/martini_testlib1
+
+If installed more than one share lib packages globally, like martini_testlib2, we can specify multiple paths to ``--shareLibPath``, or specify the parent folder to ``--shareLibPath``.
+
+::
+
+  arrow test-unit.js --shareLibPath=/usr/local/lib/node_modules/martini_testlib1,/usr/local/lib/node_modules/martini_testlib2
+  arrow test-unit.js --shareLibPath=/usr/local/lib/node_modules/
+
+3. use constom controller. In test descriptor, now we can use package_name.controller_name in **controller** node, as below:
+
+::
+
+  "controller": "martini_testlib1.my-test-controller"
+
+**Note:**
+1. if want to let ``--shareLibPath`` to scan some directory other than martini_xxx, you can configure
+ it on */path/to/arrow/install/path/config/config.js*, for example, to scan dev_xxx directory, you can configure it as below:
+
+::
+
+  config.scanShareLibPrefix = ["martini_", "dev_"];
+
+2.Another config is config.scanShareLibRecursive , if set to false, arrow will only scan top level folders for the given prefix and given scan path,Otherwise it will scan recursively with the given path.
+
+3.And the next config: config.enableShareLibYUILoader ,this is important configuration,
+ By default false ,arrow will inject all necessary share lib source code into test cases .
+ If true, arrow will generate and inject YUI group/modules info and let YUI loader to load modules.To ensure YUI loader to get these modules,arrow will auto detect if arrow server is running and will restart it for YUI loader if not.
+ The reason we need this switch is because in yahoo network lot of time lab manager windows VM's don't have access to any non-80 port of hudson slaves.In those scenarios, YUI config would be a blocker and YUI loader wont work.So if you can make sure the pages
+ you are testing have access to your host where arrow server runs, you can make enableShareLibYUILoader true to improve performance.
+
+ ::
+ arrow test-unit.js --shareLibPath=/usr/local/lib/node_modules/ --enableShareLibYUILoader=true
 
 Parallelism
 -----------
