@@ -352,7 +352,7 @@ YUI.add('reportmanager-tests', function(Y) {
                 i,
                 reportObj,
                 fileUtil = new FileUtil();
-
+            global.failedDescriptors = [];
             testSessionObj = new TestSession(report);
 
             testSessionsArr.push(testSessionObj);
