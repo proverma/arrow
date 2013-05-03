@@ -1,0 +1,34 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name": "tabview",
+
+        "commonlib": "./test-lib.js",
+
+        "config": {
+            "baseUrl": "http://www.doctor46.com"
+        },
+
+        "startProxyServer" : true,
+        "routerProxyConfig" : "./proxy_config.json",
+
+        "dataprovider": {
+
+            "int": {
+                "params": {
+                    "test": "test-int.js",
+                    "page": "$$config.baseUrl$$/tabview.html"
+                },
+                "group": "smoke"
+            }
+
+        }
+
+    },
+
+    {
+        "settings": [ "environment:development" ]
+    }
+
+]

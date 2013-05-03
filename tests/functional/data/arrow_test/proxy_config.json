@@ -1,0 +1,16 @@
+{
+    "yahoo.com": {
+        "newHost": "",
+        "headers":[
+
+        ],
+        "record": true
+    },
+    "news.yahoo.com": {
+        "newHost": "x.x.x.x (your new host ip/name)",
+        "headers":[
+
+        ],
+        "record": true
+    }
+}
