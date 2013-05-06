@@ -115,7 +115,7 @@ function showHelp() {
         "        --seleniumHost : (optional) override selenium host url (example: --seleniumHost=http://host.com:port/wd/hub)" + "\n\n" +
         "        --capabilities : (optional) the name of a json file containing webdriver capabilities required by your project" + "\n\n" +
         "        --startProxyServer : (optional) true/false. Starts a proxy server for all intercepting all selenium browser calls" + "\n\n" +
-        "        --routerProxyConfig : (optional) filePath. Expects a Json file, allows users to modify host and headers for all calls being made by browser. Also supports recording of select url calls." + "\n" +
+        "        --proxyConfig : (optional) filePath. Expects a Json file, allows users to modify host and headers for all calls being made by browser. Also supports recording of select url calls." + "\n" +
         "                       Example Json :" + "\n" +
         "                       {" + "\n" +
         "                           \"yahoo.com\": {" + "\n" +

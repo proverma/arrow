@@ -1,2 +1,28 @@
 {
+    "router": {
+        "yahoo.com": {
+            "newHost": "x.x.x.x (your new host ip/name)",
+            "headers": [
+                {
+                    "param": "<param>",
+                    "value": "<val>"
+                }
+            ],
+            "record": true
+        },
+        "news.yahoo.com": {
+            "newHost": "x.x.x.x (your new host ip/name)",
+            "headers": [
+                {
+                    "param": "<param>",
+                    "value": "<val>"
+                }
+            ],
+            "record": true
+        }
+    },
+    "coverage": {
+        "clientSideCoverage": true,
+        "passThroughUrls": []
+    }
 }

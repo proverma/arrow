@@ -46,7 +46,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
             });
         }
 
-        A.areEqual(routerJsonPath, proxyManager.routerJsonPath, 'Router jsonpath doesn\'t match');
+        A.areEqual(routerJsonPath, proxyManager.proxyConfig, 'Router jsonpath doesn\'t match');
 
         createProxyServerRequest(minPort, maxPort, hostName, function () {
 
@@ -99,7 +99,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
         var routerJsonPath = "./config/router.json",
             proxyManager = new ProxyManager(routerJsonPath);
-        A.areEqual(routerJsonPath, proxyManager.routerJsonPath, 'Router jsonpath doesn\'t match');
+        A.areEqual(routerJsonPath, proxyManager.proxyConfig, 'Router jsonpath doesn\'t match');
     }
 
     /*
@@ -109,7 +109,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
     function testRouterInvalidJsonPath() {
         var routerJsonPath = ".invalidJson",
             proxyManager = new ProxyManager(routerJsonPath);
-        A.areEqual(routerJsonPath, proxyManager.routerJsonPath, 'Router jsonpath doesn\'t match');
+        A.areEqual(routerJsonPath, proxyManager.proxyConfig, 'Router jsonpath doesn\'t match');
     }
 
     /*
@@ -118,7 +118,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
     function testNoJsonPath() {
         var proxyManager = new ProxyManager(null);
-        A.isNull(proxyManager.routerJsonPath, 'Router Json Path shall be null');
+        A.isNull(proxyManager.proxyConfig, 'Router Json Path shall be null');
     }
 
     /**
@@ -174,7 +174,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
             proxyManager = new ProxyManager(routerJsonPath),
             availablePort;
 
-        A.areEqual(routerJsonPath, proxyManager.routerJsonPath, 'Router jsonpath doesn\'t match');
+        A.areEqual(routerJsonPath, proxyManager.proxyConfig, 'Router jsonpath doesn\'t match');
 
         proxyManager.runRouterProxy(minPort, maxPort, hostName, function (proxyHostMsg) {
             test.resume(function () {
