@@ -32,6 +32,8 @@ global.pathSep = path.sep || '/';
 
 global.routerMap = {};
 
+global.failedDescriptors = [];
+
 var knownOpts = {
         "browser": [String, null],
         "lib": [String, null],
