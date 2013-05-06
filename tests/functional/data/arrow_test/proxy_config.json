@@ -23,6 +23,6 @@
     },
     "coverage": {
         "clientSideCoverage": true,
-        "passThroughUrls": []
+        "passThroughUrls": ["^http://yui.yahooapis.com.*\\.js$"]
     }
 }
