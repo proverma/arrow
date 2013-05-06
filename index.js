@@ -83,7 +83,6 @@ var knownOpts = {
     arrow,
     prop,
     config,
-    proxyManager,
     arrowSetup;
 
 //help messages
@@ -188,10 +187,6 @@ if (argv.argv.remain.length === 0 && argv.descriptor) {
 
 //store start time
 global.startTime = Date.now();
-
-//expose classes for test/external usage
-this.controller = require('./lib/interface/controller');
-this.log4js = require('log4js');
 
 //check if user wants to override default config.
 if (!argv.config) {
