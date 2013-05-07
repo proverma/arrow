@@ -8,7 +8,7 @@
         "url": "https://github.com/yahoo/arrow.git"
     },
     "man": "../man/arrow.1",
-    "main": "./index.js",
+    "main": "./lib.js",
 
     "scripts": {
         "help": "arrow --help",
