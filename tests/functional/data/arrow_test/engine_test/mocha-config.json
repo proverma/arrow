@@ -1,1 +1,1 @@
-{"ui":"bdd","require":"chai"}
+{"ui":"bdd","require":"chai","timeout":"5000"}
