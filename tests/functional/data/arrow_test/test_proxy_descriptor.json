@@ -16,25 +16,32 @@
 
         "dataprovider": {
 
-            "int": {
-                "params": {
-                    "test": "test-int.js",
-                    "page": "http://www.doctor46.com/tabview.html"
-                },
-                "group": "smoke"
-            },
             "shelf": {
-                "group": "mojito",
+                "group": "client",
                 "params": {
                     "test": "testshelf.js",
                     "page": "$$config.baseUrl$$/"
                 }
             },
             "bbcnews": {
-                "group": "mojito",
+                "group": "client",
                 "params": {
                     "test": "testbbcnews.js",
                     "page": "$$config.baseUrl$$/read.html?id=bbcnews"
+                }
+            },
+            "shelf_withrouter": {
+                "group": "router",
+                "params": {
+                    "test": "testshelf.js",
+                    "page": "$$config.comboUrl$$/"
+                }
+            },
+            "bbcnews_withrouter": {
+                "group": "router",
+                "params": {
+                    "test": "testbbcnews.js",
+                    "page": "$$config.comboUrl$$/read.html?id=bbcnews"
                 }
             }
         }
