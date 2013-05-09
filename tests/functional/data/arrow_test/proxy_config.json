@@ -1,6 +1,6 @@
 {
     "router": {
-        "yahoo.com": {
+        "movie.yahoo.com": {
             "newHost": "x.x.x.x (your new host ip/name)",
             "headers": [
                 {
@@ -24,8 +24,8 @@
             "newHost": "user-jiliang.trunk.development.manhattan.bf1.yahoo.com",
             "headers": [
                 {
-                    "param": "keep-alive",
-                    "value": "closed"
+                    "param": "Connection",
+                    "value": "close"
                 }
             ],
             "record": true
@@ -33,6 +33,7 @@
     },
     "coverage": {
         "clientSideCoverage": true,
-        "passThroughUrls": ["^http://yui.yahooapis.com.*\\.js$"]
+        "passThroughUrls": ["^http://yui.yahooapis.com.*\\.js$"],
+        "instrumentDelay": 0
     }
 }
