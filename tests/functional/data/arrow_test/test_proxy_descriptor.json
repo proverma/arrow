@@ -7,20 +7,35 @@
         "commonlib": "./test-lib.js",
 
         "config": {
-            "baseUrl": "http://www.doctor46.com"
+            "comboUrl": "http://mojito-int.trunk.development.manhattan.bf1.yahoo.com",
+            "baseUrl":"http://user-jiliang.trunk.development.manhattan.bf1.yahoo.com"
         },
 
-        "startProxyServer" : true,
-        "proxyConfig" : "./proxy_config.json",
+        "startProxyServer": true,
+        "proxyConfig": "./proxy_config.json",
 
         "dataprovider": {
 
             "int": {
                 "params": {
                     "test": "test-int.js",
-                    "page": "$$config.baseUrl$$/tabview.html"
+                    "page": "http://www.doctor46.com/tabview.html"
                 },
                 "group": "smoke"
+            },
+            "shelf": {
+                "group": "mojito",
+                "params": {
+                    "test": "testshelf.js",
+                    "page": "$$config.baseUrl$$/"
+                }
+            },
+            "bbcnews": {
+                "group": "mojito",
+                "params": {
+                    "test": "testbbcnews.js",
+                    "page": "$$config.baseUrl$$/read.html?id=bbcnews"
+                }
             }
         }
 
