@@ -518,6 +518,9 @@ For example, you could have the following in your test descriptor
       }
   }
 
+
+
+
 Test Engine
 -----------------------------------
 
@@ -968,3 +971,54 @@ report.json sample
           "testName":"Test YHOO Ticker"
       }
   ]
+
+--replaceParamJSON
+--------------------
+This parameter is optional and can be used when user wants to configure descriptors to replace certain values on the fly.
+
+It could either be passed as .json object or as a string in json format.
+
+replace.json sample
+====================
+
+::
+
+    {
+        "property" : "finance"
+    }
+
+
+The descriptor will appear as follows for the given replace.json
+
+descriptor.json sample
+=======================
+
+::
+
+    [
+          {
+                 "settings":[ "master" ],
+                 "name":"descriptor",
+                 "config":{
+                            "baseUrl": "http://${property}$.yahoo.com"
+                       },
+                 "dataprovider":{
+                 "Test sample":{
+                            "params": {
+                                       "test": "test.js"
+                                       "page":"$$config.baseUrl$$"
+                                      }
+                            }
+                    }
+          }
+    ]
+
+Now, if user runs the descriptor
+
+::
+
+    arrow ./descriptor.json --replaceParamJSON=./replace.json --browser=firefox
+    or
+    arrow ./descriptor.json --replaceParamJSON='{"property":"finance"}' --browser=firefox
+
+The value of ``'baseUrl'`` which is ``'http://${property}$.yahoo.com'`` will become ``'http://finance.yahoo.com'``
