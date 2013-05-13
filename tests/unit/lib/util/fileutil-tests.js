@@ -54,5 +54,47 @@ YUI.add('fileutil-tests', function (Y) {
         }
     }));
 
+
+    suite.add(new Y.Test.Case({
+        "Remove Directory": function() {
+
+            var fileUtil = new FileUtil(),
+                dirAPath = path.resolve(process.cwd(), 'tmpFiles', 'dirA'),
+                dirBPath = path.resolve(dirAPath, 'dirB'),
+                fd,
+                exists;
+
+            fileUtil.createDirectory(dirAPath, function() {
+                logger.info('DirAPath..' + dirAPath);
+                logger.info('In callback of createDirectory..' + dirAPath);
+                fd = fs.openSync(path.resolve(dirAPath, 'fileA.txt'), 'w');
+                fs.writeSync(fd, 'This is file A');
+                fs.closeSync(fd);
+
+                fileUtil.createDirectory(dirBPath, function() {
+                    logger.info('In callback of createDirectory..' + dirBPath);
+                    fd = fs.openSync(path.resolve(dirBPath, 'fileB.txt'), 'w');
+                    fs.writeSync(fd, 'This is file B');
+                    fs.closeSync(fd);
+
+                    fileUtil.removeDirectory(path.resolve(process.cwd(), 'tmpFiles'), function() {
+                        logger.info('In callback of removeDirectory..' + path.resolve(process.cwd(), 'tmpFiles'));
+                        path.exists(path.resolve(process.cwd(), 'tmpFiles'), function(exists) {
+                            A.areEqual(exists, false, 'Not able to remove directory... ' + path.resolve(process.cwd(), 'tmpFiles'));
+                        });
+
+                    });
+
+                });
+
+            });
+
+
+        }
+    }));
+
+
+
+
     Y.Test.Runner.add(suite);
 }, '0.0.1', {requires: ['test']});
