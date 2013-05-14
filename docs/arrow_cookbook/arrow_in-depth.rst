@@ -916,11 +916,23 @@ To tell Arrow you would like to create reports simply type:
 
   arrow <some test or test descriptor> --report=true
 
-After the test executes two files will be created under the location from which you executed Arrow; *report.xml* and *report.json*.
+After the test executes two files will be created - *report.xml* and *report.json*.
 
-Running multiple descriptors using ``'arrow "**/*-descriptor.json" --report=true'`` , will create report.xml and report.json under directory structure where each descriptor files reside.
+Running multiple descriptors using ``'arrow "**/*-descriptor.json" --report=true'`` , will create report.xml and report.json for each descriptor.
+
+If "reportFolder" is passed .eg . --reportFolder=/reportPath/, the reports will be generated under /reportPath/arrow-report. A *report.xml* and *report.json* is created for each descriptor.
+A summarized report is also created by the name "arrow-test-summary" in both xml and json formats. In addition, a time report is generated in json format which shows the time taken for each descriptor to complete as well as the time taken by each test within the descriptor.
+
+If "reportFolder" is not passed, the reports are generated under "arrow-target" directory e.g "arrow-target/arrow-report" wrt the location from which you executed Arrow.
 
 Hudson supports report globbing, so you can pass ``**/test-descriptor-report.xml``, and it will pick up all your result files.
+
+If --report is set to true,screenshots are created under "arrow-target/arrow-report/screenshots" directory ( if --reportFolder is not set) or under {reportFolder}/arrow-report/screenshots directory.
+If --report is not set to true, screenshots are created under "screenshots" directory wrt the location where the tests are executed from.
+
+By default, Arrow deletes the reports directory ( if exists) created from the previous run, before the tests are executed. If you dont want to overwrite the reports from previous run, use --keepTestReport=true.
+Note: This will only keep the reports for a descriptor from the previous run, if that descriptor is not part of current run. The summary and time reports will always get overwritten.
+
 
 report.xml sample
 .................
@@ -971,6 +983,50 @@ report.json sample
           "testName":"Test YHOO Ticker"
       }
   ]
+
+timeReport.json sample
+..................
+
+::
+
+    { "descriptors":[
+        {
+            "descriptor":"descriptors/test-descriptor-1.json",
+            "time":"9.15 seconds",
+            "tests":[
+                {
+                    "Testname":"Test YAHOO Search 1",
+                    "Time":"5.21 seconds"
+                } ,
+                {
+                    "Testname":"Test YAHOO Search 2",
+                    "Time":"3.94 seconds"
+                }
+            ]
+        } ,
+        {
+            "descriptor":"descriptors/test-descriptor-2.json",
+            "time":"3.55 seconds",
+            "tests":[
+                {
+                    "Testname":"Test YAHOO Search 3",
+                    "Time":"3.55 seconds"
+                }
+            ]
+        } ,
+        {
+            "descriptor":"descriptors/test-descriptor-3.json",
+            "time":"3.33 seconds",
+            "tests":[
+                {
+                    "Testname":"Test YAHOO Search 4",
+                    "Time":"3.33 seconds"
+                }
+            ]
+        }
+    ], "Total time":"17.09 seconds"  }
+
+
 
 --replaceParamJSON
 --------------------
