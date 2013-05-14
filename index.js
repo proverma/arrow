@@ -99,6 +99,8 @@ function showHelp() {
         "                      Example : --engine=mocha " + "\n\n" +
         "        --engineConfig : (optional) the file path to config file or a config string  " + "\n" +
         "                      Example : --engineConfig=./mocha-config.json or --engineConfig={\'ui\':\'tdd\'} " + "\n\n" +
+        "        --keepTestReport : (optional) When set to true, the report for each descriptor from previous run will be preserved (If same descriptor is run again though, it will overwrite the previous report). (default: false) " + "\n" +
+        "                      Example : --keepTestReport=true" + "\n\n" +
         "        --parallel : (optional) test thread count. Determines how many tests to run in parallel for current session. (default: 1)\n" +
         "                          Example : --parallel=3 , will run three tests in parallel" + "\n\n" +
         "        --report : (optional) true/false.  creates report files in junit and json format. (default: true)" + "\n" +
