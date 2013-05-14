@@ -916,16 +916,16 @@ To tell Arrow you would like to create reports simply type:
 
   arrow <some test or test descriptor> --report=true
 
-After the test executes two files will be created - *report.xml* and *report.json*.
+After the test executes two files will be created - *<descriptor name>-report.xml* and *<descriptor name>-report.json*.
 
-Running multiple descriptors using ``'arrow "**/*-descriptor.json" --report=true'`` , will create report.xml and report.json for each descriptor.
+Running multiple descriptors using ``'arrow "**/*-descriptor.json" --report=true'`` , will create <descriptor name>-report.xml and <descriptor name>-report.json for each descriptor.
 
-If "reportFolder" is passed .eg . --reportFolder=/reportPath/, the reports will be generated under /reportPath/arrow-report. A *report.xml* and *report.json* is created for each descriptor.
+If "reportFolder" is passed .eg . --reportFolder=/reportPath/, the reports will be generated under /reportPath/arrow-report. A *<descriptor name>-report.xml* and *<descriptor name>-report.json* is created for each descriptor.
 A summarized report is also created by the name "arrow-test-summary" in both xml and json formats. In addition, a time report is generated in json format which shows the time taken for each descriptor to complete as well as the time taken by each test within the descriptor.
 
 If "reportFolder" is not passed, the reports are generated under "arrow-target" directory e.g "arrow-target/arrow-report" wrt the location from which you executed Arrow.
 
-Hudson supports report globbing, so you can pass ``**/test-descriptor-report.xml``, and it will pick up all your result files.
+Hudson supports report globbing, so you can pass ``**/*-report.xml``, and it will pick up all your result files.
 
 If --report is set to true,screenshots are created under "arrow-target/arrow-report/screenshots" directory ( if --reportFolder is not set) or under {reportFolder}/arrow-report/screenshots directory.
 If --report is not set to true, screenshots are created under "screenshots" directory wrt the location where the tests are executed from.
