@@ -4,7 +4,7 @@
 
         "name" : "child_process",
 
-        "commonlib" : "./lib/child-lib.js",
+        "commonlib" : "",
 
         "config" :{
             "baseUrl" : "http://www.yahoo.com"

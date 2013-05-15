@@ -6,7 +6,7 @@ function foo() {
     console.log("\nThis is foo...");
 
     var spawn = require("child_process").spawn;
-    var cp = spawn("../app/child-app.js", ["--bar"]);
+    var cp = spawn("./app/child-app.js", ["--bar"]);
     cp.stdout.pipe(process.stdout, {end: false});
     cp.stderr.pipe(process.stderr, {end: false});
     cp.stdin.end();
@@ -16,7 +16,7 @@ function bar() {
     console.log("\nThis is bar...");
 
     var spawn = require("child_process").spawn;
-    var cp = spawn("../app/child-app.js", ["--baz"]);
+    var cp = spawn("./app/child-app.js", ["--baz"]);
     cp.stdout.pipe(process.stdout, {end: false});
     cp.stderr.pipe(process.stderr, {end: false});
     cp.stdin.end();

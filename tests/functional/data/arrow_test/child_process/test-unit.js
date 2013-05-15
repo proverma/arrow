@@ -7,19 +7,19 @@ YUI.add("mock-child-process-tests", function (Y) {
             self = this;
 
             var mockery = require('mockery');
-            var mocker = require("../lib/mock-child-process");
+            var mocker = require("../../../../../sharelib/lib/server/mock-child-process");
             var mock_child_process = {
                spawn: mocker.spawn,
                fork: mocker.fork
             };
 
             mocker.set_istanbul_root("../");
-            mocker.set_exclude_pattern("**/temp-for*");
+            //mocker.set_exclude_pattern("**/temp-for*");
             mockery.registerMock('child_process', mock_child_process);
             mockery.enable({ useCleanCache: true });
 
             var spawn = require("child_process").spawn;
-            var cp = spawn("../app/child-app.js", ["--foo"]);
+            var cp = spawn("./app/child-app.js", ["--foo"]);
             cp.stdout.pipe(process.stdout, {end: false});
             cp.stderr.pipe(process.stderr, {end: false});
             cp.stdin.end();
@@ -33,11 +33,11 @@ YUI.add("mock-child-process-tests", function (Y) {
             this.wait(function () {}, 8000);
         },
 
-        "test child_process.fork mocked by previous test": function() {
+        "ignore: test child_process.fork mocked by previous test": function() {
             self = this;
 
             var fork = require("child_process").fork;
-            var cp = fork("../app/child-app.js", ["--qux"]);
+            var cp = fork("./app/child-app.js", ["--qux"]);
             cp.send({hello: 'world'});
             cp.on('exit',function(code){
                 console.log('From parent: forked child exit with code: ' + code);

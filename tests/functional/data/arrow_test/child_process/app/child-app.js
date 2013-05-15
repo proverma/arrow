@@ -37,3 +37,7 @@ if (parsed.grault) {
     lib.grault();
 }
 
+process.on('exit', function (code) {
+  console.log("\n\nIn child-app.js: code: " + code);
+});
+
