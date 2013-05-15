@@ -1,0 +1,29 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name" : "child_process",
+
+        "commonlib" : "./lib/child-lib.js",
+
+        "config" :{
+            "baseUrl" : "http://www.yahoo.com"
+        },
+
+        "dataprovider" : {
+            "child" : {
+                "params" : {
+                    "test" : "test-unit.js"
+                },
+                "group" : "unit"
+            }
+
+        }
+
+    },
+
+    {
+        "settings": [ "environment:development" ]
+    }
+
+]
