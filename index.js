@@ -99,6 +99,8 @@ function showHelp() {
         "                      Example : --engine=mocha " + "\n\n" +
         "        --engineConfig : (optional) the file path to config file or a config string  " + "\n" +
         "                      Example : --engineConfig=./mocha-config.json or --engineConfig={\'ui\':\'tdd\'} " + "\n\n" +
+        "        --keepTestReport : (optional) When set to true, the report for each descriptor from previous run will be preserved (If same descriptor is run again though, it will overwrite the previous report). (default: false) " + "\n" +
+        "                      Example : --keepTestReport=true" + "\n\n" +
         "        --parallel : (optional) test thread count. Determines how many tests to run in parallel for current session. (default: 1)\n" +
         "                          Example : --parallel=3 , will run three tests in parallel" + "\n\n" +
         "        --report : (optional) true/false.  creates report files in junit and json format. (default: true)" + "\n" +
@@ -144,9 +146,31 @@ function showHelp() {
         "        --coverageExclude : (optional) string. comma-separated list of files to exclude from coverage reports" + "\n" +
         "        --keepIstanbulCoverageJson : (optional) true/false. if set to true, it does not delete Istanbul coverage json files. (default: false)" + "\n" +
         "        --retryCount : (optional) retry count for failed tests. Determines how many times a test should be retried, if it fails. (default: 0)\n" +
-        "                       Example : --retryCount=2 , will retry all failed tests 2 times." +
-        "        \n\n");
+        "                       Example : --retryCount=2 , will retry all failed tests 2 times." + "\n" +
+        "        --replaceParamJSON : (optional) Either .json file or json object to be replaced with its value in descriptor file" + "\n" +
+        "                       Example: --replaceParamJSON=./replaceJson.json OR --replaceParamJSON={\"property\":\"finance\"} will replace value of \"property\"" + "\n" +
+        "                            inside the descriptor.json with \"finance\"" +"\n" +
+        "                       descriptor.json" + "\n" +
+        "                       [" + "\n" +
+        "                            {" +  "\n" +
+        "                                \"settings\":[ \"master\" ]," + "\n" +
+        "                                \"name\":\"descriptor\"," + "\n" +
+        "                                \"config\":{" + "\n" +
+        "                                \"baseUrl\": \"http://${property}$.yahoo.com\" " + "\n" +
+        "                            }," + "\n" +
+        "                                \"dataprovider\":{ " + "\n" +
+        "                                \"Test sample\":{ " + "\n" +
+        "                                   \"params\": {" + "\n" +
+        "                                        \"test\": \"test.js\" " + "\n" +
+        "                                        \"page\":\"$$config.baseUrl$$\"" + "\n" +
+        "                                    }" + "\n" +
+        "                                }" + "\n" +
+        "                               }" + "\n" +
+        "                            }" + "\n" +
+        "                        ]" + "\n"
 
+
+    );
     console.log("\nEXAMPLES :" + "\n" +
         "        Unit test: " + "\n" +
         "          arrow test-unit.js --lib=../src/greeter.js" + "\n\n" +
