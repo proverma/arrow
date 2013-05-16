@@ -13,9 +13,9 @@
         "dataprovider" : {
             "child" : {
                 "params" : {
-                    "test" : "test-unit.js"
+                    "test" : "test-func.js"
                 },
-                "group" : "unit"
+                "group" : "func"
             }
 
         }

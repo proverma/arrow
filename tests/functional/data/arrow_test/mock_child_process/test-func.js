@@ -36,4 +36,4 @@ YUI.add("mock-child-process-tests", function (Y) {
     //Note we are not "running" the suite. 
     //Arrow will take care of that. We simply need to "add" it to the runner
     Y.Test.Runner.add(suite);
-}, "0.1", {requires:["test", "media-greeter"]});
+}, "0.1", {requires:["test"]});
