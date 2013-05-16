@@ -1,3 +1,4 @@
+#!/bin/env node
 
 var nopt = require("nopt"),
     knownOpts = {

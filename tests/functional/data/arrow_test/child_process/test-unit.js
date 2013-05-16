@@ -9,8 +9,7 @@ YUI.add("mock-child-process-tests", function (Y) {
             var mockery = require('mockery');
             var mocker = require("../../../../../sharelib/lib/server/mock-child-process");
             var mock_child_process = {
-               spawn: mocker.spawn,
-               fork: mocker.fork
+               spawn: mocker.spawn
             };
 
             mocker.set_istanbul_root("../");
@@ -30,19 +29,6 @@ YUI.add("mock-child-process-tests", function (Y) {
             // If this test sessinon finished before above spawned child process exit, 
             // seems the child process would be ended, so, please give enough time to
             // wait here
-            this.wait(function () {}, 8000);
-        },
-
-        "ignore: test child_process.fork mocked by previous test": function() {
-            self = this;
-
-            var fork = require("child_process").fork;
-            var cp = fork("./app/child-app.js", ["--qux"]);
-            cp.send({hello: 'world'});
-            cp.on('exit',function(code){
-                console.log('From parent: forked child exit with code: ' + code);
-            });
-
             this.wait(function () {}, 8000);
         }
     }));

@@ -47,7 +47,6 @@ var util = require("util"),
     verbose = true,
     counter = 0,
     path = require('path'),
-    coverageDir = path.resolve('child_process', 'coverage'),
     istanbul_module = require.resolve("istanbul"),
     istanbulFile = path.resolve(istanbul_module, '..', 'lib', 'cli.js'),
     exclude_pattern,
@@ -70,6 +69,7 @@ function inject_mockery_header(file) {
         new_file,
         orig_content,
         mocker_module,
+        lines,
         header;
 
     new_file = path.resolve(dirname, "temp-for-coverage-" + basename);
@@ -78,14 +78,23 @@ function inject_mockery_header(file) {
     header = "var mockery = require('mockery');\
             var path = require('path');\
             var mocker = require('" + mocker_module + "');\
-            var mock_child_process = { spawn: mocker.spawn, fork: mocker.fork };\
+            var mock_child_process = { spawn: mocker.spawn };\
             mocker.set_istanbul_root('" + istanbul_root + "');\
             mocker.set_exclude_pattern('" + exclude_pattern + "');\
             mockery.registerMock('child_process', mock_child_process);\
             mockery.enable({ useCleanCache: true });";
 
-    orig_content = fs.readFileSync(file);
-    fs.writeFileSync(new_file, header + orig_content);
+    orig_content = fs.readFileSync(file, 'utf8');
+
+    //check if the first line is shebang interpreter directive
+    lines = orig_content.split("\n");
+    if (lines[0].indexOf("#!") === 0) {
+        lines[0] += "\n" + header;
+    } else {
+        lines[0] = header + lines[0];
+    }
+
+    fs.writeFileSync(new_file, lines.join("\n"));
 
     return new_file;
 }
@@ -134,7 +143,7 @@ var spawn = exports.spawn = function (file, args, options) {
             '--report=lcov',
             '--root=' + istanbul_root,
             '-x=' + exclude_pattern,
-            '--dir=' + path.resolve(coverageDir, process.pid + '.' + counter)
+            '--dir=' + path.resolve("child_process_coverage", process.pid + '.' + counter)
         ],
         injected_file,
         cp;
@@ -161,38 +170,5 @@ var spawn = exports.spawn = function (file, args, options) {
     }
     cp = child_process.spawn(cmd, realArgs, options);
     return cp;
-};
-
-/**
- * mocked fork, which call istanbul cover to generate code covearge
- *
- * @param modulePath JS file to run
- *
- * @return ChildProcess object
- */
-var fork = exports.fork = function (modulePath) {
-    // Below code is copied from nodejs source: child_process.js
-
-    // Get options and args arguments.
-    var options, args, execArgv;
-    if (Array.isArray(arguments[1])) {
-        args = arguments[1];
-        options = util._extend({}, arguments[2]);
-    } else {
-        args = [];
-        options = util._extend({}, arguments[1]);
-    }
-
-    // Prepare arguments for fork:
-    //execArgv = options.execArgv || process.execArgv;
-    //args = execArgv.concat([modulePath], args);
-
-    // Leave stdin open for the IPC channel. stdout and stderr should be the
-    // same as the parent's if silent isn't set.
-    options.stdio = options.silent ? ['pipe', 'pipe', 'pipe', 'ipc'] : [0, 1, 2, 'ipc'];
-
-    //options.execPath = options.execPath || process.execPath;
-
-    return spawn(modulePath, args, options);
 };
 
