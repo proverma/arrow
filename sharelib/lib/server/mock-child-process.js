@@ -90,7 +90,7 @@ function inject_mockery_header(file) {
             mocker.set_istanbul_root('" + istanbul_root + "');\
             mocker.set_exclude_pattern('" + exclude_pattern + "');\
             mockery.registerMock('child_process', mock_child_process);\
-            mockery.enable({ useCleanCache: true });";
+            mockery.enable({ useCleanCache: true, warnOnReplace: false, warnOnUnregistered: false });";
 
     orig_content = fs.readFileSync(file, 'utf8');
 

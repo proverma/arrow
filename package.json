@@ -63,7 +63,7 @@
     },
     "devDependencies": {
         "ytestrunner": "0.3.3",
-        "mockery": "1.1.2",
+        "mockery": "1.4.0",
         "JSONPath": "0.9.1"
     }
 }

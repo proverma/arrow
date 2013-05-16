@@ -15,7 +15,11 @@ YUI.add("mock-child-process-tests", function (Y) {
             mocker.set_istanbul_root("../");
             //mocker.set_exclude_pattern("**/temp-for*");
             mockery.registerMock('child_process', mock_child_process);
-            mockery.enable({ useCleanCache: true });
+            mockery.enable({
+                useCleanCache: true,
+                warnOnReplace: false,
+                warnOnUnregistered: false
+            });
 
             var spawn = require("child_process").spawn;
             var cp = spawn("./app/child-app.js", ["--foo"]);
