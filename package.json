@@ -26,7 +26,13 @@
     "author": "Pranav Verma <vpranav@yahoo-inc.com>",
     "contributors": [
         "Sushant Kumar <sushantk@yahoo-inc.com>",
-        "Ivan Alonso <ivana@yahoo-inc.com>"
+        "Ivan Alonso <ivana@yahoo-inc.com>",
+        "Payal Shah <payshah@yahoo-inc.com>",
+        "Pranav Parikh <pranavp@yahoo-inc.com>",
+        "Jintao Qiao <jintao@yahoo-inc.com>",
+        "Ji Liang <jiliang@yahoo-inc.com>",
+        "Jun Wang <junwang@yahoo-inc.com>",
+        "Ares Huang <aresyhoo@yahoo-inc.com>"
     ],
     "bin": {
         "arrow": "./index.js",
