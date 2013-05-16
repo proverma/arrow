@@ -50,7 +50,15 @@ var util = require("util"),
     istanbul_module = require.resolve("istanbul"),
     istanbulFile = path.resolve(istanbul_module, '..', 'lib', 'cli.js'),
     exclude_pattern,
+    coverage_dir,
+    injected_file_prefix,
     istanbul_root;
+
+// hardcode the directory of child process coverage report, it has to match with glob in lib/session/sessionfactory.js
+coverage_dir = "child_process_coverage";
+
+// prefix for file being injected header
+injected_file_prefix = "temp-for-coverage-";
 
 /**
  * Inject the header of mocking child_process to JS file
@@ -72,7 +80,7 @@ function inject_mockery_header(file) {
         lines,
         header;
 
-    new_file = path.resolve(dirname, "temp-for-coverage-" + basename);
+    new_file = path.resolve(dirname, injected_file_prefix + basename);
 
     mocker_module = __dirname + "/" + path.basename(__filename);
     header = "var mockery = require('mockery');\
@@ -143,7 +151,7 @@ var spawn = exports.spawn = function (file, args, options) {
             '--report=lcov',
             '--root=' + istanbul_root,
             '-x=' + exclude_pattern,
-            '--dir=' + path.resolve("child_process_coverage", process.pid + '.' + counter)
+            '--dir=' + path.resolve(coverage_dir, process.pid + '.' + counter)
         ],
         injected_file,
         cp;
