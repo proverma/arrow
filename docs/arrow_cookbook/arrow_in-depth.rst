@@ -538,7 +538,7 @@ Suppose you have a test case written in the popular BDD way,like:
 
 ::
 
-describe('Array', function(){
+ describe('Array', function(){
     describe('#push()', function(){
         it('should return the length', function(){
             var arr = [],
@@ -550,7 +550,7 @@ describe('Array', function(){
             assert(3 == arr.push('baz'));
         })
     })
-})
+ })
 
 Then you can use test engine mocha to run it ,for example:
 
@@ -575,7 +575,7 @@ Suppose you have a test case written in tdd way and you want to use chai as asse
 
 ::
 
-suite('Array', function(){
+ suite('Array', function(){
     suite('#indexOf()', function(){
         test('should return -1 when not present', function(){
             var chai;
@@ -583,12 +583,12 @@ suite('Array', function(){
                 chai = require('chai');
             }
             else{
-                    chai = window.chai;
+                chai = window.chai;
             }
             chai.assert(-1 == [1,2,3].indexOf(4));
         });
     });
-});
+ });
 
 then you can still want mocha run it but using different "interface" in mocha like this:
 
@@ -766,18 +766,18 @@ Suppose we have a yui test case and also have some test libs written as YUI.add(
 
 ::
 
-(function () {
-var YUI;
-... //  1. all yui min/base goes here...
-YUI.add(...)  // 2. all yui core modules goes here
-YUI.add/use(...) // 3. custom's yui libs and yui tests goes here
-YUITest/TestRunner... // 4. yui test runner start.
-})();
+    (function () {
+        var YUI;
+        ... //  1. all yui min/base goes here...
+        YUI.add(...)  // 2. all yui core modules goes here
+        YUI.add/use(...) // 3. custom's yui libs and yui tests goes here
+        YUITest/TestRunner... // 4. yui test runner start.
+    })();
 
 So that this sandbox(IEFF) contains all :  yui seed,yui core modules(auto resolved from test case/test libs),test libs & test cases,test engine... it is an absolute YUI instance and didn't depends (or mess with the YUI ) on test page any more.
 
 Sharing test parameters among custom conrollers and tests in a scenario node
-======================
+-------------------------
 
 In a complex test scenario, we maybe need multiple controllers or tests in a scenario node. Arrow provides a way to share variables among the controllers or tests, via this.testParams.shared.
 Custom controller or test can set a Json object to this.testParams.shared, then it will pass to downstream controllers and tests.
