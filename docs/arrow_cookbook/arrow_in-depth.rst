@@ -767,11 +767,11 @@ Suppose we have a yui test case and also have some test libs written as YUI.add(
 ::
 
 (function () {
-    var YUI;
-    ... //  1. all yui min/base goes here...
-    YUI.add(...)  // 2. all yui core modules goes here
-    YUI.add/use(...) // 3. custom's yui libs and yui tests goes here
-    YUITest/TestRunner... // 4. yui test runner start.
+var YUI;
+... //  1. all yui min/base goes here...
+YUI.add(...)  // 2. all yui core modules goes here
+YUI.add/use(...) // 3. custom's yui libs and yui tests goes here
+YUITest/TestRunner... // 4. yui test runner start.
 })();
 
 So that this sandbox(IEFF) contains all :  yui seed,yui core modules(auto resolved from test case/test libs),test libs & test cases,test engine... it is an absolute YUI instance and didn't depends (or mess with the YUI ) on test page any more.
