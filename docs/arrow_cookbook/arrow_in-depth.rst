@@ -538,19 +538,19 @@ Suppose you have a test case written in the popular BDD way,like:
 
 ::
 
-describe('Array', function(){
-	describe('#push()', function(){
-		it('should return the length', function(){
-			var arr = [],
-			 assert = function(expr, msg) {
-            	if (!expr) throw new Error(msg || 'failed');
+ describe('Array', function(){
+    describe('#push()', function(){
+        it('should return the length', function(){
+            var arr = [],
+             assert = function(expr, msg) {
+                if (!expr) throw new Error(msg || 'failed');
             }
-			assert(1 == arr.push('foo'));
-			assert(2 == arr.push('bar'));
-			assert(3 == arr.push('baz'));
-		})
-	})
-})
+            assert(1 == arr.push('foo'));
+            assert(2 == arr.push('bar'));
+            assert(3 == arr.push('baz'));
+        })
+    })
+ })
 
 Then you can use test engine mocha to run it ,for example:
 
@@ -575,20 +575,20 @@ Suppose you have a test case written in tdd way and you want to use chai as asse
 
 ::
 
-suite('Array', function(){
-	suite('#indexOf()', function(){
-		test('should return -1 when not present', function(){
-		    var chai;
+ suite('Array', function(){
+    suite('#indexOf()', function(){
+        test('should return -1 when not present', function(){
+            var chai;
             if(typeof window  == "undefined" && typeof chai  == "undefined"){
-            		chai = require('chai');
+                chai = require('chai');
             }
             else{
-            		chai = window.chai;
+                chai = window.chai;
             }
-			chai.assert(-1 == [1,2,3].indexOf(4));
-		});
-	});
-});
+            chai.assert(-1 == [1,2,3].indexOf(4));
+        });
+    });
+ });
 
 then you can still want mocha run it but using different "interface" in mocha like this:
 
@@ -624,7 +624,6 @@ If you have multiple style test cases and want to test it in one test descriptor
 
 ::
 
-[
     {
         "settings":[ "master" ],
         "name":"hybrid engine server side",
@@ -667,7 +666,6 @@ If you have multiple style test cases and want to test it in one test descriptor
             }
         }
     }
-]
 
 Here qunit-test.js and jasmine-bdd-test.js are test cases can be run within qunit and jasmine. By default arrow will use yui to run tests,so in test "yui" ,
 we didn't need to specify the engine for test yui-test-unit.js.
@@ -676,7 +674,6 @@ Test engine can also works in scenario node:
 
 ::
 
-[
     {
         "settings": [ "master" ],
         "name": "YahooLogin",
@@ -726,13 +723,61 @@ Test engine can also works in scenario node:
             }
         }
     }
-]
 
 In this test, arrow will use the locator controller to find elements in login page and after that it will go to search page to run a mocha-style test.
 Users can add any kind of test cases only if the related test engine is suppported and specified with "engine" field.
 
-Sharing test parameters among custom conrollers and tests in a scenario node
+
+YUI abstraction (YUI sandboxing)
+--------------------------------
+
+Most of yahoo pages are built on YUI,if you are writing YUI test case testing against YUI pages,then YUI sandbox has great benefit with these scenario:
+
+* The testing page build on a lower YUI version(YUI@2.x or 3.x) .
+* The page has some restriction for YUI loader to fetch external modules(like mojito apps).
+* Simply you don't want to let test case affect the page or the features.
+
+Then you can set YUI sandbox to true.
+
+However under some situations that you should NOT use it:
+
+* Your test cases requires yui modules only served on the test page,example:
+
+::
+
+    YUI.add('example-tests',function(Y){...},'1.0.0', { requires: [ 'node' ] });,
+
+And 'example-module' is only served in test-page.html, then the page level YUI should be used instead of YUI in a sandbox.
+
+How to use
 ======================
+you can simply modify arrow/config/config.js to make sandbox to true, or pass from cmd line :
+
+::
+
+    config.useYUISandbox = true  or   --useYUISandbox=true
+
+
+Also you can figure whatever yui version you want, by default we recommend to use the same version with yui in arrow/node_modules.
+
+Sandbox detail(Advanced)
+========================
+Suppose we have a yui test case and also have some test libs written as YUI.add(…), then we will warp all these in IEFF(immediately executed factory function).
+
+::
+
+    (function () {
+        var YUI;
+        ... //  1. all yui min/base goes here...
+        YUI.add(...)  // 2. all yui core modules goes here
+        YUI.add/use(...) // 3. custom's yui libs and yui tests goes here
+        YUITest/TestRunner... // 4. yui test runner start.
+    })();
+
+So that this sandbox(IEFF) contains all :  yui seed,yui core modules(auto resolved from test case/test libs),test libs & test cases,test engine... it is an absolute YUI instance and didn't depends (or mess with the YUI ) on test page any more.
+
+Sharing test parameters among custom conrollers and tests in a scenario node
+-------------------------
 
 In a complex test scenario, we maybe need multiple controllers or tests in a scenario node. Arrow provides a way to share variables among the controllers or tests, via this.testParams.shared.
 Custom controller or test can set a Json object to this.testParams.shared, then it will pass to downstream controllers and tests.
