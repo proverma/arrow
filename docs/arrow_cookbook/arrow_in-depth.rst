@@ -1168,7 +1168,7 @@ In your test descriptor you can config like :
         }
     }
 
-And in proxy_config.json you can see:
+Make sure you have set "startProxyServer" to true and add a config for proxy - proxy_config.json:
 
 ::
 
@@ -1191,8 +1191,8 @@ And in proxy_config.json you can see:
      }
   }
 
-In this proxy_config ,the router defines router table where you can modify the test page with new host and new headers for all calls being made by browser.Also supports recording of select url calls if set "record" to true.
-In coverage field you can set "clientSideCoverage" to true and add a filter to ignore some js instrument in "coverageExclude".
+In this proxy_config ,the "router" defines router table where you can modify the test page with new host and new headers for all calls being made by browser.Also supports recording of select url calls if set "record" to true.
+In coverage field you can set "clientSideCoverage" to true and add a filter to ignore some js files in "coverageExclude".
 
 Then in arrow cmd you can type:
 
