@@ -33,7 +33,6 @@
     },
     "coverage": {
         "clientSideCoverage": true,
-        "passThroughUrls": ["^http://yui.yahooapis.com.*\\.js$","English.lproj/localizedStrings.js"],
-        "instrumentDelay": 0
+        "coverageExclude": ["^http://yui.yahooapis.com.*\\.js$","English.lproj/localizedStrings.js"]
     }
 }
