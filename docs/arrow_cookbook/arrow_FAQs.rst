@@ -280,3 +280,46 @@ Example code:
    "media-test-library-ModuleA", //Import module-specific library
   ]});
 
+
+How to get code coverage on child process?
+---------------------
+
+How to get code coverage on child process, if the test code user child_process.spawn to lunch a child process during testing?
+
+Solution
+========
+
+Using Arrow built-in mock-child-process.js module and mockery to mock child_process.spawn
+
+    * It will generate coverage for each process under child_process_coverage directory
+    * Please note child_process.fork is not supported for this mock module
+    * It only support child process on server side testing
+
+Example code:
+
+::
+
+  YUI.add("photo-ModuleA-tests", function(Y) {
+  var mockery = require('mockery');
+  var mocker = require("/path/to/mock-child-process");
+  var mocked_child_process = {
+      spawn: mocker.spawn
+  };
+
+  // set parameter of "--root" for istanbul command
+  mocker.set_istanbul_root("../lib");
+  // set "-x <exclude-pattern>" for istanbul command
+  mocker.set_exclude_pattern("** /lib/temp*");
+
+  mockery.registerMock('child_process', mocked_child_process);
+  mockery.enable({ useCleanCache: true });
+
+  var spawn = require("child_process").spawn;
+  var cp = spawn("/path/to/app", args, options);
+  cp.stdout.pipe(process.stdout, {end: false});
+  cp.stderr.pipe(process.stderr, {end: false});
+  cp.stdin.end();
+  cp.on('exit',function(code){
+     console.log('From parent: spawned child exit with code: ' + code);
+  });
+
