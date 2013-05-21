@@ -25,6 +25,9 @@
                     }
                 ],
         "record": true
+    },
+    "coverage":{
+        "clientSideCoverage": true
     }
 
 }

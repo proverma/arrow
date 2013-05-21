@@ -15,6 +15,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
         arrowRoot =  path.join(__dirname, '../../../../'),
         ProxyManager = require("../../../../lib/proxy/proxymanager.js"),
         portchecker = require("../../../../ext-lib/portchecker"),
+        localhostip=require('../../../../arrow_server/arrowservermanager').getLocalhostIPAddress(),
         suite = new Y.Test.Suite(NAME),
         A = Y.Assert,
         self = this;
@@ -32,7 +33,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
             maxPort = 10900,
             hostName = "localhost",
             routerJsonPath = __dirname + "/config/router.json",
-            proxyManager = new ProxyManager(routerJsonPath),
+            proxyManager = new ProxyManager(routerJsonPath,{}),
             options,
             req;
 
@@ -40,7 +41,8 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
             proxyManager.runRouterProxy(minPort, maxPort, hostName, function (proxyHostMsg) {
 
-                A.areEqual(proxyHostMsg, 'localhost:' + minPort, 'Proxy host doesn\'t match');
+                A.areNotEqual(proxyHostMsg, 'localhost:' + minPort, 'Proxy host should not match');
+                A.areEqual(proxyHostMsg, localhostip+':' + minPort, 'Proxy host doesn\'t match');
                 callback();
 
             });
@@ -98,7 +100,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
     function testRouterValidJsonPath() {
 
         var routerJsonPath = "./config/router.json",
-            proxyManager = new ProxyManager(routerJsonPath);
+            proxyManager = new ProxyManager(routerJsonPath,{});
         A.areEqual(routerJsonPath, proxyManager.proxyConfig, 'Router jsonpath doesn\'t match');
     }
 
@@ -108,7 +110,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
     function testRouterInvalidJsonPath() {
         var routerJsonPath = ".invalidJson",
-            proxyManager = new ProxyManager(routerJsonPath);
+            proxyManager = new ProxyManager(routerJsonPath,{});
         A.areEqual(routerJsonPath, proxyManager.proxyConfig, 'Router jsonpath doesn\'t match');
     }
 
@@ -117,7 +119,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
      */
 
     function testNoJsonPath() {
-        var proxyManager = new ProxyManager(null);
+        var proxyManager = new ProxyManager(null,{});
         A.isNull(proxyManager.proxyConfig, 'Router Json Path shall be null');
     }
 
@@ -131,7 +133,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
             maxPort = 10800,
             hostName = "localhost",
             server,
-            proxyManager = new ProxyManager(null);
+            proxyManager = new ProxyManager(null,{});
 
         portchecker.getFirstAvailable(minPort, maxPort, hostName, function (p, host) {
 
@@ -148,7 +150,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
                     proxyManager.runRouterProxy(minPort, maxPort, hostName, function (proxyHostMsg) {
 
-                        A.areEqual(proxyHostMsg, 'Error : No free ports found for Proxy Server on localhost between ' + minPort + ' and ' + maxPort);
+                        A.areEqual(proxyHostMsg, 'Error : No free ports found for Proxy Server on '+localhostip+' between ' + minPort + ' and ' + maxPort);
                         server.close(function () {
                         });
 
@@ -171,7 +173,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
             maxPort = 10700,
             hostName = "localhost",
             routerJsonPath = __dirname + "/config/router.json",
-            proxyManager = new ProxyManager(routerJsonPath),
+            proxyManager = new ProxyManager(routerJsonPath,{}),
             availablePort;
 
         A.areEqual(routerJsonPath, proxyManager.proxyConfig, 'Router jsonpath doesn\'t match');
@@ -181,7 +183,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
                 availablePort = proxyHostMsg.split(':');
                 YUITest = Y.Test;
-                A.areEqual(proxyHostMsg, 'localhost:' + availablePort[1], 'Proxy host doesn\'t match');
+                A.areEqual(proxyHostMsg, localhostip + ':' + availablePort[1], 'Proxy host doesn\'t match');
             });
 
             availablePort = proxyHostMsg.split(":");
@@ -197,7 +199,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
      */
     function testWriteLog() {
 
-        var proxyManager = new ProxyManager(null),
+        var proxyManager = new ProxyManager(null,{}),
             fs = require("fs"),
             proxyFileData,
             timestamp = new Date().getTime(),
@@ -223,7 +225,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
     function testGetOptions() {
 
         var
-            proxyManager = new ProxyManager("somejsonpath"),
+            proxyManager = new ProxyManager(__dirname + "/config/router.json",{"coverage":true}),
 
             request = {
                 'headers': { 'host': 'yahoo.com',
@@ -265,14 +267,17 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
                                 }
                         ],
                     "record": true
+                },
+                "coverage":{
+                    "clientSideCoverage": true
                 }
             },
 
             options = proxyManager.getOptions(router, request);
-
+console.log(options)
         A.areEqual(options.host, "def.yahoo.com", "Host doesnt match");
         A.areEqual(options.port, "4080", "Port doesnt match");
-        A.areEqual(options.path, "http://www.def.yahoo.com:4080/", "Path doesnt match");
+        A.areEqual(options.path, "/", "Path doesnt match");
         A.areEqual(options.headers.host, "yahoo.com", "Headers host doesnt match");
         A.areEqual(options.headers["user-agent"], "Mozilla5.0", "Headers - user agent doesnt match");
         A.areEqual(options.headers.accept, "text/json", "Headers - accept doesnt match");
