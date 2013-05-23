@@ -11,7 +11,7 @@
             "baseUrl":"http://user-jiliang.trunk.development.manhattan.bf1.yahoo.com"
         },
 
-        "startProxyServer": false,
+        "startProxyServer": true,
         "proxyConfig": "./proxy_config.json",
 
         "dataprovider": {
@@ -62,7 +62,7 @@
                         {
                             "controller": "locator",
                             "params": {
-                                "value": "#passwd1",
+                                "value": "#passwd",
                                 "text": "123456"
                             }
                         },

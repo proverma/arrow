@@ -33,6 +33,6 @@
     },
     "coverage": {
         "clientSideCoverage": true,
-        "coverageExclude": ["^http://yui.yahooapis.com.*\\.js$","English.lproj/localizedStrings.js"]
+        "coverageExclude": ["^http://yui.yahooapis.com.*\\.js$","English.lproj/localizedStrings.js","http://login.yahoo.com"]
     }
 }
