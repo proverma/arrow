@@ -11,7 +11,7 @@
             "baseUrl":"http://user-jiliang.trunk.development.manhattan.bf1.yahoo.com"
         },
 
-        "startProxyServer": true,
+        "startProxyServer": false,
         "proxyConfig": "./proxy_config.json",
 
         "dataprovider": {
@@ -42,6 +42,45 @@
                 "params": {
                     "test": "testbbcnews.js",
                     "page": "$$config.comboUrl$$/read.html?id=bbcnews"
+                }
+            },
+
+            "login" : {
+                "group" : "func",
+                "params" :{
+                    "scenario": [
+                        {
+                            "page": "http://login.yahoo.com"
+                        },
+                        {
+                            "controller": "locator",
+                            "params": {
+                                "value": "#username",
+                                "text": "arrowtestuser1"
+                            }
+                        },
+                        {
+                            "controller": "locator",
+                            "params": {
+                                "value": "#passwd1",
+                                "text": "123456"
+                            }
+                        },
+                        {
+                            "controller": "locator",
+                            "params": {
+                                "value": "#submit",
+                                "click": true
+                            }
+                        },
+                        {
+                            "page": "http://finance.yahoo.com"
+                        },
+                        {
+                            "test": "test-title.js",
+                            "title": "Yahoo! Finance - Business Finance, Stock Market, Quotes, News"
+                        }
+                    ]
                 }
             }
         }
