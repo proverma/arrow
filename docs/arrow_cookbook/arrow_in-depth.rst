@@ -780,34 +780,36 @@ Users can add any kind of test cases only if the related test engine is suppport
 YUI abstraction (YUI sandboxing)
 --------------------------------
 
-Most of yahoo pages are built on YUI,if you are writing YUI test case testing against YUI pages,then YUI sandbox has great benefit with these scenario:
+Most of yahoo pages are built on YUI, if you are writing YUI test case testing against YUI pages, then YUI sandbox has great benefit with below scenarios:
 
-* The testing page build on a lower YUI version(YUI@2.x or 3.x) .
-* The page has some restriction for YUI loader to fetch external modules(like mojito apps).
+* The testing page builds on a lower YUI version (YUI@2.x or 3.x) .
+* The page has some restriction for YUI loader to fetch external modules (like mojito apps).
 * Simply you don't want to let test case affect the page or the features.
 
-Then you can set YUI sandbox to true.
-
-However under some situations that you should NOT use it:
-
-* Your test cases requires yui modules only served on the test page,example:
-
-::
-
-    YUI.add('example-tests',function(Y){...},'1.0.0', { requires: [ 'node' ] });,
-
-And 'example-module' is only served in test-page.html, then the page level YUI should be used instead of YUI in a sandbox.
+Then you can use YUI sandbox to test your code.
 
 How to use
 ======================
-you can simply modify arrow/config/config.js to make sandbox to true, or pass from cmd line :
+you can simply modify arrowRoot/config/config.js to make sandbox to true, or pass from command line:
 
 ::
 
     config.useYUISandbox = true  or   --useYUISandbox=true
 
 
-Also you can figure whatever yui version you want, by default we recommend to use the same version with yui in arrow/node_modules.
+Also you can figure whatever YUI version you want by config.sandboxYUIVersion or --sandboxYUIVersion, by default it will use the same version as yui in arrow/node_modules, and it is what we recommanded.
+
+Not to use
+======================
+However under some situations that you should NOT use YUI sandbox:
+
+* Your test cases requires yui modules only served on the test page, for example:
+
+::
+
+    YUI.add('example-tests',function(Y){...},'1.0.0', { requires: [ 'node' ] });,
+
+And 'example-module' is only served in test-page.html, then the page level YUI should be used instead of YUI in a sandbox.
 
 Sandbox detail(Advanced)
 ========================
@@ -823,7 +825,8 @@ Suppose we have a yui test case and also have some test libs written as YUI.add(
         YUITest/TestRunner... // 4. yui test runner start.
     })();
 
-So that this sandbox(IEFF) contains all :  yui seed,yui core modules(auto resolved from test case/test libs),test libs & test cases,test engine... it is an absolute YUI instance and didn't depends (or mess with the YUI ) on test page any more.
+So that this sandbox(IEFF) contains all:  yui seed, yui core modules(auto resolved from test case/test libs), test libs, test cases and test engine... 
+It is an absolute YUI instance and does't depend (or mess with) the YUI on test page.
 
 Sharing test parameters among custom conrollers and tests in a scenario node
 -------------------------
