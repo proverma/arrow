@@ -50,21 +50,7 @@
                 "params" :{
                     "scenario": [
                         {
-                            "page": "http://login.yahoo.com"
-                        },
-                        {
-                            "controller": "locator",
-                            "params": {
-                                "value": "#username",
-                                "text": "arrowtestuser1"
-                            }
-                        },
-                        {
-                            "controller": "locator",
-                            "params": {
-                                "value": "#passwd",
-                                "text": "123456"
-                            }
+                            "page": "http://news.yahoo.com"
                         },
                         {
                             "controller": "locator",

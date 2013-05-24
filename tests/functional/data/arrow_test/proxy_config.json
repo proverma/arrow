@@ -10,16 +10,6 @@
             ],
             "record": true
         },
-        "news.yahoo.com": {
-            "newHost": "x.x.x.x (your new host ip/name)",
-            "headers": [
-                {
-                    "param": "<param>",
-                    "value": "<val>"
-                }
-            ],
-            "record": true
-        },
         "mojito-int.trunk.development.manhattan.bf1.yahoo.com": {
             "newHost": "user-jiliang.trunk.development.manhattan.bf1.yahoo.com",
             "headers": [
@@ -33,6 +23,6 @@
     },
     "coverage": {
         "clientSideCoverage": true,
-        "coverageExclude": ["^http://yui.yahooapis.com.*\\.js$","English.lproj/localizedStrings.js","http://login.yahoo.com"]
+        "coverageExclude": ["^http://yui.yahooapis.com.*\\.js$","English.lproj/localizedStrings.js"]
     }
 }
