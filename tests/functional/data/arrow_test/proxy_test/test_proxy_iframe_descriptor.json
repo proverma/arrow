@@ -1,0 +1,41 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name": "tabview",
+
+        "commonlib": "./greeter.js",
+
+        "config": {
+            "baseUrl":"http://10.82.130.207:8666",
+            "baseUrl2":"http://movies.yahoo.com"
+        },
+
+        "startProxyServer": true,
+        "proxyConfig": "./proxy_config.json",
+
+        "dataprovider": {
+
+            "iframe_newsbox": {
+                "group": "client",
+                "params": {
+                    "test": "test-unit.js",
+                    "page": "http://10.82.130.207:8666"
+                }
+            },
+            "iframe_weinre": {
+                "group": "client",
+                "params": {
+                    "test": "test-unit.js",
+                    "page": "http://10.82.130.207:8000/index_web.html"
+                }
+            }
+        }
+
+    },
+
+    {
+        "settings": [ "environment:development" ]
+    }
+
+]

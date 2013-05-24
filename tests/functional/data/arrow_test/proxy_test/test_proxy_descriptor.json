@@ -2,9 +2,7 @@
     {
         "settings": [ "master" ],
 
-        "name": "tabview",
-
-        "commonlib": "./test-lib.js",
+        "name": "proxy",
 
         "config": {
             "comboUrl": "http://mojito-int.trunk.development.manhattan.bf1.yahoo.com",
@@ -46,6 +44,23 @@
             },
 
             "login" : {
+                "group" : "will be ignored",
+                "params" :{
+                    "scenario": [
+                        {
+                            "page": "http://login.yahoo.com"
+                        },
+                        {
+                            "controller": "locator",
+                            "params": {
+                                "value": "#username",
+                                "text": "arrowtestuser1"
+                            }
+                        }
+                    ]
+                }
+            },
+            "multiple-page" : {
                 "group" : "func",
                 "params" :{
                     "scenario": [
