@@ -38,7 +38,7 @@
                 }
             },
             "bbcnews_withrouter": {
-                "group": "router",
+                "group": "func",
                 "params": {
                     "test": "testbbcnews.js",
                     "page": "$$config.comboUrl$$/read.html?id=bbcnews"
@@ -55,7 +55,7 @@
                         {
                             "controller": "locator",
                             "params": {
-                                "value": "#submit",
+                                "value": "#mediasearchform-submit",
                                 "click": true
                             }
                         },
