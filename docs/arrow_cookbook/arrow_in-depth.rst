@@ -1204,3 +1204,66 @@ Then in arrow cmd you can type:
     arrow test_descriptor.json --browser=chrome --logLevel=debug --coverage=true
 
 You can see that all js file except those defined in "coverageExclude" will get instrumented and generate code coverage.
+
+
+Client side code coverage NOTES:
+==========
+
+1. If you have multiple test(session) and multiple page run in one descriptor, then all libs coverage data in these pages(even if the lib are
+loaded from different page but with same source url , like yui-min file) will be merged and generate one report.
+
+::
+             "news": {
+                 "group": "client",
+                 "params": {
+                     "test": "testnews.js",
+                     "page": "http://news.yahoo.com"
+                 }
+             },
+             "finance": {
+                 "group": "client",
+                 "params": {
+                     "test": "testfinance.js",
+                      "page": "http://finance.yahoo.com"
+                 }
+             }
+
+2. If you have one test (session) but with multiple pages, for example,you first launch yahoo news page then go to finance page, then only the libs on finance page will
+get collected (because when switch to to another page,the previous page coverage data was lost).
+
+::
+            "multiple-page" : {
+                 "params" :{
+                     "scenario": [
+                         {
+                             "page": "http://news.yahoo.com"
+                         },
+                         {
+                             "controller": "locator",
+                             "params": {
+                                 "value": "#mediasearchform-submit",
+                                 "click": true
+                             }
+                         },
+                         {
+                             "page": "http://finance.yahoo.com"
+                         },
+                         {
+                             "test": "test-title.js",
+                             "title": "Yahoo! Finance - Business Finance, Stock Market, Quotes, News"
+                         }
+                     ]
+                 }
+             }
+
+3.For some pages like yahoo login page, we can't proxy it in arrow proxy server due to some strict restriction policy. But you can add router to route to another mocked login page or
+just add a filter to  "coverageExclude" in page level:
+
+::
+
+    "coverage": {
+         "clientSideCoverage": true,
+         "coverageExclude": ["^http://login.yahoo.com$"]
+    }
+
+Then login page won't be instrumented and collect coverage.
