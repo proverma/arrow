@@ -27,7 +27,8 @@
         "record": true
     },
     "coverage":{
-        "clientSideCoverage": true
+        "clientSideCoverage": true,
+        "coverageExclude": ["^http://yui.yahooapis.com.*\\.js$",".*login.yahoo.com"]
     }
 
 }
