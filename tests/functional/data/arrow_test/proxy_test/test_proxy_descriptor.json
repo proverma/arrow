@@ -42,24 +42,6 @@
                     "page": "$$config.comboUrl$$/read.html?id=bbcnews"
                 }
             },
-
-            "login" : {
-                "group" : "will be ignored",
-                "params" :{
-                    "scenario": [
-                        {
-                            "page": "http://login.yahoo.com"
-                        },
-                        {
-                            "controller": "locator",
-                            "params": {
-                                "value": "#username",
-                                "text": "arrowtestuser1"
-                            }
-                        }
-                    ]
-                }
-            },
             "multiple-page" : {
                 "group" : "func",
                 "params" :{
