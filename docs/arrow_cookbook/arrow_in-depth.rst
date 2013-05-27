@@ -1213,6 +1213,7 @@ Client side code coverage NOTES:
 loaded from different page but with same source url , like yui-min file) will be merged and generate one report.
 
 ::
+
              "news": {
                  "group": "client",
                  "params": {
@@ -1232,6 +1233,7 @@ loaded from different page but with same source url , like yui-min file) will be
 get collected (because when switch to to another page,the previous page coverage data was lost).
 
 ::
+
             "multiple-page" : {
                  "params" :{
                      "scenario": [
