@@ -56,8 +56,8 @@ if (parsed["host"]) {
     arrowHost = parsed["host"];
 }
 if (!arrowHost || arrowHost === "localhost") {
-    var servermanager = require("./arrowservermanager");
-    arrowHost = servermanager.getLocalhostIPAddress() || "localhost";
+    var servermanager=require("./arrowservermanager");
+    arrowHost = servermanager.getLocalhostIPAddress() || "localhost" ;
 }
 
 if (parsed["port"]) {
@@ -76,17 +76,20 @@ if (parsed["debug"]) {
 }
 
 var app = express();
+app.use(express.logger());
+app.use(express.cookieParser());
+app.use(express.bodyParser());
 
 var mimes = {
-    "css": "text/css",
-    "js": "text/javascript",
-    "htm": "text/html",
-    "html": "text/html",
-    "ico": "image/vnd.microsoft.icon",
-    "jpg": "image/jpeg",
-    "gif": "image/gif",
-    "png": "image/png",
-    "xml": "text/xml"
+    "css":"text/css",
+    "js":"text/javascript",
+    "htm":"text/html",
+    "html":"text/html",
+    "ico":"image/vnd.microsoft.icon",
+    "jpg":"image/jpeg",
+    "gif":"image/gif",
+    "png":"image/png",
+    "xml":"text/xml"
 };
 
 function serveStatic(pathname, req, res) {
@@ -103,7 +106,7 @@ function serveStatic(pathname, req, res) {
             ext = pathname.substring((tmp + 1));
             mime = mimes[ext] || "text/plain";
 
-            res.writeHead(200, {"Content-Type": mime});
+            res.writeHead(200, {"Content-Type":mime});
             res.end(content);
         }
     });
@@ -125,11 +128,11 @@ app.get("/arrow", function (req, res) {
 });
 
 // for yui loader check
-app.all('/yuiLoader', function (req, res) {
+app.all('/yuiLoader', function(req, res){
 
-    res.writeHead(200, {"Content-Type": "text/plain",
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Max-Age': '600',
+    res.writeHead(200, {"Content-Type":"text/plain",
+        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Max-Age':'600',
         'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
         'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
         'Access-Control-Expose-Headers': 'Content-Length',
@@ -163,8 +166,8 @@ function validateSession(req, res) {
     }
 
     body = {
-        status: 9,
-        value: "No such sessionId: " + sessionId
+        status:9,
+        value:"No such sessionId: " + sessionId
     };
     res.send(body, 404);
     return false;
@@ -182,8 +185,8 @@ function queueWdTask(params, req, res) {
         curTask = wdtasks[sessionId];
         if (curTask) {
             body = {
-                status: 9,
-                value: "A command is still running for sessionId: " + sessionId
+                status:9,
+                value:"A command is still running for sessionId: " + sessionId
             };
             res.send(body, 500);
             return false;
@@ -191,15 +194,15 @@ function queueWdTask(params, req, res) {
     }
 
     task = {
-        "id": "taskid-" + wdTaskCounter,
-        "params": params,
-        "statusCode": 0,
-        "httpCode": 200
+        "id":"taskid-" + wdTaskCounter,
+        "params":params,
+        "statusCode":0,
+        "httpCode":200
     };
     wdtasks[sessionId] = {
-        "request": req,
-        "response": res,
-        "task": task
+        "request":req,
+        "response":res,
+        "task":task
     };
     wdTaskCounter += 1;
 
@@ -243,9 +246,9 @@ app.post("/arrow/slave/:sessionId", function (req, res) {
         delete wdtasks[sessionId];
 
         resBody = {
-            "status": prevTask.statusCode,
-            "sessionId": sessionId,
-            "value": prevTask.result
+            "status":prevTask.statusCode,
+            "sessionId":sessionId,
+            "value":prevTask.result
         };
         if (debug) {
             console.log("Task result:");
@@ -265,10 +268,10 @@ app.post("/arrow/slave/:sessionId", function (req, res) {
 
     console.log("Session registered: " + sessionId);
     sessions[sessionId] = {
-        "sessionId": sessionId,
-        "timestamp": timestamp,
-        "request": req,
-        "response": res
+        "sessionId":sessionId,
+        "timestamp":timestamp,
+        "request":req,
+        "response":res
     };
 
     conn = req.connection;
@@ -296,8 +299,8 @@ app.get("/wd/hub/status", function (req, res) {
 
     res.contentType("application/json");
     body = {
-        build: { version: "1.0" },
-        os: { name: "rhel" }
+        build:{ version:"1.0" },
+        os:{ name:"rhel" }
     };
     res.send(body);
 });
@@ -305,7 +308,7 @@ app.get("/wd/hub/status", function (req, res) {
 // Create a new session
 app.post("/wd/hub/session", function (req, res) {
     res.contentType("application/json");
-    res.send({status: 9, value: "Create session: Not Implemented"}, 501);
+    res.send({status:9, value:"Create session: Not Implemented"}, 501);
 });
 
 // Get all sessions
@@ -318,12 +321,12 @@ app.get("/wd/hub/sessions", function (req, res) {
 
     sessionIds = [];
     for (sessionId in sessions) {
-        sessionIds.push({"id": sessionId});
+        sessionIds.push({"id":sessionId});
     }
 
     body = {
-        status: 0,
-        value: sessionIds
+        status:0,
+        value:sessionIds
     };
     res.send(body);
 });
@@ -340,16 +343,16 @@ app.get("/wd/hub/session/:sessionId", function (req, res) {
 
     session = sessions[req.params.sessionId];
     body = {
-        status: 0,
-        sessionId: req.params.sessionId,
-        value: {
-            platform: "ANY",
-            cssSelectorsEnabled: true,
-            javascriptEnabled: true,
-            browserName: session.request.headers["user-agent"],
-            nativeEvents: true,
-            takesScreenshot: false,
-            version: 1
+        status:0,
+        sessionId:req.params.sessionId,
+        value:{
+            platform:"ANY",
+            cssSelectorsEnabled:true,
+            javascriptEnabled:true,
+            browserName:session.request.headers["user-agent"],
+            nativeEvents:true,
+            takesScreenshot:false,
+            version:1
         }
     };
 
@@ -359,7 +362,7 @@ app.get("/wd/hub/session/:sessionId", function (req, res) {
 // Delete the session
 app.del("/wd/hub/session/:sessionId", function (req, res) {
     res.contentType("application/json");
-    res.send({status: 9, value: "Delete session: Not Implemented"}, 501);
+    res.send({status:9, value:"Delete session: Not Implemented"}, 501);
 });
 
 // Get the current page title
@@ -369,7 +372,7 @@ app.get("/wd/hub/session/:sessionId/title", function (req, res) {
         return;
     }
 
-    queueWdTask({"type": "title"}, req, res);
+    queueWdTask({"type":"title"}, req, res);
 });
 
 // Get the current page url
@@ -379,7 +382,7 @@ app.get("/wd/hub/session/:sessionId/url", function (req, res) {
         return;
     }
 
-    queueWdTask({"type": "url"}, req, res);
+    queueWdTask({"type":"url"}, req, res);
 });
 
 var revProxyHost = "";
@@ -415,7 +418,7 @@ app.post("/wd/hub/session/:sessionId/url", function (req, res) {
         url = arrowAddress + reqParams.pathname;
     }
 
-    queueWdTask({"type": "navigate", "url": url}, req, res);
+    queueWdTask({"type":"navigate", "url":url}, req, res);
 });
 
 // Execute sync script
@@ -428,13 +431,13 @@ app.post("/wd/hub/session/:sessionId/execute", function (req, res) {
     }
 
     script = req.body.script;
-    queueWdTask({"type": "execute", "script": script}, req, res);
+    queueWdTask({"type":"execute", "script":script}, req, res);
 });
 
 // Execute async script
 app.post("/wd/hub/session/:sessionId/execute_async", function (req, res) {
     res.contentType("application/json");
-    res.send({status: 9, value: "execute_async: Not Implemented"}, 501);
+    res.send({status:9, value:"execute_async: Not Implemented"}, 501);
 });
 
 // find an element
@@ -444,7 +447,7 @@ app.post("/wd/hub/session/:sessionId/element", function (req, res) {
         return;
     }
 
-    queueWdTask({"type": "element", "using": req.body.using, "value": req.body.value}, req, res);
+    queueWdTask({"type":"element", "using":req.body.using, "value":req.body.value}, req, res);
 });
 
 // find an element starting from
@@ -454,7 +457,7 @@ app.post("/wd/hub/session/:sessionId/element/:id/element", function (req, res) {
         return;
     }
 
-    queueWdTask({"type": "element", "element": req.params.id, "using": req.body.using, "value": req.body.value}, req, res);
+    queueWdTask({"type":"element", "element":req.params.id, "using":req.body.using, "value":req.body.value}, req, res);
 });
 
 // find elements
@@ -464,7 +467,7 @@ app.post("/wd/hub/session/:sessionId/elements", function (req, res) {
         return;
     }
 
-    queueWdTask({"type": "elements", "using": req.body.using, "value": req.body.value}, req, res);
+    queueWdTask({"type":"elements", "using":req.body.using, "value":req.body.value}, req, res);
 });
 
 // find elements starting from
@@ -474,7 +477,7 @@ app.post("/wd/hub/session/:sessionId/elements/:id/element", function (req, res) 
         return;
     }
 
-    queueWdTask({"type": "elements", "element": req.params.id, "using": req.body.using, "value": req.body.value}, req, res);
+    queueWdTask({"type":"elements", "element":req.params.id, "using":req.body.using, "value":req.body.value}, req, res);
 });
 
 // get text of an element
@@ -484,7 +487,7 @@ app.get("/wd/hub/session/:sessionId/element/:id/text", function (req, res) {
         return;
     }
 
-    queueWdTask({"type": "text", "element": req.params.id}, req, res);
+    queueWdTask({"type":"text", "element":req.params.id}, req, res);
 });
 
 // get tag of an element
@@ -494,7 +497,7 @@ app.get("/wd/hub/session/:sessionId/element/:id/name", function (req, res) {
         return;
     }
 
-    queueWdTask({"type": "name", "element": req.params.id}, req, res);
+    queueWdTask({"type":"name", "element":req.params.id}, req, res);
 });
 
 // get attribute of an element
@@ -504,7 +507,7 @@ app.get("/wd/hub/session/:sessionId/element/:id/attribute/:name", function (req,
         return;
     }
 
-    queueWdTask({"type": "attribute", "element": req.params.id, "name": req.params.name}, req, res);
+    queueWdTask({"type":"attribute", "element":req.params.id, "name":req.params.name}, req, res);
 });
 
 // click on an element
@@ -514,7 +517,7 @@ app.post("/wd/hub/session/:sessionId/element/:id/click", function (req, res) {
         return;
     }
 
-    queueWdTask({"type": "click", "element": req.params.id}, req, res);
+    queueWdTask({"type":"click", "element":req.params.id}, req, res);
 });
 
 // submit a form
@@ -524,7 +527,7 @@ app.post("/wd/hub/session/:sessionId/element/:id/submit", function (req, res) {
         return;
     }
 
-    queueWdTask({"type": "submit", "element": req.params.id}, req, res);
+    queueWdTask({"type":"submit", "element":req.params.id}, req, res);
 });
 
 // send key strokes to an element
@@ -534,7 +537,7 @@ app.post("/wd/hub/session/:sessionId/element/:id/value", function (req, res) {
         return;
     }
 
-    queueWdTask({"type": "value", "element": req.params.id, "value": req.body.value}, req, res);
+    queueWdTask({"type":"value", "element":req.params.id, "value":req.body.value}, req, res);
 });
 
 function serveRevProxy(req, res) {
@@ -548,11 +551,11 @@ function serveRevProxy(req, res) {
     req.headers["X-Forwarded-For"] = req.connection.remoteAddress;
     req.headers["Host"] = revProxyHost;
     options = {
-        host: revProxyHost,
-        port: revProxyPort,
-        path: req.url,
-        method: req.method,
-        headers: req.headers
+        host:revProxyHost,
+        port:revProxyPort,
+        path:req.url,
+        method:req.method,
+        headers:req.headers
     };
     proxy_request = http.request(options, function (proxy_response) {
         //send headers and data as received
@@ -580,129 +583,19 @@ function serveRevProxy(req, res) {
 }
 
 // default handling
-//app.get("*", function (req, res) {
-//    var docRoot;
-//
-//    if (revProxyHost.length > 0) {
-//        serveRevProxy(req, res);
-//    } else {
-//        docRoot = process.cwd();
-//        if ("/" === docRoot) {
-//            docRoot = "";
-//        }
-//        serveStatic(docRoot + req.url, req, res);
-//    }
-//});
+app.get("*", function (req, res) {
+    var docRoot;
 
-
-// for intrument proxy
-var url = require('url');
-var querystring = require('querystring');
-var os = require('os');
-var url2path = require('url2path');
-var mkdirp = require('mkdirp');
-var istanbul = require('istanbul');
-
-var isJs = isType(/javascript/, /\.js\s*$/);
-var isHtml = isType(/html/, /\.(htm(l?)|asp(x?)|php|jsp)\s*$/);
-
-var Instrumenter = istanbul.Instrumenter;
-var Collector = istanbul.Collector;
-var Report = istanbul.Report;
-var Store = istanbul.Store;
-
-
-function isType(mimeRE, urlRE) {
-    return function (req, res) {
-        if (res.headers['content-type']) {
-            return mimeRE.test(res.headers['content-type']);
+    if (revProxyHost.length > 0) {
+        serveRevProxy(req, res);
+    } else {
+        docRoot = process.cwd();
+        if ("/" === docRoot) {
+            docRoot = "";
         }
-        return urlRE.test(req.url);
-    };
-}
-
-
-app.get("/proxy", function (req, res) {
-
-    var proxy_options = {};
-
-    var instrumenter = proxy_options.instrumenter = new Instrumenter({
-        embedSource: true // we only have URLs to work with, so can't get the source from disk.
-    });
-    var collector = proxy_options.collector = new Collector();
-    var sourceStore = proxy_options.sourceStore = Store.create('memory');
-
-    proxy_options.passThroughUrls = [];
-
-    function instrument(source, sourceUrl, proxy_options) {
-        // Generate a valid filepath from the url
-        var filepath = url2path.url2pathRelative(sourceUrl);
-        console.log('filepath' + filepath);
-        proxy_options.sourceStore.set(filepath, source);
-        return proxy_options.instrumenter.instrumentSync(source, filepath);
+        serveStatic(docRoot + req.url, req, res);
     }
-
-    req.url = req.params.toURL = 'http://www.google.com';
-    console.log(req.url);
-
-    var req_options = url.parse(req.params.toURL);
-    req_options.headers = req.headers;
-    req_options.method = req.method;
-    req_options.port = 80;
-
-    console.log('in proxy.......');
-    console.log(req_options);
-
-    var proxy_req = http.request(req_options, function (proxy_res) {
-
-        console.log(proxy_res.statusCode);
-        console.log(proxy_res.responseText);
-
-        var needsInstrumentation = ~proxy_options.passThroughUrls.indexOf(req.url) || isJs(req, proxy_res);
-        console.log(needsInstrumentation);
-
-        var responseStr = "";
-
-        proxy_res.on('data',
-            function (chunk) {
-                responseStr += chunk;
-            });
-
-        console.log(responseStr);
-
-        proxy_res.on('end', function () {
-            if (needsInstrumentation) {
-                console.log('after instrument:');
-                console.log(instrument(responseStr, req.url, proxy_options));
-                res.write(instrument(responseStr, req.url, proxy_options));
-            }
-            res.end();
-        });
-
-        res.writeHead(proxy_res.statusCode, proxy_res.headers);
-        res.end();
-    });
-
-    //deal with errors, timeout, con refused, ...
-    proxy_req.on("error", function (err) {
-        res.writeHead(500);
-        res.end(err.toString(), "utf-8");
-    });
-
-    req.on('data', function (chunk) {
-        proxy_req.write(chunk, 'binary');
-    });
-
-    req.on('end', function () {
-        proxy_req.end();
-    });
-
-})
-;
-
-app.use(express.logger());
-app.use(express.cookieParser());
-app.use(express.bodyParser());
+});
 
 function runArrowServer(port) {
 
@@ -735,4 +628,3 @@ process.on("SIGINT", function () {
 process.on("exit", function (err) {
     cleanUp();
 });
-
