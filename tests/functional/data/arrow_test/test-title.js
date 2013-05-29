@@ -22,5 +22,7 @@ YUI.add("test-title-tests", function (Y) {
 
     //Never "run" the tests, simply add them to the suite. Arrow takes care of running them
     Y.Test.Runner.add(suite);
+    Y.Test.Runner.run();
+    console.log('test runner started already');
 }, "0.1", {requires:["test","node"]});
 
