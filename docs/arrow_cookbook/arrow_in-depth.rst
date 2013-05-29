@@ -1269,3 +1269,5 @@ just add a filter to  "coverageExclude" in page level:
     }
 
 Then login page won't be instrumented and collect coverage.
+
+4.Https pages are not supported yet.

@@ -5,41 +5,27 @@
         "name": "proxy",
 
         "config": {
-            "comboUrl": "http://mojito-int.trunk.development.manhattan.bf1.yahoo.com",
-            "baseUrl":"http://user-jiliang.trunk.development.manhattan.bf1.yahoo.com"
-        },
+         },
 
         "startProxyServer": true,
         "proxyConfig": "./proxy_config.json",
 
         "dataprovider": {
 
-            "shelf": {
+            "search": {
                 "group": "client",
                 "params": {
-                    "test": "testshelf.js",
-                    "page": "$$config.baseUrl$$/"
+                    "test": "test-title.js",
+                    "title": "Yahoo! Search - Web Search",
+                    "page": "http://search.yahoo.com"
                 }
             },
-            "bbcnews": {
+            "answers": {
                 "group": "client",
                 "params": {
-                    "test": "testbbcnews.js",
-                    "page": "$$config.baseUrl$$/read.html?id=bbcnews"
-                }
-            },
-            "shelf_withrouter": {
-                "group": "router",
-                "params": {
-                    "test": "testshelf.js",
-                    "page": "$$config.comboUrl$$/"
-                }
-            },
-            "bbcnews_withrouter": {
-                "group": "func",
-                "params": {
-                    "test": "testbbcnews.js",
-                    "page": "$$config.comboUrl$$/read.html?id=bbcnews"
+                    "test": "test-title.js",
+                    "title": "Answers - The Most Trusted Place for Answering Life's Questions",
+                    "page": "http://www.answers.com"
                 }
             },
             "multiple-page" : {
