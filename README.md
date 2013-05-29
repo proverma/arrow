@@ -68,7 +68,7 @@ npm install -g yahoo-arrow
                             },
                            "coverage":{
                                "clientSideCoverage": true,
-                               "passThroughUrls": []
+                               "coverageExclude": []
                            }
                        }
         

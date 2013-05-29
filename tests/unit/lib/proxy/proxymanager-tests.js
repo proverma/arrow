@@ -259,10 +259,6 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
                         sentToTmpServer('/index3.js', "get js3");
                         sentToTmpServer('/index.jpeg', "get jpeg");
 
-                        setTimeout(function () {
-                            A.areNotEqual(body.length, 0, 'body should not be empty');
-                        }, 5000);
-
                     });
 
                 }

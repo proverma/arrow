@@ -69,7 +69,7 @@ Options
     },
     "coverage": {
         "clientSideCoverage": true,
-        "passThroughUrls": []
+        "coverageExclude": []
     }
 }
 --exitCode : (optional) true/false. Causes the exit code to be non-zero if any tests fail (default: false)
