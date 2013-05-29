@@ -27,7 +27,12 @@ global.coverageMap = [];
 //Array for Holding Report Files
 global.reportMap = [];
 
+global.pathSep = path.sep || '/';
 //getting command line args
+
+global.routerMap = {};
+
+global.failedDescriptors = [];
 
 var knownOpts = {
         "browser": [String, null],
@@ -37,6 +42,8 @@ var knownOpts = {
         "page": [String, null],
         "driver": [String, null],
         "controller": [String, null],
+        "engine": [String, null],
+        "engineConfig": [String, null],
         "reuseSession": Boolean,
         "parallel": [Number, null],
         "report": Boolean,
@@ -76,7 +83,6 @@ var knownOpts = {
     arrow,
     prop,
     config,
-    proxyManager,
     arrowSetup;
 
 //help messages
@@ -89,11 +95,17 @@ function showHelp() {
         "        --driver : (optional) one of selenium|nodejs. (default: selenium)" + "\n\n" +
         "        --browser : (optional) a comma seperated list of browser names, optionally with a hypenated version number.\n" +
         "                      Example : 'firefox-12.0,chrome-10.0' or 'firefox,chrome' or 'firefox'. (default: firefox)" + "\n\n" +
+        "        --engine : (optional) specify the test runner to run test case. Arrow supports test runner of yui, mocha, jasmine, qunit (default: yui)" + "\n" +
+        "                      Example : --engine=mocha " + "\n\n" +
+        "        --engineConfig : (optional) the file path to config file or a config string  " + "\n" +
+        "                      Example : --engineConfig=./mocha-config.json or --engineConfig={\'ui\':\'tdd\'} " + "\n\n" +
+        "        --keepTestReport : (optional) When set to true, the report for each descriptor from previous run will be preserved (If same descriptor is run again though, it will overwrite the previous report). (default: false) " + "\n" +
+        "                      Example : --keepTestReport=true" + "\n\n" +
         "        --parallel : (optional) test thread count. Determines how many tests to run in parallel for current session. (default: 1)\n" +
         "                          Example : --parallel=3 , will run three tests in parallel" + "\n\n" +
         "        --report : (optional) true/false.  creates report files in junit and json format. (default: true)" + "\n" +
         "                     also prints a consolidated test report summary on console. " + "\n\n" +
-        "        --reportFolder : (optional) folderPath.  creates report files in that folder. (default: descriptor folder path)" +  "\n\n" +
+        "        --reportFolder : (optional) folderPath.  creates report files in that folder. (default: descriptor folder path)" + "\n\n" +
         "        --testName : (optional) comma seprated list of test name(s) defined in test descriptor" + "\n" +
         "                       all other tests will be ignored." + "\n\n" +
         "        --group : (optional) comma seprated list of group(s) defined in test descriptor." + "\n" +
@@ -134,9 +146,32 @@ function showHelp() {
         "        --coverageExclude : (optional) string. comma-separated list of files to exclude from coverage reports" + "\n" +
         "        --keepIstanbulCoverageJson : (optional) true/false. if set to true, it does not delete Istanbul coverage json files. (default: false)" + "\n" +
         "        --retryCount : (optional) retry count for failed tests. Determines how many times a test should be retried, if it fails. (default: 0)\n" +
-        "                       Example : --retryCount=2 , will retry all failed tests 2 times." +
-        "        \n\n");
+        "                       Example : --retryCount=2 , will retry all failed tests 2 times." + "\n" +
+        "        --useYUISandbox : (optional) true/false. Enables YUI sandboxing for your tests. (default: false)" + "\n" +
+        "        --replaceParamJSON : (optional) Either .json file or json object to be replaced with its value in descriptor file" + "\n" +
+        "                       Example: --replaceParamJSON=./replaceJson.json OR --replaceParamJSON={\"property\":\"finance\"} will replace value of \"property\"" + "\n" +
+        "                            inside the descriptor.json with \"finance\"" +"\n" +
+        "                       descriptor.json" + "\n" +
+        "                       [" + "\n" +
+        "                            {" +  "\n" +
+        "                                \"settings\":[ \"master\" ]," + "\n" +
+        "                                \"name\":\"descriptor\"," + "\n" +
+        "                                \"config\":{" + "\n" +
+        "                                \"baseUrl\": \"http://${property}$.yahoo.com\" " + "\n" +
+        "                            }," + "\n" +
+        "                                \"dataprovider\":{ " + "\n" +
+        "                                \"Test sample\":{ " + "\n" +
+        "                                   \"params\": {" + "\n" +
+        "                                        \"test\": \"test.js\" " + "\n" +
+        "                                        \"page\":\"$$config.baseUrl$$\"" + "\n" +
+        "                                    }" + "\n" +
+        "                                }" + "\n" +
+        "                               }" + "\n" +
+        "                            }" + "\n" +
+        "                        ]" + "\n"
 
+
+    );
     console.log("\nEXAMPLES :" + "\n" +
         "        Unit test: " + "\n" +
         "          arrow test-unit.js --lib=../src/greeter.js" + "\n\n" +
@@ -178,10 +213,6 @@ if (argv.argv.remain.length === 0 && argv.descriptor) {
 //store start time
 global.startTime = Date.now();
 
-//expose classes for test/external usage
-this.controller = require('./lib/interface/controller');
-this.log4js = require('log4js');
-
 //check if user wants to override default config.
 if (!argv.config) {
     try {
@@ -211,29 +242,17 @@ global.retryCount = config.retryCount;
 global.keepIstanbulCoverageJson = config.keepIstanbulCoverageJson;
 global.color = config.color;
 
+
 function startArrow() {
     // TODO: arrowSetup move to Arrow
     arrowSetup = new ArrowSetup(config, argv);
     this.arrow = Arrow;
+    arrowSetup.setup();
+    arrow = new Arrow(config, argv);
+    arrow.run();
 
-    // Setup Arrow Tests
-    if (argv.arrowChildProcess) {
-        //console.log("Child Process");
-        arrowSetup.childSetup();
-        argv.descriptor = argv.argv.remain[0];
-        arrow = new Arrow(config, argv);
-        arrow.run();
-    } else {
-        //console.log("Master Process");
-        arrowSetup.setup();
-        if (false === arrowSetup.startRecursiveProcess) {
-            arrow = new Arrow(config, argv);
-            arrow.run();
-        }
-    }
 }
 
-// scan libraries
 if (config.shareLibPath !== undefined) {
     var LibScanner = require('./lib/util/sharelibscanner');
     var libScanner = new LibScanner(config);
@@ -241,4 +260,3 @@ if (config.shareLibPath !== undefined) {
 } else {
     startArrow();
 }
-

@@ -362,6 +362,9 @@ YUI.add('oauth-automator', function (Y, NAME) {
             }
         },
 
+        setOAuthInstance: function (oauthInstance) {
+            this.oa = oauthInstance;
+        },
 
         /**
          * A private function to be called for the "external" type.
@@ -629,14 +632,16 @@ YUI.add('oauth-automator', function (Y, NAME) {
                                         if (vts.length !== 1) {
                                             cb(new Error("can't find an element that contains oauth verifier."));
                                         }
-                                        vt = vts[0].children;
-                                        if (vt.length !== 1) {
-                                            cb(new Error("can't find an element that contains oauth verifier."));
-                                        }
+                                        if (vts[0]) {
+                                            vt = vts[0].children;
+                                            if (vt.length !== 1) {
+                                                cb(new Error("can't find an element that contains oauth verifier."));
+                                            }
 
-                                        oauthVerifier = vt[0].data;
-                                        Y.log("Detected OAuth Verifier: " + oauthVerifier);
-                                        cb(null, oauthVerifier);
+                                            oauthVerifier = vt[0].data;
+                                            Y.log("Detected OAuth Verifier: " + oauthVerifier);
+                                            cb(null, oauthVerifier);
+                                        } 
                                     } else {
                                         cb(new Error("error in a permission allow submit form"));
                                     }

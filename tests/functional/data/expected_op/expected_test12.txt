@@ -1,1 +1,10 @@
-1 Passed, 0 Failed , 0 skipped 
+Report Created: test_descriptor-report.xml
+Report Created: test_descriptor-report.json
+********************************************
+Consolidated Test Report Summary
+********************************************
+Total Number of Executed Tests  :5
+Total Number of Passed Tests  : 5
+Total Number of Failed Tests  : 0
+Total Number of Skipped Tests  : 0
+********************************************

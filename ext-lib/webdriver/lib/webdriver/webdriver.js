@@ -854,7 +854,7 @@ webdriver.WebDriver.prototype.switchTo = function() {
 
 //ARROW PATCH
 webdriver.WebDriver.prototype.waitForElementPresent = function(elm,timeout){
-    if(!timeout) timeout=30000;
+    if(!timeout) timeout=10000;
     var self = this;
     return this.wait(function() { logger.info("Waiting for Element: " + elm);return self.isElementPresent(elm)},timeout);
 }

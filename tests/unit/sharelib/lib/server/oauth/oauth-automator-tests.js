@@ -23,12 +23,12 @@ YUI.add('oauth-automator-tests', function (Y, NAME) {
 
         _should: {
             ignore: {
-                "test invaild attr and cb": true, //ignore this test
-                "test external 3 legged oauth": true,
-                "test external 2 legged oauth": true,
-                "test external 2 legged oauth with no-yahoo cert": true,
-                "test external 3 legged oauth with wrong pass": true,
-                "test errer branch for generate oauth": true
+                //"test invaild attr and cb": true, //ignore this test
+                //"test external 2 legged oauth": true,
+                //"test external 2 legged oauth with no-yahoo cert": true,
+                //"test external 3 legged oauth with wrong pass": true,
+                //"test errer branch for generate oauth": true,
+                "test external 3 legged oauth": true
             }
         },
 
@@ -112,6 +112,38 @@ YUI.add('oauth-automator-tests', function (Y, NAME) {
             } catch (ex) {
                 Y.Assert.isTrue(true);
             }
+
+            oauth.destructor();
+        },
+
+        "test internal function: _generateExternalOAuthToken":function () {
+            var self = this;
+            var oauth;
+
+            oauth = new Y.Arrow.OAuthAutomator({configPath: config});
+
+            var requestTokenMock = Y.Mock();
+            Y.Mock.expect(requestTokenMock, {
+                method: "getOAuthRequestToken",
+                args: [Y.Mock.Value.Object, Y.Mock.Value.Function],
+                run: function (obj, cb) {
+                    cb(null, "a", "b", {xoauth_request_auth_url: "https://login.yahoo.com/config/login?"});
+                }
+            });
+            oauth.setOAuthInstance(requestTokenMock);
+            oauth.set("timeoutForTokenGeneration", 2)
+
+            try {
+                oauth._generateExternalOAuthToken(function cb (err) {
+//                    self.resume(function () {
+//                        console.log(err.toString());
+//                        Y.Assert.areSame(err.toString(), "Error: error in getting the oauth verifier code.");
+//                    });
+                });
+            } catch (ex) {
+            }
+//            this.wait(30000);
+            Y.Mock.verify(requestTokenMock);
 
             oauth.destructor();
         },

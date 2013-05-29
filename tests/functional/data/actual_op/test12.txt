@@ -1,1 +1,10 @@
-[31m[2012-10-23 16:16:43.201] [ERROR] SeleniumDriver - [39mUncaught exception: undefined
+Report Created: test_descriptor-report.xml
+Report Created: test_descriptor-report.json
+********************************************
+Consolidated Test Report Summary
+********************************************
+Total Number of Executed Tests  :5
+Total Number of Passed Tests  : 5
+Total Number of Failed Tests  : 0
+Total Number of Skipped Tests  : 0
+********************************************

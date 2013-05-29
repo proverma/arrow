@@ -1,0 +1,31 @@
+[
+    {
+        "settings": [ "master" ],
+        "name": "webservice controller test",
+        "config": {
+            "baseUrl": "http://login.yahoo.com"
+        },
+        "dataprovider" : {
+
+            "share testParams from webservice controller" : {
+                "group" : "func",
+                "params" :{
+                    "scenario": [
+                        {
+                            "controller": "webservice-controller",
+                            "params": {
+                                "url": "http://media.query.yahoo.com/v1/public/yql?q=select%20*%20from%20media.stream.recommended.content%20where%20image_tag='ios:size=medium,ios:size=square'&format=json&env=store://oJItKSKcuQ2SVu7dtQUaj0&jsonCompat=new"
+                            }
+                        },
+                        {
+                            "test": "webservice-test.js"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "settings": [ "environment:development" ]
+    }
+]

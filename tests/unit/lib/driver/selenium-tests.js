@@ -215,8 +215,8 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 executed = false;
 
             driver = new DriverClass(config, {});
-            driver.createDriverJs = function () {
-                return 'driverjs';
+            driver.createDriverJs = function (params,cb) {
+                cb(null, 'driverjs');
             };
 
             function validate() {
@@ -230,10 +230,10 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 webdriver.scriptResults['return ARROW.testReport;'] = '{"name": "functest", "failed": 0, "passed": 0}';
 
                 driver.executeTest({}, {page: 'http://page', test : 'test.js', customController : false}, function (errMsg) {
+                    console.log(errMsg);
                     executed = !errMsg;
-                    self.resume(validate);
+                    validate();
                 });
-                self.wait();
             });
         },
 
@@ -244,8 +244,8 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 executed = false;
 
             driver = new DriverClass(config, {});
-            driver.createDriverJs = function () {
-                return 'driverjs';
+            driver.createDriverJs = function (params,cb) {
+                cb( null, 'driverjs');
             };
 
             function validate() {
@@ -258,17 +258,10 @@ YUI.add('selenium-tests', function (Y, NAME) {
 
                 driver.executeTest({}, {test: 'test.js'}, function (errMsg) {
                     executed = !errMsg;
-                    self.resume(validate);
+                    validate()
                 });
-                self.wait();
             });
         },
-
-
-
-
-
-
 
 
         'test execute with android - minifyjs': function () {
@@ -278,8 +271,8 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 executed = false;
 
             driver = new DriverClass(config, {});
-            driver.createDriverJs = function () {
-                return 'if (time<20) { a=3; }';
+            driver.createDriverJs = function (params,cb) {
+                cb(null,'if (time<20) { a=3; }');
             };
 
             function validate() {
@@ -292,9 +285,8 @@ YUI.add('selenium-tests', function (Y, NAME) {
 
                 driver.executeTest({}, {test: 'test.js'}, function (errMsg) {
                     executed = !errMsg;
-                    self.resume(validate);
+                    validate();
                 });
-                self.wait();
             });
         },
 
@@ -305,8 +297,8 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 config = {browser: 'mybrowser', seleniumHost: 'http://wdhub'},
                 executed = false;
 
-            function createDriverJs() {
-                return 'driverjs';
+            function createDriverJs(params,cb) {
+                cb( null,'driverjs');
             }
 
             function validate() {
@@ -323,9 +315,8 @@ YUI.add('selenium-tests', function (Y, NAME) {
 
                 driver.executeAction({}, {page: 'http://page', action: 'action.js'}, function (errMsg) {
                     executed = !errMsg;
-                    self.resume(validate);
+                    validate();
                 });
-                self.wait();
             });
         },
 
@@ -336,8 +327,8 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 config = {browser: 'mybrowser', seleniumHost: 'http://wdhub'},
                 executed = false;
 
-            function createDriverJs() {
-                return 'driverjs';
+            function createDriverJs(params,cb) {
+                cb( null,'driverjs');
             }
 
             function validate() {
@@ -354,9 +345,8 @@ YUI.add('selenium-tests', function (Y, NAME) {
 
                 driver.executeAction({}, {action: 'action.js'}, function (errMsg) {
                     executed = !!errMsg; // error must not be empty
-                    self.resume(validate);
+                    validate();
                 });
-                self.wait();
             });
         },
 
@@ -373,12 +363,15 @@ YUI.add('selenium-tests', function (Y, NAME) {
 
         'test createDriverJs with bad testJs': function () {
             var self = this,
-                config = {browser: 'mybrowser', seleniumHost: 'http://wdhub', testRunner: arrowRoot + '/lib/client/yuitest-runner.js', testSeed: arrowRoot + '/lib/client/yuitest-seed.js'},
+                config = {arrowModuleRoot:arrowRoot,browser: 'mybrowser', seleniumHost: 'http://wdhub', testRunner: arrowRoot + '/lib/client/yuitest-runner.js', testSeed: arrowRoot + '/lib/client/yuitest-seed.js'},
+                driver = new DriverClass(config, {}),
+                filePath = "'" + arrowRoot + "/not-found.js" + "'";
+            global.workingDirectory = arrowRoot;
 
-                driver = new DriverClass(config, {});
-            A.isFalse(driver.createDriverJs({"test" : "not-found.js"}, function (e) {
-                A.areEqual("Error: ENOENT, no such file or directory 'not-found.js'", e.toString(), "File not found error should be caught");
-            }), "createDriverJs should return false for blank testParams");
+            driver.createDriverJs({"test" : "not-found.js"}, function (e) {
+                A.areEqual("Error: ENOENT, no such file or directory " + filePath, e.toString(), "File not found error should be caught");
+            }), "createDriverJs should return false for blank testParams";
+            global.workingDirectory = '';
         },
 
         'test createDriverJs ': function () {
@@ -388,7 +381,9 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 seedJs = arrowRoot + '/tests/unit/lib/driver/config/seed.js',
                 actionJs = arrowRoot + '/tests/unit/lib/driver/config/action.js',
                 testHtml = arrowRoot + '/tests/unit/lib/driver/config/test.html',
-                config = {coverage: 'true',
+                config = {
+                    arrowModuleRoot:arrowRoot,
+                    coverage: 'true',
                     browser: 'mybrowser',
                     seleniumHost: 'http://wdhub',
                     testRunner: testRunnerJs,
@@ -398,31 +393,32 @@ YUI.add('selenium-tests', function (Y, NAME) {
 
             driver.createDriverJs({"test" : testRunnerJs,
                 "lib" : libJs}, function (e) {
-                A.areEqual(null, e.toString(), "There should be no error");
+                A.areEqual(null, e, "There should be no error");
             });
 
             config = { browser: 'mybrowser',
                 seleniumHost: 'http://wdhub',
                 testRunner: testRunnerJs,
-                testSeed: seedJs
+                testSeed: seedJs,
+                arrowModuleRoot:arrowRoot
             };
             driver = new DriverClass(config, {});
             driver.createDriverJs({"test" : testRunnerJs,
                 "lib" : "," + libJs, "action" : actionJs}, function (e) {
-                A.areEqual(null, e.toString(), "There should be no error");
+                A.areEqual(null, e, "There should be no error");
             });
 
             // Without test
             driver = new DriverClass(config, {});
             driver.createDriverJs({ "lib" : "," + libJs, "action" : actionJs}, function (e) {
-                A.areEqual(null, e.toString(), "There should be no error");
+                A.areEqual(null, e, "There should be no error");
             });
 
             // with html test
             driver = new DriverClass(config, {});
             driver.createDriverJs({"test" : testHtml,
                 "lib" : "," + libJs, "action" : actionJs}, function (e) {
-                A.areEqual(null, e.toString(), "There should be no error");
+                A.areEqual(null, e, "There should be no error");
             });
 
         }

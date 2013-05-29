@@ -19,15 +19,22 @@ config.baseUrl = "";
 config.arrowModuleRoot = global.appRoot + "/";
 config.dimensions = config.arrowModuleRoot + "config/dimensions.json";
 config.defaultTestHost = config.arrowModuleRoot + "lib/client/testHost.html";
-config.defaultAppSeed = "http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js";
-config.testSeed = config.arrowModuleRoot + "lib/client/yuitest-seed.js";
-config.testRunner = config.arrowModuleRoot + "lib/client/yuitest-runner.js";
-config.yuiloaderchecker = config.arrowModuleRoot + "lib/client/yuitest-yuiloadercheck.js";
+config.defaultAppSeed = "http://yui.yahooapis.com/3.8.0/build/yui/yui-min.js";
 config.autolib = config.arrowModuleRoot + "lib/common";
 
-// config for share lib
+//for yui sandbox
+config.useYUISandbox = false;  // when this is set to true,arrow will use an absolute YUI instead of the YUI on (or injected on) the page.
+config.sandboxYUIVersion = '3.8.0'; // please try make this the same with yui npm package version
+config.yuiSandboxRuntime = config.arrowModuleRoot + "lib/client/yui-test-runtime.js";  // default runtime js if download yui modules failed
 
-config.shareLibPath = [];     // Arrow will scan all given path for share lib. Example: [config.arrowModuleRoot + "../"]
+// for test engine
+config.engine="yui";   // yui, mocha, jasmine or qunit,default to "yui"
+config.engineConfig="";  // config object or fs path to the engine config if supported by engine(like mocha)
+config.testSeed = config.arrowModuleRoot + "lib/client/yuitest-seed.js";
+config.testRunner = config.arrowModuleRoot + "lib/client/yuitest-runner.js";
+
+// config for share lib
+config.shareLibPath = ["./common"];     // Arrow will scan all given path for share lib. Example: [config.arrowModuleRoot + "../"]
                                   // You can modify this to add multiple share lib path.
 config.scanShareLibPrefix = [];    // Arrow will only scan share lib with given prefix "martini_" if configured as ["martini_"]
                                   // Or it will scan all folders for share lib under given path if it is empty : []
@@ -50,6 +57,9 @@ config.exitCode = false;
 config.retryCount = 0;
 config.keepIstanbulCoverageJson = false;
 config.color = true;
+config.report = true;
+
+config.testTimeOut = 30000; // if test does not get over in these many ms, Arrow fails the test.
 
 
 module.exports = config;

@@ -13,6 +13,8 @@ exports.testfail_Controller = function(test){
     var test17 = fs.readFileSync("data/actual_op/test17.txt", "utf-8")
     var expected_test17 = fs.readFileSync("data/expected_op/expected_test17.txt", "utf-8")
 
-    test.equal(test17,expected_test17,"The output for enabled=false is not correct");
+    var contains= test17.toString().indexOf(expected_test17)!=-1;
+    test.equal(contains,true,"The expected output "+test17+ " should contains " +expected_test17);
+
     test.done();
 };

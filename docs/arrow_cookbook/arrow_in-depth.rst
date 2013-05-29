@@ -519,6 +519,275 @@ For example, you could have the following in your test descriptor
   }
 
 
+
+
+Test Engine
+-----------------------------------
+
+Internally, test engine is an adaptor to support different styles test cases, like YUI, QUnit, BDD, TDD.
+
+By default, Arrow is using YUI style testing. It can be changed by specifying ``--engine``, with below supported:
+* yui (default)
+* mocha
+* jasmin
+* qunit
+
+Using --engine in arrow cmd
+===========================
+Suppose you have a test case written in the popular BDD way,like:
+
+::
+
+ describe('Array', function(){
+    describe('#push()', function(){
+        it('should return the length', function(){
+            var arr = [],
+             assert = function(expr, msg) {
+                if (!expr) throw new Error(msg || 'failed');
+            }
+            assert(1 == arr.push('foo'));
+            assert(2 == arr.push('bar'));
+            assert(3 == arr.push('baz'));
+        })
+    })
+ })
+
+Then you can use test engine mocha to run it ,for example:
+
+::
+
+ arrow mocha-bdd.js --engine=mocha (For globally installed Arrow)
+ ./node_modules/.bin/arrow mocha-bdd.js --engine=mocha (For locally installed Arrow)
+
+
+And if you want to run it in client side ,just simply run :
+
+::
+
+ arrow mocha-bdd.js --engine=mocha --browser=chrome (For globally installed Arrow)
+ ./node_modules/.bin/arrow mocha-bdd.js --engine=moch --browser=chrome (For locally installed Arrow)
+
+ arrow mocha-bdd.js --engine=mocha --browser=phantomjs --page=http://serach.yahoo.com (For globally installed Arrow)
+ ./node_modules/.bin/arrow mocha-bdd.js --engine=mocha --browser=phantomjs --page=http://serach.yahoo.com (For locally installed Arrow)
+
+
+Suppose you have a test case written in tdd way and you want to use chai as assertion :
+
+::
+
+ suite('Array', function(){
+    suite('#indexOf()', function(){
+        test('should return -1 when not present', function(){
+            var chai;
+            if(typeof window  == "undefined" && typeof chai  == "undefined"){
+                chai = require('chai');
+            }
+            else{
+                chai = window.chai;
+            }
+            chai.assert(-1 == [1,2,3].indexOf(4));
+        });
+    });
+ });
+
+then you can still want mocha run it but using different "interface" in mocha like this:
+
+::
+
+ arrow mocha-bdd.js --engine=mocha --engineConfig=./config.josn (For globally installed Arrow)
+ ./node_modules/.bin/arrow mocha-tdd.js --engine=mocha  --engineConfig=./config.josn(For locally installed Arrow)
+
+ or in browser side:
+
+ arrow mocha-bdd.js --engine=mocha --engineConfig=./config.josn  --browser=chrome (For globally installed Arrow)
+ ./node_modules/.bin/arrow mocha-tdd.js --engine=mocha  --engineConfig=./config.josn  --browser=chrome (For locally installed Arrow)
+
+you can define any configuration recognized by mocha like "ui","reporter" etc. in config.json:
+
+::
+
+{"ui":"tdd","require":"chai"}
+
+It will be passed to test engine and take effect in test execution.
+
+NOTE: This example shows that we just need to add chai to "require" field in engine config to support chai as mocha's offical assertion set.
+      Also npm package or http links are supported in engine config.
+
+::
+
+{"ui":"tdd","require":["chai","should","http://chaijs.com/chai.js"]}
+
+Using engine in arrow's test descriptor
+=======================================
+
+If you have multiple style test cases and want to test it in one test descriptor ,you just need to specify which engine to use in descriptor:
+
+::
+
+    {
+        "settings":[ "master" ],
+        "name":"hybrid engine server side",
+        "dataprovider":{
+            "mocha":{
+                "params":{
+                    "test":"mocha-bdd.js",
+                    "engine":"mocha"
+                },
+                "group":"unit"
+            },
+            "mocha-tdd":{
+                "params":{
+                    "test":"mocha-tdd.js",
+                    "engine":"mocha",
+                    "engineConfig":"./mocha-config.json"
+                },
+                "group":"unit"
+            },
+            "jasmine":{
+                "params":{
+                    "test":"jasmine-bdd-test.js",
+                    "engine":"jasmine"
+                },
+                "group":"unit"
+            },
+            "qunit":{
+                "params":{
+                    "test":"qunit-test.js",
+                    "engine":"qunit"
+                },
+                "group":"unit"
+            },
+            "yui":{
+                "params":{
+                    "test":"yui-test-unit.js",
+                    "lib":"./yui-lib.js"
+                },
+                "group":"unit"
+            }
+        }
+    }
+
+Here qunit-test.js and jasmine-bdd-test.js are test cases can be run within qunit and jasmine. By default arrow will use yui to run tests,so in test "yui" ,
+we didn't need to specify the engine for test yui-test-unit.js.
+
+Test engine can also works in scenario node:
+
+::
+
+    {
+        "settings": [ "master" ],
+        "name": "YahooLogin",
+        "config": {
+            "baseUrl": "http://login.yahoo.com"
+        },
+        "commonlib" : "./mocha-lib.js",
+        "dataprovider" : {
+            "Use Locator to Login" : {
+                "group" : "func",
+                "browser":"chrome",
+                "params" :{
+                    "scenario": [
+                        {
+                            "page": "$$config.baseUrl$$"
+                        },
+                        {
+                            "controller": "locator",
+                            "params": {
+                                "value": "#username",
+                                "text": "arrowtestuser1"
+                            }
+                        },
+                        {
+                            "controller": "locator",
+                            "params": {
+                                "value": "#passwd",
+                                "text": "123456"
+                            }
+                        },
+                        {
+                            "controller": "locator",
+                            "params": {
+                                "value": "#submit",
+                                "click": true
+                            }
+                        },
+                        {
+                            "page": "http://search.yahoo.com/"
+                        },
+                        {
+                            "test": "mocha-test.js",
+                            "engine":"mocha"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+
+In this test, arrow will use the locator controller to find elements in login page and after that it will go to search page to run a mocha-style test.
+Users can add any kind of test cases only if the related test engine is suppported and specified with "engine" field.
+
+
+YUI abstraction (YUI sandboxing)
+--------------------------------
+
+Most of yahoo pages are built on YUI, if you are writing YUI test case testing against YUI pages, then YUI sandbox has great benefit with below scenarios:
+
+* The testing page builds on a lower YUI version (YUI@2.x or 3.x) .
+* The page has some restriction for YUI loader to fetch external modules (like mojito apps).
+* Simply you don't want to let test case affect the page or the features.
+
+Then you can use YUI sandbox to test your code.
+
+How to use
+======================
+you can simply modify arrowRoot/config/config.js to make sandbox to true, or pass from command line:
+
+::
+
+    config.useYUISandbox = true  or   --useYUISandbox=true
+
+
+Also you can figure whatever YUI version you want by config.sandboxYUIVersion or --sandboxYUIVersion, by default it will use the same version as yui in arrow/node_modules, and it is what we recommanded.
+
+Not to use
+======================
+However under some situations that you should NOT use YUI sandbox:
+
+* Your test cases requires yui modules only served on the test page, for example:
+
+::
+
+    YUI.add('example-tests',function(Y){...},'1.0.0', { requires: [ 'node' ] });,
+
+And 'example-module' is only served in test-page.html, then the page level YUI should be used instead of YUI in a sandbox.
+
+Sandbox detail(Advanced)
+========================
+Suppose we have a yui test case and also have some test libs written as YUI.add(…), then we will warp all these in IEFF(immediately executed factory function).
+
+::
+
+    (function () {
+        var YUI;
+        ... //  1. all yui min/base goes here...
+        YUI.add(...)  // 2. all yui core modules goes here
+        YUI.add/use(...) // 3. custom's yui libs and yui tests goes here
+        YUITest/TestRunner... // 4. yui test runner start.
+    })();
+
+So that this sandbox(IEFF) contains all:  yui seed, yui core modules(auto resolved from test case/test libs), test libs, test cases and test engine... 
+It is an absolute YUI instance and does't depend (or mess with) the YUI on test page.
+
+Sharing test parameters among custom conrollers and tests in a scenario node
+-------------------------
+
+In a complex test scenario, we maybe need multiple controllers or tests in a scenario node. Arrow provides a way to share variables among the controllers or tests, via this.testParams.shared.
+Custom controller or test can set a Json object to this.testParams.shared, then it will pass to downstream controllers and tests.
+
+The sample of sharing testParams from a test to another test can be found `here <https://github.com/yahoo/arrow/tree/master/tests/functional/data/arrow_test/share_test_params/test_params_share-simple.json>`_.
+The sample of sharing testParams for a custom controller to downstream custom controller and test can be found `here <https://github.com/yahoo/arrow/tree/master/tests/functional/data/arrow_test/share_test_params/search-descriptor-test-params.json>`_.
+
 Re-Using Browser Sessions
 -------------------------
 
@@ -695,11 +964,23 @@ To tell Arrow you would like to create reports simply type:
 
   arrow <some test or test descriptor> --report=true
 
-After the test executes two files will be created under the location from which you executed Arrow; *report.xml* and *report.json*.
+After the test executes two files will be created - *<descriptor name>-report.xml* and *<descriptor name>-report.json*.
 
-Running multiple descriptors using ``'arrow "**/*-descriptor.json" --report=true'`` , will create report.xml and report.json under directory structure where each descriptor files reside.
+Running multiple descriptors using ``'arrow "**/*-descriptor.json" --report=true'`` , will create <descriptor name>-report.xml and <descriptor name>-report.json for each descriptor.
 
-Hudson supports report globbing, so you can pass ``**/test-descriptor-report.xml``, and it will pick up all your result files.
+If "reportFolder" is passed .eg . --reportFolder=/reportPath/, the reports will be generated under /reportPath/arrow-report. A *<descriptor name>-report.xml* and *<descriptor name>-report.json* is created for each descriptor.
+A summarized report is also created by the name "arrow-test-summary" in both xml and json formats. In addition, a time report is generated in json format which shows the time taken for each descriptor to complete as well as the time taken by each test within the descriptor.
+
+If "reportFolder" is not passed, the reports are generated under "arrow-target" directory e.g "arrow-target/arrow-report" wrt the location from which you executed Arrow.
+
+Hudson supports report globbing, so you can pass ``**/*-report.xml``, and it will pick up all your result files.
+
+If --report is set to true,screenshots are created under "arrow-target/arrow-report/screenshots" directory ( if --reportFolder is not set) or under {reportFolder}/arrow-report/screenshots directory.
+If --report is not set to true, screenshots are created under "screenshots" directory wrt the location where the tests are executed from.
+
+By default, Arrow deletes the reports directory ( if exists) created from the previous run, before the tests are executed. If you dont want to overwrite the reports from previous run, use --keepTestReport=true.
+Note: This will only keep the reports for a descriptor from the previous run, if that descriptor is not part of current run. The summary and time reports will always get overwritten.
+
 
 report.xml sample
 .................
@@ -750,3 +1031,98 @@ report.json sample
           "testName":"Test YHOO Ticker"
       }
   ]
+
+timeReport.json sample
+..................
+
+::
+
+    { "descriptors":[
+        {
+            "descriptor":"descriptors/test-descriptor-1.json",
+            "time":"9.15 seconds",
+            "tests":[
+                {
+                    "Testname":"Test YAHOO Search 1",
+                    "Time":"5.21 seconds"
+                } ,
+                {
+                    "Testname":"Test YAHOO Search 2",
+                    "Time":"3.94 seconds"
+                }
+            ]
+        } ,
+        {
+            "descriptor":"descriptors/test-descriptor-2.json",
+            "time":"3.55 seconds",
+            "tests":[
+                {
+                    "Testname":"Test YAHOO Search 3",
+                    "Time":"3.55 seconds"
+                }
+            ]
+        } ,
+        {
+            "descriptor":"descriptors/test-descriptor-3.json",
+            "time":"3.33 seconds",
+            "tests":[
+                {
+                    "Testname":"Test YAHOO Search 4",
+                    "Time":"3.33 seconds"
+                }
+            ]
+        }
+    ], "Total time":"17.09 seconds"  }
+
+
+
+--replaceParamJSON
+--------------------
+This parameter is optional and can be used when user wants to configure descriptors to replace certain values on the fly.
+
+It could either be passed as .json object or as a string in json format.
+
+replace.json sample
+====================
+
+::
+
+    {
+        "property" : "finance"
+    }
+
+
+The descriptor will appear as follows for the given replace.json
+
+descriptor.json sample
+=======================
+
+::
+
+    [
+          {
+                 "settings":[ "master" ],
+                 "name":"descriptor",
+                 "config":{
+                            "baseUrl": "http://${property}$.yahoo.com"
+                       },
+                 "dataprovider":{
+                 "Test sample":{
+                            "params": {
+                                       "test": "test.js"
+                                       "page":"$$config.baseUrl$$"
+                                      }
+                            }
+                    }
+          }
+    ]
+
+Now, if user runs the descriptor
+
+::
+
+    arrow ./descriptor.json --replaceParamJSON=./replace.json --browser=firefox
+    or
+    arrow ./descriptor.json --replaceParamJSON='{"property":"finance"}' --browser=firefox
+
+The value of ``'baseUrl'`` which is ``'http://${property}$.yahoo.com'`` will become ``'http://finance.yahoo.com'``

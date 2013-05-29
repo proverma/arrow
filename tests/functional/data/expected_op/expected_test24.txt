@@ -1,2 +1,6 @@
-[LOG] TestRunner: test tab structure: passed.
-[LOG] TestRunner: test tab selection: passed.
+Test Report Summary
+
+Total Number of Executed Tests: 2
+Total Number of Passed Tests: 2
+Total Number of Failed Tests: 0
+Total Number of Skipped Tests: 0

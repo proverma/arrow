@@ -47,7 +47,7 @@ servermanager.getLocalhostIPAddress = function () {
  * get ip hostname/address from arrow server
  * @return {*}
  */
-servermanager.getArrowServerHost =function() {
+servermanager.getArrowServerHost = function () {
     var statusfile = path.join(arrowConfig['arrowModuleRoot'], "tmp", "arrow_server.status"), ip;
     try {
         if (fs.statSync(statusfile).isFile()) {
@@ -59,7 +59,7 @@ servermanager.getArrowServerHost =function() {
             }
         }
     } catch (e) {
-        serverManagerLogger.debug("Arrow server status does not exist");
+        serverManagerLogger.trace("Arrow server status does not exist");
     }
     return ip;
 }
@@ -68,19 +68,19 @@ servermanager.getArrowServerHost =function() {
  * get arrow server ip from status file
  * @return {*}
  */
-servermanager.getArrowServerHostIP =function() {
+servermanager.getArrowServerHostIP = function () {
     var statusfile = path.join(arrowConfig['arrowModuleRoot'], "tmp", "arrow_server.status"), ip;
     try {
         if (fs.statSync(statusfile).isFile()) {
             var file = fs.readFileSync(statusfile, 'utf8'),
-            ipreg = /[^((http|https):\/\/)]([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:([0-9]{1,5})+)/;
+                ipreg = /[^((http|https):\/\/)]([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:([0-9]{1,5})+)/;
             // like http://10.82.133.96:10000
             if (file.match(ipreg)) {
                 ip = file.match(ipreg)[0]; //extract ip address
             }
         }
     } catch (e) {
-        serverManagerLogger.debug("Arrow server status does not exist");
+        serverManagerLogger.trace("Arrow server status does not exist");
     }
     return ip;
 }
@@ -116,7 +116,7 @@ servermanager.getAllIPAddressForArrowServer = function () {
 servermanager.getArrowServerStatus = function (cb) {
 
     var serverip = this.getArrowServerHostIP();
-    if(!serverip)return cb(false);
+    if (!serverip)return cb(false);
 
     var ipreg = /[^((http|https):\/\/)]([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:([0-9]{1,5})+)/;
     //      like http://10.82.133.96:10000
@@ -124,15 +124,15 @@ servermanager.getArrowServerStatus = function (cb) {
         serverip = serverip.match(ipreg)[0]; //extract ip address
     }
 
-    var split=serverip.split(":");
-    if(!split || !split.length >= 2)return cb(false);
-    portchecker.isOpen(split[split.length-1],split[split.length-2],function(opened,port,host){
-       if(opened){
-           serverManagerLogger.info("server is running at:"+serverip+" according to status file");
-           return cb(opened);
-        }else{
-            serverManagerLogger.info("server is not running at:"+serverip+" according to status file");
-           return cb(opened);
+    var split = serverip.split(":");
+    if (!split || !split.length >= 2)return cb(false);
+    portchecker.isOpen(split[split.length - 1], split[split.length - 2], function (opened, port, host) {
+        if (opened) {
+            serverManagerLogger.info("server is running at:" + serverip + " according to status file");
+            return cb(opened);
+        } else {
+            serverManagerLogger.info("server is not running at:" + serverip + " according to status file");
+            return cb(opened);
         }
 
     });
@@ -184,20 +184,19 @@ servermanager.startArrowServer = function (cb) {
  */
 servermanager.stopArrowServer = function (killall) {
 
-    if(child){
-        child.kill();
-        serverManagerLogger.info("kill arrow server !");
+    if (child) {
+        child.kill(); // send 'SIGTERM'
+        serverManagerLogger.info("Send sig term to arrow server !");
     }
-    if(killall){
+    if (killall) {
         var exec = require('child_process').exec;
-        exec('ps aux|grep '+path.join(arrowConfig['arrowModuleRoot'], "arrow_server", "server.js")+'|grep -v \'grep\'|awk \'{print $2}\'|xargs kill -9',
+        exec('ps aux|grep ' + path.join(arrowConfig['arrowModuleRoot'], "arrow_server", "server.js") + '|grep -v \'grep\'|awk \'{print $2}\'|xargs kill -9',
             function (error, stdout, stderr) {
-                serverManagerLogger.debug('stdout: ' + stdout);
-                serverManagerLogger.debug('stderr: ' + stderr);
+                serverManagerLogger.debug('Kill all arrow server stdout: ' + stdout);
+                serverManagerLogger.debug('Kill all arrow server stderr: ' + stderr);
                 if (error !== null) {
                     serverManagerLogger.debug('exec error: ' + error);
                 }
             });
     }
-
 };
