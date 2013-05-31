@@ -299,7 +299,6 @@ Example code:
 
 ::
 
-  YUI.add("photo-ModuleA-tests", function(Y) {
   var mockery = require('mockery');
   var mocker = require("/path/to/mock-child-process");
   var mocked_child_process = {
@@ -322,4 +321,24 @@ Example code:
   cp.on('exit',function(code){
      console.log('From parent: spawned child exit with code: ' + code);
   });
+
+
+How to create multiple selenium sessions and do interation
+---------------------
+
+For example, a test case need to load page A and page B on 2 Selenium sessions, the operation on page A wound impact page B, vice versa. The test steps would like this:
+    * Operate on page A (e.g, send a message)
+    * Verify on page B (e.g, verify the message shows on page B)
+    * Operate on page B (e.g. Make a comment on the message);
+    * Verify on page A (e.g. Check the comment on page A)
+
+Solution
+========
+
+Using WebDriverManager to create webdrivers, then use them in test cases or custom controller.
+
+Here is the sample of using it on `test case <../../tests/functional/data/arrow_test/multisessions/test-multisessions.js>`_.
+
+Here is the sample of using it on `custom controller <../../tests/functional/data/arrow_test/multisessions/controller-multisessions.js>`_.
+
 

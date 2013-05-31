@@ -11,3 +11,6 @@
 //expose classes for custom controller usage
 this.controller = require('./lib/interface/controller');
 this.log4js = require('log4js');
+
+//expose classes for multiple selenium sessions creation
+this.webdrivermanager = require('./lib/util/webdrivermanager');

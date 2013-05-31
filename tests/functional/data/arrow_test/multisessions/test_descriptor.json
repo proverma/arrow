@@ -1,0 +1,21 @@
+[
+    {
+        "settings": [ "master" ],
+        "name": "YahooLogin",
+        "config": {
+            "baseUrl": "http://www.yahoo.com"
+        },
+        "dataprovider" : {
+
+            "create webdriver in test case" : {
+                "group" : "func",
+                "params" :{
+                    "test": "./test-multisessions.js"
+                }
+            }
+        }
+    },
+    {
+        "settings": [ "environment:development" ]
+    }
+]
