@@ -19,12 +19,12 @@ config.baseUrl = "";
 config.arrowModuleRoot = global.appRoot + "/";
 config.dimensions = config.arrowModuleRoot + "config/dimensions.json";
 config.defaultTestHost = config.arrowModuleRoot + "lib/client/testHost.html";
-config.defaultAppSeed = "http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js";
+config.defaultAppSeed = "http://yui.yahooapis.com/3.8.0/build/yui/yui-min.js";
 config.autolib = config.arrowModuleRoot + "lib/common";
 
 //for yui sandbox
 config.useYUISandbox = false;  // when this is set to true,arrow will use an absolute YUI instead of the YUI on (or injected on) the page.
-config.sandboxYUIVersion = '3.6.0'; // please try make this the same with yui npm package version
+config.sandboxYUIVersion = '3.8.0'; // please try make this the same with yui npm package version
 config.yuiSandboxRuntime = config.arrowModuleRoot + "lib/client/yui-test-runtime.js";  // default runtime js if download yui modules failed
 
 // for test engine
