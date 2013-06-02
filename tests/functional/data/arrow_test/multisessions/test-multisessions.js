@@ -17,8 +17,6 @@ YUI.add("test-webdriver-tests", function (Y) {
             var webdriver2 = webdriver_manager.createWebDriver({browserName: "firefox"});
 
             webdriver1.get('http://www.google.com');
-            webdriver1.findElement(webdriver1.By.name('q')).sendKeys('webdriver dsafsafasfsdafsa');
-            webdriver1.findElement(webdriver1.By.name('btnK')).click();
 
             webdriver1.getTitle().then(function(title) {
                 self.resume(function () {
@@ -42,5 +40,5 @@ YUI.add("test-webdriver-tests", function (Y) {
 
     //Never "run" the tests, simply add them to the suite. Arrow takes care of running them
     Y.Test.Runner.add(suite);
-}, "0.1", {requires:["test", "arrow"]});
+}, "0.1", {requires:["test", "arrow-webdriver"]});
 
