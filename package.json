@@ -39,7 +39,7 @@
         "arrow_server": "arrow_server/server.js",
         "arrow_selenium": "arrow_selenium/selenium.js"
     },
-    "engines": [ "node >=0.6" ],
+    "engines": [ "node >=0.8" ],
     "dependencies": {
         "glob": "3.1.11",
         "nopt": "2.0.0",
