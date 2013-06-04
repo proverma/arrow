@@ -254,10 +254,10 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
                         sentToTmpServer('/index.html', "get index");
 
-                        sentToTmpServer('/index.js', "get js");
-                        sentToTmpServer('/index2.js', "get js2");
-                        sentToTmpServer('/index3.js', "get js3");
-                        sentToTmpServer('/index.jpeg', "get jpeg");
+                        sentToTmpServer('/index.js', "\n");
+                        sentToTmpServer('/index2.js', "\n");
+                        sentToTmpServer('/index3.js', "\n");
+                        sentToTmpServer('/index.jpeg', "\n");
 
                     });
 
