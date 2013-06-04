@@ -481,7 +481,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
                 testPortsNotAvailable();
             },
 
-            'ignore:test proxy manager Send Request to Proxy Server': function () {
+            'test proxy manager Send Request to Proxy Server': function () {
                 testSendRequestToProxyServer();
             },
 
