@@ -5,7 +5,6 @@ YUI.add("child-process-tests", function (Y) {
     suite.add(new Y.Test.Case({
         "test command runner with istanbul instrument": function() {
             self = this;
-            Y.IstanbulCommandRunner.setVerbose(true);
             Y.IstanbulCommandRunner.setIstanbulRoot(__dirname + '/lib');
             var cp = Y.IstanbulCommandRunner.spawn(__dirname + '/app/child-app.js', ["--foo"]);
             cp.on('exit',function(code){
