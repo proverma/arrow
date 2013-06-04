@@ -9,6 +9,7 @@ lib/.DS_Store
 results.xml
 report.*
 coverage
+child_process_coverage
 npm-debug.log
 tmp/arrow_server.status
 tmp/*.js
