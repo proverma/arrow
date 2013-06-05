@@ -148,11 +148,11 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
                     req.end();
                 }
 
-                sentToCoverage("GET", "");
-                sentToCoverage("OPTIONS", "");
-                sentToCoverage("POST", ""); // should be catch
-                sentToCoverage("POST", JSON.stringify({coverage: {}, sid: "12345", origin: "nourl"}));
-                sentToCoverage("GET", ""); // get again
+                sentToCoverage("GET", "\n");
+                sentToCoverage("OPTIONS", "\n");
+                sentToCoverage("POST", "\n"); // should be catch
+                sentToCoverage("POST", JSON.stringify({coverage: {}, sid: "12345", origin: "nourl"})+"\n");
+                sentToCoverage("GET", "\n"); // get again
 
             });
 
@@ -181,7 +181,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
                 } else if (url.parse(request.url).pathname == '/index.js') {
                     response.writeHead(200, {"Content-Type": "text/javascript"});
-                    response.write("var a=1;");
+                    response.write("var a=1;\n");
 
                 } else if (url.parse(request.url).pathname == '/index2.js') {
                     response.writeHead(200, {"Content-Type": "text/javascript","content-encoding":"gzip"});
@@ -193,17 +193,17 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
                 }else if (url.parse(request.url).pathname == '/index.jpeg') {
                     response.writeHead(200, {"Content-Type": "image/jpeg"});
-                    response.write("iamapic");
+                    response.write("iamapic\n");
 
                 }  else {
                     response.writeHead(200, {"Content-Type": "text/plain"});
-                    response.write("Hello js");
+                    response.write("Hello js\n");
 
                 }
                 response.end();
             }
 
-            portchecker.getFirstAvailable(11000, 11100, "localhost", function (p) {
+            portchecker.getFirstAvailable(11100, 11199, "localhost", function (p) {
 
                     http.createServer(onRequest).listen(p);
 
@@ -254,8 +254,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
                             req.end();
                         }
 
-                        sentToTmpServer('/index.html', "get index");
-
+                        sentToTmpServer('/index.html', "\n");
                         sentToTmpServer('/index.js', "\n");
                         sentToTmpServer('/index2.js', "\n");
                         sentToTmpServer('/index3.js', "\n");
