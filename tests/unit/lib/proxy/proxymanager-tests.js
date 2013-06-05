@@ -29,7 +29,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
             //TODO - Not complete
             var
             // TODO - Check the first available port here starting from minPort
-                minPort = 10801,
+                minPort = 10811,
                 maxPort = 10900,
                 hostName = "localhost",
                 routerJsonPath = __dirname + "/config/router.json",
@@ -60,12 +60,12 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
                 }
 
-                portchecker.getFirstAvailable(11000, 11100, "localhost", function (p) {
+                portchecker.getFirstAvailable(11100, 11200, "localhost", function (p) {
 
-//                http.createServer(onRequest).listen(p);
+                http.createServer(onRequest).listen(p);
 
                     options = {
-                        host: hostName,
+                        host: localhostip,
                         port: minPort,
                         path: '/',
                         method: 'GET'
@@ -193,8 +193,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
                 }else if (url.parse(request.url).pathname == '/index.jpeg') {
                     response.writeHead(200, {"Content-Type": "image/jpeg"});
-                    response.write("iamapic\n");
-
+                    response.write("abcde\n");
                 }  else {
                     response.writeHead(200, {"Content-Type": "text/plain"});
                     response.write("Hello js\n");
@@ -222,7 +221,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
                             "coverageExclude": ["^http://yui.yahooapis.com.*\\.js$"]
                         }
                     };
-                    global.currentSessionid = global.currentSessionid || '12345';
+
                     proxyManager.runRouterProxy(minPort, maxPort, hostName, function (proxyHostMsg) {
 
                         A.areNotEqual(proxyHostMsg, 'localhost:' + minPort, 'Proxy host should not match');
@@ -461,10 +460,6 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
             A.areEqual(options.headers.referer, "ref.yahoo.com", "Headers - referer doesnt match");
             A.areEqual(options.headers.cookie, "ProxyCookie", "Headers - cookie doesnt match");
 
-//        A.areEqual(options.coverage, true, "coverage field not set");
-//        A.areEqual(options.coverage.clientSideCoverage, true, "coverage flag not set to true");
-//        A.areEqual(options.coverage.coverageExclude.length, 0, "coverage exclude not set");
-
         }
 
 
@@ -482,7 +477,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
                 testPortsNotAvailable();
             },
 
-            'test proxy manager Send Request to Proxy Server': function () {
+            'ignore:test proxy manager Send Request to Proxy Server': function () {
                 testSendRequestToProxyServer();
             },
 
