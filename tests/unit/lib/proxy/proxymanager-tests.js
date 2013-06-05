@@ -107,6 +107,8 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
                 options,
                 req;
 
+            global.currentSessionid = global.currentSessionid || '12345';
+
             function createProxyServerRequest(minPort, maxPort, hostName, callback) {
 
                 proxyManager.runRouterProxy(minPort, maxPort, hostName, function (proxyHostMsg) {
