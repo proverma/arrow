@@ -108,7 +108,7 @@ YUI.add('sharelibscanner-tests', function (Y) {
             });
             self.wait(5000);
         },
-        "ignore:Test generate specified folder Seed File": function () {
+        "Test generate specified folder Seed File": function () {
             var self = this;
             setup();
             new sharelibScanner({arrowModuleRoot: arrowRoot, scanShareLibPrefix: "martini", scanShareLibRecursive: true}).genSeedFile(scanFolder, function () {
@@ -125,7 +125,7 @@ YUI.add('sharelibscanner-tests', function (Y) {
                     self.wait(1000);
                 });
             });
-            self.wait(1000);
+            self.wait(5000);
         },
 
         "Test generate specified martini modules Seed File": function () {
@@ -150,7 +150,7 @@ YUI.add('sharelibscanner-tests', function (Y) {
                     self.wait(5000)
                 })
             });
-            self.wait(2000);
+            self.wait(5000);
         },
         "Test generate specified martini modules Seed File": function () {
             var self = this;
