@@ -289,7 +289,7 @@ How to get code coverage on child process, if the test code user child_process.s
 Solution
 ========
 
-Using Arrow built-in mock-child-process.js module and mockery to mock child_process.spawn
+Using Arrow built-in YUI module: istanbul-command-runner to spawn child process
 
     * It will generate coverage for each process under child_process_coverage directory
     * Please note child_process.fork is not supported for this mock module
@@ -299,28 +299,30 @@ Example code:
 
 ::
 
-  var mockery = require('mockery');
-  var mocker = require("/path/to/mock-child-process");
-  var mocked_child_process = {
-      spawn: mocker.spawn
-  };
+  YUI.add("child-process-tests", function (Y) {
+    var suite = new Y.Test.Suite("unit test suite");
 
-  // set parameter of "--root" for istanbul command
-  mocker.set_istanbul_root("../lib");
-  // set "-x <exclude-pattern>" for istanbul command
-  mocker.set_exclude_pattern("** /lib/temp*");
+    suite.add(new Y.Test.Case({
+        "test command runner with istanbul instrument": function() {
+            self = this;
+            Y.IstanbulCommandRunner.setIstanbulRoot(__dirname + '/lib');
+            var cp = Y.IstanbulCommandRunner.spawn(__dirname + '/app/child-app.js', ["--foo"]);
+            cp.on('exit',function(code){
+                console.log('From parrent: sub exit with ' + code);
+            });
 
-  mockery.registerMock('child_process', mocked_child_process);
-  mockery.enable({ useCleanCache: true });
+            // If this test sessinon finished before above spawned child process exit,
+            // seems the child process would be ended, so, please give enough time to
+            // wait here
+            this.wait(function () {}, 2000);
+        }
+    }));
 
-  var spawn = require("child_process").spawn;
-  var cp = spawn("/path/to/app", args, options);
-  cp.stdout.pipe(process.stdout, {end: false});
-  cp.stderr.pipe(process.stderr, {end: false});
-  cp.stdin.end();
-  cp.on('exit',function(code){
-     console.log('From parent: spawned child exit with code: ' + code);
-  });
+    //Note we are not "running" the suite.
+    //Arrow will take care of that. We simply need to "add" it to the runner
+    Y.Test.Runner.add(suite);
+  }, "0.1", {requires:["test", "istanbul-command-runner"]});
+
 
 
 How to create multiple selenium sessions and do interation
@@ -335,9 +337,7 @@ For example, a test case need to load page A and page B on 2 Selenium sessions, 
 Solution
 ========
 
-Using WebDriverManager to create webdrivers, then use them in test cases or custom controller.
-
-Here is the sample of using it on `test case <../../tests/functional/data/arrow_test/multisessions/test-multisessions.js>`_.
+Create a custom controller, and call webdrivermanager.createWebDriver to create webdriver object.
 
 Here is the sample of using it on `custom controller <../../tests/functional/data/arrow_test/multisessions/controller-multisessions.js>`_.
 
