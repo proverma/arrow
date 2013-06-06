@@ -325,20 +325,19 @@ Example code:
 
 
 
-How to create multiple selenium sessions and do interation
+How to create multiple selenium sessions and do interation testing
 ---------------------
 
-For example, a test case need to load page A and page B on 2 Selenium sessions, the operation on page A wound impact page B, vice versa. The test steps would like this:
-    * Operate on page A (e.g, send a message)
-    * Verify on page B (e.g, verify the message shows on page B)
-    * Operate on page B (e.g. Make a comment on the message);
-    * Verify on page A (e.g. Check the comment on page A)
+For example, to test interaction between 2 Yahoo! Messanger accounts, we need open two selenium sessions to serve page A (for user A), and page B (for user B), then do something like:
+    * User A login and goes to page A, user B login and goes to page B;
+    * User A send a message to user B on page A;
+    * Verify on page B, to confirm the message is got by user B;
+    * User B make a comment on the message, on Page B;
+    * Verify on page A, to confirm user A can get the comment from user B;
 
 Solution
 ========
 
-Create a custom controller, and call webdrivermanager.createWebDriver to create webdriver object.
-
-Here is the sample of using it on `custom controller <../../tests/functional/data/arrow_test/multisessions/controller-multisessions.js>`_.
+Create a custom controller, and call webdrivermanager.createWebDriver to create webdriver object, like `this <../../tests/functional/data/arrow_test/multisessions/controller-multisessions.js>`_.
 
 
