@@ -40,7 +40,6 @@ YUI.add('reportmanager-tests', function(Y) {
 
         },
 
-
         "add test failure": function() {
             var rm,
                 time,
@@ -176,6 +175,8 @@ YUI.add('reportmanager-tests', function(Y) {
             Y.Assert.areEqual(true, true);
         },
 
+        // Passes
+
 //        TODO - Enable this test
 //        "writeReports With Blank reportObj": function() {
 //
@@ -220,6 +221,7 @@ YUI.add('reportmanager-tests', function(Y) {
             Y.Assert.areEqual(true, true);
         },
 
+
         "writeReports With Scenario Report" : function() {
 
             var testSessionObj,
@@ -242,7 +244,7 @@ YUI.add('reportmanager-tests', function(Y) {
             reportObj = {
                 "arrTestSessions" : testSessionsArr,
                 "arrWDSessions" : "",
-                "descriptor" : "dummyDescriptor.json",
+                "descriptor" : "dir1/dummyDescriptor.json",
                 "reuseSession" : "dummyReuseSession",
                 "testSuiteName" : "dummyTestSuite",
                 "driver" : "dummyDriver",
@@ -259,7 +261,7 @@ YUI.add('reportmanager-tests', function(Y) {
 
             // Clean up
 
-            fs.unlink(path.resolve(global.reportFolder, 'arrow-report', 'dummyDescriptor-report.json'),
+            fs.unlink(path.resolve(global.reportFolder, 'arrow-report', 'dir1', 'dummyDescriptor-report.json'),
 
                 function(err) {
                     if (err) {
@@ -269,7 +271,7 @@ YUI.add('reportmanager-tests', function(Y) {
                     }
                 });
 
-            fs.unlink(path.resolve(global.reportFolder, 'arrow-report', 'dummyDescriptor-report.xml'),
+            fs.unlink(path.resolve(global.reportFolder, 'arrow-report', 'dir1', 'dummyDescriptor-report.xml'),
                 function(err) {
                     if (err) {
                         console.log('Can\'t cleanup the dummy descriptor xml report file..' + err);
@@ -280,7 +282,6 @@ YUI.add('reportmanager-tests', function(Y) {
 
         },
 
-
         "writeReports With Result Report" : function() {
             var testSessionObj,
                 arrowRoot = path.join(__dirname, '../../../..'),
@@ -288,7 +289,6 @@ YUI.add('reportmanager-tests', function(Y) {
                 report = JSON.parse(fs.readFileSync(__dirname + "/config/resultreport.json")),
                 testSessionsArr = [],
                 rm,
-                i,
                 reportObj,
                 fileUtil = new FileUtil();
 
@@ -302,7 +302,7 @@ YUI.add('reportmanager-tests', function(Y) {
             reportObj = {
                 "arrTestSessions" : testSessionsArr,
                 "arrWDSessions" : "",
-                "descriptor" : "dummyDescriptor.json",
+                "descriptor" : "dir2/dummyDescriptor.json",
                 "reuseSession" : "dummyReuseSession",
                 "testSuiteName" : "dummyTestSuite",
                 "driver" : "dummyDriver",
@@ -320,7 +320,7 @@ YUI.add('reportmanager-tests', function(Y) {
 
             // Clean up
 
-            fs.unlink(path.resolve(global.reportFolder, 'arrow-report', 'dummyDescriptor-report.json'),
+            fs.unlink(path.resolve(global.reportFolder, 'arrow-report', 'dir2', 'dummyDescriptor-report.json'),
                 function(err) {
                     if (err) {
                         console.log('Can\'t cleanup the dummy descriptor json report file..' + err);
@@ -329,7 +329,7 @@ YUI.add('reportmanager-tests', function(Y) {
                     }
                 });
 
-            fs.unlink(path.resolve(global.reportFolder, 'arrow-report', 'dummyDescriptor-report.xml'),
+            fs.unlink(path.resolve(global.reportFolder, 'arrow-report', 'dir2', 'dummyDescriptor-report.xml'),
                 function(err) {
                     if (err) {
                         console.log('Can\'t cleanup the dummy descriptor xml report file..' + err);
@@ -362,7 +362,7 @@ YUI.add('reportmanager-tests', function(Y) {
             reportObj = {
                 "arrTestSessions" : testSessionsArr,
                 "arrWDSessions" : "",
-                "descriptor" : "dummyDescriptor.json",
+                "descriptor" : "dir3/dummyDescriptor.json",
                 "reuseSession" : "dummyReuseSession",
                 "testSuiteName" : "dummyTestSuite",
                 "driver" : "dummyDriver",
@@ -379,7 +379,7 @@ YUI.add('reportmanager-tests', function(Y) {
 
             // Clean up
 
-            fs.unlink(path.resolve(global.reportFolder, 'arrow-report', 'dummyDescriptor-report.json'),
+            fs.unlink(path.resolve(global.reportFolder, 'arrow-report', 'dir3', 'dummyDescriptor-report.json'),
                 function(err) {
                     if (err) {
                         console.log('Can\'t cleanup the dummy descriptor json report file..' + err);
@@ -388,7 +388,7 @@ YUI.add('reportmanager-tests', function(Y) {
                     }
                 });
 
-            fs.unlink(path.resolve(global.reportFolder, 'arrow-report', 'dummyDescriptor-report.xml'),
+            fs.unlink(path.resolve(global.reportFolder, 'arrow-report', 'dir3', 'dummyDescriptor-report.xml'),
                 function(err) {
                     if (err) {
                         console.log('Can\'t cleanup the dummy descriptor xml report file..' + err);
