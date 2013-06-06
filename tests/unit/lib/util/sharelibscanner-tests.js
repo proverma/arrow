@@ -103,7 +103,7 @@ YUI.add('sharelibscanner-tests', function (Y) {
                             assertFileExsit(list);
                         });
                     });
-                    self.wait(1000);
+                    self.wait(5000);
                 });
             });
             self.wait(5000);
@@ -113,7 +113,6 @@ YUI.add('sharelibscanner-tests', function (Y) {
             setup();
             new sharelibScanner({arrowModuleRoot: arrowRoot, scanShareLibPrefix: "martini", scanShareLibRecursive: true}).genSeedFile(scanFolder, function () {
                 self.resume(function () {
-                    console.log("~~~~~~~~~~specified folder");
                     fs.readdir(metaPath, function (err, list) {
                         self.resume(function () {
                             console.log("++++++++++++++++ assert file");
@@ -122,10 +121,10 @@ YUI.add('sharelibscanner-tests', function (Y) {
                             servermanager.stopArrowServer(true);
                         });
                     });
-                    self.wait(1000);
+                    self.wait(5000);
                 });
             });
-            self.wait(5000);
+            this.wait(5000);
         },
 
         "Test generate specified martini modules Seed File": function () {
@@ -205,15 +204,15 @@ YUI.add('sharelibscanner-tests', function (Y) {
                                 && data.indexOf("mymartini.common.js") != -1);
 
                             data = sharelibScanner.scannerUtil.getShareLibServerSideModulesMeta();
-                            Y.Assert.isTrue(fs.statSync(data).isFile(),'should get server meta');
+                            Y.Assert.isTrue(fs.statSync(data).isFile(), 'should get server meta');
 
                             var libs = sharelibScanner.scannerUtil.getSrcDependencyByPath('test-martini-lib-client', 'client');
-                            Y.Assert.isFalse(libs == {},'should get empty object');
-                            Y.Assert.isTrue(sharelibScanner.scannerUtil.getSrcDependencyByPath(__dirname + '/sharelibtestdata/martini_lib/lib/common/mymartini.common.js', 'client') != null,'should get empty object');
-                            Y.Assert.isTrue(sharelibScanner.scannerUtil.getSrcDependencyByPath(__dirname + '/sharelibtestdata/martini_lib/lib/client/errormartini.client.js', 'client') != null,'should get empty object');
+                            Y.Assert.isFalse(libs == {}, 'should get empty object');
+                            Y.Assert.isTrue(sharelibScanner.scannerUtil.getSrcDependencyByPath(__dirname + '/sharelibtestdata/martini_lib/lib/common/mymartini.common.js', 'client') != null, 'should get empty object');
+                            Y.Assert.isTrue(sharelibScanner.scannerUtil.getSrcDependencyByPath(__dirname + '/sharelibtestdata/martini_lib/lib/client/errormartini.client.js', 'client') != null, 'should get empty object');
 
                             var data = sharelibScanner.scannerUtil.createYuiLoaderCheckerJS();
-                            Y.Assert.isTrue(data.length > 0,'should get checker js');
+                            Y.Assert.isTrue(data.length > 0, 'should get checker js');
 
                             setup();
                             var data = sharelibScanner.scannerUtil.getShareLibClientSideModulesMeta();
@@ -221,7 +220,7 @@ YUI.add('sharelibscanner-tests', function (Y) {
                                 && data.indexOf("mymartini.common.js") != -1);
                             var client = sharelibScanner.scannerUtil.getSrcDependencyByPath(__dirname + '/sharelibtestdata/martini_lib/lib/common/mymartini.common.js', 'client');
                             console.log(client);
-                            Y.Assert.isTrue(client.shareDepLibs.length > 0,'should get share lib array');
+                            Y.Assert.isTrue(client.shareDepLibs.length > 0, 'should get share lib array');
                         });
                     });
                     self.wait(1000);
@@ -231,12 +230,12 @@ YUI.add('sharelibscanner-tests', function (Y) {
         },
         "Test scanner util": function () {
             var self = this;
-           sharelibScanner.scannerUtil.resolveYUIDenpendency(['yui'], {}, function (err,src) {
+            sharelibScanner.scannerUtil.resolveYUIDenpendency(['yui'], {}, function (err, src) {
                 self.resume(function () {
-                    Y.Assert.isTrue((err ==null && src.length > 0) || (err!=null && !src));
+                    Y.Assert.isTrue((err == null && src.length > 0) || (err != null && !src));
                 });
             });
-            self.wait(15000);
+            self.wait(5000);
         }
     }));
 
