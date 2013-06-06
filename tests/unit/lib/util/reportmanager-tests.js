@@ -175,8 +175,6 @@ YUI.add('reportmanager-tests', function(Y) {
             Y.Assert.areEqual(true, true);
         },
 
-        // Passes
-
 //        TODO - Enable this test
 //        "writeReports With Blank reportObj": function() {
 //
