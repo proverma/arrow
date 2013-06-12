@@ -324,3 +324,20 @@ Example code:
   }, "0.1", {requires:["test", "istanbul-command-runner"]});
 
 
+
+How to create multiple selenium sessions and do interation testing
+---------------------
+
+For example, to test interaction between 2 Yahoo! Messanger accounts, we need open two selenium sessions to serve page A (for user A), and page B (for user B), then do something like:
+    * User A login and goes to page A, user B login and goes to page B;
+    * User A send a message to user B on page A;
+    * Verify on page B, to confirm the message is got by user B;
+    * User B make a comment on the message, on Page B;
+    * Verify on page A, to confirm user A can get the comment from user B;
+
+Solution
+========
+
+Create a custom controller, and call webdrivermanager.createWebDriver to create webdriver object, like `this <../../tests/functional/data/arrow_test/multisessions/controller-multisessions.js>`_.
+
+
