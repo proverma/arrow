@@ -39,7 +39,7 @@ npm install -g yahoo-arrow
 * **--seleniumHost** : (optional) override selenium host url (example: --seleniumHost=http://host.com:port/wd/hub)
 * **--capabilities** : (optional) the name of a json file containing webdriver capabilities required by your project
 * **--startProxyServer** : (optional) true/false. Starts a proxy server, intercepting all selenium browser calls
-* **--proxyConfig** : (optional) filePath. Expects a Json file, allows users to modify host and headers for all calls being made by browser. Also supports recording of select url calls ( if you mark "record" : true)
+* **--routerProxyConfig** : (optional) filePath. Expects a Json file, allows users to modify host and headers for all calls being made by browser. Also supports recording of select url calls ( if you mark "record" : true)
         
         
          Example Json :

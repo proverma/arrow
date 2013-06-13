@@ -1157,7 +1157,7 @@ In your test descriptor you can config like :
         },
 
         "startProxyServer": true,
-        "proxyConfig": "./proxy_config.json",
+        "routerProxyConfig": "./proxy_config.json",
 
         "dataprovider": {
 

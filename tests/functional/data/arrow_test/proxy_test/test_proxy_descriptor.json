@@ -5,10 +5,10 @@
         "name": "proxy",
 
         "config": {
-         },
+        },
 
         "startProxyServer": true,
-        "proxyConfig": "./proxy_config.json",
+        "routerProxyConfig": "./proxy_config.json",
 
         "dataprovider": {
 
@@ -28,9 +28,9 @@
                     "page": "http://www.answers.com"
                 }
             },
-            "multiple-page" : {
-                "group" : "func",
-                "params" :{
+            "multiple-page": {
+                "group": "func",
+                "params": {
                     "scenario": [
                         {
                             "page": "http://news.yahoo.com"

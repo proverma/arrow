@@ -42,7 +42,7 @@ Options
 --seleniumHost : (optional) override selenium host url (example: --seleniumHost=http://host.com:port/wd/hub)
 --capabilities : (optional) the name of a json file containing webdriver capabilities required by your project
 --startProxyServer : (optional) true/false. Starts a proxy server for all intercepting all selenium browser calls
---proxyConfig : (optional) filePath. Expects a Json file, in router field allows users to modify host and headers for all calls being made by browser. Also supports recording of select url calls.
+--routerProxyConfig : (optional) filePath. Expects a Json file, in router field allows users to modify host and headers for all calls being made by browser. Also supports recording of select url calls.
                            in coverage field user can config it to enable client side js files code coverage and a filter for these js.
 {
     "router": {

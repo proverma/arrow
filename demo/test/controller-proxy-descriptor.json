@@ -6,7 +6,7 @@
 
         "startProxyServer" : true,
 
-        "proxyConfig" : "./router-extended.json",
+        "routerProxyConfig" : "./router-extended.json",
 
         "config":{
             "baseUrl":"http://sports.yahoo.com"

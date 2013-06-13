@@ -6,7 +6,7 @@
         "commonlib" : { "type" : "string"},
         "extends" : { "type" : "string"},
         "startProxyServer" : { "type" : "boolean"},
-        "proxyConfig" : { "type" : "string"},
+        "routerProxyConfig" : { "type" : "string"},
         "config" : {
             "type" : "object"
         },
