@@ -1,0 +1,32 @@
+[
+    {
+        "settings": [ "master" ],
+        "name": "YahooLogin",
+        "config": {
+            "baseUrl": "http://www.yahoo.com"
+        },
+        "dataprovider" : {
+
+            "create webdrivers in custom controller" : {
+                "group" : "func",
+                "params" :{
+                    "scenario": [
+                        {
+                            "page": "http://www.yahoo.com"
+                        },
+                        {
+                            "controller": "./controller-multisessions.js",
+                            "params": {
+                                "page1": "http://www.google.com",
+                                "page2": "http://www.facebook.com"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "settings": [ "environment:development" ]
+    }
+]
