@@ -15,7 +15,7 @@ YUI.add('dataprovider-tests', function (Y) {
         "dimensions": __dirname + "/dimensions.json",
         "context": ""
     };
-
+    var fs = require("fs");
     var path = require('path'),
         arrowRoot = path.join(__dirname, '../../../..'),
         dataProv = require(arrowRoot+'/lib/util/dataprovider.js'),
@@ -90,6 +90,145 @@ YUI.add('dataprovider-tests', function (Y) {
             Y.Assert.areEqual("sometest.js", dpvalues.dataprovider.test2.params.test);
         }
     }));
+
+
+    suite.add(new Y.Test.Case({
+        "blank json string": function() {
+            var conf = {};
+
+            var dp = new dataProv(conf, __dirname + "/testDescriptor.json"),
+                blankJson = dp.readAndValidateJSON('');
+
+            Y.Assert.areEqual(blankJson, undefined);
+        }
+    }));
+
+    suite.add(new Y.Test.Case({
+        "blank json from file": function() {
+            var conf = {};
+
+            var dp = new dataProv(conf, __dirname + "/testDescriptor.json"),
+                blankJson = dp.readAndValidateJSON(__dirname + '/replaceParams/replaceParamEmpty.json');
+
+            Y.Assert.areEqual(blankJson, undefined);
+        }
+    }));
+
+
+    suite.add(new Y.Test.Case({
+        "Empty json string": function() {
+            var conf = {};
+
+            var dp = new dataProv(conf, __dirname + "/testDescriptor.json"),
+                emptyJson = dp.readAndValidateJSON('{}');
+
+            Y.Assert.areEqual(JSON.stringify(emptyJson), '{}');
+        }
+    }));
+
+    suite.add(new Y.Test.Case({
+        "Valid json string": function() {
+            var conf = {};
+
+            var dp = new dataProv(conf, __dirname + "/testDescriptor.json"),
+                validJson = dp.readAndValidateJSON('{"key1":"value1","key2":"value2"}');
+
+            Y.Assert.areEqual(JSON.stringify(validJson), '{"key1":"value1","key2":"value2"}');
+        }
+    }));
+
+    suite.add(new Y.Test.Case({
+        "Invalid json": function() {
+            var conf = {};
+
+            var dp = new dataProv(conf, __dirname + "/testDescriptor.json"),
+                invalidJson = dp.readAndValidateJSON('{"key1"}');
+
+            Y.Assert.areEqual(invalidJson, undefined);
+        }
+    }));
+
+
+    suite.add(new Y.Test.Case({
+        "Valid json from file": function() {
+            var conf = {};
+
+            var dp = new dataProv(conf, __dirname + "/testDescriptor.json"),
+                validJson = dp.readAndValidateJSON(__dirname + '/replaceParams/replaceParam.json');
+
+            Y.Assert.areEqual(JSON.stringify(validJson), '{"site":"yahoo","property":"news"}');
+        }
+    }));
+
+    suite.add(new Y.Test.Case({
+        "Replace params": function(){
+            var conf = {
+                "baseUrl": "http://overridebase.url.com",
+                "arrowModuleRoot": __dirname + "/",
+                "dimensions": __dirname + "/dimensions.json",
+                "context": "environment:development",
+                "replaceParamJSON" : __dirname + "/replaceParams/replaceParam.json"
+            };
+
+            var dp = new dataProv(conf, __dirname + "/testDescriptorWithParams.json"),
+                descriptorJsonStr = fs.readFileSync(__dirname + "/testDescriptorWithParams.json", "utf-8"),
+                descriptorJson = JSON.parse(descriptorJsonStr),
+                descriptorWithReplacedParams = dp.getDescriptorWithReplacedParams(descriptorJson);
+
+            Y.Assert.areEqual(JSON.stringify(descriptorWithReplacedParams),
+                '[{"config":{"baseUrl":"http://news.yahoo.com"}}]');
+
+        }
+    }));
+
+
+    suite.add(new Y.Test.Case({
+        "Replace params and default params": function(){
+            var conf = {
+                "baseUrl": "http://overridebase.url.com",
+                "arrowModuleRoot": __dirname + "/",
+                "dimensions": __dirname + "/dimensions.json",
+                "context": "environment:development",
+                "replaceParamJSON" : __dirname + "/replaceParams/replaceParam.json",
+                "defaultParamJSON" : __dirname + "/replaceParams/defaultParam.json"
+
+            };
+
+            var dp = new dataProv(conf, __dirname + "/testDescriptorWithParams.json"),
+                descriptorJsonStr = fs.readFileSync(__dirname + "/testDescriptorWithParams.json", "utf-8"),
+                descriptorJson = JSON.parse(descriptorJsonStr),
+                descriptorWithReplacedParams = dp.getDescriptorWithReplacedParams(descriptorJson);
+
+            Y.Assert.areEqual(JSON.stringify(descriptorWithReplacedParams),
+                '[{"config":{"baseUrl":"http://news.yahoo.com"}}]');
+
+        }
+    }));
+
+
+    suite.add(new Y.Test.Case({
+        "Inherit param from default params": function(){
+            var conf = {
+                "baseUrl": "http://overridebase.url.com",
+                "arrowModuleRoot": __dirname + "/",
+                "dimensions": __dirname + "/dimensions.json",
+                "context": "environment:development",
+                "replaceParamJSON" : __dirname + "/replaceParams/replaceParam2.json",
+                "defaultParamJSON" : __dirname + "/replaceParams/defaultParam.json"
+            };
+
+            var dp = new dataProv(conf, __dirname + "/testDescriptorWithParams.json"),
+                descriptorJsonStr = fs.readFileSync(__dirname + "/testDescriptorWithParams.json", "utf-8"),
+                descriptorJson = JSON.parse(descriptorJsonStr),
+                descriptorWithReplacedParams = dp.getDescriptorWithReplacedParams(descriptorJson);
+
+            Y.Assert.areEqual(JSON.stringify(descriptorWithReplacedParams),
+                '[{"config":{"baseUrl":"http://finance.yahoo.com"}}]');
+
+        }
+    }));
+
+
 
     Y.Test.Runner.add(suite);
 }, '0.0.1', {requires:['test']});
