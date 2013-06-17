@@ -229,6 +229,29 @@ YUI.add('dataprovider-tests', function (Y) {
     }));
 
 
+    suite.add(new Y.Test.Case({
+        "Empty replace params , valid default params": function(){
+            var conf = {
+                "baseUrl": "http://overridebase.url.com",
+                "arrowModuleRoot": __dirname + "/",
+                "dimensions": __dirname + "/dimensions.json",
+                "context": "environment:development",
+                "replaceParamJSON" : __dirname + "/replaceParams/replaceParamEmpty.json",
+                "defaultParamJSON" : __dirname + "/replaceParams/defaultParam.json"
+            };
+
+            var dp = new dataProv(conf, __dirname + "/testDescriptorWithParams.json"),
+                descriptorJsonStr = fs.readFileSync(__dirname + "/testDescriptorWithParams.json", "utf-8"),
+                descriptorJson = JSON.parse(descriptorJsonStr),
+                descriptorWithReplacedParams = dp.getDescriptorWithReplacedParams(descriptorJson);
+
+            Y.Assert.areEqual(JSON.stringify(descriptorWithReplacedParams),
+                '[{"config":{"baseUrl":"http://finance.google.com"}}]');
+
+        }
+    }));
+
+
 
     Y.Test.Runner.add(suite);
 }, '0.0.1', {requires:['test']});
