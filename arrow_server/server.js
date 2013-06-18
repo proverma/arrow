@@ -628,4 +628,3 @@ process.on("SIGINT", function () {
 process.on("exit", function (err) {
     cleanUp();
 });
-

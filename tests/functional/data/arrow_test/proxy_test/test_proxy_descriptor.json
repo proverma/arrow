@@ -1,0 +1,63 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name": "proxy",
+
+        "config": {
+        },
+
+        "startProxyServer": true,
+        "routerProxyConfig": "./proxy_config.json",
+
+        "dataprovider": {
+
+            "search": {
+                "group": "client",
+                "params": {
+                    "test": "test-title.js",
+                    "title": "Yahoo! Search - Web Search",
+                    "page": "http://search.yahoo.com"
+                }
+            },
+            "answers": {
+                "group": "client",
+                "params": {
+                    "test": "test-title.js",
+                    "title": "Answers - The Most Trusted Place for Answering Life's Questions",
+                    "page": "http://www.answers.com"
+                }
+            },
+            "multiple-page": {
+                "group": "func",
+                "params": {
+                    "scenario": [
+                        {
+                            "page": "http://news.yahoo.com"
+                        },
+                        {
+                            "controller": "locator",
+                            "params": {
+                                "value": "#mediasearchform-submit",
+                                "click": true
+                            }
+                        },
+                        {
+                            "page": "http://finance.yahoo.com"
+                        },
+                        {
+                            "test": "test-title.js",
+                            "title": "Yahoo! Finance - Business Finance, Stock Market, Quotes, News"
+                        }
+                    ]
+                }
+            }
+        }
+
+    },
+
+    {
+        "settings": [ "environment:development" ]
+    }
+
+]

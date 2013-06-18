@@ -239,7 +239,6 @@ Test descriptors allow you to parametrize like this:
 
 Where `"defaultAppHost" : "http://doctor46.com"`
 
-
 Test Descriptor Parametrization and Test Environments
 -----------------------------------------------------
 
@@ -336,6 +335,56 @@ Or
 In each case, Arrow will take the `context` and `dimensions` file and use those to map the correct `config` value for the current execution
 
 
+Test Descriptor options: --replaceParamJSON
+--------------------
+This parameter is optional and can be used when user wants to configure descriptors to replace certain values on the fly.
+
+It could either be passed as .json object or as a string in json format.
+
+replace.json sample
+====================
+
+::
+
+    {
+        "property" : "finance"
+    }
+
+
+The descriptor will appear as follows for the given replace.json
+
+descriptor.json sample
+=======================
+
+::
+
+    [
+          {
+                 "settings":[ "master" ],
+                 "name":"descriptor",
+                 "config":{
+                            "baseUrl": "http://${property}$.yahoo.com"
+                       },
+                 "dataprovider":{
+                 "Test sample":{
+                            "params": {
+                                       "test": "test.js"
+                                       "page":"$$config.baseUrl$$"
+                                      }
+                            }
+                    }
+          }
+    ]
+
+Now, if user runs the descriptor
+
+::
+
+    arrow ./descriptor.json --replaceParamJSON=./replace.json --browser=firefox
+    or
+    arrow ./descriptor.json --replaceParamJSON='{"property":"finance"}' --browser=firefox
+
+The value of ``'baseUrl'`` which is ``'http://${property}$.yahoo.com'`` will become ``'http://finance.yahoo.com'``
 
 Configuration
 -------------
@@ -1075,54 +1124,150 @@ timeReport.json sample
     ], "Total time":"17.09 seconds"  }
 
 
+Code Coverage
+---------
 
---replaceParamJSON
---------------------
-This parameter is optional and can be used when user wants to configure descriptors to replace certain values on the fly.
+Node side code coverage
+==========
 
-It could either be passed as .json object or as a string in json format.
+To tell Arrow you would like to create code coverage report simply type:
 
-replace.json sample
-====================
+::
+
+  arrow <some test or test descriptor> --coverage=true
+
+By default all js file(and it's require files) parsed from cmd line : --lib or test descriptor: commonLib/lib will get instrumented and generate code coverage report after all tests done.
+And two more optional params to use for coverage:
+::
+ --coverageExclude : (optional) string. comma-separated list of files to exclude from coverage reports"
+ --keepIstanbulCoverageJson : (optional) true/false. if set to true, it does not delete Istanbul coverage json files. (default: false)
+
+Client side code coverage
+==========
+
+If you want to collect client(browser) side code coverage(thus,some libs served on the test page),then you will use arrow proxy server.
+In your test descriptor you can config like :
 
 ::
 
     {
-        "property" : "finance"
+        "settings": [ "master" ],
+        "name": "client side test",
+        "config": {
+        },
+
+        "startProxyServer": true,
+        "routerProxyConfig": "./proxy_config.json",
+
+        "dataprovider": {
+
+            "iframe_client": {
+                "group": "client",
+                "params": {
+                    "test": "test-client.js",
+                    "page": "url/to/the/test/page"
+                }
+            }
+        }
     }
 
-
-The descriptor will appear as follows for the given replace.json
-
-descriptor.json sample
-=======================
+Make sure you have set "startProxyServer" to true and add a config for proxy - proxy_config.json:
 
 ::
 
-    [
-          {
-                 "settings":[ "master" ],
-                 "name":"descriptor",
-                 "config":{
-                            "baseUrl": "http://${property}$.yahoo.com"
-                       },
-                 "dataprovider":{
-                 "Test sample":{
-                            "params": {
-                                       "test": "test.js"
-                                       "page":"$$config.baseUrl$$"
-                                      }
-                            }
-                    }
-          }
-    ]
+  {
+     "router": {
+         "news.yahoo.com": {
+             "newHost": "x.x.x.x (your new host ip/name)",
+             "headers": [
+                 {
+                     "param": "<param>",
+                     "value": "<val>"
+                 }
+             ],
+             "record": true
+         }
+     },
+     "coverage": {
+         "clientSideCoverage": true,
+         "coverageExclude": ["^http://yui.yahooapis.com.*\\.js$"]
+     }
+  }
 
-Now, if user runs the descriptor
+In this proxy_config ,the "router" defines router table where you can modify the test page with new host and new headers for all calls being made by browser.Also supports recording of select url calls if set "record" to true.
+In coverage field you can set "clientSideCoverage" to true and add a filter to ignore some js files in "coverageExclude".
+
+Then in arrow cmd you can type:
 
 ::
 
-    arrow ./descriptor.json --replaceParamJSON=./replace.json --browser=firefox
-    or
-    arrow ./descriptor.json --replaceParamJSON='{"property":"finance"}' --browser=firefox
+    arrow test_descriptor.json --browser=chrome --logLevel=debug --coverage=true
 
-The value of ``'baseUrl'`` which is ``'http://${property}$.yahoo.com'`` will become ``'http://finance.yahoo.com'``
+You can see that all js file except those defined in "coverageExclude" will get instrumented and generate code coverage.
+
+
+Client side code coverage NOTES:
+==========
+
+1. If you have multiple test(session) and multiple page run in one descriptor, then all libs coverage data in these pages(even if the lib are
+loaded from different page but with same source url , like yui-min file) will be merged and generate one report.
+
+::
+
+             "news": {
+                 "group": "client",
+                 "params": {
+                     "test": "testnews.js",
+                     "page": "http://news.yahoo.com"
+                 }
+             },
+             "finance": {
+                 "group": "client",
+                 "params": {
+                     "test": "testfinance.js",
+                      "page": "http://finance.yahoo.com"
+                 }
+             }
+
+2. If you have one test (session) but with multiple pages, for example,you first launch yahoo news page then go to finance page, then only the libs on finance page will
+get collected (because when switch to to another page,the previous page coverage data was lost).
+
+::
+
+            "multiple-page" : {
+                 "params" :{
+                     "scenario": [
+                         {
+                             "page": "http://news.yahoo.com"
+                         },
+                         {
+                             "controller": "locator",
+                             "params": {
+                                 "value": "#mediasearchform-submit",
+                                 "click": true
+                             }
+                         },
+                         {
+                             "page": "http://finance.yahoo.com"
+                         },
+                         {
+                             "test": "test-title.js",
+                             "title": "Yahoo! Finance - Business Finance, Stock Market, Quotes, News"
+                         }
+                     ]
+                 }
+             }
+
+3.For some pages like yahoo login page, we can't proxy it in arrow proxy server due to some strict restriction policy. But you can add router to route to another mocked login page or
+just add a filter to  "coverageExclude" in page level:
+
+::
+
+    "coverage": {
+         "clientSideCoverage": true,
+         "coverageExclude": ["^http://login.yahoo.com$"]
+    }
+
+Then login page won't be instrumented and collect coverage.
+
+4.Https pages are not supported yet.

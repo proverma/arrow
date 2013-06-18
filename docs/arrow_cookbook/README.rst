@@ -42,30 +42,36 @@ Options
 --seleniumHost : (optional) override selenium host url (example: --seleniumHost=http://host.com:port/wd/hub)
 --capabilities : (optional) the name of a json file containing webdriver capabilities required by your project
 --startProxyServer : (optional) true/false. Starts a proxy server for all intercepting all selenium browser calls
---routerProxyConfig : (optional) filePath. Expects a Json file, allows users to modify host and headers for all calls being made by browser. Also supports recording of select url calls.
-                      Example Json :
-                       {
-                          "yahoo.com": {
-                               "newHost": "x.x.x.x (your new host ip/name)",
-                               "headers": [
-                                   {
-                                       "param": "<param>",
-                                       "value": "<val>"
-                                  }
-                              ],
-                               "record": true
-                           },
-                           "news.yahoo.com": {
-                               "newHost": "x.x.x.x (your new host ip/name)"
-                               "headers":
-                                   {
-                                       "param": "<param>",
-                                      "value": "<val>"
-                                   }
-                               ],
-                               "record": true
-                           }
-                      }
+--routerProxyConfig : (optional) filePath. Expects a Json file, in router field allows users to modify host and headers for all calls being made by browser. Also supports recording of select url calls.
+                           in coverage field user can config it to enable client side js files code coverage and a filter for these js.
+{
+    "router": {
+        "yahoo.com": {
+            "newHost": "x.x.x.x (your new host ip/name)",
+            "headers": [
+                {
+                    "param": "<param>",
+                    "value": "<val>"
+                }
+            ],
+            "record": true
+        },
+        "news.yahoo.com": {
+            "newHost": "x.x.x.x (your new host ip/name)",
+            "headers": [
+                {
+                    "param": "<param>",
+                    "value": "<val>"
+                }
+            ],
+            "record": true
+        }
+    },
+    "coverage": {
+        "clientSideCoverage": true,
+        "coverageExclude": []
+    }
+}
 --exitCode : (optional) true/false. Causes the exit code to be non-zero if any tests fail (default: false)
 --color : (optional) true/false. if set to false, it makes console log colorless ( hudson friendly).(default: true)
 --coverage : (optional) true/false. creates code-coverage report for all js files included/loaded by arrow (default: false)

@@ -44,26 +44,32 @@ npm install -g yahoo-arrow
         
          Example Json :
                        {
-                           "yahoo.com": {
-                               "newHost": "x.x.x.x (your new host ip/name)",
-                               "headers":[
-                                   {
+                           "router":{
+                                "yahoo.com": {
+                                     "newHost": "x.x.x.x (your new host ip/name)",
+                                     "headers":[
+                                     {
                                        "param": "<param>",
                                        "value": "<val>"
-                                   }
-                               ],
+                                     }
+                                     ],
+                                "record": true
+                                },
+                               "news.yahoo.com": {
+                                     "newHost": "x.x.x.x (your new host ip/name)",
+                                     "headers":[
+                                     {
+                                       "param": "<param>",
+                                       "value": "<val>"
+                                     }
+                                     ],
                                "record": true
+                                }
                             },
-                            "news.yahoo.com": {
-                               "newHost": "x.x.x.x (your new host ip/name)",
-                               "headers":[
-                                   {
-                                       "param": "<param>",
-                                       "value": "<val>"
-                                   }
-                               ],
-                               "record": true
-                            }
+                           "coverage":{
+                               "clientSideCoverage": true,
+                               "coverageExclude": []
+                           }
                        }
         
 * **--exitCode** : (optional) true/false. Causes the exit code to be non-zero if any tests fail (default: false)
