@@ -80,7 +80,9 @@ YUI.add('dataprovider-tests', function (Y) {
                 "baseUrl": "http://overridebase.url.com",
                 "arrowModuleRoot": __dirname + "/",
                 "dimensions": __dirname + "/dimensions.json",
-                "context": "environment:development"
+                "context": "environment:development",
+                "replaceParamJSON" : __dirname + "/replaceParams/replaceParam.json",
+                "defaultParamJSON" : __dirname + "/replaceParams/defaultParam.json"
             };
 
             var dp = new dataProv(conf, __dirname + "/testDescriptor.json");
@@ -104,18 +106,6 @@ YUI.add('dataprovider-tests', function (Y) {
     }));
 
     suite.add(new Y.Test.Case({
-        "blank json from file": function() {
-            var conf = {};
-
-            var dp = new dataProv(conf, __dirname + "/testDescriptor.json"),
-                blankJson = dp.readAndValidateJSON(__dirname + '/replaceParams/replaceParamEmpty.json');
-
-            Y.Assert.areEqual(blankJson, undefined);
-        }
-    }));
-
-
-    suite.add(new Y.Test.Case({
         "Empty json string": function() {
             var conf = {};
 
@@ -136,18 +126,6 @@ YUI.add('dataprovider-tests', function (Y) {
             Y.Assert.areEqual(JSON.stringify(validJson), '{"key1":"value1","key2":"value2"}');
         }
     }));
-
-    suite.add(new Y.Test.Case({
-        "Invalid json": function() {
-            var conf = {};
-
-            var dp = new dataProv(conf, __dirname + "/testDescriptor.json"),
-                invalidJson = dp.readAndValidateJSON('{"key1"}');
-
-            Y.Assert.areEqual(invalidJson, undefined);
-        }
-    }));
-
 
     suite.add(new Y.Test.Case({
         "Valid json from file": function() {
@@ -207,6 +185,29 @@ YUI.add('dataprovider-tests', function (Y) {
 
 
     suite.add(new Y.Test.Case({
+        "Only default params": function(){
+            var conf = {
+                "baseUrl": "http://overridebase.url.com",
+                "arrowModuleRoot": __dirname + "/",
+                "dimensions": __dirname + "/dimensions.json",
+                "context": "environment:development",
+                "defaultParamJSON" : __dirname + "/replaceParams/defaultParam.json"
+
+            };
+
+            var dp = new dataProv(conf, __dirname + "/testDescriptorWithParams.json"),
+                descriptorJsonStr = fs.readFileSync(__dirname + "/testDescriptorWithParams.json", "utf-8"),
+                descriptorJson = JSON.parse(descriptorJsonStr),
+                descriptorWithReplacedParams = dp.getDescriptorWithReplacedParams(descriptorJson);
+
+            Y.Assert.areEqual(JSON.stringify(descriptorWithReplacedParams),
+                '[{"config":{"baseUrl":"http://finance.google.com"}}]');
+
+        }
+    }));
+
+
+    suite.add(new Y.Test.Case({
         "Inherit param from default params": function(){
             var conf = {
                 "baseUrl": "http://overridebase.url.com",
@@ -227,31 +228,6 @@ YUI.add('dataprovider-tests', function (Y) {
 
         }
     }));
-
-
-    suite.add(new Y.Test.Case({
-        "Empty replace params , valid default params": function(){
-            var conf = {
-                "baseUrl": "http://overridebase.url.com",
-                "arrowModuleRoot": __dirname + "/",
-                "dimensions": __dirname + "/dimensions.json",
-                "context": "environment:development",
-                "replaceParamJSON" : __dirname + "/replaceParams/replaceParamEmpty.json",
-                "defaultParamJSON" : __dirname + "/replaceParams/defaultParam.json"
-            };
-
-            var dp = new dataProv(conf, __dirname + "/testDescriptorWithParams.json"),
-                descriptorJsonStr = fs.readFileSync(__dirname + "/testDescriptorWithParams.json", "utf-8"),
-                descriptorJson = JSON.parse(descriptorJsonStr),
-                descriptorWithReplacedParams = dp.getDescriptorWithReplacedParams(descriptorJson);
-
-            Y.Assert.areEqual(JSON.stringify(descriptorWithReplacedParams),
-                '[{"config":{"baseUrl":"http://finance.google.com"}}]');
-
-        }
-    }));
-
-
 
     Y.Test.Runner.add(suite);
 }, '0.0.1', {requires:['test']});
