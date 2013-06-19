@@ -261,11 +261,10 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
                         sentToTmpServer('/index.jpeg', "\n");
 
                     });
-                    test.wait(function () {
+                    setTimeout(function () {
                         server.close()
                     }, 5000);
                 }
-
             )
             ;
 
