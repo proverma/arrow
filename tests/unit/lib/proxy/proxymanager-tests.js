@@ -54,7 +54,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
                 function onRequest(request, response) {
 
-                    response.writeHead(200, {"Content-Type": "text/plain"});
+                    response.writeHead(200, {"Content-Type" : "text/plain"});
                     response.write("Hello world");
                     response.end();
 
@@ -62,13 +62,13 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
                 portchecker.getFirstAvailable(11100, 11200, "localhost", function (p) {
 
-                http.createServer(onRequest).listen(p);
+//                    http.createServer(onRequest).listen(p);
 
                     options = {
-                        host: localhostip,
-                        port: minPort,
-                        path: '/',
-                        method: 'GET'
+                        host : localhostip,
+                        port : minPort,
+                        path : '/',
+                        method : 'GET'
                     };
 
                     req = http.request(options, function (res) {
@@ -124,10 +124,10 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
 
                 options = {
-                    host: hostName,
-                    port: minPort,
-                    path: '/proxyCoverage?sid=12345',
-                    method: 'GET'
+                    host : hostName,
+                    port : minPort,
+                    path : '/proxyCoverage?sid=12345',
+                    method : 'GET'
                 };
 
                 function sentToCoverage(method, data) {
@@ -151,7 +151,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
                 sentToCoverage("GET", "\n");
                 sentToCoverage("OPTIONS", "\n");
                 sentToCoverage("POST", "\n"); // should be catch
-                sentToCoverage("POST", JSON.stringify({coverage: {}, sid: "12345", origin: "nourl"})+"\n");
+                sentToCoverage("POST", JSON.stringify({coverage : {}, sid : "12345", origin : "nourl"}) + "\n");
                 sentToCoverage("GET", "\n"); // get again
 
             });
@@ -169,33 +169,34 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
                 router = {},
                 proxyManager = new ProxyManager(router, {}),
                 options,
-                req;
+                req,
+                server;
 
             // test instrument
 
             function onRequest(request, response) {
                 var url = require('url');
                 if (url.parse(request.url).pathname == '/index.html') {
-                    response.writeHead(200, {"Content-Type": "text/html"});
+                    response.writeHead(200, {"Content-Type" : "text/html"});
                     response.write("<head></head><body></body>");
 
                 } else if (url.parse(request.url).pathname == '/index.js') {
-                    response.writeHead(200, {"Content-Type": "text/javascript"});
+                    response.writeHead(200, {"Content-Type" : "text/javascript"});
                     response.write("var a=1;\n");
 
                 } else if (url.parse(request.url).pathname == '/index2.js') {
-                    response.writeHead(200, {"Content-Type": "text/javascript","content-encoding":"gzip"});
+                    response.writeHead(200, {"Content-Type" : "text/javascript", "content-encoding" : "gzip"});
                     response.write("\n");
 
                 } else if (url.parse(request.url).pathname == '/index3.js') {
-                    response.writeHead(200, {"Content-Type": "text/javascript","content-encoding":"deflate"});
+                    response.writeHead(200, {"Content-Type" : "text/javascript", "content-encoding" : "deflate"});
                     response.write("\n");
 
-                }else if (url.parse(request.url).pathname == '/index.jpeg') {
-                    response.writeHead(200, {"Content-Type": "image/jpeg"});
+                } else if (url.parse(request.url).pathname == '/index.jpeg') {
+                    response.writeHead(200, {"Content-Type" : "image/jpeg"});
                     response.write("abcde\n");
-                }  else {
-                    response.writeHead(200, {"Content-Type": "text/plain"});
+                } else {
+                    response.writeHead(200, {"Content-Type" : "text/plain"});
                     response.write("Hello js\n");
 
                 }
@@ -204,21 +205,21 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
             portchecker.getFirstAvailable(11100, 11199, "localhost", function (p) {
 
-                    http.createServer(onRequest).listen(p);
+                    server = http.createServer(onRequest).listen(p);
 
                     proxyManager.proxyConfig = {
-                        "localhost": {
-                            "newHost": hostName + ":" + p,
-                            "headers": [
-                                { "param": "user-agent",
-                                    "value": "Mozilla5.0"
+                        "localhost" : {
+                            "newHost" : hostName + ":" + p,
+                            "headers" : [
+                                { "param" : "user-agent",
+                                    "value" : "Mozilla5.0"
                                 }
                             ],
-                            "record": true
+                            "record" : true
                         },
-                        "coverage": {
-                            "clientSideCoverage": true,
-                            "coverageExclude": ["^http://yui.yahooapis.com.*\\.js$"]
+                        "coverage" : {
+                            "clientSideCoverage" : true,
+                            "coverageExclude" : ["^http://yui.yahooapis.com.*\\.js$"]
                         }
                     };
 
@@ -228,9 +229,9 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
                         A.areEqual(proxyHostMsg, localhostip + ':' + minPort, 'Proxy host doesn\'t match');
 
                         options = {
-                            host: hostName,
-                            port: minPort,
-                            method: 'GET'
+                            host : hostName,
+                            port : minPort,
+                            method : 'GET'
                         };
                         var body = '';
 
@@ -260,7 +261,9 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
                         sentToTmpServer('/index.jpeg', "\n");
 
                     });
-
+                    test.wait(function () {
+                        server.close()
+                    }, 5000);
                 }
 
             )
@@ -398,51 +401,51 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
         function testGetOptions() {
 
             var
-                proxyManager = new ProxyManager(__dirname + "/config/router.json", {"coverage": true}),
+                proxyManager = new ProxyManager(__dirname + "/config/router.json", {"coverage" : true}),
 
                 request = {
-                    'headers': { 'host': 'yahoo.com',
-                        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:16.0) Gecko/20100101 Firefox/16.0',
-                        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                        'accept-language': 'en-US,en;q=0.5',
-                        'accept-encoding': 'gzip, deflate',
-                        'proxy-connection': 'keep-alive',
-                        'referer': 'http://sports.yahoo.com/',
-                        'cookie': 'B=9csi6n98gtaiv&b=3&s=rt'
+                    'headers' : { 'host' : 'yahoo.com',
+                        'user-agent' : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:16.0) Gecko/20100101 Firefox/16.0',
+                        'accept' : 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                        'accept-language' : 'en-US,en;q=0.5',
+                        'accept-encoding' : 'gzip, deflate',
+                        'proxy-connection' : 'keep-alive',
+                        'referer' : 'http://sports.yahoo.com/',
+                        'cookie' : 'B=9csi6n98gtaiv&b=3&s=rt'
                     },
-                    'url': 'http://www.yahoo.com:4080/'
+                    'url' : 'http://www.yahoo.com:4080/'
                 },
                 router = {
-                    "yahoo.com": {
-                        "newHost": "def.yahoo.com",
-                        "headers": [
-                            { "param": "user-agent",
-                                "value": "Mozilla5.0"
+                    "yahoo.com" : {
+                        "newHost" : "def.yahoo.com",
+                        "headers" : [
+                            { "param" : "user-agent",
+                                "value" : "Mozilla5.0"
                             },
-                            { "param": "accept",
-                                "value": "text/json"
+                            { "param" : "accept",
+                                "value" : "text/json"
                             },
-                            { "param": "accept-language",
-                                "value": "es-ES;q=0.5"
+                            { "param" : "accept-language",
+                                "value" : "es-ES;q=0.5"
                             },
-                            { "param": "accept-encoding",
-                                "value": "gzip, deflate"
+                            { "param" : "accept-encoding",
+                                "value" : "gzip, deflate"
                             },
-                            { "param": "proxy-connection",
-                                "value": "keep-alive"
+                            { "param" : "proxy-connection",
+                                "value" : "keep-alive"
                             },
-                            { "param": "referer",
-                                "value": "ref.yahoo.com"
+                            { "param" : "referer",
+                                "value" : "ref.yahoo.com"
                             },
-                            { "param": "cookie",
-                                "value": "ProxyCookie"
+                            { "param" : "cookie",
+                                "value" : "ProxyCookie"
                             }
                         ],
-                        "record": true
+                        "record" : true
                     },
-                    "coverage": {
-                        "clientSideCoverage": true,
-                        "coverageExclude": []
+                    "coverage" : {
+                        "clientSideCoverage" : true,
+                        "coverageExclude" : []
                     }
                 },
 
@@ -465,52 +468,52 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
         suite.add(new Y.Test.Case({
 
-            'setUp': function () {
+            'setUp' : function () {
                 //logger.info('>>>setup Proxymanager tests');
             },
 
-            'tearDown': function () {
+            'tearDown' : function () {
                 //logger.info('>>>teardown Proxymanager tests');
             },
 
-            'test proxy manager No Ports Available': function () {
+            'test proxy manager No Ports Available' : function () {
                 testPortsNotAvailable();
             },
 
-            'ignore:test proxy manager Send Request to Proxy Server': function () {
+            'ignore:test proxy manager Send Request to Proxy Server' : function () {
                 testSendRequestToProxyServer();
             },
 
-            'test proxy manager Ports Available': function () {
+            'test proxy manager Ports Available' : function () {
                 var test = this;
                 testPortsAvailable(test);
             },
 
-            'test proxy manager No Json Path': function () {
+            'test proxy manager No Json Path' : function () {
                 testNoJsonPath();
             },
 
-            'test proxy manager valid Json Path': function () {
+            'test proxy manager valid Json Path' : function () {
                 testRouterValidJsonPath();
             },
 
-            'test proxy manager invalid Json path': function () {
+            'test proxy manager invalid Json path' : function () {
                 testRouterInvalidJsonPath();
             },
 
-            'test proxy manager writeLog': function () {
+            'test proxy manager writeLog' : function () {
                 testWriteLog();
             },
 
-            'test proxy manager get options': function () {
+            'test proxy manager get options' : function () {
                 testGetOptions();
             },
 
-            'test proxy manager instruement ': function () {
+            'test proxy manager instruement ' : function () {
                 var test = this;
                 testClientSideInstrumentOnProxyServer(test);
             },
-            'test proxy manager client request ': function () {
+            'test proxy manager client request ' : function () {
                 var test = this;
                 testHttpClientOnProxyServer(test);
             }
@@ -519,7 +522,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
         Y.Test.Runner.add(suite);
     },
-    '0.0.1', {requires: ['test']}
+    '0.0.1', {requires : ['test']}
 )
 ;
 
