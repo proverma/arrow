@@ -89,6 +89,14 @@ WebDriver.prototype.manage = function(){
         to.prototype.pageLoadTimeout = function (ms) {
             console.log("Page Load Timeout :" + ms);
         }
+
+        to.prototype.setScriptTimeout = function (ms) {
+            console.log("Script Timeout :" + ms);
+        }
+
+        to.prototype.implicitlyWait = function (ms) {
+            console.log("implicitlyWait Timeout :" + ms);
+        }
         return new to();
     }
 
