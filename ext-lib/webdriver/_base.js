@@ -34,15 +34,28 @@ var fs = require('fs'),
 
 
 /**
+ * If this script was loaded from the Selenium project repo, it will operate in
+ * development, adjusting how it loads Closure-based dependencies.
+ * @type {boolean}
+ */
+var devMode = (function() {
+  var buildDescFile = path.join(__dirname, '..', 'build.desc');
+  return fs.existsSync(buildDescFile);
+})();
+
+
+/**
  * @type {string} Path to Closure's base file, relative to this module.
  * @const
  */
-var CLOSURE_BASE_FILE_PATH = (function() {
-  var relativePath = isDevMode() ?
-      '../../../third_party/closure/goog/base.js' :
-      './lib/goog/base.js';
-  return path.join(__dirname, relativePath);
-})();
+var CLOSURE_BASE_FILE_PATH = computeClosureBasePath();
+
+
+/**
+ * @type {string} Path to Closure's base file, relative to this module.
+ * @const
+ */
+var DEPS_FILE_PATH = computeDepsPath();
 
 
 /**
@@ -50,7 +63,7 @@ var CLOSURE_BASE_FILE_PATH = (function() {
  * @type {!Object}
  * @const
  */
-var CLOSURE = vm.createContext({
+var closure = vm.createContext({
   console: console,
   setTimeout: setTimeout,
   setInterval: setInterval,
@@ -59,35 +72,18 @@ var CLOSURE = vm.createContext({
   process: process,
   require: require,
   Buffer: Buffer,
+  Error: Error,
+  CLOSURE_BASE_PATH: path.dirname(CLOSURE_BASE_FILE_PATH) + '/',
   CLOSURE_IMPORT_SCRIPT: function(src) {
-    src = path.join(path.dirname(CLOSURE_BASE_FILE_PATH), src);
     loadScript(src);
     return true;
-  }
+  },
+  CLOSURE_NO_DEPS: !isDevMode()
 });
-
+closure.window = closure;
 
 loadScript(CLOSURE_BASE_FILE_PATH);
-if (isDevMode()) {
-  loadScript(path.join(__dirname, '../../../javascript/deps.js'));
-
-  exports.closure = CLOSURE;
-}
-
-
-function isDevMode() {
-  return process.env['SELENIUM_DEV_MODE'] === '1';
-}
-
-
-/**
- * Synchronously loads a script into the protected Closure context.
- * @param {string} src Path to the file to load.
- */
-function loadScript(src) {
-  var contents = fs.readFileSync(src, 'utf8');
-  vm.runInContext(contents, CLOSURE, src);
-}
+loadScript(DEPS_FILE_PATH);
 
 
 /**
@@ -96,7 +92,80 @@ function loadScript(src) {
  * @return {*} The loaded symbol.
  * @throws {Error} If the symbol has not been defined.
  */
-exports.require = function(symbol) {
-  CLOSURE.goog.require(symbol);
-  return CLOSURE.goog.getObjectByName(symbol);
+function closureRequire(symbol) {
+  closure.goog.require(symbol);
+  return closure.goog.getObjectByName(symbol);
 };
+
+
+/** @return {string} Path to the closure library's base script. */
+function computeClosureBasePath() {
+  var relativePath = isDevMode() ?
+      '../../../third_party/closure/goog/base.js' :
+      './lib/goog/base.js';
+  return path.join(__dirname, relativePath);
+}
+
+
+/** @return {string} Path to the deps file used to locate closure resources. */
+function computeDepsPath() {
+  var relativePath = isDevMode() ?
+      '../../../javascript/deps.js' :
+      './lib/deps.js';
+  return path.join(__dirname, relativePath);
+}
+
+
+/** @return {boolean} Whether this script was loaded in dev mode. */
+function isDevMode() {
+  return devMode;
+}
+exports.isDevMode = isDevMode;
+
+
+/**
+ * Synchronously loads a script into the protected Closure context.
+ * @param {string} src Path to the file to load.
+ */
+function loadScript(src) {
+  src = path.normalize(src);
+  var contents = fs.readFileSync(src, 'utf8');
+  vm.runInContext(contents, closure, src);
+}
+
+
+// PUBLIC API
+
+
+/**
+ * Loads a symbol by name from the protected Closure context and exports its
+ * public API to the provided object. This function relies on Closure code
+ * conventions to define the public API of an object as those properties whose
+ * name does not end with "_".
+ * @param {string} symbol The symbol to load. This must resolve to an object.
+ * @return {!Object} An object with the exported API.
+ * @throws {Error} If the symbol has not been defined or does not resolve to
+ *     an object.
+ */
+exports.exportPublicApi = function(symbol) {
+  var src = closureRequire(symbol);
+  if (typeof src != 'object' || src === null) {
+    throw Error('"' + symbol + '" must resolve to an object');
+  }
+
+  var dest = {};
+  Object.keys(src).forEach(function(key) {
+    if (key[key.length - 1] != '_') {
+      dest[key] = src[key];
+    }
+  });
+
+  return dest;
+};
+
+
+if (isDevMode()) {
+  exports.closure = closure;
+}
+exports.isDevMode = isDevMode;
+exports.require = closureRequire;

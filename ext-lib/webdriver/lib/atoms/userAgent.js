@@ -46,7 +46,7 @@ bot.userAgent.isEngineVersion = function(version) {
     return goog.string.compareVersions(
         /** @type {number} */ (goog.userAgent.DOCUMENT_MODE), version) >= 0;
   } else {
-    return goog.userAgent.isVersion(version);
+    return goog.userAgent.isVersionOrHigher(version);
   }
 };
 
@@ -81,9 +81,7 @@ bot.userAgent.isProductVersion = function(version) {
  * When we are in a Firefox extension, this is a function that accepts a version
  * and returns whether the version of Gecko we are on is the same or higher
  * than the given version. When we are not in a Firefox extension, this is null.
- *
- * @type {(undefined|function((string|number)): boolean)}
- * @private
+ * @private {(undefined|function((string|number)): boolean)}
  */
 bot.userAgent.FIREFOX_EXTENSION_IS_ENGINE_VERSION_;
 
@@ -92,10 +90,7 @@ bot.userAgent.FIREFOX_EXTENSION_IS_ENGINE_VERSION_;
  * When we are in a Firefox extension, this is a function that accepts a version
  * and returns whether the version of Firefox we are on is the same or higher
  * than the given version. When we are not in a Firefox extension, this is null.
- *
- * @type {(undefined|function((string|number)): boolean)}
- *
- * @private
+ * @private {(undefined|function((string|number)): boolean)}
  */
 bot.userAgent.FIREFOX_EXTENSION_IS_PRODUCT_VERSION_;
 
@@ -167,10 +162,8 @@ bot.userAgent.MOBILE = bot.userAgent.IOS || goog.userAgent.product.ANDROID;
 
 /**
  * Android Operating System Version.
- *
+ * @private {string}
  * @const
- * @type {string}
- * @private
  */
 bot.userAgent.ANDROID_VERSION_ = (function() {
   if (goog.userAgent.product.ANDROID) {
@@ -189,7 +182,7 @@ bot.userAgent.ANDROID_VERSION_ = (function() {
  * @const
  */
 bot.userAgent.IE_DOC_PRE8 = goog.userAgent.IE &&
-    !goog.userAgent.isDocumentMode(8);
+    !goog.userAgent.isDocumentModeOrHigher(8);
 
 
 /**
@@ -197,7 +190,7 @@ bot.userAgent.IE_DOC_PRE8 = goog.userAgent.IE &&
  * @type {boolean}
  * @const
  */
-bot.userAgent.IE_DOC_9 = goog.userAgent.isDocumentMode(9);
+bot.userAgent.IE_DOC_9 = goog.userAgent.isDocumentModeOrHigher(9);
 
 
 /**
@@ -206,7 +199,7 @@ bot.userAgent.IE_DOC_9 = goog.userAgent.isDocumentMode(9);
  * @const
  */
 bot.userAgent.IE_DOC_PRE9 = goog.userAgent.IE &&
-    !goog.userAgent.isDocumentMode(9);
+    !goog.userAgent.isDocumentModeOrHigher(9);
 
 
 /**
@@ -214,7 +207,7 @@ bot.userAgent.IE_DOC_PRE9 = goog.userAgent.IE &&
  * @type {boolean}
  * @const
  */
-bot.userAgent.IE_DOC_10 = goog.userAgent.isDocumentMode(10);
+bot.userAgent.IE_DOC_10 = goog.userAgent.isDocumentModeOrHigher(10);
 
 
 /**
@@ -223,7 +216,7 @@ bot.userAgent.IE_DOC_10 = goog.userAgent.isDocumentMode(10);
  * @const
  */
 bot.userAgent.IE_DOC_PRE10 = goog.userAgent.IE &&
-    !goog.userAgent.isDocumentMode(10);
+    !goog.userAgent.isDocumentModeOrHigher(10);
 
 
 /**
