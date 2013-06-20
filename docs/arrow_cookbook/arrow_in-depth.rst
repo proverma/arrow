@@ -386,6 +386,79 @@ Now, if user runs the descriptor
 
 The value of ``'baseUrl'`` which is ``'http://${property}$.yahoo.com'`` will become ``'http://finance.yahoo.com'``
 
+
+Test Descriptor options: --defaultParamJSON
+--------------------
+This parameter is optional and can be used when user wants to use default values for the parameters which are not specified in replaceParamJSON.
+If user has specified replaceParamJSON and the value is not found in replaceParamJSON , it looks for the value in defaultParamJSON.
+
+It could either be passed as .json object or as a string in json format.
+
+default.json sample
+====================
+
+::
+
+    {
+        "property" : "finance",
+        "site" : "yahoo"
+    }
+
+replace.json sample
+====================
+
+::
+
+    {
+        "property" : "news"
+    }
+
+
+The descriptor will appear as follows for the given replace.json
+
+descriptor.json sample
+=======================
+
+::
+
+    [
+          {
+                 "settings":[ "master" ],
+                 "name":"descriptor",
+                 "config":{
+                            "baseUrl": "http://${property}$.${site}.com"
+                       },
+                 "dataprovider":{
+                 "Test sample":{
+                            "params": {
+                                       "test": "test.js"
+                                       "page":"$$config.baseUrl$$"
+                                      }
+                            }
+                    }
+          }
+    ]
+
+Now, if user runs the descriptor
+
+::
+
+    arrow ./descriptor.json --replaceParamJSON=./replace.json --defaultParamJSON=./default.json --browser=firefox
+    or
+    arrow ./descriptor.json --replaceParamJSON='{"property":"news"}' --defaultParamJSON='{"property":"finance","site":"yahoo"}' --browser=firefox
+
+The value of ``'baseUrl'`` which is ``'http://${property}$.${site}.com'`` will become ``'http://news.yahoo.com'``
+
+If user only passes defaultParamJSON,
+
+::
+    arrow ./descriptor.json --defaultParamJSON=./default.json --browser=firefox
+    or
+    arrow ./descriptor.json --defaultParamJSON='{"property":"finance","site":"yahoo"}' --browser=firefox
+
+The value of ``'baseUrl'`` which is ``'http://${property}$.${site}.com'`` will become ``'http://finance.yahoo.com'``
+
+
 Configuration
 -------------
 There are various ways to configure Arrow. Normally, Arrow's configuration file will be installed here

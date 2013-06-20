@@ -40,8 +40,7 @@ npm install -g yahoo-arrow
 * **--capabilities** : (optional) the name of a json file containing webdriver capabilities required by your project
 * **--startProxyServer** : (optional) true/false. Starts a proxy server, intercepting all selenium browser calls
 * **--routerProxyConfig** : (optional) filePath. Expects a Json file, allows users to modify host and headers for all calls being made by browser. Also supports recording of select url calls ( if you mark "record" : true)
-        
-        
+
          Example Json :
                        {
                            "router":{
@@ -74,7 +73,10 @@ npm install -g yahoo-arrow
         
 * **--exitCode** : (optional) true/false. Causes the exit code to be non-zero if any tests fail (default: false)
 * **--coverage** : (optional) true/false. creates code-coverage report for all js files included/loaded by arrow (default: false)
-        
+* **--replaceParamJSON** : (optional) Either .json file or json object to be replaced with its value in descriptor file
+* **--defaultParamJSON** : (optional) Either .json file or json object. If parameters to be replaced are not found via replaceParamJSON ,it falls back to the parameters specified in defaultParamJSON
+
+
 ##Examples
 
 Below are some examples to help you get started.
