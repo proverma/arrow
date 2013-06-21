@@ -1090,8 +1090,9 @@ After the test executes two files will be created - *<descriptor name>-report.xm
 
 Running multiple descriptors using ``'arrow "**/*-descriptor.json" --report=true'`` , will create <descriptor name>-report.xml and <descriptor name>-report.json for each descriptor.
 
-If "reportFolder" is passed .eg . --reportFolder=/reportPath/, the reports will be generated under /reportPath/arrow-report. A *<descriptor name>-report.xml* and *<descriptor name>-report.json* is created for each descriptor.
-A summarized report is also created by the name "arrow-test-summary" in both xml and json formats. In addition, a time report is generated in json format which shows the time taken for each descriptor to complete as well as the time taken by each test within the descriptor.
+If "reportFolder" is passed .eg . --reportFolder=/reportPath/, the reports will be generated under /reportPath/arrow-report. Under "arrow-report", Arrow creates a directory structure similar to that for descriptors.
+e.g if the descriptors being run are dir1/descriptor1.json and dir2/descriptor.json, the corresponding reports will be stored under /reportPath/arrow-report/dir1/ and /reportPath/arrow-report/dir2/ respectively.
+A summarized report is also created by the name "arrow-test-summary" in both xml and json formats under /reportPath/arrow-report directory. In addition, a time report is generated in json format which shows the time taken for each descriptor to complete as well as the time taken by each test within the descriptor.
 
 If "reportFolder" is not passed, the reports are generated under "arrow-target" directory e.g "arrow-target/arrow-report" wrt the location from which you executed Arrow.
 
