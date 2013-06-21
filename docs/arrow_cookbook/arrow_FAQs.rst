@@ -227,24 +227,6 @@ Solution
 Because our dependencies are part of the NPM package, provided you do not upgrade, this should not cause you any problems. In other words, the dependencies for a given version of Arrow are tied to that version. Therefore, you should be able to continue using a previous version of Arrow without any issues.
 
 
-How do I ensure custom controllers with multiple descriptors run successfully?
-------------------------------------------------------------------------------
-
-On hudson using package.json, the custom controller may get stuck if you run multiple descriptors at the same time. This happens because sometimes the selenium server is not running or not responding.
-
-You must catch the exception while writing the custom controller using webdriver.listener; it throws the exception right away, like this:
-
-::
-
-  webdriver.listener.on("uncaughtException", function (e) {
-     errorMsg =  "Uncaught exception: " + e.message;
-     self.logger.error(errorMsg);
-     callback(errorMsg);
-  });
-
-** Note: In order to use this feature you must have arrow version 0.0.67 or higher **
-
-
 How do I write Traps?
 ---------------------
 

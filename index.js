@@ -105,7 +105,7 @@ function showHelp() {
         "                          Example : --parallel=3 , will run three tests in parallel" + "\n\n" +
         "        --report : (optional) true/false.  creates report files in junit and json format. (default: true)" + "\n" +
         "                     also prints a consolidated test report summary on console. " + "\n\n" +
-        "        --reportFolder : (optional) folderPath.  creates report files in that folder. (default: descriptor folder path)" + "\n\n" +
+        "        --reportFolder : (optional) folderPath.  creates report files under {folderPath}/arrow-report. (default: arrow-target/arrow-report under current directory)" + "\n\n" +
         "        --testName : (optional) comma seprated list of test name(s) defined in test descriptor" + "\n" +
         "                       all other tests will be ignored." + "\n\n" +
         "        --group : (optional) comma seprated list of group(s) defined in test descriptor." + "\n" +
@@ -165,10 +165,33 @@ function showHelp() {
         "                                }" + "\n" +
         "                               }" + "\n" +
         "                            }" + "\n" +
+        "                        ]" + "\n",
+
+        "     --defaultParamJSON : (optional) Accepts .json file or json object as its value. If the parameters to be replaced are not found via replaceParamJSON parameter," +
+                             " it falls back to the parameters specified in defaultParamJSON." + "\n" +
+        "                       Example: --defaultParamJSON=./defaultParams.json OR --defaultParamJSON={\"property\":\"finance\"} will replace value of \"property\"" + "\n" +
+        "                            inside the descriptor.json with \"finance\"" +"\n" +
+        "                       descriptor.json" + "\n" +
+        "                       [" + "\n" +
+        "                            {" +  "\n" +
+        "                                \"settings\":[ \"master\" ]," + "\n" +
+        "                                \"name\":\"descriptor\"," + "\n" +
+        "                                \"config\":{" + "\n" +
+        "                                \"baseUrl\": \"http://${property}$.yahoo.com\" " + "\n" +
+        "                            }," + "\n" +
+        "                                \"dataprovider\":{ " + "\n" +
+        "                                \"Test sample\":{ " + "\n" +
+        "                                   \"params\": {" + "\n" +
+        "                                        \"test\": \"test.js\" " + "\n" +
+        "                                        \"page\":\"$$config.baseUrl$$\"" + "\n" +
+        "                                    }" + "\n" +
+        "                                }" + "\n" +
+        "                               }" + "\n" +
+        "                            }" + "\n" +
         "                        ]" + "\n"
 
 
-    );
+);
     console.log("\nEXAMPLES :" + "\n" +
         "        Unit test: " + "\n" +
         "          arrow test-unit.js --lib=../src/greeter.js" + "\n\n" +

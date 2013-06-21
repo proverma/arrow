@@ -335,7 +335,7 @@ Or
 In each case, Arrow will take the `context` and `dimensions` file and use those to map the correct `config` value for the current execution
 
 
-Test Descriptor options: --replaceParamJSON
+replaceParamJSON
 --------------------
 This parameter is optional and can be used when user wants to configure descriptors to replace certain values on the fly.
 
@@ -385,6 +385,79 @@ Now, if user runs the descriptor
     arrow ./descriptor.json --replaceParamJSON='{"property":"finance"}' --browser=firefox
 
 The value of ``'baseUrl'`` which is ``'http://${property}$.yahoo.com'`` will become ``'http://finance.yahoo.com'``
+
+
+defaultParamJSON
+--------------------
+This parameter is optional and can be used when user wants to use default values for the parameters which are not specified in replaceParamJSON.
+If user has specified replaceParamJSON and the value is not found in replaceParamJSON , it looks for the value in defaultParamJSON.
+
+It could either be passed as .json object or as a string in json format.
+
+default.json sample
+====================
+
+::
+
+    {
+        "property" : "finance",
+        "site" : "yahoo"
+    }
+
+replace.json sample
+====================
+
+::
+
+    {
+        "property" : "news"
+    }
+
+
+The descriptor will appear as follows for the given replace.json
+
+descriptor.json sample
+=======================
+
+::
+
+    [
+          {
+                 "settings":[ "master" ],
+                 "name":"descriptor",
+                 "config":{
+                            "baseUrl": "http://${property}$.${site}.com"
+                       },
+                 "dataprovider":{
+                 "Test sample":{
+                            "params": {
+                                       "test": "test.js"
+                                       "page":"$$config.baseUrl$$"
+                                      }
+                            }
+                    }
+          }
+    ]
+
+Now, if user runs the descriptor
+
+::
+
+    arrow ./descriptor.json --replaceParamJSON=./replace.json --defaultParamJSON=./default.json --browser=firefox
+    or
+    arrow ./descriptor.json --replaceParamJSON='{"property":"news"}' --defaultParamJSON='{"property":"finance","site":"yahoo"}' --browser=firefox
+
+The value of ``'baseUrl'`` which is ``'http://${property}$.${site}.com'`` will become ``'http://news.yahoo.com'``
+
+If user only passes defaultParamJSON,
+
+::
+    arrow ./descriptor.json --defaultParamJSON=./default.json --browser=firefox
+    or
+    arrow ./descriptor.json --defaultParamJSON='{"property":"finance","site":"yahoo"}' --browser=firefox
+
+The value of ``'baseUrl'`` which is ``'http://${property}$.${site}.com'`` will become ``'http://finance.yahoo.com'``
+
 
 Configuration
 -------------
@@ -1017,8 +1090,9 @@ After the test executes two files will be created - *<descriptor name>-report.xm
 
 Running multiple descriptors using ``'arrow "**/*-descriptor.json" --report=true'`` , will create <descriptor name>-report.xml and <descriptor name>-report.json for each descriptor.
 
-If "reportFolder" is passed .eg . --reportFolder=/reportPath/, the reports will be generated under /reportPath/arrow-report. A *<descriptor name>-report.xml* and *<descriptor name>-report.json* is created for each descriptor.
-A summarized report is also created by the name "arrow-test-summary" in both xml and json formats. In addition, a time report is generated in json format which shows the time taken for each descriptor to complete as well as the time taken by each test within the descriptor.
+If "reportFolder" is passed .eg . --reportFolder=/reportPath/, the reports will be generated under /reportPath/arrow-report. Under "arrow-report", Arrow creates a directory structure similar to that for descriptors.
+e.g if the descriptors being run are dir1/descriptor1.json and dir2/descriptor.json, the corresponding reports will be stored under /reportPath/arrow-report/dir1/ and /reportPath/arrow-report/dir2/ respectively.
+A summarized report is also created by the name "arrow-test-summary" in both xml and json formats under /reportPath/arrow-report directory. In addition, a time report is generated in json format which shows the time taken for each descriptor to complete as well as the time taken by each test within the descriptor.
 
 If "reportFolder" is not passed, the reports are generated under "arrow-target" directory e.g "arrow-target/arrow-report" wrt the location from which you executed Arrow.
 

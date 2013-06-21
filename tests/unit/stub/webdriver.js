@@ -1,4 +1,5 @@
 // Stub webdriver to use with several test cases
+/*jslint forin:true sub:true anon:true, sloppy:true, stupid:true nomen:true, node:true, continue:true*/
 
 /*
  * Copyright (c) 2012, Yahoo! Inc. All rights reserved.
@@ -7,11 +8,26 @@
  */
 
 
-var promise = {};
+
 var Application = function () {
     this.callbacks = {};
 };
-promise.Application = Application;
+Application.getInstance = function () {
+    return new Application();
+};
+Application.prototype.on = function (eventName, callback) {
+    this.callbacks[eventName] = callback;
+};
+Application.prototype.notify = function (eventName, data) {
+    if (this.callbacks[eventName]) {
+        this.callbacks[eventName].call(this, data);
+    }
+};
+
+var promise = {};
+promise.controlFlow = function () {
+    return new Application();
+};
 
 var By = {
     id: function () {
@@ -22,6 +38,23 @@ var By = {
     },
     xpath: function () {
     }
+};
+
+var Builder = function () {
+};
+
+Builder.prototype.usingServer = function () {
+    return this;
+};
+Builder.prototype.usingSession = function (id) {
+    this.sessionId = id;
+    return this;
+};
+Builder.prototype.withCapabilities = function () {
+    return this;
+};
+Builder.prototype.build = function () {
+    return new WebDriver();
 };
 
 var WebDriver = function () {
@@ -39,35 +72,37 @@ var WebDriver = function () {
     this.currentUrl = "about:blank";
     this.scriptResults = [];
     this.actions = [];
-};
-var Builder = function () {
+
 };
 
-Application.getInstance = function () {
-    return new Application();
-};
-Application.prototype.on = function (eventName, callback) {
-    this.callbacks[eventName] = callback;
-};
-Application.prototype.notify = function (eventName, data) {
-    if (this.callbacks[eventName]) {
-        this.callbacks[eventName].call(this, data);
+WebDriver.prototype.manage = function(){
+
+    var mgr = function () {
+
+    };
+
+    mgr.prototype.timeouts = function () {
+        var to = function () {
+
+        }
+
+        to.prototype.pageLoadTimeout = function (ms) {
+            console.log("Page Load Timeout :" + ms);
+        }
+
+        to.prototype.setScriptTimeout = function (ms) {
+            console.log("Script Timeout :" + ms);
+        }
+
+        to.prototype.implicitlyWait = function (ms) {
+            console.log("implicitlyWait Timeout :" + ms);
+        }
+        return new to();
     }
-};
 
-Builder.prototype.usingServer = function () {
-    return this;
-};
-Builder.prototype.usingSession = function (id) {
-    this.sessionId = id;
-    return this;
-};
-Builder.prototype.withCapabilities = function () {
-    return this;
-};
-Builder.prototype.build = function () {
-    return new WebDriver();
-};
+    return new mgr();
+
+}
 
 WebDriver.prototype.findElement = function () {
     var self = this;
