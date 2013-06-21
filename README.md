@@ -30,7 +30,7 @@ npm install -g yahoo-arrow
 * **--shareLibPath** comma separated list of directories to be scaned to load module automatically
 * **--browser** firefox|chrome|opera|reuse.  Specify browser version with a hypen, ex.: firefox-4.0 or opera-11.0 (default: firefox)
 * **--report** true/false. Creates report files in junit and json format, and also prints a consolidated test report summary on console
-* **--reportFolder** : (optional) folderPath.  creates report files in that folder. (default: descriptor folder path)
+* **--reportFolder** : (optional) folderPath.  creates report files under {folderPath}/arrow-report. (default: arrow-target/arrow-report under current directory)
 * **--testName** comma separated list of test names defined in test descriptor. all other tests will be ignored
 * **--group** comma separated list of groups defined in test descriptor, all other groups will be ignored
 * **--logLevel** TRACE|DEBUG|INFO|WARN|ERROR|FATAL (default: INFO)

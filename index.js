@@ -105,7 +105,7 @@ function showHelp() {
         "                          Example : --parallel=3 , will run three tests in parallel" + "\n\n" +
         "        --report : (optional) true/false.  creates report files in junit and json format. (default: true)" + "\n" +
         "                     also prints a consolidated test report summary on console. " + "\n\n" +
-        "        --reportFolder : (optional) folderPath.  creates report files in that folder. (default: descriptor folder path)" + "\n\n" +
+        "        --reportFolder : (optional) folderPath.  creates report files under {folderPath}/arrow-report. (default: arrow-target/arrow-report under current directory)" + "\n\n" +
         "        --testName : (optional) comma seprated list of test name(s) defined in test descriptor" + "\n" +
         "                       all other tests will be ignored." + "\n\n" +
         "        --group : (optional) comma seprated list of group(s) defined in test descriptor." + "\n" +
