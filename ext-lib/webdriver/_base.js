@@ -40,7 +40,8 @@ var fs = require('fs'),
  */
 var devMode = (function() {
   var buildDescFile = path.join(__dirname, '..', 'build.desc');
-  return fs.existsSync(buildDescFile);
+  var existsSync = fs.existsSync || path.existsSync;
+  return existsSync(buildDescFile);
 })();
 
 

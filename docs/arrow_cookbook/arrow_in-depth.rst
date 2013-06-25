@@ -335,7 +335,7 @@ Or
 In each case, Arrow will take the `context` and `dimensions` file and use those to map the correct `config` value for the current execution
 
 
-Test Descriptor options: --replaceParamJSON
+replaceParamJSON
 --------------------
 This parameter is optional and can be used when user wants to configure descriptors to replace certain values on the fly.
 
@@ -387,7 +387,7 @@ Now, if user runs the descriptor
 The value of ``'baseUrl'`` which is ``'http://${property}$.yahoo.com'`` will become ``'http://finance.yahoo.com'``
 
 
-Test Descriptor options: --defaultParamJSON
+defaultParamJSON
 --------------------
 This parameter is optional and can be used when user wants to use default values for the parameters which are not specified in replaceParamJSON.
 If user has specified replaceParamJSON and the value is not found in replaceParamJSON , it looks for the value in defaultParamJSON.
