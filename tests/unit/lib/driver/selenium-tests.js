@@ -7,6 +7,7 @@
 YUI.add('selenium-tests', function (Y, NAME) {
 
     var path = require('path'),
+        mockery = require('mockery'),
         arrowRoot = path.join(__dirname, '../../../..'),
         DriverClass = require(arrowRoot + '/lib/driver/selenium.js'),
         suite = new Y.Test.Suite(NAME),
@@ -192,7 +193,6 @@ YUI.add('selenium-tests', function (Y, NAME) {
         },
 
 
-
         'test driver error': function () {
             var driver,
                 config = {browser: 'mybrowser', seleniumHost: 'http://wdhub'},
@@ -215,7 +215,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 executed = false;
 
             driver = new DriverClass(config, {});
-            driver.createDriverJs = function (params,cb) {
+            driver.createDriverJs = function (params, cb) {
                 cb(null, 'driverjs');
             };
 
@@ -229,7 +229,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 var webdriver = driver.getWebDriver();
                 webdriver.scriptResults['return ARROW.testReport;'] = '{"name": "functest", "failed": 0, "passed": 0}';
 
-                driver.executeTest({}, {page: 'http://page', test : 'test.js', customController : false}, function (errMsg) {
+                driver.executeTest({}, {page: 'http://page', test: 'test.js', customController: false}, function (errMsg) {
                     console.log(errMsg);
                     executed = !errMsg;
                     validate();
@@ -244,8 +244,8 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 executed = false;
 
             driver = new DriverClass(config, {});
-            driver.createDriverJs = function (params,cb) {
-                cb( null, 'driverjs');
+            driver.createDriverJs = function (params, cb) {
+                cb(null, 'driverjs');
             };
 
             function validate() {
@@ -271,8 +271,8 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 executed = false;
 
             driver = new DriverClass(config, {});
-            driver.createDriverJs = function (params,cb) {
-                cb(null,'if (time<20) { a=3; }');
+            driver.createDriverJs = function (params, cb) {
+                cb(null, 'if (time<20) { a=3; }');
             };
 
             function validate() {
@@ -297,8 +297,8 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 config = {browser: 'mybrowser', seleniumHost: 'http://wdhub'},
                 executed = false;
 
-            function createDriverJs(params,cb) {
-                cb( null,'driverjs');
+            function createDriverJs(params, cb) {
+                cb(null, 'driverjs');
             }
 
             function validate() {
@@ -327,8 +327,8 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 config = {browser: 'mybrowser', seleniumHost: 'http://wdhub'},
                 executed = false;
 
-            function createDriverJs(params,cb) {
-                cb( null,'driverjs');
+            function createDriverJs(params, cb) {
+                cb(null, 'driverjs');
             }
 
             function validate() {
@@ -363,12 +363,12 @@ YUI.add('selenium-tests', function (Y, NAME) {
 
         'test createDriverJs with bad testJs': function () {
             var self = this,
-                config = {arrowModuleRoot:arrowRoot,browser: 'mybrowser', seleniumHost: 'http://wdhub', testRunner: arrowRoot + '/lib/client/yuitest-runner.js', testSeed: arrowRoot + '/lib/client/yuitest-seed.js'},
+                config = {arrowModuleRoot: arrowRoot, browser: 'mybrowser', seleniumHost: 'http://wdhub', testRunner: arrowRoot + '/lib/client/yuitest-runner.js', testSeed: arrowRoot + '/lib/client/yuitest-seed.js'},
                 driver = new DriverClass(config, {}),
                 filePath = "'" + arrowRoot + "/not-found.js" + "'";
             global.workingDirectory = arrowRoot;
 
-            driver.createDriverJs({"test" : "not-found.js"}, function (e) {
+            driver.createDriverJs({"test": "not-found.js"}, function (e) {
                 A.areEqual("Error: ENOENT, no such file or directory " + filePath, e.toString(), "File not found error should be caught");
             }), "createDriverJs should return false for blank testParams";
             global.workingDirectory = '';
@@ -382,7 +382,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 actionJs = arrowRoot + '/tests/unit/lib/driver/config/action.js',
                 testHtml = arrowRoot + '/tests/unit/lib/driver/config/test.html',
                 config = {
-                    arrowModuleRoot:arrowRoot,
+                    arrowModuleRoot: arrowRoot,
                     coverage: 'true',
                     browser: 'mybrowser',
                     seleniumHost: 'http://wdhub',
@@ -391,8 +391,8 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 },
                 driver = new DriverClass(config, {});
 
-            driver.createDriverJs({"test" : testRunnerJs,
-                "lib" : libJs}, function (e) {
+            driver.createDriverJs({"test": testRunnerJs,
+                "lib": libJs}, function (e) {
                 A.areEqual(null, e, "There should be no error");
             });
 
@@ -400,26 +400,102 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 seleniumHost: 'http://wdhub',
                 testRunner: testRunnerJs,
                 testSeed: seedJs,
-                arrowModuleRoot:arrowRoot
+                arrowModuleRoot: arrowRoot
             };
             driver = new DriverClass(config, {});
-            driver.createDriverJs({"test" : testRunnerJs,
-                "lib" : "," + libJs, "action" : actionJs}, function (e) {
+            driver.createDriverJs({"test": testRunnerJs,
+                "lib": "," + libJs, "action": actionJs}, function (e) {
                 A.areEqual(null, e, "There should be no error");
             });
 
             // Without test
             driver = new DriverClass(config, {});
-            driver.createDriverJs({ "lib" : "," + libJs, "action" : actionJs}, function (e) {
+            driver.createDriverJs({ "lib": "," + libJs, "action": actionJs}, function (e) {
                 A.areEqual(null, e, "There should be no error");
             });
 
             // with html test
             driver = new DriverClass(config, {});
-            driver.createDriverJs({"test" : testHtml,
-                "lib" : "," + libJs, "action" : actionJs}, function (e) {
+            driver.createDriverJs({"test": testHtml,
+                "lib": "," + libJs, "action": actionJs}, function (e) {
                 A.areEqual(null, e, "There should be no error");
             });
+
+        },
+        'test createDriverJs share lib load': function () {
+
+            var self = this,
+                testRunnerJs = arrowRoot + '/tests/unit/lib/driver/config/testRunner.js',
+                libJs = arrowRoot + '/tests/unit/lib/driver/config/libs/lib-one.js,' + arrowRoot + '/tests/unit/lib/driver/config/libs/lib-two.js',
+                seedJs = arrowRoot + '/tests/unit/lib/driver/config/seed.js',
+                actionJs = arrowRoot + '/tests/unit/lib/driver/config/action.js',
+                testHtml = arrowRoot + '/tests/unit/lib/driver/config/test.html',
+                config = {
+                    arrowModuleRoot: arrowRoot,
+                    coverage: 'true',
+                    browser: 'mybrowser',
+                    seleniumHost: 'http://wdhub',
+                    testRunner: testRunnerJs,
+                    testSeed: seedJs
+                },
+                driver = new DriverClass(config, {});
+
+            driver.createDriverJs({"test": testRunnerJs,
+                "lib": libJs}, function (e, driverjs) {
+                A.areEqual(null, e, "There should be no error");
+                A.isTrue(driverjs.indexOf("http://chaijs.com/chai.js") != -1 &&
+                    driverjs.indexOf("/tests/unit/lib/driver/config/libs/lib-one.js") != -1 &&
+                    driverjs.indexOf("/tests/unit/lib/driver/config/libs/lib-two.js") != -1);
+            });
+        },
+        'test createDriverJs with mocked share lib load': function () {
+            var stubscanner = require(arrowRoot + "/lib/util/sharelibscanner.js");
+            stubscanner.scannerUtil.getSrcDependencyByPath = function (lib, affinity) {
+                return {
+                    shareDepLibs: [arrowRoot + '/tests/unit/lib/driver/config/libs/lib-one.js',
+                        arrowRoot + '/tests/unit/lib/driver/config/libs/lib-two.js',
+                        arrowRoot + '/tests/unit/lib/driver/config/libs/lib-three.js'],
+                    yuiDepLibs: ['test'],
+                    urlDepLibs: ['temp.js']
+                }
+            }
+            mockery.registerMock("../util/sharelibscanner", stubscanner);
+
+            var self = this,
+                testRunnerJs = arrowRoot + '/tests/unit/lib/driver/config/testRunner.js',
+                libJs = arrowRoot + '/tests/unit/lib/driver/config/libs/lib-one.js,' + arrowRoot + '/tests/unit/lib/driver/config/libs/lib-two.js',
+                seedJs = arrowRoot + '/tests/unit/lib/driver/config/seed.js',
+                actionJs = arrowRoot + '/tests/unit/lib/driver/config/action.js',
+                testHtml = arrowRoot + '/tests/unit/lib/driver/config/test.html',
+                config = {
+                    arrowModuleRoot: arrowRoot,
+                    coverage: 'true',
+                    browser: 'mybrowser',
+                    seleniumHost: 'http://wdhub',
+                    testRunner: testRunnerJs,
+                    testSeed: seedJs
+                },
+                driver = new DriverClass(config, {});
+
+            mockery.enable();
+            /*
+             in this example, libjs contain lib-one and lib-two, while share lib will contains lib-one,lib-two(with name lib one),lib-three
+             sharelib/lib-one has some file path with libjs/lib-one , so will be ignored
+             sharelib/lib-two has some module name with libjs/lib-one , so will be ignored
+             sharelib/lib-three will be loaded and with a url contains in it.
+             */
+            driver.createDriverJs({"test": testRunnerJs,
+                "lib": libJs}, function (e, driverjs) {
+                A.areEqual(null, e, "There should be no error");
+                A.isTrue(
+                    driverjs.indexOf("temp.js") != -1 &&
+                        driverjs.indexOf("/tests/unit/lib/driver/config/libs/lib-one.js") != -1 &&
+                        driverjs.indexOf("/tests/unit/lib/driver/config/libs/lib-two.js") != -1 &&
+                        driverjs.indexOf("/tests/unit/lib/driver/config/libs/lib-three.js") != -1);
+            });
+
+            mockery.disable();
+            mockery.deregisterAll();
 
         }
 
