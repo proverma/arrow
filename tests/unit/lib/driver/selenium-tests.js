@@ -7,6 +7,7 @@
 YUI.add('selenium-tests', function (Y, NAME) {
 
     var path = require('path'),
+        mockery = require('mockery'),
         arrowRoot = path.join(__dirname, '../../../..'),
         DriverClass = require(arrowRoot + '/lib/driver/selenium.js'),
         suite = new Y.Test.Suite(NAME),
@@ -420,6 +421,69 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 "lib" : "," + libJs, "action" : actionJs}, function (e) {
                 A.areEqual(null, e, "There should be no error");
             });
+
+        },
+        'test createDriverJs share lib load': function () {
+
+            var self = this,
+                testRunnerJs = arrowRoot + '/tests/unit/lib/driver/config/testRunner.js',
+                libJs = arrowRoot + '/tests/unit/lib/driver/config/libs/lib-one.js,'+arrowRoot + '/tests/unit/lib/driver/config/libs/lib-two.js',
+                seedJs = arrowRoot + '/tests/unit/lib/driver/config/seed.js',
+                actionJs = arrowRoot + '/tests/unit/lib/driver/config/action.js',
+                testHtml = arrowRoot + '/tests/unit/lib/driver/config/test.html',
+                config = {
+                    arrowModuleRoot:arrowRoot,
+                    coverage: 'true',
+                    browser: 'mybrowser',
+                    seleniumHost: 'http://wdhub',
+                    testRunner: testRunnerJs,
+                    testSeed: seedJs
+                },
+                driver = new DriverClass(config, {});
+
+            driver.createDriverJs({"test" : testRunnerJs,
+                "lib" : libJs}, function (e) {
+                A.areEqual(null, e, "There should be no error");
+            });
+        },
+        'test createDriverJs with mocked share lib load': function () {
+            var stubscanner = require(arrowRoot+"/lib/util/sharelibscanner.js");
+            stubscanner.scannerUtil.getSrcDependencyByPath = function(lib,affinity){
+                return {
+                    shareDepLibs:[arrowRoot + '/tests/unit/lib/driver/config/libs/lib-one.js',
+                        arrowRoot + '/tests/unit/lib/driver/config/libs/lib-two.js',
+                        arrowRoot + '/tests/unit/lib/driver/config/libs/lib-three.js'],
+                    yuiDepLibs:['test'],
+                    urlDepLibs:['temp.js']
+                }
+            }
+            mockery.registerMock("../util/sharelibscanner", stubscanner);
+
+            var self = this,
+                testRunnerJs = arrowRoot + '/tests/unit/lib/driver/config/testRunner.js',
+                libJs = arrowRoot + '/tests/unit/lib/driver/config/libs/lib-one.js,'+arrowRoot + '/tests/unit/lib/driver/config/libs/lib-two.js',
+                seedJs = arrowRoot + '/tests/unit/lib/driver/config/seed.js',
+                actionJs = arrowRoot + '/tests/unit/lib/driver/config/action.js',
+                testHtml = arrowRoot + '/tests/unit/lib/driver/config/test.html',
+                config = {
+                    arrowModuleRoot:arrowRoot,
+                    coverage: 'true',
+                    browser: 'mybrowser',
+                    seleniumHost: 'http://wdhub',
+                    testRunner: testRunnerJs,
+                    testSeed: seedJs
+                },
+                driver = new DriverClass(config, {});
+
+            mockery.enable();
+
+            driver.createDriverJs({"test" : testRunnerJs,
+                "lib" : libJs}, function (e) {
+                A.areEqual(null, e, "There should be no error");
+            });
+
+            mockery.disable();
+            mockery.deregisterAll();
 
         }
 
