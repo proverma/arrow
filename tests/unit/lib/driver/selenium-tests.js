@@ -486,7 +486,6 @@ YUI.add('selenium-tests', function (Y, NAME) {
              */
             driver.createDriverJs({"test": testRunnerJs,
                 "lib": libJs}, function (e, driverjs) {
-                console.log(driverjs);
                 A.areEqual(null, e, "There should be no error");
                 A.isTrue(
                     driverjs.indexOf("temp.js") != -1 &&
