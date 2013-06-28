@@ -476,10 +476,21 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 driver = new DriverClass(config, {});
 
             mockery.enable();
-
+            /*
+              in this example, libjs contain lib-one and lib-two, while share lib will contains lib-one,lib-two(with name lib one),lib-three
+              sharelib/lib-one has some file path with libjs/lib-one , so will be ignored
+             sharelib/lib-two has some file path with libjs/lib-one , so will be ignored
+             sharelib/lib-three will be loaded and with a url contains in it.
+             */
             driver.createDriverJs({"test" : testRunnerJs,
-                "lib" : libJs}, function (e) {
+                "lib" : libJs}, function (e,driverjs) {
+                console.log(driverjs);
                 A.areEqual(null, e, "There should be no error");
+                A.isTrue(driverjs.indexOf("http://chaijs.com/chai.js")!=-1 &&
+                    driverjs.indexOf("temp.js")!=-1 &&
+                    driverjs.indexOf("/tests/unit/lib/driver/config/libs/lib-one.js")!=-1 &&
+                    driverjs.indexOf("/tests/unit/lib/driver/config/libs/lib-two.js")!=-1 &&
+                    driverjs.indexOf("/tests/unit/lib/driver/config/libs/lib-three.js")!=-1);
             });
 
             mockery.disable();
