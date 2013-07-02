@@ -1,7 +1,7 @@
 {
     "name": "yahoo-arrow",
     "description": "FrontEnd Testing Framework",
-    "version": "0.0.78",
+    "version": "0.0.79",
     "homepage": "https://github.com/yahoo/arrow",
     "repository": {
         "type": "git",
