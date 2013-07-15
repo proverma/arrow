@@ -23,26 +23,46 @@ Options
   display this help page
 --version
   display installed arrow version
---lib			comma separated list of js files needed by the test
---page			path to the mock or production html page, for example: http://www.yahoo.com or mock.html
---driver		selenium|phantomjs|browser. (default: phantomjs)
---browser		firefox|chrome|opera|reuse.  Specify browser version with a hypen, ex.: firefox-4.0 or opera-11.0 (default: firefox)
---engine :      (optional) engine is kind of which test runner you want to use according to your test case,default yui testrunner,Arrow also integrate with other test runner ,now yui,mocha,jasmine,qunit is supported
---engineConfig :(optional) the file path to config file or a config string
---parallel (optional) test thread count. Determines how many tests to run in parallel for current session. (default: 1) Example : --parallel=3 , will run three tests in parallel
---controller		a custom controller javascript file
---reuseSession		true/false. Specifies whether to run tests in existing sessions managed by selenium. Visit http://selenuim_host/wd/hub to setup sessions (default: false)
---report		true/false. Creates report files in junit and json format, and also prints a consolidated test report summary on console
---reportFolder : (optional) folderPath.  creates report files in that folder. (default: descriptor folder path)
---testName		comma separated list of test names defined in test descriptor. all other tests will be ignored
---group			comma separated list of groups defined in test descriptor, all other groups will be ignored
---logLevel		DEBUG|INFO|WARN|ERROR|FATAL (default: INFO)
---dimensions		a custom dimension file for defining ycb contexts
---context		name of ycb context
---seleniumHost : (optional) override selenium host url (example: --seleniumHost=http://host.com:port/wd/hub)
---capabilities : (optional) the name of a json file containing webdriver capabilities required by your project
---startProxyServer : (optional) true/false. Starts a proxy server for all intercepting all selenium browser calls
---routerProxyConfig : (optional) filePath. Expects a Json file, in router field allows users to modify host and headers for all calls being made by browser. Also supports recording of select url calls.
+--lib
+    comma separated list of js files needed by the test
+--page
+    path to the mock or production html page, for example: http://www.yahoo.com or mock.html
+--driver
+	selenium|phantomjs|browser. (default: phantomjs)
+--browser
+	firefox|chrome|opera|reuse.  Specify browser version with a hypen, ex.: firefox-4.0 or opera-11.0 (default: firefox)
+--engine
+    (optional) engine is kind of which test runner you want to use according to your test case,default yui testrunner,Arrow also integrate with other test runner ,now yui,mocha,jasmine,qunit is supported
+--engineConfig
+  (optional) the file path to config file or a config string
+--parallel
+  (optional) test thread count. Determines how many tests to run in parallel for current session. (default: 1) Example : --parallel=3 , will run three tests in parallel
+--controller
+  a custom controller javascript file
+--reuseSession
+  true/false. Specifies whether to run tests in existing sessions managed by selenium. Visit http://selenuim_host/wd/hub to setup sessions (default: false)
+--report
+  true/false. Creates report files in junit and json format, and also prints a consolidated test report summary on console
+--reportFolder
+  (optional) folderPath.  creates report files in that folder. (default: descriptor folder path)
+--testName
+  comma separated list of test names defined in test descriptor. all other tests will be ignored
+--group
+  comma separated list of groups defined in test descriptor, all other groups will be ignored
+--logLevel
+  DEBUG|INFO|WARN|ERROR|FATAL (default: INFO)
+--dimensions
+  a custom dimension file for defining ycb contexts
+--context
+  name of ycb context
+--seleniumHost
+  (optional) override selenium host url (example: --seleniumHost=http://host.com:port/wd/hub)
+--capabilities
+  (optional) the name of a json file containing webdriver capabilities required by your project
+--startProxyServer
+  (optional) true/false. Starts a proxy server for all intercepting all selenium browser calls
+--routerProxyConfig
+  (optional) filePath. Expects a Json file, in router field allows users to modify host and headers for all calls being made by browser. Also supports recording of select url calls.
                            in coverage field user can config it to enable client side js files code coverage and a filter for these js.
 {
     "router": {
