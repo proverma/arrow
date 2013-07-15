@@ -64,35 +64,36 @@ Options
 --routerProxyConfig
   (optional) filePath. Expects a Json file, in router field allows users to modify host and headers for all calls being made by browser. Also supports recording of select url calls.
                            in coverage field user can config it to enable client side js files code coverage and a filter for these js.
-::
-{
-    "router": {
-        "yahoo.com": {
-            "newHost": "x.x.x.x (your new host ip/name)",
-            "headers": [
-                {
-                    "param": "<param>",
-                    "value": "<val>"
-                }
-            ],
-            "record": true
+
+    ::
+    {
+        "router": {
+            "yahoo.com": {
+                "newHost": "x.x.x.x (your new host ip/name)",
+                "headers": [
+                    {
+                        "param": "<param>",
+                        "value": "<val>"
+                    }
+                ],
+                "record": true
+            },
+            "news.yahoo.com": {
+                "newHost": "x.x.x.x (your new host ip/name)",
+                "headers": [
+                    {
+                        "param": "<param>",
+                        "value": "<val>"
+                    }
+                ],
+                "record": true
+            }
         },
-        "news.yahoo.com": {
-            "newHost": "x.x.x.x (your new host ip/name)",
-            "headers": [
-                {
-                    "param": "<param>",
-                    "value": "<val>"
-                }
-            ],
-            "record": true
+        "coverage": {
+            "clientSideCoverage": true,
+            "coverageExclude": []
         }
-    },
-    "coverage": {
-        "clientSideCoverage": true,
-        "coverageExclude": []
     }
-}
 --exitCode
  (optional) true/false. Causes the exit code to be non-zero if any tests fail (default: false)
 --color
