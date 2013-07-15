@@ -64,6 +64,7 @@ Options
 --routerProxyConfig
   (optional) filePath. Expects a Json file, in router field allows users to modify host and headers for all calls being made by browser. Also supports recording of select url calls.
                            in coverage field user can config it to enable client side js files code coverage and a filter for these js.
+::
 {
     "router": {
         "yahoo.com": {
@@ -92,12 +93,18 @@ Options
         "coverageExclude": []
     }
 }
---exitCode : (optional) true/false. Causes the exit code to be non-zero if any tests fail (default: false)
---color : (optional) true/false. if set to false, it makes console log colorless ( hudson friendly).(default: true)
---coverage : (optional) true/false. creates code-coverage report for all js files included/loaded by arrow (default: false)
---coverageExclude : (optional) string. comma-separated list of files to exclude from coverage reports
---keepIstanbulCoverageJson : (optional) true/false. if set to true, it does not delete Istanbul coverage json files. (default: false)
---retryCount : (optional) retry count for failed tests. Determines how many times a test should be retried, if it fails. (default: 0) Example : --retryCount=2 , will retry all failed tests 2 times
+--exitCode
+ (optional) true/false. Causes the exit code to be non-zero if any tests fail (default: false)
+--color
+ (optional) true/false. if set to false, it makes console log colorless ( hudson friendly).(default: true)
+--coverage
+ (optional) true/false. creates code-coverage report for all js files included/loaded by arrow (default: false)
+--coverageExclude
+ (optional) string. comma-separated list of files to exclude from coverage reports
+--keepIstanbulCoverageJson
+ (optional) true/false. if set to true, it does not delete Istanbul coverage json files. (default: false)
+--retryCount
+ (optional) retry count for failed tests. Determines how many times a test should be retried, if it fails. (default: 0) Example : --retryCount=2 , will retry all failed tests 2 times
 
 
 
