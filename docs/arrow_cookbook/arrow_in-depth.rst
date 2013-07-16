@@ -901,7 +901,7 @@ Suppose we have a yui test case and also have some test libs written as YUI.add(
 So that this sandbox(IEFF) contains all:  yui seed, yui core modules(auto resolved from test case/test libs), test libs, test cases and test engine... 
 It is an absolute YUI instance and does't depend (or mess with) the YUI on test page.
 
-Sharing test parameters among custom conrollers and tests in a scenario node
+Sharing test parameters among custom controllers and tests in a scenario node
 -------------------------
 
 In a complex test scenario, we maybe need multiple controllers or tests in a scenario node. Arrow provides a way to share variables among the controllers or tests, via this.testParams.shared.
@@ -958,6 +958,295 @@ Or
  java -Dwebdriver.firefox.profile=profile_name -jar ./path/to/selenium/sever.jar
 
 Once Selenium is started, the same steps for *reusing* sessions apply.
+
+Using Proxy
+-----------
+
+Features of Arrow Proxy server
+==============================
+
+User will need to use proxy for following reasons,
+
+* When user wants to redirect page to specific box
+
+* When user wants to verify that certain calls are happening for a given URL
+
+* When user wants to manipulate headers, This can be helpful replacing parameter such as user-agent
+
+Using --startProxyServer
+=========================
+
+--startProxyServer param is used to start the proxy as soon as the test runs. It is defined at descriptor level.
+
+The descriptor will look something like this after adding this param.
+
+simple-proxy-descriptor.json
+.............................
+
+::
+
+ [
+    {
+        "settings": [ "master" ],
+
+        "name" : "descriptor",
+
+        "startProxyServer" : true,
+
+        "config" :{
+            "baseUrl" : "http://www.yahoo.com"
+        },
+
+        "dataprovider" : {
+
+            "dom" : {
+                "params" : {
+                    "test" : "test-yahoo.js",
+                    "page" : "$$config.baseUrl$$"
+                },
+                "group" : "int"
+
+            }
+
+        }
+
+    },
+
+    {
+        "settings": [ "environment:development" ],
+        "config": {
+            "baseUrl": "http://news.yahoo.com"
+        }
+    },
+    {
+        "settings": [ "environment:production" ],
+        "config": {
+            "baseUrl": "http://sports.yahoo.com"
+        }
+    }
+
+
+ ]
+
+Note: This parameter can be passed from the command line, using --startProxyServer=true depending upon your need. Always the one passed from command line will take precedence over the one which is set inside the descriptor
+
+This will create a proxy.log file at the descriptor level.
+
+Using --routerConfigProxy
+=========================
+
+--routerConfigProxy param is used to route the traffic of a page to a specific host/box. It refers to router.json file which contains the host to which you want to enroute your traffic for a given url.
+
+This param is defined inside the descriptor file.
+
+router-proxy-descriptor.json
+.............................
+
+::
+
+
+ [
+    {
+        "settings": [ "master" ],
+
+        "name" : "descriptor",
+
+        "startProxyServer" : true,
+
+        "routerProxyConfig" : "./router.json",
+
+        "config" :{
+            "baseUrl" : "http://www.autos.yahoo.com"
+        },
+
+        "dataprovider" : {
+
+            "dom" : {
+                "params" : {
+                    "test" : "test-one-yahoo.js",
+                    "page" : "$$config.baseUrl$$"
+                },
+                "group" : "int"
+
+            }
+
+        }
+
+    },
+
+    {
+        "settings": [ "environment:development" ],
+        "config": {
+            "baseUrl": "http://news.yahoo.com"
+        }
+    },
+    {
+        "settings": [ "environment:production" ],
+        "config": {
+            "baseUrl": "http://sports.yahoo.com"
+        }
+    }
+
+
+ ]
+
+router.json
+............
+
+::
+
+
+  {
+     "autos.yahoo.com" : "x.x.x.x",
+     "yahoo.com" : {
+         "newHost" : "y.y.y.y"
+     }
+   }
+
+
+For given descriptor it will route all the requests for http://www.autos.yahoo.com to the host x.x.x.x [ Replace x.x.x.x with actual host name]
+
+Using record:true with --routerConfigProxy
+==========================================
+
+Inside router.json file record:true param can be used in cases where user wants to confirm that certain calls are happening while loading some URLs.
+
+The descriptor will look like this
+
+proxy-record-controller-descriptor.json
+........................................
+
+::
+
+ [
+    {
+        "settings":[ "master" ],
+
+        "name":"controllers",
+
+        "startProxyServer" : true,
+
+        "routerProxyConfig" : "./data/arrow_test/proxy_test/router.json",
+
+        "config":{
+            "baseUrl":"http://sports.yahoo.com"
+        },
+
+        "dataprovider":{
+
+            "Test proxy Controller":{
+                "group":"func",
+                "controller":"./proxy-controller-record.js",
+                "params":{
+                    "page":"$$config.baseUrl$$",
+
+                    "test":"./test-proxy.js"
+
+                }
+            }
+        }
+    },
+    {
+        "settings":[ "environment:development" ]
+    }
+ ]
+
+
+The only change has to happen in router.json is to include record:true,
+
+router.json
+............
+
+::
+
+ {
+    "finance.yahoo.com" : {
+        "newHost" : "x.x.x.x",
+        "record" : true
+    }
+ }
+
+The recorded traffic is in JSON format and can be read from the controller using self.getProxyRecord(). The record can be reset by invoking self.resetProxyRecord().
+
+Note: The proxy record is per routerProxyConfig. If multiple tests use same routerProxyConfig and the tests are run in parallel, using resetProxyRecord() might end up resetting proxy record for other test.
+
+Example -
+
+var util = require("util");
+var log4js = require("yahoo-arrow").log4js;
+var Controller = require("yahoo-arrow").controller;
+
+function ProxyCustomController(testConfig,args,driver) {
+    Controller.call(this, testConfig,args,driver);
+    this.logger = log4js.getLogger("ProxyCustomController");
+}
+
+util.inherits(ProxyCustomController, Controller);
+
+ProxyCustomController.prototype.execute = function(callback) {
+    var self = this;
+    self.resetProxyRecord(); // Reset the proxy record
+
+    if(this.driver.webdriver){
+
+        var page = this.testParams.page;
+        var webdriver = this.driver.webdriver;
+
+        webdriver.listener.on("uncaughtException", function (e) {
+            errorMsg =  "Uncaught exception: " + e.message;
+            self.logger.error(errorMsg);
+            callback(errorMsg);
+        });
+        webdriver.get(page);
+
+        webdriver.waitForElementPresent(webdriver.By.css(".title")).then(function() {
+
+            var record = self.getProxyRecord(); // Get the proxy record
+
+            self.testParams.proxyManagerRecord=record;
+            self.testParams.page=null;
+            self.driver.executeTest(self.testConfig, self.testParams, function(error, report) {
+                callback();
+            });
+
+        });
+    }else{
+        this.logger.fatal("Custom Controllers are currently only supported on Selenium Browsers");
+        callback("Custom Controllers are currently only supported on Selenium Browsers");
+    }
+}
+
+module.exports = ProxyCustomController;
+
+
+Using header manipulation with --routerConfigProxy
+===================================================
+
+Sometimes user wants to manipulate headers when calling certain urls. It can be done from router.json as shown below.
+
+router-header.json
+...................
+
+::
+
+ {
+    "sports.yahoo.com" : {
+        "headers" : [
+            {
+                "param" : "User-Agent",
+                "value" : "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_2_1 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8C148 Safari/6533.18.5"
+            }
+        ],
+        "newHost" : "x.x.x.x",
+        "record" : true
+    }
+ }
+
+This will pass the value of param 'User-Agent' to the specified value for 'sports.yahoo.com' and runs the test for iphone user-agent.
+
+
+
+
 
 Auto scan share libraries and controllers
 ---------
