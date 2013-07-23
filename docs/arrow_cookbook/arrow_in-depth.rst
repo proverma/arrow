@@ -1172,51 +1172,48 @@ Note: The proxy record is per routerProxyConfig. If multiple tests use same rout
 
 Example -
 
-var util = require("util");
-var log4js = require("yahoo-arrow").log4js;
-var Controller = require("yahoo-arrow").controller;
+::
 
-function ProxyCustomController(testConfig,args,driver) {
-    Controller.call(this, testConfig,args,driver);
-    this.logger = log4js.getLogger("ProxyCustomController");
-}
+    var util = require("util");
+    var log4js = require("yahoo-arrow").log4js;
+    var Controller = require("yahoo-arrow").controller;
 
-util.inherits(ProxyCustomController, Controller);
-
-ProxyCustomController.prototype.execute = function(callback) {
-    var self = this;
-    self.resetProxyRecord(); // Reset the proxy record
-
-    if(this.driver.webdriver){
-
-        var page = this.testParams.page;
-        var webdriver = this.driver.webdriver;
-
-        webdriver.listener.on("uncaughtException", function (e) {
-            errorMsg =  "Uncaught exception: " + e.message;
-            self.logger.error(errorMsg);
-            callback(errorMsg);
-        });
-        webdriver.get(page);
-
-        webdriver.waitForElementPresent(webdriver.By.css(".title")).then(function() {
-
-            var record = self.getProxyRecord(); // Get the proxy record
-
-            self.testParams.proxyManagerRecord=record;
-            self.testParams.page=null;
-            self.driver.executeTest(self.testConfig, self.testParams, function(error, report) {
-                callback();
-            });
-
-        });
-    }else{
-        this.logger.fatal("Custom Controllers are currently only supported on Selenium Browsers");
-        callback("Custom Controllers are currently only supported on Selenium Browsers");
+    function ProxyCustomController(testConfig,args,driver) {
+        Controller.call(this, testConfig,args,driver);
+        this.logger = log4js.getLogger("ProxyCustomController");
     }
-}
 
-module.exports = ProxyCustomController;
+    util.inherits(ProxyCustomController, Controller);
+
+    ProxyCustomController.prototype.execute = function(callback) {
+        var self = this;
+        self.resetProxyRecord(); // Reset the proxy record
+
+        if(this.driver.webdriver){
+
+            var page = this.testParams.page;
+            var webdriver = this.driver.webdriver;
+
+            webdriver.get(page);
+
+            webdriver.waitForElementPresent(webdriver.By.css(".title")).then(function() {
+
+                var record = self.getProxyRecord(); // Get the proxy record
+
+                self.testParams.proxyManagerRecord=record;
+                self.testParams.page=null;
+                self.driver.executeTest(self.testConfig, self.testParams, function(error, report) {
+                    callback();
+                });
+
+            });
+        }else{
+            this.logger.fatal("Custom Controllers are currently only supported on Selenium Browsers");
+            callback("Custom Controllers are currently only supported on Selenium Browsers");
+        }
+    }
+
+    module.exports = ProxyCustomController;
 
 
 Using header manipulation with --routerConfigProxy
