@@ -156,7 +156,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
                 setTimeout(function () {
                     proxyManager.proxyServer.close();
-                }, 5000);
+                }, 2000);
             });
 
 
@@ -166,8 +166,8 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
         function testHttpClientOnProxyServer(test) {
 
             // TODO - Check the first available port here starting from minPort
-            var minPort = 11001,
-                maxPort = 11100,
+            var minPort = 11101,
+                maxPort = 11199,
                 hostName = "localhost",
                 router = {},
                 proxyManager = new ProxyManager(router, {}),
@@ -206,7 +206,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
                 response.end();
             }
 
-            portchecker.getFirstAvailable(11200, 11299, "localhost", function (p) {
+            portchecker.getFirstAvailable(11300, 11399, "localhost", function (p) {
 
                     server = http.createServer(onRequest).listen(p);
 
