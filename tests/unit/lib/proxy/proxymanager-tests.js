@@ -154,6 +154,9 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
                 sentToCoverage("POST", JSON.stringify({coverage : {}, sid : "12345", origin : "nourl"}) + "\n");
                 sentToCoverage("GET", "\n"); // get again
 
+                setTimeout(function () {
+                    proxyManager.proxyServer.close();
+                }, 5000);
             });
 
 
@@ -203,7 +206,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
                 response.end();
             }
 
-            portchecker.getFirstAvailable(11100, 11199, "localhost", function (p) {
+            portchecker.getFirstAvailable(11200, 11299, "localhost", function (p) {
 
                     server = http.createServer(onRequest).listen(p);
 
@@ -262,8 +265,9 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
                     });
                     setTimeout(function () {
-                        server.close()
-                    }, 5000);
+                        server.close();
+                        proxyManager.proxyServer.close();
+                    }, 2000);
                 }
             )
             ;
