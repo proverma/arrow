@@ -23,6 +23,7 @@
     },
     "coverage": {
         "clientSideCoverage": true,
-        "coverageExclude": ["^http://yui.yahooapis.com.*\\.js$",".*login.yahoo.com"]
+        "coverageExclude": ["^http://yui.yahooapis.com.*\\.js$",".*login.yahoo.com"],
+        "timeout":5000
     }
 }
