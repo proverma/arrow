@@ -57,6 +57,8 @@ Builder.prototype.build = function () {
     return new WebDriver();
 };
 
+var error = { message: undefined };
+
 var WebDriver = function () {
     var self = this;
     this.By = By;
@@ -72,6 +74,7 @@ var WebDriver = function () {
     this.currentUrl = "about:blank";
     this.scriptResults = [];
     this.actions = [];
+    this.error = error;
 
 };
 
@@ -169,12 +172,17 @@ WebDriver.prototype.waitForElementPresent = function () {
 };
 
 WebDriver.prototype.getCurrentUrl = function () {
-    var self = this;
-    return {
-        then: function (cb) {
-            cb(self.currentUrl);
+    var self = this, promise = {
+        then: function (cb, err) {
+            if (cb) {
+                cb(self.currentUrl);
+            } else if (err && self.error.message) {
+                err(self.error.message);
+            }
+            return promise;
         }
     };
+    return promise;
 };
 
 WebDriver.prototype.quit = function () {
@@ -189,3 +197,4 @@ this.promise = promise;
 this.By = By;
 this.Builder = Builder;
 this.WebDriver = WebDriver;
+this.error = error;
