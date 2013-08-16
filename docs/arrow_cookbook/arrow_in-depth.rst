@@ -1550,12 +1550,14 @@ Make sure you have set "startProxyServer" to true and add a config for proxy - p
      },
      "coverage": {
          "clientSideCoverage": true,
-         "coverageExclude": ["^http://yui.yahooapis.com.*\\.js$"]
+         "coverageExclude": ["^http://yui.yahooapis.com.*\\.js$"],
+         "timeout": 5000
      }
   }
 
 In this proxy_config ,the "router" defines router table where you can modify the test page with new host and new headers for all calls being made by browser.Also supports recording of select url calls if set "record" to true.
-In coverage field you can set "clientSideCoverage" to true and add a filter to ignore some js files in "coverageExclude".
+In coverage field you can set "clientSideCoverage" to true and add a filter to ignore some js files in "coverageExclude".And if your page has multiple cross-domain frames and you can enlarge the timeout seconds waiting for coverage data
+collecting.
 
 Then in arrow cmd you can type:
 
