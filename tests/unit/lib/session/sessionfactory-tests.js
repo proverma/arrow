@@ -224,6 +224,9 @@ YUI.add('sessionfactory-tests', function (Y) {
             var ss = new SessionFactory({}, {}),
                 arrow = new StubArrow();
 
+            // to ensure we dont exit
+            global.workingDirectory = null;
+
             Arrow.instance = arrow;
             try {
                 ss.runAllTestSessions();
@@ -243,6 +246,9 @@ YUI.add('sessionfactory-tests', function (Y) {
         testRunAllTestSessionsWithValidParam: function() {
             var ss = new SessionFactory({}, {"test" : __dirname + "/testdata/test-func.js", "lib" : __dirname + "/testdata/test-lib.js"}),
                 arrow = new StubArrow();
+
+            // to ensure we dont exit
+            global.workingDirectory = null;
 
             Arrow.instance = arrow;
             try {
