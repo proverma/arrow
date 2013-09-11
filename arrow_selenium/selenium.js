@@ -78,7 +78,6 @@ function openBrowser(sessionCaps) {
         browser,
         i,
         val;
-    console.log('****In openBrowser');
     for (i = 0; i < browserList.length; i += 1) {
         browser = browserList[i];
         if (0 === browser.length) { continue; }
@@ -88,8 +87,6 @@ function openBrowser(sessionCaps) {
             logger.info("Already open, ignored");
             continue;
         }
-        console.log('****In openBrowser, browsername:' + browser);
-        console.log('****In openBrowser, config["seleniumHost"]:' + config["seleniumHost"]);
         webdriver = new wd.Builder().
             usingServer(config["seleniumHost"]).
             withCapabilities({
