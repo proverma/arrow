@@ -8,13 +8,6 @@
  * See the accompanying LICENSE file for terms.
  */
 
-var Arrow = require("./lib/interface/arrow");
-var ArrowSetup = require('./lib/util/arrowsetup');
-var nopt = require("nopt");
-var Properties = require("./lib/util/properties");
-var fs = require("fs");
-var path = require("path");
-
 //setting appRoot
 global.appRoot = __dirname;
 
@@ -27,12 +20,18 @@ global.coverageMap = [];
 //Array for Holding Report Files
 global.reportMap = [];
 
-global.pathSep = path.sep || '/';
+global.pathSep = require("path").sep || '/';
 //getting command line args
 
 global.routerMap = {};
 
 global.failedDescriptors = [];
+
+var Arrow = require("./lib/interface/arrow");
+var ArrowSetup = require('./lib/util/arrowsetup');
+var nopt = require("nopt");
+var Properties = require("./lib/util/properties");
+var fs = require("fs");
 
 var knownOpts = {
         "browser": [String, null],
@@ -188,7 +187,8 @@ function showHelp() {
         "                                }" + "\n" +
         "                               }" + "\n" +
         "                            }" + "\n" +
-        "                        ]" + "\n"
+        "                        ]" + "\n",
+        "        --startArrowServer : (optional) true/false. Starts Arrow server on localhost and the first available port" + "\n\n"
 
 
 );
