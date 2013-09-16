@@ -3,10 +3,10 @@
 /*jslint forin:true sub:true anon:true, sloppy:true, stupid:true nomen:true, node:true continue:true*/
 
 /*
-* Copyright (c) 2012, Yahoo! Inc.  All rights reserved.
-* Copyrights licensed under the New BSD License.
-* See the accompanying LICENSE file for terms.
-*/
+ * Copyright (c) 2012, Yahoo! Inc.  All rights reserved.
+ * Copyrights licensed under the New BSD License.
+ * See the accompanying LICENSE file for terms.
+ */
 
 var fs = require("fs");
 var nopt = require("nopt");
@@ -16,6 +16,8 @@ var Properties = require("../lib/util/properties");
 var ArrowSetup = require('../lib/util/arrowsetup');
 
 var WdSession = require("../lib/session/wdsession");
+var CapabilityManager = require("../lib/util/capabilitymanager");
+
 
 //getting command line args
 var argv = nopt();
@@ -37,7 +39,7 @@ function listSessions(error, next, arrSessions) {
     if (error !== null) {
         logger.fatal("Unable to connect to a Selenium session.  Download the selenium server JAR from http://code.google.com/p/selenium/downloads/list, \
 start it with: \"java -jar path/to/jar/selenium-server-standalone-<VERSION>.jar\".  Create a browser session on http://127.0.0.1:4444/wd/hub or with \"arrow_server --open=<browser_name>\"\n");
-                    return;
+        return;
     }
     if (0 === arrSessions.length) {
         next(sessionCaps);
@@ -77,6 +79,8 @@ function openBrowser(sessionCaps) {
         webdriver,
         browser,
         i,
+        cm,
+        capabilities,
         val;
     for (i = 0; i < browserList.length; i += 1) {
         browser = browserList[i];
@@ -87,15 +91,39 @@ function openBrowser(sessionCaps) {
             logger.info("Already open, ignored");
             continue;
         }
-
-        webdriver = new wd.Builder().
-            usingServer(config["seleniumHost"]).
-            withCapabilities({
-                "browserName": browser,
-                "version": "",
+        //When user has passed capabilities.json
+        if(argv.capabilities){
+            var caps = {
                 "platform": "ANY",
-                "javascriptEnabled": true
-            }).build();
+                "javascriptEnabled": true,
+                "seleniumProtocol": "WebDriver"
+            };
+            caps.browserName = argv.open;
+            if(!caps.browserName){
+                logger.error("No Browser is specified");
+                process.exit(1);
+            }
+            cm = new CapabilityManager(argv.capabilities);
+            capabilities = cm.getCapability(caps.browserName);
+            if(capabilities === null){
+                logger.error("No related capability for " + caps.browserName + " in " + argv.capabilities);
+                process.exit(1);
+            }
+            webdriver = new wd.Builder().
+                usingServer(config["seleniumHost"]).
+                withCapabilities(capabilities).build();
+
+        }
+        else{
+            webdriver = new wd.Builder().
+                usingServer(config["seleniumHost"]).
+                withCapabilities({
+                    "browserName": browser,
+                    "version": "",
+                    "platform": "ANY",
+                    "javascriptEnabled": true
+                }).build();
+        }
         webdriver.session_.then(describeSession);
     }
 }
@@ -116,15 +144,19 @@ function closeBrowsers(sessionCaps) {
     }
 }
 
+
 function listHelp() {
     console.info("\nCommandline Options :" + "\n" +
         "--list : Lists all selenium browser sessions" + "\n" +
         "--open=<browser1[, browser2]> : Comma seperated list of browsers to launch" + "\n" +
+        "--open=<browser> : browser to choose from capabilities.json" + " --capabilities= path to capabilities.json" + "\n" +
         "--close : Close all selenium controller browser sessions" + "\n\n" +
-        "Examples:\n" +        
+        "Examples:\n" +
         "Open Firefox and Chrome browser instances:\n" +
-        "arrow_selenium --open=firefox,chrome\n"
-        );
+        "arrow_selenium --open=firefox,chrome\n"  +
+        "Open Firefox with given capabilities:\n" +
+        "arrow_selenium --open=firefox --capabilities=./cap.json\n"
+    );
 }
 
 
@@ -137,13 +169,12 @@ var hub = new WdSession(config);
 
 if (argv.list || argv.ls) {
     hub.getSessions(describeSessions, listSessions, false);
-} else if (argv.open) {
+}else if (argv.open) {
     hub.getSessions(openBrowser, listSessions, true);
-} else if (argv.close) {
+}else if (argv.close) {
     hub.getSessions(closeBrowsers, listSessions, true);
 } else if (argv.help) {
     listHelp();
 } else {
     listHelp();
 }
-
