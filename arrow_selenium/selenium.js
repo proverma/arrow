@@ -109,21 +109,18 @@ function openBrowser(sessionCaps) {
                 logger.error("No related capability for " + caps.browserName + " in " + argv.capabilities);
                 process.exit(1);
             }
-            webdriver = new wd.Builder().
-                usingServer(config["seleniumHost"]).
-                withCapabilities(capabilities).build();
-
         }
         else{
-            webdriver = new wd.Builder().
-                usingServer(config["seleniumHost"]).
-                withCapabilities({
-                    "browserName": browser,
-                    "version": "",
-                    "platform": "ANY",
-                    "javascriptEnabled": true
-                }).build();
+            var capabilities= {
+                "browserName": browser,
+                "version": "",
+                "platform": "ANY",
+                "javascriptEnabled": true
+            }
         }
+        webdriver = new wd.Builder().
+            usingServer(config["seleniumHost"]).
+            withCapabilities(capabilities).build();
         webdriver.session_.then(describeSession);
     }
 }
