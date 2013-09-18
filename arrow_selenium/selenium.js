@@ -91,6 +91,7 @@ function openBrowser(sessionCaps) {
             logger.info("Already open, ignored");
             continue;
         }
+
         //When user has passed capabilities.json
         if(argv.capabilities){
             var caps = {
