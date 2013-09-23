@@ -195,7 +195,6 @@ servermanager.startArrowServer = function (cb) {
 //    });
 
     child.on('message', function (m) {
-        console.log("*****arrow server message:" + m);
         serverManagerLogger.info("arrow server message:" + m);
     });
     child.on("exit", function () {

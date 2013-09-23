@@ -144,9 +144,7 @@ function startArrow() {
     arrowSetup = new ArrowSetup(config, argv);
     this.arrow = Arrow;
     arrowSetup.setup(function () {
-        console.log('***In callback of arrow setup...');
         arrow = new Arrow(config, argv);
-        console.log('***Now running arrow...');
         arrow.run();
     });
 
