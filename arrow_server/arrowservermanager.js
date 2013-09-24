@@ -158,42 +158,6 @@ servermanager.startArrowServer = function (cb) {
     // silent:true is required for child.stdout
     child = childProcess.fork(path.join(arrowConfig['arrowModuleRoot'], "arrow_server", "server.js"), [], {});
 
-//    child.stdout.on('data',function(m) {
-//        console.log('*****child stdout:' + m);
-//
-//            var tid, maxTry = 10, checkServerStatustimeout = 500;
-//            tid = setInterval(function () {
-//                if ((maxTry--) === 0) {
-//                    clearInterval(tid);
-//                    var arrowServerHost = servermanager.getArrowServerHost();
-//                    if (arrowServerHost !== undefined) {
-//                        console.log('***Invoking callback true as arrowserver started..1');
-//                        return cb(true);
-//                    } else {
-//                        serverManagerLogger.error(" Start arrow server failed ");
-//                        return cb(false);
-//                    }
-//                } else {
-//                    arrowServerHost = servermanager.getArrowServerHost();
-//                    if (arrowServerHost !== undefined) {
-//                        clearInterval(tid);
-//                        console.log('***Invoking callback true as arrowserver started..2');
-//                        return cb(true);
-//                    }
-//                }
-//            }, checkServerStatustimeout);
-//
-////        var msg = m + '';
-////        if (msg.indexOf('Server running at:') === -1) {
-////            console.log('*****Could not start server..cb false');
-////            cb (false);
-////        }
-////        else {
-////            console.log('*****Started server..cb true');
-////            cb (true);
-////        }
-//    });
-
     child.on('message', function (m) {
         serverManagerLogger.info("arrow server message:" + m);
     });
@@ -207,7 +171,6 @@ servermanager.startArrowServer = function (cb) {
             clearInterval(tid);
             var arrowServerHost = servermanager.getArrowServerHost();
             if (arrowServerHost !== undefined) {
-                console.log('***Invoking callback true as arrowserver started..1');
                 return cb(true);
             } else {
                 serverManagerLogger.error(" Start arrow server failed ");
@@ -217,7 +180,6 @@ servermanager.startArrowServer = function (cb) {
             arrowServerHost = servermanager.getArrowServerHost();
             if (arrowServerHost !== undefined) {
                 clearInterval(tid);
-                console.log('***Invoking callback true as arrowserver started..2');
                 return cb(true);
             }
         }
