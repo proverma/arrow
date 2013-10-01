@@ -10,6 +10,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
         mockery = require('mockery'),
         arrowRoot = path.join(__dirname, '../../../..'),
         DriverClass = require(arrowRoot + '/lib/driver/selenium.js'),
+        CapabilityManagerClass = require(arrowRoot + '/lib/util/capabilitymanager.js'),
         suite = new Y.Test.Suite(NAME),
         A = Y.Assert;
 
@@ -85,55 +86,51 @@ YUI.add('selenium-tests', function (Y, NAME) {
             var driver,
                 config = {},
                 caps,
-                capabilitiesFile = __dirname + "/config/capabilities.json";
+                capabilitiesFile = __dirname + "/config/capabilities.json",
+                cm = new CapabilityManagerClass();
 
             driver = new DriverClass(config, {});
-            caps = driver.getCapabilities();
+            caps = cm.getCapabilities(driver.args, driver.config);
             A.isString(caps.error, 'Should fail for no browser');
 
             config = {browser: 'mybrowser'};
             driver = new DriverClass(config, {});
-            caps = driver.getCapabilities();
+            caps = cm.getCapabilities(driver.args, driver.config);
             A.areEqual(caps.browserName, 'mybrowser', 'Should return browser name');
 
             config = {browser: 'mybrowser-1.0'};
             driver = new DriverClass(config, {});
-            caps = driver.getCapabilities();
+            caps = cm.getCapabilities(driver.args, driver.config);
             A.areEqual(caps.browserName, 'mybrowser', 'Should return browser name');
             A.areEqual(caps.version, '1.0', 'Should return browser version');
 
 
             config = {browser: 'firefox', proxyUrl: 'http://proxyUrl', capabilities: capabilitiesFile};
             driver = new DriverClass(config, {});
-
-            caps = driver.getCapabilities();
+            caps = cm.getCapabilities(driver.args, driver.config);
             A.areEqual(caps.browserName, 'firefox', 'Should return browser name');
             A.areEqual(caps.version, '16.0', 'Should return browser version');
 
             // Pass capabilities file
             config = {browser: 'firefox', proxyUrl: 'http://proxyUrl', capabilities: capabilitiesFile};
             driver = new DriverClass(config, {});
-
-            caps = driver.getCapabilities();
+            caps = cm.getCapabilities(driver.args, driver.config);
             A.areEqual(caps.browserName, 'firefox', 'Should return browser name');
             A.areEqual(caps.version, '16.0', 'Should return browser version');
-
+//
 
             // Pass capabilities file, browser not mentioned in capabilities file
             config = {browser: 'undefinedBrowser', proxyUrl: 'http://proxyUrl', capabilities: capabilitiesFile};
             driver = new DriverClass(config, {});
-
-            caps = driver.getCapabilities();
+            caps = cm.getCapabilities(driver.args, driver.config);
             A.areEqual(caps.browserName, 'undefinedBrowser', 'Should return browser name');
 
             // Pass browser version in config
             config = {browser: 'firefox', proxyUrl: 'http://proxyUrl', firefoxVersion: '16.0'};
             driver = new DriverClass(config, {});
-
-            caps = driver.getCapabilities();
+            caps = cm.getCapabilities(driver.args, driver.config);
             A.areEqual(caps.browserName, 'firefox', 'Should return browser name');
             A.areEqual(caps.version, '16.0', 'Should return browser version');
-
 
         },
 

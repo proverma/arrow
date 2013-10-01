@@ -21,6 +21,7 @@
                         "group" : { "type" : "string" },
                         "proxy" : { "type" : "boolean" },
                         "browser" : { "type" : "string" },
+                        "reuseSession" : { "type" : "boolean" },
                         "params" : {"type" : "object",
                             "properties" : {
                                 "page" : { "type" : "string" },

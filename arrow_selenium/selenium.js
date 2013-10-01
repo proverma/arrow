@@ -104,8 +104,8 @@ function openBrowser(sessionCaps) {
                 logger.error("No Browser is specified");
                 process.exit(1);
             }
-            cm = new CapabilityManager(argv.capabilities);
-            capabilities = cm.getCapability(caps.browserName);
+            cm = new CapabilityManager();
+            capabilities = cm.getCapability(argv.capabilities,caps.browserName);
             if(capabilities === null){
                 logger.error("No related capability for " + caps.browserName + " in " + argv.capabilities);
                 process.exit(1);

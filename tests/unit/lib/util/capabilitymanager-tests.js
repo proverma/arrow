@@ -12,7 +12,7 @@ YUI.add('capabilitymanager-tests', function(Y) {
         capabilityMgr = require(arrowRoot+'/lib/util/capabilitymanager.js'),
         suite = new Y.Test.Suite("Capability Manager test suite");
 
-    var cm = new capabilityMgr(__dirname + "/capabilities.json");
+    var cm = new capabilityMgr();
 
     suite.add(new Y.Test.Case({
         "Confirm constructor can take json": function(){
@@ -24,11 +24,11 @@ YUI.add('capabilitymanager-tests', function(Y) {
     suite.add(new Y.Test.Case({
         "Confirm getCapability works": function(){
             var expectedString = {"browserName":"firefox","platform":"WINDOWS","version":"6.0","javascriptEnabled":"true"};
-            var cap = cm.getCapability("win_xp_ff_6");
+            var cap = cm.getCapability(__dirname + "/capabilities.json", "win_xp_ff_6");
             Y.Assert.areEqual(JSON.stringify(expectedString), JSON.stringify(cap), "Confirm the same JSON is returned");
 
             //Make sure null is returned and invalid capability is given
-            cap = cm.getCapability("invalid");
+            cap = cm.getCapability("", "invalid");
             Y.Assert.isNull(cap, "Confirm null is returned if invalid cap is given");
         }
     }));
