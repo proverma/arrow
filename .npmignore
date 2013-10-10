@@ -5,3 +5,4 @@
 CVS/
 .DS_Store
 package.json.pl
+.nide

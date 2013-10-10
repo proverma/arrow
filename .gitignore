@@ -19,3 +19,4 @@ tests/functional/data/arrow_test/*-report.xml
 tests/functional/data/arrow_test/*-report.html
 tests/functional/data/arrow_test/*-report.json
 tests/functional/data/actual_op/*.txt
+.nide
