@@ -113,6 +113,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
                 proxyManager.runRouterProxy(minPort, maxPort, hostName, function (proxyHostMsg) {
 
+                    console.log("in test client side instrument,proxy started corrently");
                     A.areNotEqual(proxyHostMsg, 'localhost:' + minPort, 'Proxy host should not match');
                     A.areEqual(proxyHostMsg, localhostip + ':' + minPort, 'Proxy host doesn\'t match');
                     callback();
@@ -208,7 +209,11 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
             portchecker.getFirstAvailable(11300, 11399, "localhost", function (p) {
 
+                    console.log("in test http client,tmp server will start at:"+p);
+
                     server = http.createServer(onRequest).listen(p);
+
+                    console.log("in test http client,tmp server started correctly");
 
                     proxyManager.proxyConfig = {
                         "localhost" : {
@@ -225,8 +230,12 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
                             "coverageExclude" : ["^http://yui.yahooapis.com.*\\.js$"]
                         }
                     };
+                    console.log("in test http client,proxy server config");
+                    console.log(JSON.stringify(proxyManager.proxyConfig));
 
                     proxyManager.runRouterProxy(minPort, maxPort, hostName, function (proxyHostMsg) {
+
+                        console.log("in test http client , proxy will started correctly");
 
                         A.areNotEqual(proxyHostMsg, 'localhost:' + minPort, 'Proxy host should not match');
                         A.areEqual(proxyHostMsg, localhostip + ':' + minPort, 'Proxy host doesn\'t match');
