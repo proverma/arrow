@@ -39,7 +39,12 @@ process.prototype.notify = function (evName, data) {
 
 process.prototype.send = function  (message) {
     this.message = message;
-    if (this.callbacks['message']) {
+    if (!this.curProcess) {
+        // child process
+        if (message.results) {
+            this.callbacks['message'](message);
+        }
+    } else if (this.callbacks['message']) {
         this.callbacks['message'](message);
     }
 };
