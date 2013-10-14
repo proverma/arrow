@@ -8,7 +8,7 @@
 
 var fs = require('fs');
 var path = require('path');
-var log4js = require("log4js").getLogger("runNodejsTest");
+var logger = require("log4js").getLogger("runNodejsTest");
 var coverage = require('../lib/util/coverage');
 
 ARROW = {};
@@ -19,7 +19,7 @@ var testSpecStr = decodeURI(args[2]);
 //console.log(testSpecStr);
 var testSpec = JSON.parse(testSpecStr);
 if (!testSpec) {
-    console.log("Invalid node test args: " + testSpecStr);
+    logger.error("Invalid node test args: " + testSpecStr);
     process.exit();
 }
 
@@ -31,13 +31,26 @@ var libs = testSpec.libs;
 var testFile = testSpec.test;
 var coverageFlag = testSpec.coverage;
 var testParams = decodeURI(args[3]);
+var waitForExitTimeout = 1000;
+var receivedShareData = undefined;
+var waitForShareDataTimeout = 1000;
+var waitForShareDataInterval = 100;
+process.on('message', function(m) {
+    if (m.shared) {
+        logger.debug("Received shared data.");
+        // logger.trace(JSON.stringify(m.shared));
+        receivedShareData = m.shared;
+    } else if (m.exit) {
+        process.exit(0);
+    }
+});
 var depFiles = libs.split(",");
 var testTimeOut = testSpec.testTimeOut;
 testTimeOut = typeof testTimeOut === "string" ? parseInt(testTimeOut) : testTimeOut;
 coverage.configure(testSpec);
 
 function getReportStatus() {
-    console.log("Waiting for the test report");
+    logger.info("Waiting for the test report");
     if ((null === ARROW.testReport) || ARROW.testReport == undefined || (0 === ARROW.testReport.length)) {
         return false;
     }
@@ -46,7 +59,7 @@ function getReportStatus() {
 
 function onReportReady(result) {
     if ((null === ARROW.testReport) || (0 === ARROW.testReport.length)) {
-        console.log("Test failed to execute/timedout");
+        logger.error("Test failed to execute/timedout");
         process.exit(1);
     } else {
         try {
@@ -55,33 +68,38 @@ function onReportReady(result) {
                 testParams: ARROW.testParams,
                 coverage: coverage.getFinalCoverage()
             });
-            process.exit(0);
+            setTimeout(function() {process.exit(0);}, waitForExitTimeout);
         } catch (e) {
-            console.log('Failed to send test report: ' + e.message);
+            logger.error('Failed to send test report: ' + e.message);
             process.exit(1);
         }
     }
 }
 
 // Wait until the test condition is true or a timeout occurs.
-function waitFor(testFx, onReady, timeOutMillis) {
-    var timeoutInterval = 500,
-        maxtimeOutMillis = testTimeOut || 25000,
+function waitFor(testFx, onReady, timeOutMillis, newInterval) {
+    var timeoutInterval = newInterval || 500,
+        maxtimeOutMillis = timeOutMillis || testTimeOut || 25000,
         start = (new Date()).getTime(),
         interval;
 
-    interval = setInterval(function () {
-        if (testFx()) {
-            clearInterval(interval);
-            onReady(true);
-        } else if (((new Date()).getTime() - start) > maxtimeOutMillis) {
-            onReady(false); // timedout
-        }
-    }, timeoutInterval);
+    if (testFx()) {
+        onReady(true);
+    } else {
+        interval = setInterval(function () {
+            if (testFx()) {
+                clearInterval(interval);
+                onReady(true);
+            } else if (((new Date()).getTime() - start) > maxtimeOutMillis) {
+                onReady(false); // timedout
+            }
+        }, timeoutInterval);
+    }
 }
 
 function runTest() {
     ARROW.testParams = JSON.parse(testParams);
+    ARROW.testParams.shared = receivedShareData;
     ARROW.testLibs = [];
     ARROW.testScript = "";
     ARROW.scriptType = "test";
@@ -105,12 +123,12 @@ function runTest() {
             if (0 === depFile.length) {
                 continue;
             }
-            console.log("Loading dependency: " + depFile);
+            logger.info("Loading dependency: " + depFile);
             depFile = path.resolve("", depFile);
             ARROW.testLibs.push(depFile);
             require(depFile);
         }
-        console.log("Executing test: " + testFile);
+        logger.info("Executing test: " + testFile);
         //TODO - Why global.workingDirectory is not working here ( instead of process.cwd())
         require(path.resolve(process.cwd(), testFile));
         require(runner);
@@ -125,6 +143,8 @@ if (coverageFlag) {
     coverage.hookRequire();
 }
 
-runTest();
-
+//runTest();
+waitFor(function(){
+    return receivedShareData !== undefined;
+}, runTest, waitForShareDataTimeout, waitForShareDataInterval);
 
