@@ -12,7 +12,7 @@ YUI.add("test-title-tests", function (Y) {
         "test title": function() {
 
             //In order to paramertize this, instead of having a static title, we call it from the config
-			var title = "Yahoo! Search - Web Search";
+			var title = "Yahoo Search - Web Search";
             //If the title is null, set it to empty
             if(!title) title = "";
             Y.Assert.areEqual(title, document.title);

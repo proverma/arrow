@@ -12,7 +12,7 @@
 
             "Use Locator to Login" : {
                 "group" : "func",
-                "browser":"chrome",
+                "browser":"firefox",
                 "params" :{
                     "scenario": [
                         {

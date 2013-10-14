@@ -6,7 +6,7 @@
 
         "config" :{
             "baseUrl" : "http://search.yahoo.com/",
-            "browser":"chrome"
+            "browser":"firefox"
         },
 
         "dataprovider" : {
