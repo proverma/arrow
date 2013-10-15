@@ -37,7 +37,7 @@ var pathNotFound = "Path is not defined", empty = "", error = {
 	},
 	1004 : {
 		name : 'EUNDEF',
-		text : 'ARROW is not defined on testing page {0}\n' +
+		text : 'Issue with loading testing page {0}\n' +
 			'Please check following:\n' +
 			'1. page is not reloaded.\n' +
 			'2. page is not switched to other page.\n' +
