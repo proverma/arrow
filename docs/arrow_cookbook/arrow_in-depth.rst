@@ -925,7 +925,7 @@ Webdriver has a concept of sessions. Once a Selenium/WebDriver server instance i
 * It expedites execution since a new browser window does not need to be instantiated. This greatly cuts down on execution time and puts *real* browser test execution time in-par with PhantomJS
 * As a developer, you can tell Selenium to *use* your preferred *profile* for the session. This means that if you have special plugins (such firebug, or developer tools, etc) installed, you can make use of them during test execution.
 
-However, one should keep in mind that this approach means your test will have a sterile environment as session and cookie information will be **reused**
+However, one should keep in mind that this approach means your test will have a non-sterile environment as session and cookie information will be **reused**
 
 To use *Session-Reuse* do the following:
 

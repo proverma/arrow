@@ -21,6 +21,8 @@
                         "group" : { "type" : "string" },
                         "proxy" : { "type" : "boolean" },
                         "browser" : { "type" : "string" },
+                        "testTimeOut" : { "type" : "integer" },
+                        "hasTest" : { "type" : "boolean" },
                         "reuseSession" : { "type" : "boolean" },
                         "params" : {"type" : "object",
                             "properties" : {
