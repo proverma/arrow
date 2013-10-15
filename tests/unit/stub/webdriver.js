@@ -30,13 +30,17 @@ promise.controlFlow = function () {
 };
 
 var By = {
-    id: function () {
+    id: function (x) {
+        return x;
     },
-    name: function () {
+    name: function (x) {
+        return x;
     },
-    css: function () {
+    css: function (x) {
+        return x;
     },
-    xpath: function () {
+    xpath: function (x) {
+        return x;
     }
 };
 
