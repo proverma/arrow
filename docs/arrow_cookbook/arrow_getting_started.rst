@@ -128,7 +128,7 @@ Start Selenium
 
 To start Selenium Server you simply need to do the following:
 
-1. `Download <http://selenium.googlecode.com/files/selenium-server-standalone-2.25.0.jar>`_ the Selenium JAR Executable
+1. Download latest standalone selenium server jar from `Selenium Download Page <https://code.google.com/p/selenium/downloads/list>`_
 2. To **Run** the Selenium executable type this:
 
 ::
