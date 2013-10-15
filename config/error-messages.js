@@ -37,12 +37,12 @@ var pathNotFound = "Path is not defined", empty = "", error = {
 	},
 	1004 : {
 		name : 'EUNDEF',
-		text : 'ARROW is not defined on testing page {0}\n' +
-			'Please check following:\n' +
-			'1. page is not reloaded.\n' +
-			'2. page is not switched to other page.\n' +
-			'3. page is loaded and not blank.\n' +
-			'For Arrow Usage, please refer to https://github.com/yahoo/arrow/blob/master/docs/arrow_cookbook/README.rst',
+        text :'Issue with loading testing page {0}\n' +
+            'Possible cause :\n' +
+            'The page got redirected before completing the test, this happens if your page has auto-redirects ' +
+            'or your tests perform some UI action resulting into page change event. Please use a custom controller for these kind of issues.\n' +
+            'If you are already using custom controller, please check that you are using waitForElement(s) to ensure page is ready for executing test.\n' +
+        'For Arrow Usage, please refer to https://github.com/yahoo/arrow/blob/master/docs/arrow_cookbook/README.rst',
 		0 : empty
 	},
 	1005 : {

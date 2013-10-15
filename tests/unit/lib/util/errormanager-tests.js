@@ -386,7 +386,7 @@ YUI.add('errormanager-tests', function(Y) {
             mockery.disable();
             mockery.deregisterAll();
         },
-        'SeleniumDriver should handle error "Arrow is not defined"': function() {
+        'SeleniumDriver should handle error "Issue with loading page"': function() {
             var started = false, DriverClass = require(arrowRoot+'/lib/driver/selenium.js'),
             callback = function (errMsg) {
                 started = true;
@@ -400,17 +400,17 @@ YUI.add('errormanager-tests', function(Y) {
             msg[1002].name = 'EREPORTEST';
             msg[1004].name = "EUNDEFTEST";
             try {
-                throw new Error("ARROW is not defined");
+                throw new Error("Issue with loading testing page");
             } catch(e) {
                 callback = function (errMsg) {
                     started = true;
                     Y.Assert.areSame(
-                        '1004 (EUNDEFTEST) ARROW is not defined on testing page about:blank\n' +
-                        'Please check following:\n' +
-                        '1. page is not reloaded.\n' +
-                        '2. page is not switched to other page.\n' +
-                        '3. page is loaded and not blank.\n' +
-                        'For Arrow Usage, please refer to https://github.com/yahoo/arrow/blob/master/docs/arrow_cookbook/README.rst',
+                        '1004 (EUNDEFTEST) Issue with loading testing page about:blank\n' +
+                            'Possible cause :\n' +
+                            'The page got redirected before completing the test, this happens if your page has auto-redirects ' +
+                            'or your tests perform some UI action resulting into page change event. Please use a custom controller for these kind of issues.\n' +
+                            'If you are already using custom controller, please check that you are using waitForElement(s) to ensure page is ready for executing test.\n' +
+                            'For Arrow Usage, please refer to https://github.com/yahoo/arrow/blob/master/docs/arrow_cookbook/README.rst',
                         errMsg);
                 };
                 started = false;
