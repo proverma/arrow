@@ -400,7 +400,7 @@ YUI.add('errormanager-tests', function(Y) {
             msg[1002].name = 'EREPORTEST';
             msg[1004].name = "EUNDEFTEST";
             try {
-                throw new Error("Issue with loading testing page");
+                throw new Error("ARROW is undefined");
             } catch(e) {
                 callback = function (errMsg) {
                     started = true;
