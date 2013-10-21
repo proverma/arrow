@@ -52,7 +52,7 @@ var pathNotFound = "Path is not defined", empty = "", error = {
 	},
 	1006 : {
 		name : 'ENULLARG',
-		text : 'Argument "{0}" is "null".'
+		text : 'Argument "{0}" is "{1}".'
 	}
 };
 
