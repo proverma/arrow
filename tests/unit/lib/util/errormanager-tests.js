@@ -99,7 +99,19 @@ YUI.add('errormanager-tests', function(Y) {
             invokeCount : 0,
             message : undefined,
             error: function (message) {
-                mocks.message = message;
+                var messages = [], i, msg;
+                if (message !== undefined) {
+                    if (typeof mocks.message === "string") {
+                        messages.push(mocks.message);
+                    } else if (Array.isArray(mocks.message)) {
+                        for (i in mocks.message) {
+                            msg = mocks.message[i];
+                            messages.push(msg);
+                        }
+                    }
+                    messages.push(message);
+                }
+                 mocks.message = messages;
             },
             exit: function (code) {
                 mocks.invokeCount = mocks.invokeCount + 1;
@@ -315,7 +327,64 @@ YUI.add('errormanager-tests', function(Y) {
                 Y.Assert.areSame("exit code is 1", exit, "should exit with exit code.");
                 Y.Assert.areSame(
                     '1000 (EDIMENVTEST) The environment "qa1" is missing.\nPlease add environment "qa1" to dimensions file "./config/dimensions.json".',
-                    mocks.message
+                    mocks.message[mocks.message.length-1]
+                );                
+                Y.Assert.areSame(1, mocks.invokeCount);                
+            }
+        }
+    }));
+
+    suite.add(new Y.Test.Case({
+        "ArrowSetup errorCheck should exit if single argument has string value as 'null'": function(){
+            var ArrowSetup = require(arrowRoot+'/lib/util/arrowsetup.js'), arrow=undefined, exit="";
+
+            mocks.invokeCount = 0;
+            mocks.message = undefined;
+            dimensions = JSON.parse(JSON.stringify(origDim));
+            args = JSON.parse(JSON.stringify(origArgv));
+            args.dimensions = "null";
+            msg[1006].name = "ENULLARGTEST";
+            try {
+                arrow = new ArrowSetup({},args);
+                arrow.mock = mocks;
+                arrow.errorCheck();
+            } catch (e) {
+                exit = e.message;
+            } finally {
+                Y.Assert.areSame("exit code is 1", exit, "should exit with exit code.");
+                Y.Assert.areSame(
+                    '1006 (ENULLARGTEST) Argument "dimensions" is "null".',
+                    mocks.message[mocks.message.length-1]
+                );                
+                Y.Assert.areSame(1, mocks.invokeCount);                
+            }
+        }
+    }));
+
+    suite.add(new Y.Test.Case({
+        "ArrowSetup errorCheck should exit if multiple arguments have string value as 'null'": function(){
+            var ArrowSetup = require(arrowRoot+'/lib/util/arrowsetup.js'), arrow=undefined, exit="";
+
+            mocks.invokeCount = 0;
+            mocks.message = undefined;
+            dimensions = JSON.parse(JSON.stringify(origDim));
+            args = JSON.parse(JSON.stringify(origArgv));
+            args.dimensions = "null";
+            args.seleniumHost = "null";
+            msg[1006].name = "ENULLARGTEST";
+            try {
+                arrow = new ArrowSetup({},args);
+                arrow.mock = mocks;
+                arrow.errorCheck();
+            } catch (e) {
+                exit = e.message;
+            } finally {
+                Y.Assert.areSame("exit code is 1", exit, "should exit with exit code.");
+                Y.Assert.areSame(
+                    '1006 (ENULLARGTEST) Argument "dimensions" is "null".'+
+                    '1006 (ENULLARGTEST) Argument "seleniumHost" is "null".',
+                    mocks.message[mocks.message.length-2]+
+                    mocks.message[mocks.message.length-1]
                 );                
                 Y.Assert.areSame(1, mocks.invokeCount);                
             }
@@ -343,7 +412,7 @@ YUI.add('errormanager-tests', function(Y) {
                     '1003 (EDSCENVTEST) The settings {"environment":"sss"} is missing.\n'+
                     'Please add environment "sss" to dimensions file "./config/dimensions.json"\n'+
                     'or remove it from test descriptor file "test-descriptor.json".',
-                    mocks.message
+                    mocks.message[mocks.message.length-1]
                 );                
                 Y.Assert.areSame(1, mocks.invokeCount);
             }
@@ -374,7 +443,7 @@ YUI.add('errormanager-tests', function(Y) {
                 Y.Assert.areSame(
                     '1005 (EDSCYCBTEST) YCB Variable Replacement Failed, Please check you descriptor file, test-descriptor.json.\n'+
                     "Error: The settings group '{}' has already been added.",
-                    mocks.message
+                    mocks.message[mocks.message.length-1]
                 );                
                 Y.Assert.areSame(1, mocks.invokeCount);
             }
