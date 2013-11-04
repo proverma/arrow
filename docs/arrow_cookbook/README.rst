@@ -14,7 +14,7 @@ Arrow is a test framework designed to promote test-driven JavaScript development
 
 Arrow aims to completely remove the line between development’s Unit tests, and Functional and Integration tests by providing a uniform way to create and execute both.
 
-Arrow itself is a thin, extensible layer that marries JavaScript, NodeJS, PhantomJS and Selenium. Arrow allows you to write tests using YUI-Test and execute those tests using NodeJS, PhantomJS or Selenium. Additionally, Arrow provides a rich mechanism for building, organizing and executing test and test scenarios.
+Arrow itself is a thin, extensible layer that marries JavaScript, NodeJS, PhantomJS and Selenium. Arrow allows you to write tests using YUI-Test, Mocha, Jasmin or QUnit and execute those tests using NodeJS, PhantomJS or Selenium. Additionally, Arrow provides a rich mechanism for building, organizing and executing test and test scenarios.
 
 
 Options
@@ -35,6 +35,7 @@ Options
     (optional) engine is kind of which test runner you want to use according to your test case,default yui testrunner,Arrow also integrate with other test runner ,now yui,mocha,jasmine,qunit is supported
 --engineConfig
   (optional) the file path to config file or a config string
+--keepTestReport : (optional) When set to true, the report for each descriptor from previous run will be preserved (If same descriptor is run again though, it will overwrite the previous report). (default: false)
 --parallel
   (optional) test thread count. Determines how many tests to run in parallel for current session. (default: 1) Example : --parallel=3 , will run three tests in parallel
 --controller
@@ -106,7 +107,51 @@ Options
  (optional) true/false. if set to true, it does not delete Istanbul coverage json files. (default: false)
 --retryCount
  (optional) retry count for failed tests. Determines how many times a test should be retried, if it fails. (default: 0) Example : --retryCount=2 , will retry all failed tests 2 times
-
+--useYUISandbox : (optional) true/false. Enables YUI sandboxing for your tests. (default: false)
+ --replaceParamJSON : (optional) Either .json file or json object to be replaced with its value in descriptor file
+                       Example: --replaceParamJSON=./replaceJson.json OR --replaceParamJSON={"property":"finance"} will replace value of "property"
+                            inside the descriptor.json with "finance"
+                       descriptor.json
+                       [
+                            {
+                                "settings":[ "master" ],
+                                "name":"descriptor",
+                                "config":{
+                                "baseUrl": "http://${property}$.yahoo.com"
+                            },
+                                "dataprovider":{
+                                "Test sample":{
+                                   "params": {
+                                        "test": "test.js"
+                                        "page":"$$config.baseUrl$$"
+                                    }
+                                }
+                               }
+                            }
+                        ]
+ --defaultParamJSON : (optional) Accepts .json file or json object as its value. If the parameters to be replaced are not found via replaceParamJSON parameter, it falls back to the parameters specified in defaultParamJSON.
+                       Example: --defaultParamJSON=./defaultParams.json OR --defaultParamJSON={"property":"finance"} will replace value of "property"
+                            inside the descriptor.json with "finance"
+                       descriptor.json
+                       [
+                            {
+                                "settings":[ "master" ],
+                                "name":"descriptor",
+                                "config":{
+                                "baseUrl": "http://${property}$.yahoo.com"
+                            },
+                                "dataprovider":{
+                                "Test sample":{
+                                   "params": {
+                                        "test": "test.js"
+                                        "page":"$$config.baseUrl$$"
+                                    }
+                                }
+                               }
+                            }
+                        ]
+--startArrowServer : (optional) true/false. Starts Arrow Server
+--startPhantomJs : (optional) true/false. Starts PhantomJs
 
 Examples
 ========

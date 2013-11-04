@@ -148,7 +148,7 @@ This section uses the `Suite Settings` and the `Suite Configuration` to create i
 Executing using a Test Descriptor
 =================================
 
-To Execute *All* tests in a given test descriptor file simply type (remember in this example, the name of our file is `test-descriptor.json`):
+To execute *All* tests in a given test descriptor file, simply type (remember in this example, the name of our file is `test-descriptor.json`):
 
 ::
 
@@ -641,6 +641,106 @@ For example, you could have the following in your test descriptor
   }
 
 
+
+
+The Custom Controller
+======================
+
+User can write custom controller if the requirement is not getting fulfilled by the locator controller. It does support all the latest webdriver methods.
+
+For example, given below is the finance-controller.js which does similar to what we just explained in the locator controller sample.
+
+Based on the scenario above, our test descriptor file would look like this:
+
+::
+
+    var util = require("util");
+    var log4js = require("yahoo-arrow").log4js;
+    var Controller = require("yahoo-arrow").controller;
+
+    function FinanceCustomController(testConfig,args,driver) {
+       Controller.call(this, testConfig,args,driver);
+
+       this.logger = log4js.getLogger("FinanceCustomController");
+    }
+
+    util.inherits(FinanceCustomController, Controller);
+
+    FinanceCustomController.prototype.execute = function(callback) {
+       var self = this;
+
+       if(this.driver.webdriver){
+
+           //Get the various parameters needed from the Test Descriptor file
+           var txtLocator =  this.testParams.txtLocator;
+           var typeText =  this.testParams.typeText;
+           var btnLocator =  this.testParams.btnLocator;
+           var page = this.testParams.page;
+
+           //Get a handle of the WebDriver Object
+           var webdriver = this.driver.webdriver;
+
+           //Open the page you want to test
+           webdriver.get(page);
+           webdriver.waitForElementPresent(webdriver.By.css(txtLocator));
+           //Navigate the page as necessary
+           webdriver.findElement(webdriver.By.css(txtLocator)).sendKeys(typeText);
+           webdriver.findElement(webdriver.By.css(btnLocator)).click();
+           webdriver.waitForElementPresent(webdriver.By.css(".title")).then(function() {
+               self.testParams.page=null;
+               self.driver.executeTest(self.testConfig, self.testParams, function(error, report) {
+                   callback();
+               });
+
+           });
+       }else{
+           this.logger.fatal("Custom Controllers are currently only supported on Selenium Browsers");
+           callback("Custom Controllers are currently only supported on Selenium Browsers");
+       }
+    }
+
+    module.exports = FinanceCustomController;
+
+The descriptor for the custom controller will be little different since we need the params to be passed from it and it looks like,
+
+::
+
+    [
+       {
+           "settings":[ "master" ],
+
+           "name":"controllers",
+
+           "config":{
+               "baseUrl":"http://finance.yahoo.com"
+           },
+
+           "dataprovider":{
+
+               "Test YHOO Ticker using Finance Controller":{
+                   "group":"func",
+                   "controller":"finance-controller.js",
+                   "params":{
+                       "page":"$$config.baseUrl$$",
+                       "txtLocator":"#txtQuotes",
+                       "typeText":"yhoo",
+                       "btnLocator":"#btnQuotes",
+                       "test":"test-quote.js",
+                       "quote":"Yahoo! Inc. (YHOO)"
+                   }
+               }
+           }
+       },
+       {
+           "settings":[ "environment:development" ]
+       }
+    ]
+
+Custom controller best practice
+
+1.    Make sure to include “var log4js = require(“yahoo-arrow”).log4js;” and “var Controller = require(“yahoo-arrow”).controller” to access yahoo-arrow.
+2.    Make sure to include “waitForElementPresent(webdriver.By.css(”.title”))” before calling the callback() to return to the test or else sometime, “ARROW is not defined” error will appear since the test try to execute before even loading the page completely.
+3.    Make sure to include “self.testParams.page=null;” if you are on the page you want to be before calling your test
 
 
 Test Engine
