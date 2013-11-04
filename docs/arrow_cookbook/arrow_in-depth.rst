@@ -1059,6 +1059,44 @@ Or
 
 Once Selenium is started, the same steps for *reusing* sessions apply.
 
+Using Different Browsers
+------------------------
+Arrow supports all selenium browsers including phantomjs.
+
+Running tests using single browser
+----------------------------------
+Assuming you have selenium server already running on localhost port 4444.
+
+::
+    arrow ./int/test-descriptor.json --browser=firefox
+    arrow ./int/test-descriptor.json --browser=chrome
+
+Assuming you have phantomjs already running on localhost port 4445.
+
+::
+   arrow ./int/test-descriptor.json --browser=chrome
+
+Running tests using multiple browsers
+-------------------------------------
+
+::
+    arrow ./int/test-descriptor.json --browser=firefox,chrome
+    arrow ./int/test-descriptor.json --browser=chrome,phantomjs
+
+Running tests on remote host
+----------------------------
+All above tests can also run on remote host by specifying ‘–seleniumHost’ and ‘–phantomHost’.
+
+::
+
+    arrow ./int/test-descriptor.json --seleniumHost='http://x.x.x.x:4444/wd/hub' --browser=chrome
+
+    arrow ./int/test-descriptor.json --phantomHost='http://x.x.x.x:4445/wd/hub' --browser=phantomjs
+
+    arrow ./int/test-descriptor.json --phantomHost='http://x.x.x.x:4445/wd/hub' --seleniumHost='http://x.x.x.x:4444/wd/hub' --browser=phantomjs,chrome
+
+
+
 Using Proxy
 -----------
 
@@ -1733,3 +1771,119 @@ just add a filter to  "coverageExclude" in page level:
 Then login page won't be instrumented and collect coverage.
 
 4.Https pages are not supported yet.
+
+More YUI Asserts
+----------------
+
+Extended version of Assertions
+------------------------------
+------------------------------
+
+    Y.Assert.isUrl - Is a valid URL
+    Y.Assert.isMatch - Match string against supplied Regex
+    Y.Assert.hasKey - Does Object have a specific key
+    Y.Assert.hasValue - Does Object have a specific value
+    Y.Assert.hasDeepKey - Validate key exists in a nested object
+    Y.Assert.hasDeepValue - Validate value exists in a nested object
+    Y.Assert.operator - Compare two values
+    Y.Assert.isNode - Validate a Dom Node exists
+    Y.Assert.nodeTextEquals - Validate text of a Dom node equals expected value
+    Y.Assert.nodeTextExists - Validate Dom node has text in it
+    Y.Assert.nodeCount - Validate selector counts(look at example below)
+    Y.Assert.nodeContains - Validate if given needle is within the HTML of a module
+    Y.Assert.isImage - Validate if Dom node is a valid image
+    Y.Assert.isAnchor - Validate if Dom node is a valid anchor
+
+How to use the above assertions?
+--------------------------------
+--------------------------------
+Create a test which includes libraries ‘html-module-lib’ and ‘dom-lib’
+
+Use test-assert-1.js as a test case where user checks for Y.Assert.isNode and Y.Assert.nodeCount
+
+::
+
+    YUI.add("MyAwesomeModule-tests", function (Y) {
+    'use strict';
+
+    var suite = new Y.Test.Suite("Assertion Tests 1");
+
+    suite.add(new Y.Test.Module({
+
+      "name" : "Assertion Test 1",
+       "id": "yuhead-com-links",
+
+      "asserts" : {
+        "Logo Present" : {
+          "locator" : ".yuhead-com-link-item",
+          "type" : "isNode"
+        },
+            "Test Greater than" : {
+          "locator" : ".yuhead-com-link-item",
+          "type" : "nodeCount",
+          "expected" : ">1",
+          "message" : "There should be more than 1 list items with class yuhead-com-link-item"
+        },
+            "Test Less than" : {
+          "locator" : ".yuhead-com-link-item",
+          "type" : "nodeCount",
+          "expected" : "<5",
+          "message" : "There should be more than 5 list items with class yuhead-com-link-item"
+        },
+            "Test Equals" : {
+          "locator" : ".yuhead-com-link-item",
+          "type" : "nodeCount",
+          "expected" : "=3",
+          "message" : "There should be 3 list items with class yuhead-com-link-item"
+        }
+
+      }
+    }));
+
+    Y.Test.Runner.add(suite);
+
+    }, "0.1", {requires : ["test", "node", "html-module-lib", "dom-lib"]});
+
+
+Use test-descriptor-1.json as a descriptor to run above test
+
+::
+
+    [
+      {
+          "settings": [ "master" ],
+
+          "name" : "tabview",
+
+          "config" :{
+              "baseUrl" : "http://finance.yahoo.com"
+          },
+
+          "dataprovider" : {
+
+             "dom_int" : {
+                  "params" : {
+                      "test" : "test-assert-1.js",
+                      "page" : "$$config.baseUrl$$"
+                    },
+                  "group" : "smoke"
+              }
+
+          }
+
+      },
+
+      {
+          "settings": [ "environment:development" ]
+      }
+
+    ]
+
+Run the test in usual way using,
+
+::
+    arrow test-descriptor-1.json --browser=chrome
+
+Make sure it passes
+
+Note: More such examples are provided in test-assert-2.js and test-descriptor-2.json
