@@ -405,7 +405,7 @@ YUI.add('errormanager-tests', function(Y) {
                 callback = function (errMsg) {
                     started = true;
 
-                    Y.Assert.areSame('Error: Issue with loading testing page',errMsg);
+                    Y.Assert.areSame('Error: Issue with loading testing page',errMsg); 
 //                    Y.Assert.areSame(
 //                        '1004 (EUNDEFTEST) Issue with loading testing page about:blank\n' +
 //                            'Possible cause :\n' +
