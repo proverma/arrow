@@ -509,11 +509,6 @@ YUI.add('errormanager-tests', function(Y) {
             } catch(e) {
                 callback = function (errMsg) {
                     started = true;
-
-//                    Y.Assert.areSame(
-//                        '\nThis is second line.',
-//                        errMsg);
-
                     Y.Assert.areSame(
                         'Error: This error message should be unknown to error manager.\nThis is second line.',
                         errMsg);
