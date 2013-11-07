@@ -472,7 +472,7 @@ YUI.add('errormanager-tests', function(Y) {
             msg[1002].name = 'EREPORTEST';
             msg[1004].name = "EUNDEFTEST";
             try {
-                throw new Error("ARROW is undefined");
+                throw new Error("Issue with loading testing page");
             } catch(e) {
                 callback = function (errMsg) {
                     started = true;
@@ -509,11 +509,6 @@ YUI.add('errormanager-tests', function(Y) {
             } catch(e) {
                 callback = function (errMsg) {
                     started = true;
-
-//                    Y.Assert.areSame(
-//                        '\nThis is second line.',
-//                        errMsg);
-
                     Y.Assert.areSame(
                         'Error: This error message should be unknown to error manager.\nThis is second line.',
                         errMsg);
