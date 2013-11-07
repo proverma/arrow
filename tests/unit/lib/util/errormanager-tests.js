@@ -405,7 +405,7 @@ YUI.add('errormanager-tests', function(Y) {
                 callback = function (errMsg) {
                     started = true;
 
-                    Y.Assert.areSame('Error: Issue with loading testing page',errMsg); 
+                    Y.Assert.areSame('Error: Issue with loading testing page',errMsg);
 //                    Y.Assert.areSame(
 //                        '1004 (EUNDEFTEST) Issue with loading testing page about:blank\n' +
 //                            'Possible cause :\n' +
@@ -437,11 +437,6 @@ YUI.add('errormanager-tests', function(Y) {
             } catch(e) {
                 callback = function (errMsg) {
                     started = true;
-
-//                    Y.Assert.areSame(
-//                        '\nThis is second line.',
-//                        errMsg);
-
                     Y.Assert.areSame(
                         'Error: This error message should be unknown to error manager.\nThis is second line.',
                         errMsg);
