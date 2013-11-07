@@ -7,9 +7,6 @@ Prerequisites
 ==================
 You must have:
 
-
-TODO... needs to be updated
-
 * `Installed <./arrow_getting_started.rst>`_ the Arrow framework.
 * `Downloaded <https://github.com/yahoo/arrow/tree/master/docs/arrow_tutorial>`_ Arrow Tutorial from GitHub
 
@@ -18,7 +15,7 @@ TODO... needs to be updated
 Unit Tests
 ===========
 
-The Demo includes a *unit_test* folder and includes two files:
+The demo includes a *unit_test* folder and includes two files:
 
 +---------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------+
 | `unit_test/src/greeter.js `_       | Simple YUI module that takes two parameters as input, inverses their order, and returns them as output |
@@ -60,7 +57,7 @@ To run against PhantomJS or a Selenium-supported browser, enter:
 .. TODO... needs to be updated
 
 
-**Note:** `Arrow Server <./arrow_getting_started.rst>`_ and `Selenium <./arrow_getting_started.rst#start-selenium>`_ need to be running
+**Note:** `Arrow Server <./arrow_getting_started.rst#confirm-you-can-run-the-arrow-server>`_ and `Selenium <./arrow_getting_started.rst#start-selenium>`_ need to be running
 
 When you execute using PhantomJS, a screenshot is captured automatically. The screenshot is stored in the location where you executed the test (in this case, ``unit_test/test/``).
 

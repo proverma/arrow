@@ -75,49 +75,6 @@ Linux Installation
 
 .. todo we need to rework the installation for Linux
 
-**Note:** Though the dist package say it only supports RHEL 4.x, we have found ``ynodejs06`` works for
-RHEL 5.x (5.0-20070208, 5.2-20080429, 5.4-20090902, 5.6-20110328) as well.
-
-
-1. Install NodeJS06, PhantomJS and NMP:
-
-::
-
-.. TODO... needs to be updated
-
-
-
-2. Set yinst options as follows:
-
-::
-
-.. TODO... needs to be updated
-
-
-
-3. Install Arrow:
-
-::
-
-.. TODO... needs to be updated
-
-
-4. Configure Arrow to allow for custom controllers
-
-::
-
-.. TODO... needs to be updated
-
-
-5. Start Arrow Server on the command prompt (note, this must be left **ON** or the process will die)
-
-::
-
-   arrow_server
-
-Now you may proceed to Install Verification_.
-
-
 Selenium Server
 ---------------
 
@@ -142,6 +99,13 @@ To start Selenium Server using chromedriver and default Firefox profile use
 ::
 
     java -Dwebdriver.chrome.driver=./chromedriver -Dwebdriver.firefox.profile=default -jar selenium-server-standalone-2.xx.0.jar
+
+Configure PhantomJs
+===================
+1. To run phantomjs executable type this:
+::
+
+    phantomjs --webdriver=4445
 
 
 .. _Verification:
@@ -234,6 +198,17 @@ Though Selenium Server is NOT required, if you chose to run it, you can confirm 
 
 1. From a Browser, go to: http://host.or.url:port/wd/hub or http://localhost:4444/wd/hub
 2. You should be directed to a WebDriver page
+
+Confirm PhantomJs is Running
+===========================
+
+Though phantomjs is NOT required, if you chose to run it, you can confirm it’s running successfully like this:
+
+    From a browser, go to: http://host.or.url:port/wd/hub or http://localhost:4445/wd/hub
+    You should see something like,
+
+::
+   Unknown Command - Request =>  {"headers":{"Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8","Accept-Charset":"ISO-8859-1,utf-8;q=0.7,*;q=0.3","Accept-Encoding":"gzip,deflate,sdch","Accept-Language":"en-US,en;q=0.8","Connection":"keep-alive","Host":"local host:4445","User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.57  Safari/537.17"},"httpVersion":"1.1","method":"GET","url":"/wd/hub","urlParsed":{"anchor":"","query":"","file":"hub","directory":"/wd/","path":"/wd/hub","relative":"/wd/hub","port":"","host":"","password":"","user":"","userInfo":"","authority":"","pr otocol":"","source":"/wd/hub","queryKey":{},"chunks":["wd","hub"]}}
 
 
 .. _Creating a test:

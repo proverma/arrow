@@ -6,21 +6,21 @@ Arrow Quick Installation
 
 **Mac Installation**
 
-It is assumed that user has already installed Nodejs and Phantomjs. For installing them please refer `Here <https://github.com/yahoo/arrow/blob/master/docs/arrow_cookbook/arrow_getting_started.rst#mac-installation>`_.
+It is assumed that user has already installed Nodejs and Phantomjs. For installing them please refer `here <https://github.com/yahoo/arrow/blob/master/docs/arrow_cookbook/arrow_getting_started.rst#mac-installation>`_.
 
-Here we are installing arrow locally.
+Here we are installing Arrow locally.
 
- 1.   This will create ./node_modules folder where you run the below command and will put yahoo-arrow inside.
+1.   This will create ./node_modules folder where you run the below command and will put yahoo-arrow inside.
 
 ::
 
     sudo npm install yahoo-arrow
 
- 2.   Make sure Arrow got installed properly.The command given below will show the Arrow version you have installed.
+2.   Make sure Arrow got installed properly.The command given below will show the Arrow version you have installed.
 
 ::
 
-   ./node_modules/.bin/arrow --version
+    ./node_modules/.bin/arrow --version
 
  3.   Create a simple unit test- test-unit.js
 

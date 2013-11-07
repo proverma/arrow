@@ -148,7 +148,7 @@ This section uses the `Suite Settings` and the `Suite Configuration` to create i
 Executing using a Test Descriptor
 =================================
 
-To Execute *All* tests in a given test descriptor file simply type (remember in this example, the name of our file is `test-descriptor.json`):
+To execute *All* tests in a given test descriptor file, simply type (remember in this example, the name of our file is `test-descriptor.json`):
 
 ::
 
@@ -643,6 +643,106 @@ For example, you could have the following in your test descriptor
 
 
 
+The Custom Controller
+======================
+
+User can write custom controller if the requirement is not getting fulfilled by the locator controller. It does support all the latest webdriver methods.
+
+For example, given below is the finance-controller.js which does similar to what we just explained in the locator controller sample.
+
+Based on the scenario above, our test descriptor file would look like this:
+
+::
+
+    var util = require("util");
+    var log4js = require("yahoo-arrow").log4js;
+    var Controller = require("yahoo-arrow").controller;
+
+    function FinanceCustomController(testConfig,args,driver) {
+       Controller.call(this, testConfig,args,driver);
+
+       this.logger = log4js.getLogger("FinanceCustomController");
+    }
+
+    util.inherits(FinanceCustomController, Controller);
+
+    FinanceCustomController.prototype.execute = function(callback) {
+       var self = this;
+
+       if(this.driver.webdriver){
+
+           //Get the various parameters needed from the Test Descriptor file
+           var txtLocator =  this.testParams.txtLocator;
+           var typeText =  this.testParams.typeText;
+           var btnLocator =  this.testParams.btnLocator;
+           var page = this.testParams.page;
+
+           //Get a handle of the WebDriver Object
+           var webdriver = this.driver.webdriver;
+
+           //Open the page you want to test
+           webdriver.get(page);
+           webdriver.waitForElementPresent(webdriver.By.css(txtLocator));
+           //Navigate the page as necessary
+           webdriver.findElement(webdriver.By.css(txtLocator)).sendKeys(typeText);
+           webdriver.findElement(webdriver.By.css(btnLocator)).click();
+           webdriver.waitForElementPresent(webdriver.By.css(".title")).then(function() {
+               self.testParams.page=null;
+               self.driver.executeTest(self.testConfig, self.testParams, function(error, report) {
+                   callback();
+               });
+
+           });
+       }else{
+           this.logger.fatal("Custom Controllers are currently only supported on Selenium Browsers");
+           callback("Custom Controllers are currently only supported on Selenium Browsers");
+       }
+    }
+
+    module.exports = FinanceCustomController;
+
+The descriptor for the custom controller will be little different since we need the params to be passed from it and it looks like,
+
+::
+
+    [
+       {
+           "settings":[ "master" ],
+
+           "name":"controllers",
+
+           "config":{
+               "baseUrl":"http://finance.yahoo.com"
+           },
+
+           "dataprovider":{
+
+               "Test YHOO Ticker using Finance Controller":{
+                   "group":"func",
+                   "controller":"finance-controller.js",
+                   "params":{
+                       "page":"$$config.baseUrl$$",
+                       "txtLocator":"#txtQuotes",
+                       "typeText":"yhoo",
+                       "btnLocator":"#btnQuotes",
+                       "test":"test-quote.js",
+                       "quote":"Yahoo! Inc. (YHOO)"
+                   }
+               }
+           }
+       },
+       {
+           "settings":[ "environment:development" ]
+       }
+    ]
+
+Custom controller best practice
+
+1.    Make sure to include “var log4js = require(“yahoo-arrow”).log4js;” and “var Controller = require(“yahoo-arrow”).controller” to access yahoo-arrow.
+2.    Make sure to include “waitForElementPresent(webdriver.By.css(”.title”))” before calling the callback() to return to the test or else sometime, “ARROW is not defined” error will appear since the test try to execute before even loading the page completely.
+3.    Make sure to include “self.testParams.page=null;” if you are on the page you want to be before calling your test
+
+
 Test Engine
 -----------------------------------
 
@@ -958,6 +1058,44 @@ Or
  java -Dwebdriver.firefox.profile=profile_name -jar ./path/to/selenium/sever.jar
 
 Once Selenium is started, the same steps for *reusing* sessions apply.
+
+Using Different Browsers
+------------------------
+Arrow supports all selenium browsers including phantomjs.
+
+Running tests using single browser
+----------------------------------
+Assuming you have selenium server already running on localhost port 4444.
+
+::
+    arrow ./int/test-descriptor.json --browser=firefox
+    arrow ./int/test-descriptor.json --browser=chrome
+
+Assuming you have phantomjs already running on localhost port 4445.
+
+::
+   arrow ./int/test-descriptor.json --browser=chrome
+
+Running tests using multiple browsers
+-------------------------------------
+
+::
+    arrow ./int/test-descriptor.json --browser=firefox,chrome
+    arrow ./int/test-descriptor.json --browser=chrome,phantomjs
+
+Running tests on remote host
+----------------------------
+All above tests can also run on remote host by specifying ‘–seleniumHost’ and ‘–phantomHost’.
+
+::
+
+    arrow ./int/test-descriptor.json --seleniumHost='http://x.x.x.x:4444/wd/hub' --browser=chrome
+
+    arrow ./int/test-descriptor.json --phantomHost='http://x.x.x.x:4445/wd/hub' --browser=phantomjs
+
+    arrow ./int/test-descriptor.json --phantomHost='http://x.x.x.x:4445/wd/hub' --seleniumHost='http://x.x.x.x:4444/wd/hub' --browser=phantomjs,chrome
+
+
 
 Using Proxy
 -----------
@@ -1633,3 +1771,119 @@ just add a filter to  "coverageExclude" in page level:
 Then login page won't be instrumented and collect coverage.
 
 4.Https pages are not supported yet.
+
+More YUI Asserts
+----------------
+
+Extended version of Assertions
+------------------------------
+------------------------------
+
+    Y.Assert.isUrl - Is a valid URL
+    Y.Assert.isMatch - Match string against supplied Regex
+    Y.Assert.hasKey - Does Object have a specific key
+    Y.Assert.hasValue - Does Object have a specific value
+    Y.Assert.hasDeepKey - Validate key exists in a nested object
+    Y.Assert.hasDeepValue - Validate value exists in a nested object
+    Y.Assert.operator - Compare two values
+    Y.Assert.isNode - Validate a Dom Node exists
+    Y.Assert.nodeTextEquals - Validate text of a Dom node equals expected value
+    Y.Assert.nodeTextExists - Validate Dom node has text in it
+    Y.Assert.nodeCount - Validate selector counts(look at example below)
+    Y.Assert.nodeContains - Validate if given needle is within the HTML of a module
+    Y.Assert.isImage - Validate if Dom node is a valid image
+    Y.Assert.isAnchor - Validate if Dom node is a valid anchor
+
+How to use the above assertions?
+--------------------------------
+--------------------------------
+Create a test which includes libraries ‘html-module-lib’ and ‘dom-lib’
+
+Use test-assert-1.js as a test case where user checks for Y.Assert.isNode and Y.Assert.nodeCount
+
+::
+
+    YUI.add("MyAwesomeModule-tests", function (Y) {
+    'use strict';
+
+    var suite = new Y.Test.Suite("Assertion Tests 1");
+
+    suite.add(new Y.Test.Module({
+
+      "name" : "Assertion Test 1",
+       "id": "yuhead-com-links",
+
+      "asserts" : {
+        "Logo Present" : {
+          "locator" : ".yuhead-com-link-item",
+          "type" : "isNode"
+        },
+            "Test Greater than" : {
+          "locator" : ".yuhead-com-link-item",
+          "type" : "nodeCount",
+          "expected" : ">1",
+          "message" : "There should be more than 1 list items with class yuhead-com-link-item"
+        },
+            "Test Less than" : {
+          "locator" : ".yuhead-com-link-item",
+          "type" : "nodeCount",
+          "expected" : "<5",
+          "message" : "There should be more than 5 list items with class yuhead-com-link-item"
+        },
+            "Test Equals" : {
+          "locator" : ".yuhead-com-link-item",
+          "type" : "nodeCount",
+          "expected" : "=3",
+          "message" : "There should be 3 list items with class yuhead-com-link-item"
+        }
+
+      }
+    }));
+
+    Y.Test.Runner.add(suite);
+
+    }, "0.1", {requires : ["test", "node", "html-module-lib", "dom-lib"]});
+
+
+Use test-descriptor-1.json as a descriptor to run above test
+
+::
+
+    [
+      {
+          "settings": [ "master" ],
+
+          "name" : "tabview",
+
+          "config" :{
+              "baseUrl" : "http://finance.yahoo.com"
+          },
+
+          "dataprovider" : {
+
+             "dom_int" : {
+                  "params" : {
+                      "test" : "test-assert-1.js",
+                      "page" : "$$config.baseUrl$$"
+                    },
+                  "group" : "smoke"
+              }
+
+          }
+
+      },
+
+      {
+          "settings": [ "environment:development" ]
+      }
+
+    ]
+
+Run the test in usual way using,
+
+::
+    arrow test-descriptor-1.json --browser=chrome
+
+Make sure it passes
+
+Note: More such examples are provided in test-assert-2.js and test-descriptor-2.json
