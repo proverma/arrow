@@ -1,5 +1,9 @@
 # Change Log
 
+# 0.0.85
+
+ * Better Error Handling
+
 # 0.0.84
 
  * No more HTML logs during mocha test execution

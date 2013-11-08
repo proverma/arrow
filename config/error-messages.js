@@ -49,6 +49,10 @@ var pathNotFound = "Path is not defined", empty = "", error = {
 		name : 'EDSCYCB',
 		text : 'YCB Variable Replacement Failed, Please check you descriptor file, {0}.\nError: {1}',
 		0 : empty
+	},
+	1006 : {
+		name : 'ENULLARG',
+		text : 'Argument "{0}" is "{1}".'
 	}
 };
 
