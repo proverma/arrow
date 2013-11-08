@@ -1797,6 +1797,7 @@ Extended version of Assertions
 How to use the above assertions?
 --------------------------------
 --------------------------------
+
 Create a test which includes libraries ‘html-module-lib’ and ‘dom-lib’
 
 Use test-assert-1.js as a test case where user checks for Y.Assert.isNode and Y.Assert.nodeCount
