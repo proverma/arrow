@@ -445,6 +445,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
                     driverjs.indexOf("/tests/unit/lib/driver/config/libs/lib-two.js") != -1);
             });
         },
+
         'test createDriverJs with mocked share lib load': function () {
             var stubscanner = require(arrowRoot + "/lib/util/sharelibscanner.js");
             stubscanner.scannerUtil.getSrcDependencyByPath = function (lib, affinity) {
@@ -494,6 +495,34 @@ YUI.add('selenium-tests', function (Y, NAME) {
             mockery.disable();
             mockery.deregisterAll();
 
+        },
+
+        'test createDriverJs app seed': function () {
+
+            var self = this,
+                testRunnerJs = arrowRoot + '/tests/unit/lib/driver/config/testRunner.js',
+                libJs = arrowRoot + '/tests/unit/lib/driver/config/libs/lib-one.js,' + arrowRoot + '/tests/unit/lib/driver/config/libs/lib-two.js',
+                seedJs = arrowRoot + '/tests/unit/lib/driver/config/seed.js',
+                actionJs = arrowRoot + '/tests/unit/lib/driver/config/action.js',
+                testHtml = arrowRoot + '/tests/unit/lib/driver/config/test.html',
+                config = {
+                    arrowModuleRoot: arrowRoot,
+                    coverage: 'true',
+                    browser: 'mybrowser',
+                    seleniumHost: 'http://wdhub',
+                    testRunner: testRunnerJs,
+                    defaultAppSeed: 'http://defaultAppSeed.org',
+                    testSeed: seedJs
+                },
+                driver = new DriverClass(config, {});
+
+            driver.createDriverJs({"test": testRunnerJs,
+                "lib": libJs}, function (e, driverjs) {
+                A.areEqual(null, e, "There should be no error");
+
+                A.isTrue(driverjs.indexOf("http://defaultAppSeed.org") !== -1);
+
+            });
         }
 
     }));
