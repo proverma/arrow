@@ -395,6 +395,58 @@ YUI.add('errormanager-tests', function(Y) {
     }));
 
     suite.add(new Y.Test.Case({
+        "ArrowSetup errorCheck should exempt capabilities from error 1006 if its value is null or empty or undefined": function(){
+            var ArrowSetup = require(arrowRoot+'/lib/util/arrowsetup.js'), arrow=undefined, exit="";
+
+            mocks.invokeCount = 0;
+            mocks.message = "mocks.message should not be modified in this test";
+            dimensions = JSON.parse(JSON.stringify(origDim));
+            args = JSON.parse(JSON.stringify(origArgv));
+            args.capabilities = '';
+            msg[1006].name = "ENULLARGTEST";
+            try {
+                arrow = new ArrowSetup({},args);
+                arrow.mock = mocks;
+                arrow.errorCheck();
+            } catch (e) {
+                exit = e.message;
+            } finally {
+                Y.Assert.areSame("mocks.message should not be modified in this test", mocks.message);
+                Y.Assert.areSame(0, mocks.invokeCount);                
+            }
+        }
+    }));
+
+    suite.add(new Y.Test.Case({
+        "ArrowSetup errorCheck should exempt arguments if config.error1006.exempt is specified": function(){
+            var ArrowSetup = require(arrowRoot+'/lib/util/arrowsetup.js'), arrow=undefined, exit="",
+                config = {"error1006":{"exempt":{"browser":true}}};
+
+            mocks.invokeCount = 0;
+            mocks.message = undefined;
+            dimensions = JSON.parse(JSON.stringify(origDim));
+            args = JSON.parse(JSON.stringify(origArgv));
+            args.capabilities = '';
+            args.browser = undefined;
+            msg[1006].name = "ENULLARGTEST";
+            try {
+                arrow = new ArrowSetup(config,args);
+                arrow.mock = mocks;
+                arrow.errorCheck();
+            } catch (e) {
+                exit = e.message;
+            } finally {
+                Y.Assert.areSame("exit code is 1", exit, "should exit with exit code.");
+                Y.Assert.areSame(
+                    '1006 (ENULLARGTEST) Argument "capabilities" is "empty string".',
+                    mocks.message[mocks.message.length-1]
+                );                
+                Y.Assert.areSame(1, mocks.invokeCount);                
+            }
+        }
+    }));
+
+    suite.add(new Y.Test.Case({
         'DataProvider should handle error "The settings group has already been added"': function() {
             var DataProvider = require(arrowRoot+'/lib/util/dataprovider.js'), dataProvider=undefined, exit="";
             mocks.invokeCount = 0;
