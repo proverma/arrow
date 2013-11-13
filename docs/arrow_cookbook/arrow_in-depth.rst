@@ -1888,6 +1888,7 @@ Use test-descriptor-1.json as a descriptor to run above test
 Run the test in usual way using,
 
 ::
+
     arrow test-descriptor-1.json --browser=chrome
 
 Make sure it passes
