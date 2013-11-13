@@ -1782,6 +1782,8 @@ Extended version of Assertions
 ------------------------------
 ------------------------------
 
+::
+
     Y.Assert.isUrl - Is a valid URL
     Y.Assert.isMatch - Match string against supplied Regex
     Y.Assert.hasKey - Does Object have a specific key
