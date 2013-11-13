@@ -497,37 +497,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
 
         },
 
-
-        'test createDriverJs overriding default app seed': function () {
-
-            var self = this,
-                testRunnerJs = arrowRoot + '/tests/unit/lib/driver/config/testRunner.js',
-                libJs = arrowRoot + '/tests/unit/lib/driver/config/libs/lib-one.js,' + arrowRoot + '/tests/unit/lib/driver/config/libs/lib-two.js',
-                seedJs = arrowRoot + '/tests/unit/lib/driver/config/seed.js',
-                actionJs = arrowRoot + '/tests/unit/lib/driver/config/action.js',
-                testHtml = arrowRoot + '/tests/unit/lib/driver/config/test.html',
-                config = {
-                    arrowModuleRoot: arrowRoot,
-                    coverage: 'true',
-                    browser: 'mybrowser',
-                    seleniumHost: 'http://wdhub',
-                    defaultAppSeed: 'http://defaultAppSeed.org',
-                    testRunner: testRunnerJs,
-                    testSeed: seedJs
-                },
-                driver = new DriverClass(config, {});
-
-            driver.createDriverJs({"test": testRunnerJs,
-                "lib": libJs,"defaultAppSeed":"http://overridedefaultAppSeed.org"}, function (e, driverjs) {
-                A.areEqual(null, e, "There should be no error");
-
-                A.isTrue(driverjs.indexOf("http://overridedefaultAppSeed.org") !== -1);
-
-            });
-        },
-
-
-        'test createDriverJs using default app seed': function () {
+        'test createDriverJs app seed': function () {
 
             var self = this,
                 testRunnerJs = arrowRoot + '/tests/unit/lib/driver/config/testRunner.js',
