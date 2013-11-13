@@ -1068,18 +1068,21 @@ Running tests using single browser
 Assuming you have selenium server already running on localhost port 4444.
 
 ::
+
     arrow ./int/test-descriptor.json --browser=firefox
     arrow ./int/test-descriptor.json --browser=chrome
 
 Assuming you have phantomjs already running on localhost port 4445.
 
 ::
+
    arrow ./int/test-descriptor.json --browser=chrome
 
 Running tests using multiple browsers
 -------------------------------------
 
 ::
+
     arrow ./int/test-descriptor.json --browser=firefox,chrome
     arrow ./int/test-descriptor.json --browser=chrome,phantomjs
 
