@@ -335,14 +335,14 @@ YUI.add('errormanager-tests', function(Y) {
     }));
 
     suite.add(new Y.Test.Case({
-        "ArrowSetup errorCheck should exit if single argument has string value as 'null'": function(){
+        "ArrowSetup errorCheck should exit if single mandatory argument has string value as 'null'": function(){
             var ArrowSetup = require(arrowRoot+'/lib/util/arrowsetup.js'), arrow=undefined, exit="";
 
             mocks.invokeCount = 0;
             mocks.message = undefined;
             dimensions = JSON.parse(JSON.stringify(origDim));
             args = JSON.parse(JSON.stringify(origArgv));
-            args.dimensions = "null";
+            args.seleniumHost = "null"; // seleniumHost is mandatory.
             msg[1006].name = "ENULLARGTEST";
             try {
                 arrow = new ArrowSetup({},args);
@@ -353,7 +353,7 @@ YUI.add('errormanager-tests', function(Y) {
             } finally {
                 Y.Assert.areSame("exit code is 1", exit, "should exit with exit code.");
                 Y.Assert.areSame(
-                    '1006 (ENULLARGTEST) Argument "dimensions" is "null".',
+                    '1006 (ENULLARGTEST) Argument "seleniumHost" is "null".',
                     mocks.message[mocks.message.length-1]
                 );                
                 Y.Assert.areSame(1, mocks.invokeCount);                
@@ -362,7 +362,7 @@ YUI.add('errormanager-tests', function(Y) {
     }));
 
     suite.add(new Y.Test.Case({
-        "ArrowSetup errorCheck should exit if multiple arguments have string value as 'null' or 'empty' or 'undefined'": function(){
+        "ArrowSetup errorCheck should exit if mandatory arguments have string value as 'null' or 'empty' or 'undefined'": function(){
             var ArrowSetup = require(arrowRoot+'/lib/util/arrowsetup.js'), arrow=undefined, exit="";
 
             mocks.invokeCount = 0;
@@ -370,7 +370,7 @@ YUI.add('errormanager-tests', function(Y) {
             dimensions = JSON.parse(JSON.stringify(origDim));
             args = JSON.parse(JSON.stringify(origArgv));
             args.dimensions = '';
-            args.seleniumHost = "null";
+            args.seleniumHost = "null"; // only seleniumHost is mandatory.
             args.browser = undefined;
             msg[1006].name = "ENULLARGTEST";
             try {
@@ -382,11 +382,7 @@ YUI.add('errormanager-tests', function(Y) {
             } finally {
                 Y.Assert.areSame("exit code is 1", exit, "should exit with exit code.");
                 Y.Assert.areSame(
-                    '1006 (ENULLARGTEST) Argument "dimensions" is "empty string".'+
-                    '1006 (ENULLARGTEST) Argument "seleniumHost" is "null".'+
-                    '1006 (ENULLARGTEST) Argument "browser" is "undefined".',
-                    mocks.message[mocks.message.length-3]+
-                    mocks.message[mocks.message.length-2]+
+                    '1006 (ENULLARGTEST) Argument "seleniumHost" is "null".',
                     mocks.message[mocks.message.length-1]
                 );                
                 Y.Assert.areSame(1, mocks.invokeCount);                
