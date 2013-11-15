@@ -1,5 +1,11 @@
 # Change Log
 
+# 0.0.86
+ 
+  * Fixed startup error message for PhantomJs
+  * Reverted the yui defaultAppSeed url from https to http
+  * Improved error management & messages
+
 # 0.0.85
 
  * Better Error Handling
