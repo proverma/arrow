@@ -29,7 +29,7 @@ YUI.add('locator-tests', function (Y, NAME) {
 
         // validations
         A.isTrue(wasCalled, 'The execution callback function should be called.');
-        return driver.webdriver.actions;
+        return driver.webdriver._actions;
     }
 
     suite.add(new Y.Test.Case({
@@ -44,6 +44,10 @@ YUI.add('locator-tests', function (Y, NAME) {
         'test wait locator': function () {
             var actions = validateLocator({value: '#button', click: true, wait: true});
             A.isTrue('click' === actions[0].name, 'Must have clicked');
+        },
+        'test hover locator': function () {
+            var actions = validateLocator({value: '#element', hover: true, waitForElement: "#next"});
+            A.isTrue('mouseMove.perform' === actions[0].name, 'Must have hovered');
         },
         'test locator error': function () {
             var driver = new StubDriver(),

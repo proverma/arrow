@@ -148,7 +148,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 });
             });
 
-            actions = driver.getWebDriver().actions;
+            actions = driver.getWebDriver()._actions;
             A.isTrue('http://mypage' === actions[0].value, 'Must navigate to the page');
         },
 
@@ -166,7 +166,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 });
             });
 
-            actions = driver.getWebDriver().actions;
+            actions = driver.getWebDriver()._actions;
             A.isTrue('http://mypage' === actions[0].value, 'Must navigate to the page');
         },
 
@@ -185,7 +185,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 });
             });
 
-            actions = driver.getWebDriver().actions;
+            actions = driver.getWebDriver()._actions;
             A.isTrue(actions.length === 0, 'Actions shall be blank');
         },
 
@@ -217,7 +217,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
             };
 
             function validate() {
-                var actions = driver.getWebDriver().actions;
+                var actions = driver.getWebDriver()._actions;
                 A.isTrue(executed, 'Should have successfully executed test');
                 A.areEqual(actions[0].value, 'http://page', 'Should have navigated before test');
             }
@@ -299,7 +299,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
             }
 
             function validate() {
-                var actions = driver.getWebDriver().actions;
+                var actions = driver.getWebDriver()._actions;
                 A.isTrue(executed, 'Should have successfully executed action');
                 A.areEqual(actions[0].value, 'http://page', 'Should have navigated before test');
             }
@@ -329,7 +329,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
             }
 
             function validate() {
-                var actions = driver.getWebDriver().actions;
+                var actions = driver.getWebDriver()._actions;
                 A.isTrue(executed, 'Should have successfully executed action');
             }
 

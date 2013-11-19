@@ -77,7 +77,7 @@ var WebDriver = function () {
 
     this.currentUrl = "about:blank";
     this.scriptResults = [];
-    this.actions = [];
+    this._actions = [];
     this.error = error;
 
 };
@@ -117,7 +117,7 @@ WebDriver.prototype.findElement = function () {
         clear: function () {
         },
         sendKeys: function (value) {
-            self.actions.push({ "name": "sendKeys", "value": value });
+            self._actions.push({ "name": "sendKeys", "value": value });
             return {
                 then: function (cb) {
                     cb();
@@ -125,7 +125,7 @@ WebDriver.prototype.findElement = function () {
             };
         },
         click: function (value) {
-            self.actions.push({ "name": "click" });
+            self._actions.push({ "name": "click" });
             return {
                 then: function (cb) {
                     cb();
@@ -137,7 +137,7 @@ WebDriver.prototype.findElement = function () {
 
 WebDriver.prototype.get = function (url) {
     this.currentUrl = url;
-    this.actions.push({ "name": "get", "value": url });
+    this._actions.push({ "name": "get", "value": url });
     return {
         then: function (cb) {
             cb();
@@ -147,7 +147,7 @@ WebDriver.prototype.get = function (url) {
 
 WebDriver.prototype.executeScript = function (script) {
     var self = this;
-    this.actions.push({ "name": "script", "value": script });
+    this._actions.push({ "name": "script", "value": script });
     return {
         then: function (cb) {
             if (self.scriptResults.hasOwnProperty(script)) {
@@ -193,6 +193,29 @@ WebDriver.prototype.quit = function () {
     return {
         then: function (cb) {
             cb();
+        }
+    };
+};
+
+WebDriver.prototype.actions = function () {
+    var self = this, promise = {
+        then: function (cb, err) {
+            if (cb) {
+                cb(self.currentUrl);
+            } else if (err && self.error.message) {
+                err(self.error.message);
+            }
+            return promise;
+        }
+    };
+    return {
+        mouseMove: function (element) {
+            return {
+                perform: function () {
+                    self._actions.push({ "name": "mouseMove.perform" });
+                    return promise;
+                }
+            };
         }
     };
 };
