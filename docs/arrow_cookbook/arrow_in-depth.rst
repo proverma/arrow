@@ -1068,18 +1068,21 @@ Running tests using single browser
 Assuming you have selenium server already running on localhost port 4444.
 
 ::
+
     arrow ./int/test-descriptor.json --browser=firefox
     arrow ./int/test-descriptor.json --browser=chrome
 
 Assuming you have phantomjs already running on localhost port 4445.
 
 ::
+
    arrow ./int/test-descriptor.json --browser=chrome
 
 Running tests using multiple browsers
 -------------------------------------
 
 ::
+
     arrow ./int/test-descriptor.json --browser=firefox,chrome
     arrow ./int/test-descriptor.json --browser=chrome,phantomjs
 
@@ -1779,6 +1782,8 @@ Extended version of Assertions
 ------------------------------
 ------------------------------
 
+::
+
     Y.Assert.isUrl - Is a valid URL
     Y.Assert.isMatch - Match string against supplied Regex
     Y.Assert.hasKey - Does Object have a specific key
@@ -1883,6 +1888,7 @@ Use test-descriptor-1.json as a descriptor to run above test
 Run the test in usual way using,
 
 ::
+
     arrow test-descriptor-1.json --browser=chrome
 
 Make sure it passes
