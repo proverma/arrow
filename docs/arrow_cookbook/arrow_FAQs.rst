@@ -190,6 +190,62 @@ You can use the locator controller to *log you into* Yahoo should you need it. I
       }
   ]
 
+How can I use the Locator Controller to test mouse hover functionality?
+----------------------------------------------
+
+Built-in, Arrow comes with two controllers, default and `locator <./arrow_in-depth.rst#the-locator-controller>`_
+
+Solution
+========
+
+You can use the locator controller to *mouse hover* over any targeting element. In this example we'll do the following:
+
+1. Open http://finance.yahoo.com/q?s=YHOO
+2. Execute the test
+
+::
+
+  [
+      {
+          "settings": [ "master" ],
+          "name": "Mouse Hover ",
+          "config": {
+              "baseUrl": "http://finance.yahoo.com"
+          },
+          "dataprovider" : {
+
+              "Use Locator to mouse hover over personal finance on navigation bar" : {
+                  "group" : "func",
+                  "params" :{
+                      "scenario": [
+                          {
+                              "page": "$$config.baseUrl$$/q?s=YHOO"
+                          },
+                          {
+                              "controller": "locator",
+                              "params" : {
+                                  "value": "ul#y-main-nav li#personal%2520finance",
+                                  "hover": true,
+                                  "waitForElement": "ul#y-main-nav li#personal%2520finance ul.nav-sub li:nth-child(1)"
+                              }
+                          },
+                          {
+                              "test": "test-personal-finance.js",
+                              "menu": [
+                                  "Career & Education"
+                              ]
+                          }
+                      ]
+                  }
+              }
+          }
+      },
+      {
+          "settings": [ "environment:development" ]
+      }
+  ]
+
+The controller samples can be found `here <https://github.com/yahoo/arrow/tree/master/docs/arrow_tutorial/controllers/mouseHover/test>`
 
 How can I install a specific Arrow version?
 -------------------------------------------
