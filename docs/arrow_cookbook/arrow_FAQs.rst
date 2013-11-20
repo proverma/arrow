@@ -224,9 +224,9 @@ You can use the locator controller to *mouse hover* over any targeting element. 
                           {
                               "controller": "locator",
                               "params" : {
-                                  "value": "ul#y-main-nav li#personal%2520finance",
+                                  "value": "#y-main-nav li:nth-child(6) a span",
                                   "hover": true,
-                                  "waitForElement": "ul#y-main-nav li#personal%2520finance ul.nav-sub li:nth-child(1)"
+                                  "waitForElement": "#y-main-nav li:nth-child(6).active"
                               }
                           },
                           {
@@ -245,7 +245,7 @@ You can use the locator controller to *mouse hover* over any targeting element. 
       }
   ]
 
-The controller samples can be found `here <https://github.com/yahoo/arrow/tree/master/docs/arrow_tutorial/controllers/mouseHover/test>`
+The controller samples can be found `here <https://github.com/yahoo/arrow/tree/master/docs/arrow_tutorial/controllers/mouseHover/test>`_.
 
 How can I install a specific Arrow version?
 -------------------------------------------
