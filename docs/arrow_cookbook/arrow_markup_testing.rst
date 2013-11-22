@@ -23,6 +23,7 @@ It is assumed that user has already installed Arrow instance and all requisite s
 
 Once Arrow is installed and working properly, we can make a test against any accessible page:
 
+
 1.   Reference the `markup-descriptor.json <https://github.com/yahoo/arrow/blob/master/demo/test/markup-descriptor.json>`_ which looks like this:
 
 ::
@@ -46,23 +47,28 @@ Once Arrow is installed and working properly, we can make a test against any acc
 	      }
 	]
 
- 2.   Make sure your "test" element points to the correct test file. By default, it will live in `arrow/lib/common/tests/markup-test.js <https://github.com/yahoo/arrow/blob/master/lib/common/tests/markup-test.js`_
 
- 3.   Populate the "page" element with the website you'd like to run the markup test against.  You can have the markup test only throw warnings to console - or trigger it to cause assertion failures.
+2.   Make sure your "test" element points to the correct test file. By default, it will live in `arrow/lib/common/tests/markup-test.js <https://github.com/yahoo/arrow/blob/master/lib/common/tests/markup-test.js>`_
 
- 4.   Make sure phantomjs is running in another terminal:
+
+3.   Populate the "page" element with the website you'd like to run the markup test against.  You can have the markup test only throw warnings to console - or trigger it to cause assertion failures.
+
+
+4.   Make sure phantomjs is running in another terminal:
 
 ::
 
 	phantomjs --webdriver=4445
 
- 5.   Execute your markup descriptor file created in steps 1 - 3 (the --logLevel=debug is important here to get all warnings):
+
+5.   Execute your markup descriptor file created in steps 1 - 3 (the --logLevel=debug is important here to get all warnings):
 
 ::
 
 	arrow markup-descriptor.json --browser=phantomjs --logLevel=debug
 
- 5.   Your test output should look something like this.  It should be color coded (gray is not a big deal, red is more of a concern):
+
+6.   Your test output should look something like this.  It should be color coded (gray is not a big deal, red is more of a concern):
 
 ::
 
@@ -84,5 +90,5 @@ Once Arrow is installed and working properly, we can make a test against any acc
 	[LOG] * Classname appears potentially non-semantic.
 	[LOG] =========================================================================
 
- 6.   The above error is handy in seeing that you have problems. It's suggested to use the companion `DebugCSS Bookmarklet <http://yahoo.github.io/debugCSS/>`_.  This will point out exactly where in your page the errors have been found - and give suggestions on how to fix them.
 
+7.   The above error is handy in seeing that you have problems. It's suggested to use the companion `DebugCSS Bookmarklet <http://yahoo.github.io/debugCSS/>`_.  This will point out exactly where in your page the errors have been found - and give suggestions on how to fix them.
