@@ -624,6 +624,7 @@ As you can see, the *locator* controller is quite powerful. It can take the foll
 
 * **value**: locator value
 * **click**: true or false
+* **hover**: true or false
 * **text**: value ot enter
 * **using**: by default, Arrow will assume you want to use *css* locators for *value*. However you can use any **By** strategy supported by WebDriver: className, id, linkText, name, text, xpath, etc.
 

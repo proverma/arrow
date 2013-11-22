@@ -1,0 +1,39 @@
+[
+    {
+        "settings": [ "master" ],
+        "name": "Mouse Hover ",
+        "config": {
+            "baseUrl": "http://finance.yahoo.com"
+        },
+        "dataprovider" : {
+
+            "Use Locator to mouse hover over personal finance on navigation bar" : {
+                "group" : "func",
+                "params" :{
+                    "scenario": [
+                        {
+                            "page": "$$config.baseUrl$$/q?s=YHOO"
+                        },
+                        {
+                            "controller": "locator",
+                            "params" : {
+                                "value": "#y-main-nav li:nth-child(6) a span",
+                                "hover": true,
+                                "waitForElement": "#y-main-nav li:nth-child(6).active"
+                            }
+                        },
+                        {
+                            "test": "test-personal-finance.js",
+                            "menu": [
+                                "Career & Education"
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "settings": [ "environment:development" ]
+    }
+]
