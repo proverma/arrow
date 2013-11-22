@@ -57,7 +57,7 @@ FinanceCustomController.prototype.execute = function(callback) {
 
                 //Execute the test
                 self.driver.executeTest(self.testConfig, self.testParams, function(error, report) {
-                    callback();
+                    callback(error);
                 });
             });
         });
