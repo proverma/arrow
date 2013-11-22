@@ -1,5 +1,11 @@
 # Change Log
 
+# 0.0.87
+
+  * Added support for reading response headers using proxy
+  * Integrated support for markup validation using DebugCSS [ For details - https://github.com/yahoo/arrow/blob/master/docs/arrow_cookbook/arrow_markup_testing.rst ]
+
+
 # 0.0.86
  
   * Fixed startup error message for PhantomJs
