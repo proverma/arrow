@@ -9,7 +9,8 @@
                   "group" : "smoke",
                   "params" : {
                       "test" : "../../lib/common/tests/markup-test.js",
-                      "page" : "http://yahoo.github.io/debugCSS/playgrounds/accessibility.html"
+                      "page" : "http://yahoo.github.io/debugCSS/playgrounds/accessibility.html",
+                      "warnOnly" : false
                   }
               }
           }
