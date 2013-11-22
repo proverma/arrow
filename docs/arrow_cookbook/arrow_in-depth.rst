@@ -1068,18 +1068,21 @@ Running tests using single browser
 Assuming you have selenium server already running on localhost port 4444.
 
 ::
+
     arrow ./int/test-descriptor.json --browser=firefox
     arrow ./int/test-descriptor.json --browser=chrome
 
 Assuming you have phantomjs already running on localhost port 4445.
 
 ::
+
    arrow ./int/test-descriptor.json --browser=chrome
 
 Running tests using multiple browsers
 -------------------------------------
 
 ::
+
     arrow ./int/test-descriptor.json --browser=firefox,chrome
     arrow ./int/test-descriptor.json --browser=chrome,phantomjs
 
@@ -1353,6 +1356,45 @@ Example -
 
     module.exports = ProxyCustomController;
 
+    The record object has 4 fields -
+    1) url - Request Url
+    2) headers - Request Headers
+    3) responseHeaders - Response Headers
+    4) method - HTTP method
+
+    e.g
+    {
+            "url": "http://finance.yahoo.com/",
+            "headers": {
+                "host": "finance.yahoo.com",
+                "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:23.0) Gecko/20100101 Firefox/23.0",
+                "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                "accept-language": "en-US,en;q=0.5",
+                "accept-encoding": "gzip, deflate",
+                "connection": "keep-alive",
+                "reqUrl": "http://finance.yahoo.com/",
+                "protocol": "http:"
+            },
+            "responseHeaders": {
+                "age": "0",
+                "cache-control": "max-age=0, private",
+                "connection": "Keep-Alive",
+                "content-encoding": "gzip",
+                "content-type": "text/html;charset=utf-8",
+                "date": "Fri, 22 Nov 2013 01:03:23 GMT",
+                "expires": "-1",
+                "p3p": "policyref=\"http://info.yahoo.com/w3c/p3p.xml\", CP=\"CAO DSP COR CUR ADM DEV TAI PSA PSD IVAi IVDi CONi TELo OTPi OUR DELi SAMi OTRi UNRi PUBi IND PHY ONL UNI PUR FIN COM NAV INT DEM CNT STA POL HEA PRE LOC GOV\"",
+                "server": "YTS/1.20.10",
+                "set-cookie": [
+                    "B=3mj6nk998tbar&b=3&s=il; expires=Mon, 23-Nov-2015 01:03:23 GMT; path=/; domain=.yahoo.com"
+                ],
+                "transfer-encoding": "chunked",
+                "via": "http/1.1 yts41.global.media.gq1.yahoo.com (ApacheTrafficServer/3.2.0 [cMsSf ]), HTTP/1.1 r7.ycpi.lax.yahoo.net UserFiberFramework/1.0 ",
+                "x-frame-options": "SAMEORIGIN",
+                "x-yahoo-request-id": "cebg82h98tbar"
+            },
+            "method": "GET"
+        }
 
 Using header manipulation with --routerConfigProxy
 ===================================================
@@ -1779,6 +1821,8 @@ Extended version of Assertions
 ------------------------------
 ------------------------------
 
+::
+
     Y.Assert.isUrl - Is a valid URL
     Y.Assert.isMatch - Match string against supplied Regex
     Y.Assert.hasKey - Does Object have a specific key
@@ -1883,6 +1927,7 @@ Use test-descriptor-1.json as a descriptor to run above test
 Run the test in usual way using,
 
 ::
+
     arrow test-descriptor-1.json --browser=chrome
 
 Make sure it passes
