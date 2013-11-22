@@ -33,8 +33,8 @@ Now you can begin. Here is a sample implementation of what such a *custom contro
 ::
 
   var util = require("util");
-  var log4js = require("arrow").log4js;
-  var Controller = require("arrow").controller;
+  var log4js = require("yahoo-arrow").log4js;
+  var Controller = require("yahoo-arrow").controller;
 
   function FinanceCustomController(testConfig,args,driver) {
       Controller.call(this, testConfig,args,driver);
