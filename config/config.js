@@ -15,7 +15,6 @@ config.logLevel = "INFO";
 config.browser = "firefox";
 config.parallel = false;
 config.baseUrl = "";
-config.useSSL = true;
 
 // Framework config
 config.arrowModuleRoot = global.appRoot + "/";
