@@ -15,6 +15,7 @@ config.logLevel = "INFO";
 config.browser = "firefox";
 config.parallel = false;
 config.baseUrl = "";
+
 // Framework config
 config.arrowModuleRoot = global.appRoot + "/";
 config.dimensions = config.arrowModuleRoot + "config/dimensions.json";
