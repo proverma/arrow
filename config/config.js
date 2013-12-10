@@ -19,7 +19,7 @@ config.baseUrl = "";
 config.arrowModuleRoot = global.appRoot + "/";
 config.dimensions = config.arrowModuleRoot + "config/dimensions.json";
 config.defaultTestHost = config.arrowModuleRoot + "lib/client/testHost.html";
-#config.defaultAppSeed = "http://yui.yahooapis.com/3.8.0/build/yui/yui-min.js";
+//config.defaultAppSeed = "http://yui.yahooapis.com/3.8.0/build/yui/yui-min.js";
 config.defaultAppSeed = "https://yui-s.yahooapis.com/3.8.0/build/yui/yui-min.js";
 config.autolib = config.arrowModuleRoot + "lib/common";
 
