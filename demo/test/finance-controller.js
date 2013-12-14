@@ -38,7 +38,7 @@ FinanceCustomController.prototype.execute = function(callback) {
 
         //Get the various parameters needed from the Test Descriptor file
         var txtLocator =  this.testParams.txtLocator;
-        var typeText =  this.testParams.typeText;
+        var typeText =  this.testParams.typeText + "\n";
         var btnLocator =  this.testParams.btnLocator;
         var page = this.testParams.page;
 
@@ -55,7 +55,6 @@ FinanceCustomController.prototype.execute = function(callback) {
         webdriver.waitForElementPresent(webdriver.By.css(txtLocator));
         //Navigate the page as necessary
         webdriver.findElement(webdriver.By.css(txtLocator)).sendKeys(typeText);
-        webdriver.findElement(webdriver.By.css(btnLocator)).click();
 
         webdriver.waitForElementPresent(webdriver.By.css(".title")).then(function() {
             self.testParams.page=null;
