@@ -17,11 +17,6 @@ ProxyCustomController.prototype.execute = function(callback) {
         var page = this.testParams.page;
         var webdriver = this.driver.webdriver;
 
-        webdriver.listener.on("uncaughtException", function (e) {
-            errorMsg =  "Uncaught exception: " + e.message;
-            self.logger.error(errorMsg);
-            callback(errorMsg);
-        });
         webdriver.get(page);
         //get value of global.proxyManager.record
 
@@ -31,7 +26,7 @@ ProxyCustomController.prototype.execute = function(callback) {
             self.testParams.proxyManagerRecord=record;
             self.testParams.page=null;
             self.driver.executeTest(self.testConfig, self.testParams, function(error, report) {
-                callback();
+                callback(error);
             });
 
         });

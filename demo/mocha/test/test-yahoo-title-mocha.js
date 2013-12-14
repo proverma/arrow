@@ -1,7 +1,7 @@
 var chai;
 
-describe('Array', function(){
-    describe('#indexOf()', function(){
+describe('test-yahoo-title-mocha', function(){
+    describe('test', function(){
 
         before(function (done) {
 

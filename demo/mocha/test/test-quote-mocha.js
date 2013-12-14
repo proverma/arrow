@@ -5,8 +5,8 @@ var
     Y,
     chai;
 
-describe('Array', function(){
-    describe('#indexOf()', function(){
+describe('test-quote-mocha', function(){
+    describe('test', function(){
 
         before(function (done) {
 

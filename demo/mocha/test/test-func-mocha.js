@@ -6,9 +6,9 @@ var
     tabNode,
     tabTest;
 
-describe('Array',function() {
+describe('test-func-mocha',function() {
 
-    describe('#indexof()', function(){
+    describe('test', function(){
 
         before(function (done) {
 

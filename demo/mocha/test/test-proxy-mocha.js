@@ -6,8 +6,8 @@ var
     Y,
     chai;
 
-describe('test-array-tests', function(){
-    describe('#indexOf()', function(){
+describe('test-proxy-mocha', function(){
+    describe('test', function(){
 
         before(function (done) {
 

@@ -8,9 +8,9 @@ var
     Y,
     chai;
 
-describe('test-int-tests',function() {
+describe('test-func-mocha',function() {
 
-    describe('#structure', function(){
+    describe('#test', function(){
 
         before(function (done) {
 
