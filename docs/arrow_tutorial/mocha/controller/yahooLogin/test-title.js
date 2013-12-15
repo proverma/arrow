@@ -3,31 +3,44 @@
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
+var
+    self = this,
+    testParams = self.testParams,
+    quote = testParams["quote"],
+    Y,
+    chai;
 
+describe('Title test of the test', function(){
 
-/*
- * Like other tests, this is a YUI test module
- *
- */
-YUI.add("test-title-tests", function (Y) {
+    describe('tests', function(){
 
-    //We initialize the suite object as a YUI test suite and with a suite title
-    var suite = new Y.Test.Suite("Title test of the test");
-    suite.add(new Y.Test.Case({
+        before(function (done) {
 
-        //We are creating a simple test called "test title"
-        "test title": function() {
+            // Initialize chai and YUI
+            if(typeof window  == "undefined" && typeof chai  == "undefined"){
+                chai = require('chai');
+            }
+            else{
+                chai = window.chai;
+            }
+
+            Y = YUI().use('node', function ()
+            {
+                done();
+            });
+
+        });
+
+        it('has correct title', function(done){
 
             //In order to paramertize this, instead of having a static title, we call it from the config
-            var title = this.testParams["title"];
+            var title = testParams["title"];
+            console.log('**Title:' + title + ", " + document.title);
+//            chai.assert("Yahoo" == document.title);
+            chai.assert(title == document.title);
 
-            //If the title is null, set it to empty
-            if(!title) title = "";
-            Y.Assert.areEqual(title, document.title);
-        }
-    }));
+            done();
 
-    //Never "run" the tests, simply add them to the suite. Arrow takes care of running them
-    Y.Test.Runner.add(suite);
-}, "0.1", {requires:["test","node"]});
-
+        });
+    });
+});

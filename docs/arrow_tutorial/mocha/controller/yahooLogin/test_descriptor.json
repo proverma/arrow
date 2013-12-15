@@ -39,8 +39,10 @@
                             "page": "http://finance.yahoo.com"
                         },
                         {
-                            "test": "test-title.js",
-                            "title": "Yahoo! Finance - Business Finance, Stock Market, Quotes, News"
+                            "test": "./test-title.js",
+                            "engine":"mocha",
+                            "engineConfig" : "../../mocha-config.json",
+                            "title": "Yahoo Finance - Business Finance, Stock Market, Quotes, News"
                         }
                     ]
                 }

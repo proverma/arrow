@@ -1,20 +1,35 @@
-/*
- * Copyright (c) 2012, Yahoo! Inc.  All rights reserved.
- * Copyrights licensed under the New BSD License.
- * See the accompanying LICENSE file for terms.
- */
+var
+    self = this,
+    testParams = self.testParams,
+    quote = testParams["quote"],
+    Y,
+    chai;
 
-YUI({ useBrowserConsole: true }).use("node", "test", function(Y) {
-    var suite = new Y.Test.Suite("Quote Page test of the test");
-    suite.add(new Y.Test.Case({
-        "test quote": function() {
+describe('test-Yahoo-quote', function(){
+    describe('test', function(){
 
-            //In order to paramertize this, instead of having a static quote, we call it from the config
-            var quote = this.testParams["quote"];
-            Y.Assert.areEqual(quote, Y.one(".yfi_rt_quote_summary").one("h2").get('text'));
-        }
-    }));
+        before(function (done) {
 
-    Y.Test.Runner.add(suite);
+            // Initialize chai and YUI
+            if(typeof window  == "undefined" && typeof chai  == "undefined"){
+                chai = require('chai');
+            }
+            else{
+                chai = window.chai;
+            }
+
+            Y = YUI().use('node', function ()
+            {
+                done();
+            });
+
+        });
+
+        it('has correct quote', function(done){
+
+            chai.assert(Y.one(".yfi_rt_quote_summary").one("h2").get('text') == quote);
+            done();
+
+        });
+    });
 });
-

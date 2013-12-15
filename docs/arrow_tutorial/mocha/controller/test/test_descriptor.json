@@ -21,19 +21,15 @@
                             "controller": "locator",
                             "params": {
                                 "value": "#txtQuotes",
-                                "text": "yhoo"
-                            }
-                        },
-                        {
-                            "controller": "locator",
-                            "params": {
-                                "value": "#btnQuotes",
-                                "click": true
+                                "text": "yhoo\n"
                             }
                         },
                         {
                             "test": "test-quote.js",
-                            "quote": "Yahoo! Inc. (YHOO)"
+                            "quote": "Yahoo! Inc. (YHOO)",
+                            "engine" : "mocha",
+                            "engineConfig" : "../../mocha-config.json"
+
                         }
                     ]
                 }

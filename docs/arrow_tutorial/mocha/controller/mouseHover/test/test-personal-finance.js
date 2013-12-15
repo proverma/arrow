@@ -1,22 +1,44 @@
-YUI.add("finance-topnav-pf-tests", function(Y) {
 
-	/* Create a test suite and name it. */
-	var suite = new Y.Test.Suite("Smoke-Finance TopNav Menu Item Personal Finance Tests");
+var
+    self = this,
+    testParams = self.testParams,
+    Y,
+    chai;
 
-    suite.add(new Y.Test.Case
-	(
-		{
-       		"#1 - Test menu option is present": function()
-        	{
-        		var menu = this.testParams.menu,
-        			/* Locate for elements on the page using css selector. */
-        			firstMenuItemCSS = Y.one("#y-main-nav li:nth-child(6) li:nth-child(1)");
-                Y.Assert.isNotNull(firstMenuItemCSS);
-                Y.Assert.areSame(menu[0], firstMenuItemCSS.get("text"));
-        	}
- 		}
-	)
-	);
+describe('finance-topnav-pf-tests',function() {
 
-    Y.Test.Runner.add(suite);
-}, "0.1", { requires:["test","node"]});
+    describe('test', function(){
+
+        before(function (done) {
+            // Initialize chai and YUI
+            if(typeof window  == "undefined" && typeof chai  == "undefined"){
+                chai = require('chai');
+            }
+            else{
+                chai = window.chai;
+            }
+            console.log('***In before 2');
+            Y = YUI().use('node', function ()
+            {
+                done();
+            });
+
+        });
+
+
+        it('#1 - Test menu option is present', function(done){
+            var menu = testParams.menu,
+            /* Locate for elements on the page using css selector. */
+                firstMenuItemCSS = Y.one("#y-main-nav li:nth-child(6) li:nth-child(1)");
+            chai.assert.isNotNull(firstMenuItemCSS);
+            chai.assert.strictEqual(menu[0], firstMenuItemCSS.get("text"));
+            done();
+
+        });
+
+    });
+
+});
+
+
+

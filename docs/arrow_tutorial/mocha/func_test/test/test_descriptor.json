@@ -5,31 +5,37 @@
         "name" : "tabview",
 
         "commonlib" : "./test-lib.js",
- 
+
         "config" :{
             "baseUrl" : "http://www.doctor46.com"
         },
 
         "dataprovider" : {
-            
-            "dom" : {
+
+            "dom_int" : {
                 "params" : {
+                    "engine" : "mocha",
+                    "engineConfig" : "../../mocha-config.json",
                     "test" : "test-func.js",
                     "page" : "testMock.html"
-                }, 
+                },
                 "group" : "unit"
             },
 
-           "dom_int" : {
+            "dom" : {
                 "params" : {
+                    "engine" : "mocha",
+                    "engineConfig" : "../../mocha-config.json",
                     "test" : "test-func.js",
                     "page" : "$$config.baseUrl$$/tabview.html"
-                  },
-                "group" : "smoke"
+                },
+                "group" : "func"
             },
 
             "int" : {
                 "params" : {
+                    "engine" : "mocha",
+                    "engineConfig" : "../../mocha-config.json",
                     "test" : "test-int.js",
                     "page" : "$$config.baseUrl$$/tabview.html"
                 },
@@ -37,7 +43,7 @@
             }
 
         }
-        
+
     },
 
     {
