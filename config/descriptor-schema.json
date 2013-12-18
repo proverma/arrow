@@ -4,6 +4,7 @@
     "properties" : {
         "name" : { "type" : "string", "required" :true },
         "commonlib" : { "type" : "string"},
+        "useSSL" : { "type" : "boolean"},
         "extends" : { "type" : "string"},
         "startProxyServer" : { "type" : "boolean"},
         "routerProxyConfig" : { "type" : "string"},
@@ -15,7 +16,7 @@
                 "required":true,
                 "additionalProperties" : {
                     "type" : "object",
-                    "properties" : { 
+                    "properties" : {
                         "enabled" : { "type" : "boolean | string" },
                         "controller" : { "type" : "string" },
                         "group" : { "type" : "string" },
@@ -32,7 +33,7 @@
                                 "engine" :{ "type" : "string" },
                                 "engineConfig" :{ "type" : "string" }
                             }
-                            
+
                         }
                      },
                      "additionalProperties": false
