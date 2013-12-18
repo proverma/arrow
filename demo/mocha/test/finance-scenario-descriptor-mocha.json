@@ -9,10 +9,8 @@
         },
 
         "dataprovider" : {
-
             "Test YHOO Ticker" : {
                 "group" : "func",
-
                 "params" :{
 
                     "scenario": [
@@ -27,12 +25,14 @@
                             }
                         },
                         {
-                            "test": "test-quote.js",
-                            "quote": "Yahoo! Inc. (YHOO)"
+                            "test": "test-quote-mocha.js",
+                            "quote": "Yahoo! Inc. (YHOO)",
+                            "engine" : "mocha",
+                            "engineConfig" : "./mocha-config.json"
+
                         }
                     ]
                 }
-
             }
         }
     },

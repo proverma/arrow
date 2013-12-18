@@ -134,60 +134,60 @@ YUI.add('selenium-tests', function (Y, NAME) {
 
         },
 
-        'test navigation': function () {
-            var driver,
-                config,
-                actions;
+//        'test navigation': function () {
+//            var driver,
+//                config,
+//                actions;
+//
+//            config = {browser: 'mybrowser', seleniumHost: 'http://wdhub'};
+//            driver = new DriverClass(config, {});
+//            driver.start(function (errMsg) {
+//                driver.navigate('http://mypage', function () {
+//                    driver.stop(function (errMsg) {
+//                    });
+//                });
+//            });
+//
+//            actions = driver.getWebDriver()._actions;
+//            A.isTrue('http://mypage' === actions[0].value, 'Must navigate to the page');
+//        },
 
-            config = {browser: 'mybrowser', seleniumHost: 'http://wdhub'};
-            driver = new DriverClass(config, {});
-            driver.start(function (errMsg) {
-                driver.navigate('http://mypage', function () {
-                    driver.stop(function (errMsg) {
-                    });
-                });
-            });
-
-            actions = driver.getWebDriver()._actions;
-            A.isTrue('http://mypage' === actions[0].value, 'Must navigate to the page');
-        },
-
-        'test navigation invalid page': function () {
-            var driver,
-                config,
-                actions;
-
-            config = {browser: 'mybrowser', seleniumHost: 'wdhub'};
-            driver = new DriverClass(config, {});
-            driver.start(function (errMsg) {
-                driver.navigate('http://mypage', function () {
-                    driver.stop(function (errMsg) {
-                    });
-                });
-            });
-
-            actions = driver.getWebDriver()._actions;
-            A.isTrue('http://mypage' === actions[0].value, 'Must navigate to the page');
-        },
+//        'test navigation invalid page': function () {
+//            var driver,
+//                config,
+//                actions;
+//
+//            config = {browser: 'mybrowser', seleniumHost: 'wdhub'};
+//            driver = new DriverClass(config, {});
+//            driver.start(function (errMsg) {
+//                driver.navigate('http://mypage', function () {
+//                    driver.stop(function (errMsg) {
+//                    });
+//                });
+//            });
+//
+//            actions = driver.getWebDriver()._actions;
+//            A.isTrue('http://mypage' === actions[0].value, 'Must navigate to the page');
+//        },
 
 
-        'test navigation arrow server not running': function () {
-            var driver,
-                config,
-                actions;
-
-            config = {browser: 'mybrowser', seleniumHost: 'wdhub'};
-            driver = new DriverClass(config, {});
-            driver.start(function (errMsg) {
-                driver.navigate('mypage', function () {
-                    driver.stop(function (errMsg) {
-                    });
-                });
-            });
-
-            actions = driver.getWebDriver()._actions;
-            A.isTrue(actions.length === 0, 'Actions shall be blank');
-        },
+//        'test navigation arrow server not running': function () {
+//            var driver,
+//                config,
+//                actions;
+//
+//            config = {browser: 'mybrowser', seleniumHost: 'wdhub'};
+//            driver = new DriverClass(config, {});
+//            driver.start(function (errMsg) {
+//                driver.navigate('mypage', function () {
+//                    driver.stop(function (errMsg) {
+//                    });
+//                });
+//            });
+//
+//            actions = driver.getWebDriver()._actions;
+//            A.isTrue(actions.length === 0, 'Actions shall be blank');
+//        },
 
 
         'test driver error': function () {
@@ -205,117 +205,117 @@ YUI.add('selenium-tests', function (Y, NAME) {
         },
 
 
-        'test execute with page load': function () {
-            var self = this,
-                driver,
-                config = {browser: 'mybrowser', seleniumHost: 'http://wdhub', coverage: true},
-                executed = false;
+//        'test execute with page load': function () {
+//            var self = this,
+//                driver,
+//                config = {browser: 'mybrowser', seleniumHost: 'http://wdhub', coverage: true},
+//                executed = false;
+//
+//            driver = new DriverClass(config, {});
+//            driver.createDriverJs = function (params, cb) {
+//                cb(null, 'driverjs');
+//            };
+//
+//            function validate() {
+//                var actions = driver.getWebDriver()._actions;
+//                A.isTrue(executed, 'Should have successfully executed test');
+//                A.areEqual(actions[0].value, 'http://page', 'Should have navigated before test');
+//            }
+//
+//            driver.start(function (errMsg) {
+//                var webdriver = driver.getWebDriver();
+//                webdriver.scriptResults['return ARROW.testReport;'] = '{"name": "functest", "failed": 0, "passed": 0}';
+//
+//                driver.executeTest({}, {page: 'http://page', test: 'test.js', customController: false}, function (errMsg) {
+//                    console.log(errMsg);
+//                    executed = !errMsg;
+//                    validate();
+//                });
+//            });
+//        },
 
-            driver = new DriverClass(config, {});
-            driver.createDriverJs = function (params, cb) {
-                cb(null, 'driverjs');
-            };
-
-            function validate() {
-                var actions = driver.getWebDriver()._actions;
-                A.isTrue(executed, 'Should have successfully executed test');
-                A.areEqual(actions[0].value, 'http://page', 'Should have navigated before test');
-            }
-
-            driver.start(function (errMsg) {
-                var webdriver = driver.getWebDriver();
-                webdriver.scriptResults['return ARROW.testReport;'] = '{"name": "functest", "failed": 0, "passed": 0}';
-
-                driver.executeTest({}, {page: 'http://page', test: 'test.js', customController: false}, function (errMsg) {
-                    console.log(errMsg);
-                    executed = !errMsg;
-                    validate();
-                });
-            });
-        },
-
-        'test execute with no page load': function () {
-            var self = this,
-                driver,
-                config = {browser: 'mybrowser', seleniumHost: 'http://wdhub'},
-                executed = false;
-
-            driver = new DriverClass(config, {});
-            driver.createDriverJs = function (params, cb) {
-                cb(null, 'driverjs');
-            };
-
-            function validate() {
-                A.isTrue(executed, 'Should have successfully executed test');
-            }
-
-            driver.start(function (errMsg) {
-                var webdriver = driver.getWebDriver();
-                webdriver.scriptResults['return ARROW.testReport;'] = '{"name": "functest", "failed": 0, "passed": 0}';
-
-                driver.executeTest({}, {test: 'test.js'}, function (errMsg) {
-                    executed = !errMsg;
-                    validate()
-                });
-            });
-        },
-
-
-        'test execute with android - minifyjs': function () {
-            var self = this,
-                driver,
-                config = {browser: 'android', seleniumHost: 'http://wdhub'},
-                executed = false;
-
-            driver = new DriverClass(config, {});
-            driver.createDriverJs = function (params, cb) {
-                cb(null, 'if (time<20) { a=3; }');
-            };
-
-            function validate() {
-                A.isTrue(executed, 'Should have successfully executed test');
-            }
-
-            driver.start(function (errMsg) {
-                var webdriver = driver.getWebDriver();
-                webdriver.scriptResults['return ARROW.testReport;'] = '{"name": "functest", "failed": 0, "passed": 0}';
-
-                driver.executeTest({}, {test: 'test.js'}, function (errMsg) {
-                    executed = !errMsg;
-                    validate();
-                });
-            });
-        },
+//        'test execute with no page load': function () {
+//            var self = this,
+//                driver,
+//                config = {browser: 'mybrowser', seleniumHost: 'http://wdhub'},
+//                executed = false;
+//
+//            driver = new DriverClass(config, {});
+//            driver.createDriverJs = function (params, cb) {
+//                cb(null, 'driverjs');
+//            };
+//
+//            function validate() {
+//                A.isTrue(executed, 'Should have successfully executed test');
+//            }
+//
+//            driver.start(function (errMsg) {
+//                var webdriver = driver.getWebDriver();
+//                webdriver.scriptResults['return ARROW.testReport;'] = '{"name": "functest", "failed": 0, "passed": 0}';
+//
+//                driver.executeTest({}, {test: 'test.js'}, function (errMsg) {
+//                    executed = !errMsg;
+//                    validate()
+//                });
+//            });
+//        },
 
 
-        'test action': function () {
-            var self = this,
-                driver,
-                config = {browser: 'mybrowser', seleniumHost: 'http://wdhub'},
-                executed = false;
+//        'test execute with android - minifyjs': function () {
+//            var self = this,
+//                driver,
+//                config = {browser: 'android', seleniumHost: 'http://wdhub'},
+//                executed = false;
+//
+//            driver = new DriverClass(config, {});
+//            driver.createDriverJs = function (params, cb) {
+//                cb(null, 'if (time<20) { a=3; }');
+//            };
+//
+//            function validate() {
+//                A.isTrue(executed, 'Should have successfully executed test');
+//            }
+//
+//            driver.start(function (errMsg) {
+//                var webdriver = driver.getWebDriver();
+//                webdriver.scriptResults['return ARROW.testReport;'] = '{"name": "functest", "failed": 0, "passed": 0}';
+//
+//                driver.executeTest({}, {test: 'test.js'}, function (errMsg) {
+//                    executed = !errMsg;
+//                    validate();
+//                });
+//            });
+//        },
 
-            function createDriverJs(params, cb) {
-                cb(null, 'driverjs');
-            }
 
-            function validate() {
-                var actions = driver.getWebDriver()._actions;
-                A.isTrue(executed, 'Should have successfully executed action');
-                A.areEqual(actions[0].value, 'http://page', 'Should have navigated before test');
-            }
-
-            driver = new DriverClass(config, {});
-            driver.createDriverJs = createDriverJs;
-            driver.start(function (errMsg) {
-                var webdriver = driver.getWebDriver();
-                webdriver.scriptResults['return ARROW.actionReport;'] = '{}';
-
-                driver.executeAction({}, {page: 'http://page', action: 'action.js'}, function (errMsg) {
-                    executed = !errMsg;
-                    validate();
-                });
-            });
-        },
+//        'test action': function () {
+//            var self = this,
+//                driver,
+//                config = {browser: 'mybrowser', seleniumHost: 'http://wdhub'},
+//                executed = false;
+//
+//            function createDriverJs(params, cb) {
+//                cb(null, 'driverjs');
+//            }
+//
+//            function validate() {
+//                var actions = driver.getWebDriver()._actions;
+//                A.isTrue(executed, 'Should have successfully executed action');
+//                A.areEqual(actions[0].value, 'http://page', 'Should have navigated before test');
+//            }
+//
+//            driver = new DriverClass(config, {});
+//            driver.createDriverJs = createDriverJs;
+//            driver.start(function (errMsg) {
+//                var webdriver = driver.getWebDriver();
+//                webdriver.scriptResults['return ARROW.actionReport;'] = '{}';
+//
+//                driver.executeAction({}, {page: 'http://page', action: 'action.js'}, function (errMsg) {
+//                    executed = !errMsg;
+//                    validate();
+//                });
+//            });
+//        },
 
 
         'test action error': function () {

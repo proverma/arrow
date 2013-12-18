@@ -18,9 +18,9 @@
                             "controller": "finance-controller.js",
                             "params": {
                                 "page" : "$$config.baseUrl$$",
-                                "txtLocator": "#txtQuotes",
+                                "txtLocator": ".yucs-search-input",
                                 "typeText": "yhoo",
-                                "btnLocator": "#btnQuotes",
+                                "btnLocator": "#yucs-sprop_button",
                                 "test": "test-quote.js",
                                 "quote": "Yahoo! Inc. (YHOO)"
                             }

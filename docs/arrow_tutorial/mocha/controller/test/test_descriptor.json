@@ -12,9 +12,7 @@
 
             "Test YHOO Ticker" : {
                 "group" : "func",
-
                 "params" :{
-
                     "scenario": [
                         {
                             "page": "$$config.baseUrl$$"
@@ -28,11 +26,13 @@
                         },
                         {
                             "test": "test-quote.js",
-                            "quote": "Yahoo! Inc. (YHOO)"
+                            "quote": "Yahoo! Inc. (YHOO)",
+                            "engine" : "mocha",
+                            "engineConfig" : "../../mocha-config.json"
+
                         }
                     ]
                 }
-
             }
         }
     },
@@ -41,4 +41,3 @@
     }
 
 ]
-

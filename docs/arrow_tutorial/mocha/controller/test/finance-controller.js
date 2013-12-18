@@ -38,31 +38,27 @@ FinanceCustomController.prototype.execute = function(callback) {
 
         //Get the various parameters needed from the Test Descriptor file
         var txtLocator =  this.testParams.txtLocator;
-        var typeText =  this.testParams.typeText;
-        var btnLocator =  this.testParams.btnLocator;
+        var typeText =  this.testParams.typeText + "\n";
         var page = this.testParams.page;
 
         //Get a handle of the WebDriver Object
         var webdriver = this.driver.webdriver;
 
-        //Open the page you want to test
-        webdriver.get(page).then(function() {
-            self.logger.info(self.config);
+        webdriver.get(page);
+        webdriver.waitForElementPresent(webdriver.By.css(txtLocator));
+        //Navigate the page as necessary
+        webdriver.findElement(webdriver.By.css(txtLocator)).sendKeys(typeText);
 
-            //Navigate the page as necessary
-            webdriver.findElement(webdriver.By.css(txtLocator)).sendKeys(typeText);
-            webdriver.findElement(webdriver.By.css(btnLocator)).click();
+        webdriver.waitForElementPresent(webdriver.By.css(".title")).then(function() {
             self.testParams.page=null;
-            webdriver.getTitle().then(function(title) {
-
-                //Execute the test
-                self.driver.executeTest(self.testConfig, self.testParams, function(error, report) {
-                    callback(error);
-                });
+            self.driver.executeTest(self.testConfig, self.testParams, function(error, report) {
+                callback(error);
             });
+
         });
     }else{
         this.logger.fatal("Custom Controllers are currently only supported on Selenium Browsers");
+        callback("Custom Controllers are currently only supported on Selenium Browsers");
     }
 }
 

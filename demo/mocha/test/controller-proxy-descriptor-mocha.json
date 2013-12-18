@@ -16,11 +16,13 @@
 
             "Test proxy Controller":{
                 "group":"func",
-                "controller":"./proxy-controller-record.js",
+                "controller":"./proxy-controller-record-mocha.js",
                 "params":{
                     "page":"$$config.baseUrl$$",
+                    "test":"./test-proxy-mocha.js",
+                    "engine" : "mocha",
+                    "engineConfig" : "./mocha-config.json"
 
-                    "test":"./test-proxy.js"
 
                 }
             }
