@@ -11,8 +11,8 @@ var util = require("util");
 var log4js = require("yahoo-arrow").log4js;
 var Controller = require("yahoo-arrow").controller;
 
-function FinanceCustomController(testConfig,args,driver) {
-    Controller.call(this, testConfig,args,driver);
+function FinanceCustomController(testConfig, args, driver) {
+    Controller.call(this, testConfig, args, driver);
 
     this.logger = log4js.getLogger("FinanceCustomController");
 }
@@ -32,38 +32,33 @@ util.inherits(FinanceCustomController, Controller);
  * You'll note executeTest includes the same parameters as Arrow's CLI
  */
 FinanceCustomController.prototype.execute = function(callback) {
-    var self = this;
 
-    if(this.driver.webdriver){
+    //Get the various parameters needed from the Test Descriptor file
 
-        //Get the various parameters needed from the Test Descriptor file
-        var txtLocator =  this.testParams.txtLocator;
-        var typeText =  this.testParams.typeText + "\n";
-        var btnLocator =  this.testParams.btnLocator;
-        var page = this.testParams.page;
+    var self = this,
+        txtLocator =  this.testParams.txtLocator,
+        typeText =  this.testParams.typeText + "\n",
+        page = this.testParams.page,
+        webdriver;
+
+    if (this.driver.webdriver) {
 
         //Get a handle of the WebDriver Object
-        var webdriver = this.driver.webdriver;
+        webdriver = this.driver.webdriver;
 
         //Open the page you want to test
-        webdriver.listener.on("uncaughtException", function (e) {
-            errorMsg =  "Uncaught exception: " + e.message;
-            self.logger.error(errorMsg);
-            callback(errorMsg);
-        });
         webdriver.get(page);
         webdriver.waitForElementPresent(webdriver.By.css(txtLocator));
         //Navigate the page as necessary
         webdriver.findElement(webdriver.By.css(txtLocator)).sendKeys(typeText);
 
         webdriver.waitForElementPresent(webdriver.By.css(".title")).then(function() {
-            self.testParams.page=null;
             self.driver.executeTest(self.testConfig, self.testParams, function(error, report) {
                 callback();
             });
 
         });
-    }else{
+    } else {
         this.logger.fatal("Custom Controllers are currently only supported on Selenium Browsers");
         callback("Custom Controllers are currently only supported on Selenium Browsers");
     }
