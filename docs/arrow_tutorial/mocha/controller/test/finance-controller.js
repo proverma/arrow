@@ -50,7 +50,6 @@ FinanceCustomController.prototype.execute = function(callback) {
         webdriver.findElement(webdriver.By.css(txtLocator)).sendKeys(typeText);
 
         webdriver.waitForElementPresent(webdriver.By.css(".title")).then(function() {
-            self.testParams.page=null;
             self.driver.executeTest(self.testConfig, self.testParams, function(error, report) {
                 callback(error);
             });
