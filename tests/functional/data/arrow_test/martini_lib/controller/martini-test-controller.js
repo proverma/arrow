@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) 2012, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
@@ -50,7 +49,7 @@ MyTestController.prototype.execute = function(callback) {
             //Navigate the page as necessary
             webdriver.findElement(webdriver.By.css(txtLocator)).sendKeys(typeText);
             webdriver.findElement(webdriver.By.css(btnLocator)).click();
-            self.testParams.page=null;
+            
             webdriver.getTitle().then(function(title) {
 
                 //Execute the test
