@@ -28,7 +28,7 @@
                                 "Breakout"
                             ],
                             "engine" : "mocha",
-                            "engineConfig" : "../../../mocha-config.json"
+                            "engineConfig" : "../../../mocha-config-tdd.json"
                         }
                     ]
                 }

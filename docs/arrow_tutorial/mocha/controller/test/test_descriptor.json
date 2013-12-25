@@ -28,7 +28,7 @@
                             "test": "test-quote.js",
                             "quote": "Yahoo! Inc. (YHOO)",
                             "engine" : "mocha",
-                            "engineConfig" : "../../mocha-config.json"
+                            "engineConfig" : "../../mocha-config-tdd.json"
 
                         }
                     ]
