@@ -1,5 +1,10 @@
 # Change Log
 
+# 0.0.89
+
+  * Refactoring
+  * Bug fix
+
 # 0.0.88
 
   * Added support for mouse hover in locator controller [ For details - https://github.com/yahoo/arrow/blob/master/docs/arrow_cookbook/arrow_FAQs.rst#how-can-i-use-the-locator-controller-to-test-mouse-hover-functionality ]
