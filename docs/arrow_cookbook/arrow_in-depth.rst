@@ -1306,7 +1306,7 @@ router.json
     }
  }
 
-The recorded traffic is in JSON format and can be read from the controller using self.getProxyRecord(). The record can be reset by invoking self.resetProxyRecord().
+The recorded traffic can be read from the controller using self.getProxyRecord() as a string. The record can be reset by invoking self.resetProxyRecord().
 
 Note: The proxy record is per routerProxyConfig. If multiple tests use same routerProxyConfig and the tests are run in parallel, using resetProxyRecord() might end up resetting proxy record for other test.
 
@@ -1338,7 +1338,7 @@ Example -
 
             webdriver.waitForElementPresent(webdriver.By.css(".title")).then(function() {
 
-                var record = self.getProxyRecord(); // Get the proxy record
+                var record = JSON.parse(self.getProxyRecord()); // Get the proxy record
 
                 self.testParams.proxyManagerRecord=record;
                 self.testParams.page=null;

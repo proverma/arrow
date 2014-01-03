@@ -16,7 +16,9 @@ function ProxyCustomController(testConfig, args, driver) {
     this.logger = log4js.getLogger("ProxyCustomController");
 }
 util.inherits(ProxyCustomController, Controller);
+
 ProxyCustomController.prototype.execute = function (callback) {
+
     var self = this,
         page,
         webdriver;
@@ -27,12 +29,12 @@ ProxyCustomController.prototype.execute = function (callback) {
         webdriver = this.driver.webdriver;
 
         webdriver.get(page);
-        //get value of global.proxyManager.record
 
-        webdriver.waitForElementPresent(webdriver.By.css(".title")).then(function () {
-            var record = JSON.stringify(global.proxyManager.record);
-            console.log(record);
-            self.testParams.proxyManagerRecord = record;
+        webdriver.waitForElementPresent(webdriver.By.css("#yucs-search-submit")).then(function () {
+
+            var record = JSON.parse(self.getProxyRecord());
+
+            self.testParams.networkTrafficRecord = record;
             self.driver.executeTest(self.testConfig, self.testParams, function (error, report) {
                 callback();
             });
