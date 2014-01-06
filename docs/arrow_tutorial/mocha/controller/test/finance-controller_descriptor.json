@@ -16,7 +16,7 @@
                 "controller":"finance-controller.js",
                 "params":{
                     "engine" : "mocha",
-                    "engineConfig" : "../../mocha-config.json",
+                    "engineConfig" : "../../mocha-config-tdd.json",
                     "page":"$$config.baseUrl$$",
                     "txtLocator":"#txtQuotes",
                     "typeText":"yhoo",

@@ -41,7 +41,7 @@
                         {
                             "test": "./test-title.js",
                             "engine":"mocha",
-                            "engineConfig" : "../../mocha-config.json",
+                            "engineConfig" : "../../mocha-config-tdd.json",
                             "title": "Yahoo Finance - Business Finance, Stock Market, Quotes, News"
                         }
                     ]

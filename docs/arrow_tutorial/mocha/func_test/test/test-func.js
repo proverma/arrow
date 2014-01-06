@@ -24,7 +24,6 @@ describe('Array',function() {
                 done();
             });
 
-
         });
 
         it('test tab structure', function(done){
