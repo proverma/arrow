@@ -122,8 +122,8 @@ if (!argv.config) {
     }
     if (!argv.config) {
         try {
-            if (fs.lstatSync(process.cwd() + "/config/config.js").isFile()) {
-                argv.config = process.cwd() + "/config/config.js";
+            if (fs.lstatSync(path.join(process.cwd(), "config/config.js")).isFile()) {
+                argv.config = path.join(process.cwd(), "/config/config.js");
             }
         } catch (e) {
             //console.log("No Custom Config File.")
