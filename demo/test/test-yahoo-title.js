@@ -15,7 +15,7 @@ YUI.add("test-yahoo-title-tests", function (Y) {
             //var title = Y.one("");
 
             //If the title is null, set it to empty
-            Y.Assert.areEqual("Yahoo!", document.title);
+            Y.Assert.areEqual("Yahoo", document.title);
         }
     }));
 
