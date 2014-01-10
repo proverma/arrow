@@ -1,5 +1,9 @@
 # Change Log
 
+# 0.0.90
+
+  * Fix for overriding configurations using local config file
+
 # 0.0.89
 
   * Refactoring
