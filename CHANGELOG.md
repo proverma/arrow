@@ -2,7 +2,8 @@
 
 # 0.0.90
 
-  * Fix for overriding configurations using local config file
+  * set logging level to ERROR and hooked up log4js ( for tests requiring Arrow server )
+  * Improved examples in documentation
 
 # 0.0.89
 
