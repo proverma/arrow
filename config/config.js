@@ -63,5 +63,9 @@ config.report = true;
 config.testTimeOut = 30000; // if test does not get over in these many ms, Arrow fails the test.
 
 config.ignoreSslErrorsPhantomJs = true;
+config.startPhantomJs = false;
+config.startArrowServer = false;
+
+config.lib = "";
 
 module.exports = config;

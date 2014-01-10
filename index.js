@@ -33,6 +33,7 @@ var Help = require('./lib/util/help');
 var nopt = require("nopt");
 var Properties = require("./lib/util/properties");
 var fs = require("fs");
+var path = require("path");
 
 var knownOpts = {
         "browser": [String, null],
@@ -113,16 +114,16 @@ global.startTime = Date.now();
 //check if user wants to override default config.
 if (!argv.config) {
     try {
-        if (fs.lstatSync(process.cwd() + "config.js").isFile()) {
-            argv.config = process.cwd() + "/config.js";
+        if (fs.lstatSync(path.join(process.cwd(),"config.js")).isFile()) {
+            argv.config = path.join(process.cwd(),"/config.js");
         }
     } catch (e) {
         //console.log("No Custom Config File.")
     }
     if (!argv.config) {
         try {
-            if (fs.lstatSync(process.cwd() + "/config/config.js").isFile()) {
-                argv.config = process.cwd() + "/config/config.js";
+            if (fs.lstatSync(path.join(process.cwd(), "config/config.js")).isFile()) {
+                argv.config = path.join(process.cwd(), "/config/config.js");
             }
         } catch (e) {
             //console.log("No Custom Config File.")

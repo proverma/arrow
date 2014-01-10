@@ -351,10 +351,11 @@ YUI.add('selenium-tests', function (Y, NAME) {
         'test getArrowServerBase': function () {
             var self = this,
                 driver,
-                config = {browser: 'mybrowser', seleniumHost: 'http://wdhub'},
+                config = {},
+                args = {browser: 'mybrowser', seleniumHost: 'http://wdhub'},
                 executed = false;
 
-            driver = new DriverClass(config, {});
+            driver = new DriverClass(config, args);
             A.isFalse(driver.getArrowServerBase(), "When Arrow Server is not running, getArrowServerBase should return false");
         },
 
