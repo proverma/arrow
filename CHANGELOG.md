@@ -1,5 +1,10 @@
 # Change Log
 
+# 0.1.0
+
+  * Fix for overriding configurations using local config file
+  * Fix for report file not being generated when custom controller failed to load
+
 # 0.0.90
 
   * set logging level to ERROR and hooked up log4js ( for tests requiring Arrow server )
