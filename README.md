@@ -127,6 +127,8 @@ arrow --controller=custom-controller.js --driver=selenium
 
 ##Arrow Dependencies
 
+[![Dependency Status](https://david-dm.org/yahoo/arrow.png)](https://david-dm.org/yahoo/arrow)
+
 NPM Dependencies
 * **glob** https://github.com/isaacs/node-glob
 * **nopt** https://github.com/isaacs/nopt
