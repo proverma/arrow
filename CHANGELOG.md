@@ -1,5 +1,9 @@
 # Change Log
 
+# 0.2.0
+
+  * Adding support for showing screenshots url in report
+
 # 0.1.0
 
   * Fix for overriding configurations using local config file
