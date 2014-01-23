@@ -2,7 +2,7 @@
 
 # 0.2.0
 
-  * Adding support for showing screenshots url in report
+  * Adding support for showing screenshots url in report [ For details - http://yahoo.github.io/arrow/arrow_FAQs.html#how-can-I-see-screenshoturls-in-report-and-console ]
 
 # 0.1.0
 
