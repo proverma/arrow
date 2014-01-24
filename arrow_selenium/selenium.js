@@ -22,7 +22,7 @@ var CapabilityManager = require("../lib/util/capabilitymanager");
 //getting command line args
 var argv = nopt();
 
-var wd = require('../ext-lib/webdriver');
+var wd = require('selenium-webdriver');
 //setup config
 var prop = new Properties(__dirname + "/../config/config.js", argv.config, argv);
 var config = prop.getAll();
