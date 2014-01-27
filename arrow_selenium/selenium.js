@@ -22,7 +22,7 @@ var CapabilityManager = require("../lib/util/capabilitymanager");
 //getting command line args
 var argv = nopt();
 
-var wd = require('selenium-webdriver');
+var wd = require("../lib/util/wd-wrapper");
 //setup config
 var prop = new Properties(__dirname + "/../config/config.js", argv.config, argv);
 var config = prop.getAll();
@@ -46,7 +46,7 @@ start it with: \"java -jar path/to/jar/selenium-server-standalone-<VERSION>.jar\
     }
 
     function onSessionCap(val) {
-        sessionCaps[val.capabilities.browserName] = val;
+        sessionCaps[val.browserName] = val;
         sessionCount += 1;
         if (sessionCount === arrSessions.length) {
             next(sessionCaps);
@@ -61,7 +61,7 @@ start it with: \"java -jar path/to/jar/selenium-server-standalone-<VERSION>.jar\
             usingServer(config["seleniumHost"]).
             usingSession(sessionId).
             build();
-        webdriver.session_.then(onSessionCap);
+        webdriver.getCapabilities().then(onSessionCap);
     }
 }
 
