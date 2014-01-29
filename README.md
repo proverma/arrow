@@ -1,7 +1,6 @@
-
 #Arrow
 
-[![Build Status](https://secure.travis-ci.org/yahoo/arrow.png?branch=master)](http://travis-ci.org/yahoo/arrow)
+[![Build Status](https://secure.travis-ci.org/yahoo/arrow.png?branch=master)](http://travis-ci.org/yahoo/arrow)[![NPM version](https://badge.fury.io/js/yahoo-arrow.png)](http://badge.fury.io/js/yahoo-arrow)
 
 ##Overview
 
