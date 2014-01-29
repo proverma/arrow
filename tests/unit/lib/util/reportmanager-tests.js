@@ -234,6 +234,8 @@ YUI.add('reportmanager-tests', function(Y) {
 
             // Instantiate test session object, true for scenario
             testSessionObj = new TestSession(report, true);
+            testSessionObj.args = {};
+            testSessionObj.args.browser = "dummyBrowser";
 
             testSessionsArr.push(testSessionObj);
 
@@ -294,6 +296,8 @@ YUI.add('reportmanager-tests', function(Y) {
 
 
             testSessionObj = new TestSession(report);
+            testSessionObj.args = {};
+            testSessionObj.args.browser = "dummyBrowser";
 
             testSessionsArr.push(testSessionObj);
 
@@ -354,6 +358,8 @@ YUI.add('reportmanager-tests', function(Y) {
                 fileUtil = new FileUtil();
             global.failedDescriptors = [];
             testSessionObj = new TestSession(report);
+            testSessionObj.args = {};
+            testSessionObj.args.browser = "dummyBrowser";
 
             testSessionsArr.push(testSessionObj);
 
