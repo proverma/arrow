@@ -62,7 +62,8 @@ var knownOpts = {
         "exitCode": Boolean,
         "color": Boolean,
         "keepIstanbulCoverageJson": Boolean,
-        "defaultAppSeed": [String,null]
+        "defaultAppSeed": [String,null],
+        "artifactsUrl": [String, null]
     },
     shortHands = {},
 //TODO : Investigate and implement shorthands
