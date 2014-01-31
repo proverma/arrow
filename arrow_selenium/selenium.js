@@ -46,7 +46,7 @@ start it with: \"java -jar path/to/jar/selenium-server-standalone-<VERSION>.jar\
     }
 
     function onSessionCap(val) {
-        sessionCaps[val.browserName] = val;
+        sessionCaps[val.get("browserName")] = val.toJSON();
         sessionCount += 1;
         if (sessionCount === arrSessions.length) {
             next(sessionCaps);
@@ -56,12 +56,14 @@ start it with: \"java -jar path/to/jar/selenium-server-standalone-<VERSION>.jar\
     for (i = 0; i < arrSessions.length; i += 1) {
         sessionId = arrSessions[i];
 
-
         webdriver = new wd.Builder().
             usingServer(config["seleniumHost"]).
             usingSession(sessionId).
             build();
-        webdriver.getCapabilities().then(onSessionCap);
+
+        webdriver.getCapabilities().then(function(val) {
+            onSessionCap(val)
+        });
     }
 }
 
@@ -69,9 +71,6 @@ function describeSession(sessionCap) {
     console.log(sessionCap);
 }
 
-function describeSessions(sessionCaps) {
-    console.log(sessionCaps);
-}
 
 function openBrowser(sessionCaps) {
     var browsers = argv.open,
@@ -170,7 +169,21 @@ if (argv.list || argv.ls) {
 }else if (argv.open) {
     hub.getSessions(openBrowser, listSessions, true);
 }else if (argv.close) {
-    hub.getSessions(closeBrowsers, listSessions, true);
+    hub.getSessions(closeBrowsers, function(error, ref, arrSessions) {
+        if(arrSessions) {
+            logger.info ("Found " + arrSessions.length + " Browsers.")
+            for (i = 0; i < arrSessions.length; i += 1) {
+                sessionId = arrSessions[i];
+                logger.info("Killing Session ID :" +sessionId );
+                var webdriver  = new wd.Builder().
+                    usingServer(config["seleniumHost"]).
+                    usingSession(sessionId).
+                    build();
+
+                webdriver.quit();
+            }
+        }
+    });
 } else if (argv.help) {
     listHelp();
 } else {
