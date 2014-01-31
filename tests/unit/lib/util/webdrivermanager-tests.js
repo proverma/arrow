@@ -9,15 +9,27 @@
 YUI.add('webdrivermanager-tests', function (Y) {
 
     var path = require('path'),
+        mockery = require('mockery'),
         arrowRoot = path.join(__dirname, '../../../..'),
-        WebDriverManager = require(arrowRoot+'/lib/util/webdrivermanager.js'),
+        WebDriverManager,
         suite = new Y.Test.Suite("Web driver Manager test suite");
 
-    WebDriverManager.wdAppPath = arrowRoot + '/tests/unit/stub/webdriver.js';
-    var webdriver_manager = new WebDriverManager();
+    suite.setUp = function () {
+        var wdMock = require(arrowRoot + '/tests/unit/stub/webdriver');
+        mockery.registerMock('../util/wd-wrapper', wdMock);
+        mockery.enable();
+        WebDriverManager = require(arrowRoot + '/lib/util/webdrivermanager.js');
+    }
+
+    suite.tearDown = function () {
+        mockery.disable();
+        mockery.deregisterAll();
+    }
+
 
     suite.add(new Y.Test.Case({
         "Confirm Constructor": function(){
+            var webdriver_manager = new WebDriverManager();
             Y.Assert.isNotNull(webdriver_manager, "Confirm Web driver Manager is not null");
         }
     }));
@@ -25,7 +37,8 @@ YUI.add('webdrivermanager-tests', function (Y) {
     //check createWebDriver 
     suite.add(new Y.Test.Case({
         "Check createWebDriver Method": function(){
-            var webdriver = webdriver_manager.createWebDriver({browserName: "firefox"});
+            var webdriver_manager = new WebDriverManager(),
+                webdriver = webdriver_manager.createWebDriver({browserName: "firefox"});
             Y.Assert.isNotNull(webdriver, "Confirm Web driver object can be created");
         }
     }));

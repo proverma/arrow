@@ -29,6 +29,11 @@ promise.controlFlow = function () {
     return new Application();
 };
 
+
+promise.createFlow = function (callback) {
+    callback();
+};
+
 var By = {
     id: function (x) {
         return x;
@@ -47,7 +52,8 @@ var By = {
 var Builder = function () {
 };
 
-Builder.prototype.usingServer = function () {
+Builder.prototype.usingServer = function (url) {
+    this.host = url;
     return this;
 };
 Builder.prototype.usingSession = function (id) {
@@ -61,7 +67,9 @@ Builder.prototype.build = function () {
     return new WebDriver();
 };
 
-var error = { message: undefined };
+Builder.prototype.getServerUrl = function () {
+    return this.host;
+};
 
 var WebDriver = function () {
     var self = this;
@@ -82,7 +90,7 @@ var WebDriver = function () {
 
 };
 
-WebDriver.prototype.manage = function(){
+WebDriver.prototype.manage = function() {
 
     var mgr = function () {
 
@@ -105,6 +113,17 @@ WebDriver.prototype.manage = function(){
             console.log("implicitlyWait Timeout :" + ms);
         }
         return new to();
+    }
+
+    mgr.prototype.window = function(){
+        var win = function(){
+
+        };
+
+        win.prototype.maximize = function(){
+            console.log("Mocked window.maximize call");
+        }
+        return new win();
     }
 
     return new mgr();
@@ -197,6 +216,14 @@ WebDriver.prototype.quit = function () {
     };
 };
 
+WebDriver.prototype.getCapabilities = function () {
+    return {
+        then: function (cb) {
+            cb({});
+        }
+    };
+}
+
 WebDriver.prototype.actions = function () {
     var self = this, promise = {
         then: function (cb, err) {
@@ -218,6 +245,21 @@ WebDriver.prototype.actions = function () {
             };
         }
     };
+};
+
+WebDriver.attachToSession = function () {
+    return this;
+};
+
+WebDriver.createSession = function () {
+    return this;
+};
+
+
+var error = { message: undefined };
+
+function w(){
+
 };
 
 this.promise = promise;
