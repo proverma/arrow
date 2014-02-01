@@ -1,5 +1,10 @@
 # Change Log
 
+# 0.3.0
+
+  * Upgrading to selenium-webdriver version 2.39
+  * Fixes for reporting when running with multiple browsers
+
 # 0.2.0
 
   * Adding support for showing screenshots url in report [ For details - http://yahoo.github.io/arrow/arrow_FAQs.html#how-can-I-see-screenshoturls-in-report-and-console ]
