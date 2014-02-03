@@ -1,5 +1,9 @@
 # Change Log
 
+# 0.3.1
+
+  * Added selenium-webdriver in npm-shrinkwrap
+
 # 0.3.0
 
   * Upgrading to selenium-webdriver version 2.39
