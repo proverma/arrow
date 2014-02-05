@@ -24,8 +24,6 @@ function SelLib(config, argv) {
     this.config = config;
     this.argv = argv;
     this.hub = new WdSession(config);
-    console.log('***SELF ARGS:: ' + JSON.stringify(this.argv));
-
 }
 
 SelLib.prototype.closeBrowsers = function (sessionCaps, config, args) {
@@ -45,11 +43,11 @@ SelLib.prototype.closeBrowsers = function (sessionCaps, config, args) {
 
 };
 
-SelLib.prototype.describeSessions = function (sessionCaps, config, args) {
+SelLib.prototype.describeSessions = function (sessionCaps) {
     console.log(sessionCaps);
 };
 
-SelLib.prototype.describeSession = function (sessionCap, config, args) {
+SelLib.prototype.describeSession = function (sessionCap) {
     console.log(sessionCap);
 };
 
@@ -99,11 +97,7 @@ start it with: \"java -jar path/to/jar/selenium-server-standalone-<VERSION>.jar\
 SelLib.prototype.openBrowser = function (sessionCaps, config, argv) {
 
     var
-        self = this;
-
-//    console.log('\n\n****self in openBrowser::' + util.inspect(self));
-
-    var
+        self = this,
         browsers = argv.open,
         browserList = browsers.split(","),
         webdriver,
@@ -184,13 +178,9 @@ SelLib.prototype.seleniumSessionSetup = function() {
         i,
         sessionId;
 
-//    console.log('\n\n****self in seleniumSessionSetup::' + util.inspect(self));
-
     if (self.argv.list || self.argv.ls) {
         self.hub.getSessions(self.describeSessions, self.listSessions, false, self.config, self.argv);
     }else if (self.argv.open) {
-        console.log('****self.argv::' + JSON.stringify(self.argv));
-//        console.log('****self.listSessions::' + self.listSessions);
         self.hub.getSessions(self.openBrowser, self.listSessions, true, self.config, self.argv);
     }else if (self.argv.close) {
         self.hub.getSessions(self.closeBrowsers, function(error, ref, arrSessions) {
