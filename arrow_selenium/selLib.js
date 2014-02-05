@@ -26,23 +26,6 @@ function SelLib(config, argv) {
     this.hub = new WdSession(config);
 }
 
-SelLib.prototype.closeBrowsers = function (sessionCaps, config, args) {
-    var browser,
-        cap,
-        webdriver;
-    for (browser in sessionCaps) {
-        logger.info("Closing browser: " + browser);
-
-        cap = sessionCaps[browser];
-        webdriver =  new wd.Builder().
-            usingServer(config["seleniumHost"]).
-            usingSession(cap.id).
-            build();
-        webdriver.quit();
-    }
-
-};
-
 SelLib.prototype.describeSessions = function (sessionCaps) {
     console.log(sessionCaps);
 };
@@ -51,14 +34,14 @@ SelLib.prototype.describeSession = function (sessionCap) {
     console.log(sessionCap);
 };
 
-
-SelLib.prototype.listSessions = function (error, next, arrSessions, config, argv) {
+SelLib.prototype.listSessions = function (error, next, arrSessions) {
 
     var sessionCaps = [],
         sessionCount = 0,
         i,
         sessionId,
-        webdriver;
+        webdriver,
+        self = this;
 
     if (error !== null) {
         logger.fatal("Unable to connect to a Selenium session.  Download the selenium server JAR from http://code.google.com/p/selenium/downloads/list, \
@@ -67,14 +50,14 @@ start it with: \"java -jar path/to/jar/selenium-server-standalone-<VERSION>.jar\
     }
 
     if (0 === arrSessions.length) {
-        next(sessionCaps, config, argv);
+        next(sessionCaps, self.config, self.argv);
     };
 
     function onSessionCap(val) {
         sessionCaps[val.get("browserName")] = val.toJSON();
         sessionCount += 1;
         if (sessionCount === arrSessions.length) {
-            next(sessionCaps, config, argv);
+            next(sessionCaps, self.config, self.argv);
         }
     }
 
@@ -82,12 +65,12 @@ start it with: \"java -jar path/to/jar/selenium-server-standalone-<VERSION>.jar\
         sessionId = arrSessions[i];
 
         webdriver = new wd.Builder().
-            usingServer(config["seleniumHost"]).
+            usingServer(self.config["seleniumHost"]).
             usingSession(sessionId).
             build();
 
         webdriver.getCapabilities().then(function(val) {
-            onSessionCap(val)
+            onSessionCap(val);
         });
 
     }
@@ -95,7 +78,6 @@ start it with: \"java -jar path/to/jar/selenium-server-standalone-<VERSION>.jar\
 };
 
 SelLib.prototype.openBrowser = function (sessionCaps, config, argv) {
-
     var
         self = this,
         browsers = argv.open,
@@ -104,8 +86,7 @@ SelLib.prototype.openBrowser = function (sessionCaps, config, argv) {
         browser,
         i,
         cm,
-        capabilities,
-        val;
+        capabilities;
 
     for (i = 0; i < browserList.length; i += 1) {
 
@@ -179,11 +160,19 @@ SelLib.prototype.seleniumSessionSetup = function() {
         sessionId;
 
     if (self.argv.list || self.argv.ls) {
-        self.hub.getSessions(self.describeSessions, self.listSessions, false, self.config, self.argv);
+        self.hub.getSessions(function(error, arrSessions) {
+            self.listSessions(error, self.describeSessions, arrSessions);
+        }, false);
+
     }else if (self.argv.open) {
-        self.hub.getSessions(self.openBrowser, self.listSessions, true, self.config, self.argv);
+        self.hub.getSessions(function(error, arrSessions){
+            self.listSessions(error, self.openBrowser, arrSessions);
+        }, true);
+
     }else if (self.argv.close) {
-        self.hub.getSessions(self.closeBrowsers, function(error, ref, arrSessions) {
+
+        self.hub.getSessions(function(error, arrSessions) {
+
             if(arrSessions) {
                 logger.info ("Found " + arrSessions.length + " Browsers.")
                 for (i = 0; i < arrSessions.length; i += 1) {
@@ -197,7 +186,8 @@ SelLib.prototype.seleniumSessionSetup = function() {
                     webdriver.quit();
                 }
             }
-        }, self.config, self.argv);
+        });
+
     } else if (self.argv.help) {
         self.listHelp();
     } else {
