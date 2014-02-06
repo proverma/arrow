@@ -9,6 +9,8 @@
 YUI.add('testsession-tests', function (Y) {
 
     var path = require('path'),
+        fs = require('fs'),
+        FileUtil = require("../../../../lib/util/fileutil"),
         arrowRoot = path.join(__dirname, '../../../..'),
         testSession = require(arrowRoot+'/lib/session/testsession.js'),
         suite = new Y.Test.Suite("testsession test suite"),
@@ -43,7 +45,7 @@ YUI.add('testsession-tests', function (Y) {
             });
         }
     }));
-
+//
     suite.add(new Y.Test.Case({
 
         name : "Call testSessions setup with browser",
@@ -114,8 +116,87 @@ YUI.add('testsession-tests', function (Y) {
     }));
 
 
+    suite.add(new Y.Test.Case({
 
+        name : "Get Artifact Paths test ",
 
+        testGetArtifactPathsTest: function(){
+
+            var ts = new testSession({},{},null),
+                arrow = new StubArrow(),
+                fileUtil = new FileUtil();
+
+            Arrow.instance = arrow;
+
+            var obj = {};
+            obj.count = 1;
+            obj.testName = "Test-1";
+            obj.descriptorPath = "descriptorPath";
+            obj.reportDir = "arrow-target";
+            obj.screenShotsDir = "screenshots";
+
+            var paths = ts.getArtifactPaths(obj);
+
+            var currDir = process.cwd();
+
+            A.areEqual(paths.screenShotImgAbsPath,path.resolve(currDir,"arrow-target/screenshots/descriptorPath/Test-1-1.png"),
+            "Screenshot Image Absolute path is invalid");
+
+            A.areEqual(paths.screenShotHtmlAbsPath,path.resolve(currDir,"","arrow-target/screenshots/descriptorPath/Test-1-1.html"),
+                "Screenshot Html Absolute path is invalid");
+
+            try {
+                fileUtil.removeDirectory(path.resolve(currDir, "arrow-target"));
+                console.log('Cleaned up arrow-target dir.');
+            }
+            catch(e){
+
+            }
+
+        },
+
+      testGetArtifactPathsTestWithArtifactsUrl: function(){
+            var ts = new testSession({},{},null),
+                arrow = new StubArrow(),
+                fileUtil = new FileUtil();
+
+            Arrow.instance = arrow;
+
+            var obj = {};
+            obj.count = 1;
+            obj.testName = "Test-1";
+            obj.descriptorPath = "descriptorPath";
+            obj.reportDir = "arrow-target";
+            obj.screenShotsDir = "screenshots";
+            obj.artifactsUrl = "http://ci.com/artifacts/tests/arrow/node/arrow-target";
+
+            var paths = ts.getArtifactPaths(obj);
+
+            var currDir = process.cwd();
+
+            A.areEqual(paths.screenShotImgAbsPath,path.resolve(currDir,"arrow-target/screenshots/descriptorPath/Test-1-1.png"),
+                "Screenshot Image Absolute path with artifacts url is invalid");
+
+            A.areEqual(paths.screenShotHtmlAbsPath,path.resolve(currDir,"arrow-target/screenshots/descriptorPath/Test-1-1.html"),
+                "Screenshot Html Absolute path with artifacts url is invalid");
+
+            A.areEqual(paths.pngPath,"http://ci.com/artifacts/tests/arrow/node/arrow-target/screenshots/descriptorPath/Test-1-1.png",
+                "Screenshot Image url path with artifacts url is invalid");
+
+            A.areEqual(paths.htmlPath,"http://ci.com/artifacts/tests/arrow/node/arrow-target/screenshots/descriptorPath/Test-1-1.html",
+                "Screenshot Html Absolute path with artifacts url is invalid");
+
+            // To do - remove arrow-target directory as cleanup
+            try {
+                fileUtil.removeDirectory(path.resolve(currDir, "arrow-target"));
+                console.log('Cleaned up arrow-target dir.');
+            }
+            catch(e){
+
+            }
+
+        }
+    }));
 
     Y.Test.Runner.add(suite);
 
