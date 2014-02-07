@@ -8,13 +8,12 @@
  * See the accompanying LICENSE file for terms.
  */
 
-var fs = require("fs");
 var nopt = require("nopt");
 var log4js = require("log4js");
 
 var Properties = require("../lib/util/properties");
 var ArrowSetup = require('../lib/util/arrowsetup');
-
+var SelLib = require('./selLib');
 //getting command line args
 var argv = nopt();
 
@@ -23,8 +22,6 @@ var wd = require("../lib/util/wd-wrapper");
 var prop = new Properties(__dirname + "/../config/config.js", argv.config, argv);
 var config = prop.getAll();
 var logger = log4js.getLogger("selenium");
-
-var SelLib = require('./SelLib');
 
 var arrowSetup = new ArrowSetup(config, argv);
 arrowSetup.setuplog4js();

@@ -1,5 +1,4 @@
-/**jslint forin:true sub:true anon:true, sloppy:true, stupid:true nomen:true, node:true continue:true*/
-
+/*jslint forin:true sub:true anon:true, sloppy:true, stupid:true nomen:true, node:true continue:true*/
 /*
  * Copyright (c) 2014, Yahoo! Inc. All rights reserved.
  * Copyrights licensed under the New BSD License.
@@ -26,14 +25,28 @@ function SelLib(config, argv) {
     this.hub = new WdSession(config);
 }
 
+/**
+ *
+ * @param sessionCaps
+ */
 SelLib.prototype.describeSessions = function (sessionCaps) {
     console.log(sessionCaps);
 };
 
+/**
+ *
+ * @param sessionCap
+ */
 SelLib.prototype.describeSession = function (sessionCap) {
     console.log(sessionCap);
 };
 
+/**
+ *
+ * @param error
+ * @param next
+ * @param arrSessions
+ */
 SelLib.prototype.listSessions = function (error, next, arrSessions) {
 
     var sessionCaps = [],
@@ -41,17 +54,20 @@ SelLib.prototype.listSessions = function (error, next, arrSessions) {
         i,
         sessionId,
         webdriver,
-        self = this;
+        self = this,
+        errMsg;
 
     if (error !== null) {
-        logger.fatal("Unable to connect to a Selenium session.  Download the selenium server JAR from http://code.google.com/p/selenium/downloads/list, \
-start it with: \"java -jar path/to/jar/selenium-server-standalone-<VERSION>.jar\".  Create a browser session on http://127.0.0.1:4444/wd/hub or with \"arrow_server --open=<browser_name>\"\n");
+        errMsg = "Unable to connect to a Selenium session.  Download the selenium server JAR from http://code.google.com/p/selenium/downloads/list," +
+            " start it with: \"java -jar path/to/jar/selenium-server-standalone-<VERSION>.jar\" " +
+            "Create a browser session on http://127.0.0.1:4444/wd/hub or with \"arrow_server --open=<browser_name>\"\n";
+        logger.fatal(errMsg);
         return;
     }
 
     if (0 === arrSessions.length) {
         next(sessionCaps, self.config, self.argv);
-    };
+    }
 
     function onSessionCap(val) {
         sessionCaps[val.get("browserName")] = val.toJSON();
@@ -77,6 +93,12 @@ start it with: \"java -jar path/to/jar/selenium-server-standalone-<VERSION>.jar\
 
 };
 
+/**
+ *
+ * @param sessionCaps
+ * @param config
+ * @param argv
+ */
 SelLib.prototype.openBrowser = function (sessionCaps, config, argv) {
     var
         self = this,
@@ -86,7 +108,8 @@ SelLib.prototype.openBrowser = function (sessionCaps, config, argv) {
         browser,
         i,
         cm,
-        capabilities;
+        capabilities,
+        caps;
 
     for (i = 0; i < browserList.length; i += 1) {
 
@@ -100,34 +123,34 @@ SelLib.prototype.openBrowser = function (sessionCaps, config, argv) {
         }
 
         //When user has passed capabilities.json
-        if(argv.capabilities){
+        if (argv.capabilities) {
 
-            var caps = {
+            caps = {
                 "platform": "ANY",
                 "javascriptEnabled": true,
                 "seleniumProtocol": "WebDriver"
             };
 
             caps.browserName = argv.open;
-            if(!caps.browserName){
+            if (!caps.browserName) {
                 logger.error("No Browser is specified");
                 process.exit(1);
             }
 
             cm = new CapabilityManager();
-            capabilities = cm.getCapability(argv.capabilities,caps.browserName);
-            if(capabilities === null){
+            capabilities = cm.getCapability(argv.capabilities, caps.browserName);
+            if (capabilities === null) {
                 logger.error("No related capability for " + caps.browserName + " in " + argv.capabilities);
                 process.exit(1);
             }
 
         } else {
-            capabilities= {
+            capabilities = {
                 "browserName": browser,
                 "version": "",
                 "platform": "ANY",
                 "javascriptEnabled": true
-            }
+            };
         }
 
         webdriver = new wd.Builder().
@@ -138,7 +161,10 @@ SelLib.prototype.openBrowser = function (sessionCaps, config, argv) {
 
 };
 
-SelLib.prototype.listHelp = function() {
+/**
+ *
+ */
+SelLib.prototype.listHelp = function () {
 
     console.info("\nCommandline Options :" + "\n" +
         "--list : Lists all selenium browser sessions" + "\n" +
@@ -150,34 +176,37 @@ SelLib.prototype.listHelp = function() {
         "arrow_selenium --open=firefox,chrome\n"  +
         "Open Firefox with given capabilities:\n" +
         "arrow_selenium --open=firefox --capabilities=./cap.json\n"
-    );
+        );
 };
 
-SelLib.prototype.seleniumSessionSetup = function() {
+/**
+ *
+ */
+SelLib.prototype.seleniumSessionSetup = function () {
 
     var self = this,
         i,
         sessionId;
 
     if (self.argv.list || self.argv.ls) {
-        self.hub.getSessions(function(error, arrSessions) {
+        self.hub.getSessions(function (error, arrSessions) {
             self.listSessions(error, self.describeSessions, arrSessions);
         }, false);
 
-    }else if (self.argv.open) {
-        self.hub.getSessions(function(error, arrSessions){
+    } else if (self.argv.open) {
+        self.hub.getSessions(function (error, arrSessions) {
             self.listSessions(error, self.openBrowser, arrSessions);
         }, true);
 
-    }else if (self.argv.close) {
+    } else if (self.argv.close) {
 
-        self.hub.getSessions(function(error, arrSessions) {
+        self.hub.getSessions(function (error, arrSessions) {
 
-            if(arrSessions) {
-                logger.info ("Found " + arrSessions.length + " Browsers.")
+            if (arrSessions) {
+                logger.info("Found " + arrSessions.length + " Browsers.");
                 for (i = 0; i < arrSessions.length; i += 1) {
                     sessionId = arrSessions[i];
-                    logger.info("Killing Session ID :" +sessionId );
+                    logger.info("Killing Session ID :" + sessionId);
                     var webdriver  = new wd.Builder().
                         usingServer(self.config["seleniumHost"]).
                         usingSession(sessionId).
