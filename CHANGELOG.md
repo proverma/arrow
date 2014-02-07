@@ -1,5 +1,9 @@
 # Change Log
 
+# 0.3.2
+
+  * Fix for Screenshot url
+
 # 0.3.1
 
   * Added selenium-webdriver in npm-shrinkwrap
