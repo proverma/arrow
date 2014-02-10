@@ -97,7 +97,6 @@ SelLib.prototype.listSessions = function (arrSessions, cb) {
  *
  */
 SelLib.prototype.listHelp = function () {
-    console.log('***In listHelp');
     console.info("\nCommandline Options :" + "\n" +
         "--list : Lists all selenium browser sessions" + "\n" +
         "--open=<browser1[, browser2]> : Comma seperated list of browsers to launch" + "\n" +
@@ -250,15 +249,11 @@ SelLib.prototype.getListOfOpenBrowsers = function(arrSessions, openBrowserList, 
         self = this,
         sessionId;
 
-//    console.log('**In getListOfOpenBrowsers..' + JSON.stringify(arrSessions));
-
     if (arrSessions.length === 0) {
-//        console.log('**open browsers::' + openBrowserList);
         cb(openBrowserList);
     } else {
 
         sessionId = arrSessions[0];
-//        console.log('**sessionId::' + sessionId);
         arrSessions.shift();
 
         webdriver = new wd.Builder().
