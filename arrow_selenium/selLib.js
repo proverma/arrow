@@ -332,7 +332,6 @@ SelLib.prototype.open = function (browsers, capabilities, cb) {
             if (arrSessions) {
                 logger.info("Found " + arrSessions.length + " browsers.");
             }
-            console.log('***Here..');
             self.getListOfOpenBrowsers(arrSessions, openBrowserList, function(openBrowserList) {
 
                 self.openBrowsers(browserList, openBrowserList, capabilities, function() {
