@@ -314,28 +314,38 @@ SelLib.prototype.closeBrowsers = function (arrSessions, cb) {
  * @param browsers - comma separated list of arguments to --open e.g firefox,chrome
  * @param capabilities
  */
-SelLib.prototype.open = function (browsers, capabilities) {
+SelLib.prototype.open = function (browsers, capabilities, cb) {
 
     var self = this;
 
-//    self.capabilities = capabilities;
-
     self.hub.getSessions(function (error, arrSessions) {
 
-        var browserList = browsers.split(","),
-            openBrowserList = [];
+        if (error) {
+            logger.info('Error:' + error);
+            if (cb) {
+                cb(error);
+            }
+        } else {
+            var browserList = browsers.split(","),
+                openBrowserList = [];
 
-        if (arrSessions) {
-            logger.info("Found " + arrSessions.length + " browsers.");
-        }
+            if (arrSessions) {
+                logger.info("Found " + arrSessions.length + " browsers.");
+            }
+            console.log('***Here..');
+            self.getListOfOpenBrowsers(arrSessions, openBrowserList, function(openBrowserList) {
 
-        self.getListOfOpenBrowsers(arrSessions, openBrowserList, function(openBrowserList) {
+                self.openBrowsers(browserList, openBrowserList, capabilities, function() {
+                    logger.info('Done opening all browsers...' + browsers.split(","));
 
-            self.openBrowsers(browserList, openBrowserList, capabilities, function() {
-                logger.info('Done opening all browsers...' + browsers.split(","));
+                    if (cb) {
+                        cb();
+                    }
+                });
+
             });
 
-        });
+        }
 
     }, true);
 
@@ -344,8 +354,7 @@ SelLib.prototype.open = function (browsers, capabilities) {
 /**
  * Close all open browsers
  */
-SelLib.prototype.close = function () {
-
+SelLib.prototype.close = function (cb) {
     var self = this;
     self.hub.getSessions(function (error, arrSessions) {
 
@@ -356,6 +365,9 @@ SelLib.prototype.close = function () {
             logger.info("Found " + arrSessions.length + " browsers.");
             self.closeBrowsers(arrSessions, function() {
                 logger.info('Closed all open browsers on host ' + self.config.seleniumHost);
+                if (cb) {
+                    cb();
+                }
             });
         }
     });
