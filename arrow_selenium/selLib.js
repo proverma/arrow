@@ -47,7 +47,7 @@ SelLib.prototype.buildWebDriver = function(webdriverConfObj) {
 };
 
 /**
- *
+ * Lists the open sessions
  * @param arrSessions
  * @param cb
  */
@@ -92,7 +92,7 @@ SelLib.prototype.listSessions = function (arrSessions, cb) {
 };
 
 /**
- *
+ * Help !!
  */
 SelLib.prototype.listHelp = function () {
     console.info("\nCommandline Options :" + "\n" +
@@ -312,6 +312,7 @@ SelLib.prototype.closeBrowsers = function (arrSessions, cb) {
 /**
  *
  * @param browsers - comma separated list of arguments to --open e.g firefox,chrome
+ * @param capabilities
  */
 SelLib.prototype.open = function (browsers, capabilities) {
 

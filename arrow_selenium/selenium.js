@@ -23,21 +23,23 @@ var prop = new Properties(__dirname + "/../config/config.js", argv.config, argv)
 var config = prop.getAll();
 var logger = log4js.getLogger("selenium");
 
+// Setup log4js and selenium host
 var arrowSetup = new ArrowSetup(config, argv);
 arrowSetup.setuplog4js();
 arrowSetup.setupSeleniumHost();
 logger.info("Selenium host: " + config["seleniumHost"]);
 
+// Instantiate SelLib
 var selLib = new SelLib(config);
 
 if (argv.ls || argv.list) {
-    selLib.list();
+    selLib.list(); // List open sessions
 } else if (argv.open) {
-    selLib.open(argv.open, argv.capabilities);
-} else if (argv.close) {
+    selLib.open(argv.open, argv.capabilities); // Open sessions
+} else if (argv.close) { // Close sessions
     selLib.close();
-} else if (argv.help) {
+} else if (argv.help) { // Help
     selLib.listHelp();
 } else {
-    selLib.listHelp();
+    selLib.listHelp(); // Help
 }
