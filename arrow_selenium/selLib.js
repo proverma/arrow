@@ -3,160 +3,92 @@
  * Copyright (c) 2014, Yahoo! Inc. All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
+ *
+ * Library which supports opening , closing  and listing open sessions
  */
 
 var fs = require("fs");
-var nopt = require("nopt");
 var util = require("util");
 var log4js = require("log4js");
-
-var Properties = require("../lib/util/properties");
-var ArrowSetup = require('../lib/util/arrowsetup');
-
 var WdSession = require("../lib/session/wdsession");
-var CapabilityManager = require("../lib/util/capabilitymanager");
-
 var wd = require("../lib/util/wd-wrapper");
+var CapabilityManager = require("../lib/util/capabilitymanager");
 var logger = log4js.getLogger("selLib");
 
-function SelLib(config, argv) {
+/**
+ *
+ * @param config
+ * @param capabilities
+ * @constructor
+ */
+function SelLib(config, capabilities) {
     this.config = config;
-    this.argv = argv;
     this.hub = new WdSession(config);
+    this.capabilities = capabilities;
 }
 
 /**
- *
- * @param sessionCaps
+ *  Build webdriver object based on properties set in webdriverConfObj
+ * @param webdriverConfObj
+ * @returns webdriver object
  */
-SelLib.prototype.describeSessions = function (sessionCaps) {
-    console.log(sessionCaps);
-};
+SelLib.prototype.buildWebDriver = function(webdriverConfObj) {
 
-/**
- *
- * @param sessionCap
- */
-SelLib.prototype.describeSession = function (sessionCap) {
-    console.log(sessionCap);
-};
+    var webdriver;
 
-/**
- *
- * @param error
- * @param next
- * @param arrSessions
- */
-SelLib.prototype.listSessions = function (error, next, arrSessions) {
-
-    var sessionCaps = [],
-        sessionCount = 0,
-        i,
-        sessionId,
-        webdriver,
-        self = this,
-        errMsg;
-
-    if (error !== null) {
-        errMsg = "Unable to connect to a Selenium session.  Download the selenium server JAR from http://code.google.com/p/selenium/downloads/list," +
-            " start it with: \"java -jar path/to/jar/selenium-server-standalone-<VERSION>.jar\" " +
-            "Create a browser session on http://127.0.0.1:4444/wd/hub or with \"arrow_server --open=<browser_name>\"\n";
-        logger.fatal(errMsg);
-        return;
-    }
-
-    if (0 === arrSessions.length) {
-        next(sessionCaps, self.config, self.argv);
-    }
-
-    function onSessionCap(val) {
-        sessionCaps[val.get("browserName")] = val.toJSON();
-        sessionCount += 1;
-        if (sessionCount === arrSessions.length) {
-            next(sessionCaps, self.config, self.argv);
-        }
-    }
-
-    for (i = 0; i < arrSessions.length; i += 1) {
-        sessionId = arrSessions[i];
+    if (webdriverConfObj) {
 
         webdriver = new wd.Builder().
-            usingServer(self.config["seleniumHost"]).
-            usingSession(sessionId).
+            usingServer(webdriverConfObj.seleniumHost).
+            usingSession(webdriverConfObj.sessionId).
+            withCapabilities(webdriverConfObj.capabilities).
             build();
+    }
 
-        webdriver.getCapabilities().then(function(val) {
-            onSessionCap(val);
+    return webdriver;
+};
+
+/**
+ *
+ * @param arrSessions
+ * @param cb
+ */
+SelLib.prototype.listSessions = function (arrSessions, cb) {
+
+    if (!arrSessions) {
+        logger.info('No sessions found');
+        cb();
+    }
+
+    if (arrSessions.length > 0) {
+
+        var sessionId = arrSessions[0],
+            self = this,
+            webdriver,
+            webdriverConfObj = {};
+
+        arrSessions.shift();
+
+        // Build webdriver object
+        webdriverConfObj.seleniumHost = self.config["seleniumHost"];
+        webdriverConfObj.sessionId = sessionId;
+        webdriver = self.buildWebDriver(webdriverConfObj);
+
+        webdriver.getCapabilities().then(function(sessionCaps) {
+
+            if (sessionCaps) {
+                console.log('\n');
+                console.log(sessionCaps.toJSON());
+            }
+            self.listSessions(arrSessions, cb);
+
+        }, function(err) {
+            logger.error('Error while listing sessions:' + err);
+            self.listSessions(arrSessions, cb);
         });
 
-    }
-
-};
-
-/**
- *
- * @param sessionCaps
- * @param config
- * @param argv
- */
-SelLib.prototype.openBrowser = function (sessionCaps, config, argv) {
-    var
-        self = this,
-        browsers = argv.open,
-        browserList = browsers.split(","),
-        webdriver,
-        browser,
-        i,
-        cm,
-        capabilities,
-        caps;
-
-    for (i = 0; i < browserList.length; i += 1) {
-
-        browser = browserList[i];
-        if (0 === browser.length) { continue; }
-
-        logger.info("Opening browser: " + browser);
-        if (sessionCaps.hasOwnProperty(browser)) {
-            logger.info("Already open, ignored");
-            continue;
-        }
-
-        //When user has passed capabilities.json
-        if (argv.capabilities) {
-
-            caps = {
-                "platform": "ANY",
-                "javascriptEnabled": true,
-                "seleniumProtocol": "WebDriver"
-            };
-
-            caps.browserName = argv.open;
-            if (!caps.browserName) {
-                logger.error("No Browser is specified");
-                process.exit(1);
-            }
-
-            cm = new CapabilityManager();
-            capabilities = cm.getCapability(argv.capabilities, caps.browserName);
-            if (capabilities === null) {
-                logger.error("No related capability for " + caps.browserName + " in " + argv.capabilities);
-                process.exit(1);
-            }
-
-        } else {
-            capabilities = {
-                "browserName": browser,
-                "version": "",
-                "platform": "ANY",
-                "javascriptEnabled": true
-            };
-        }
-
-        webdriver = new wd.Builder().
-            usingServer(config["seleniumHost"]).
-            withCapabilities(capabilities).build();
-        webdriver.session_.then(self.describeSession);
+    } else {
+        cb();
     }
 
 };
@@ -165,7 +97,7 @@ SelLib.prototype.openBrowser = function (sessionCaps, config, argv) {
  *
  */
 SelLib.prototype.listHelp = function () {
-
+    console.log('***In listHelp');
     console.info("\nCommandline Options :" + "\n" +
         "--list : Lists all selenium browser sessions" + "\n" +
         "--open=<browser1[, browser2]> : Comma seperated list of browsers to launch" + "\n" +
@@ -181,48 +113,275 @@ SelLib.prototype.listHelp = function () {
 
 /**
  *
+ * @param capabilities
+ * @param browserName
+ * @returns capability object based on pass capabilities and browser
  */
-SelLib.prototype.seleniumSessionSetup = function () {
+SelLib.prototype.getCapabilityObject = function(capabilities, browserName) {
 
-    var self = this,
-        i,
-        sessionId;
+    var caps,
+        cm;
 
-    if (self.argv.list || self.argv.ls) {
-        self.hub.getSessions(function (error, arrSessions) {
-            self.listSessions(error, self.describeSessions, arrSessions);
-        }, false);
+    if (capabilities) {
+        caps = {
+            "platform": "ANY",
+            "javascriptEnabled": true,
+            "seleniumProtocol": "WebDriver"
+        };
+        caps.browserName = browserName;
 
-    } else if (self.argv.open) {
-        self.hub.getSessions(function (error, arrSessions) {
-            self.listSessions(error, self.openBrowser, arrSessions);
-        }, true);
+        if (!caps.browserName) {
+            logger.error("No Browser is specified");
+            process.exit(1);
+        }
 
-    } else if (self.argv.close) {
-
-        self.hub.getSessions(function (error, arrSessions) {
-
-            if (arrSessions) {
-                logger.info("Found " + arrSessions.length + " Browsers.");
-                for (i = 0; i < arrSessions.length; i += 1) {
-                    sessionId = arrSessions[i];
-                    logger.info("Killing Session ID :" + sessionId);
-                    var webdriver  = new wd.Builder().
-                        usingServer(self.config["seleniumHost"]).
-                        usingSession(sessionId).
-                        build();
-
-                    webdriver.quit();
-                }
-            }
-        });
-
-    } else if (self.argv.help) {
-        self.listHelp();
+        cm = new CapabilityManager();
+        capabilities = cm.getCapability(capabilities, caps.browserName);
+        if (capabilities === null) {
+            logger.error("No related capability for " + caps.browserName + " in " + capabilities);
+            process.exit(1);
+        }
     } else {
-        self.listHelp();
+
+        capabilities = {
+            "browserName": browserName,
+            "version": "",
+            "platform": "ANY",
+            "javascriptEnabled": true
+        };
     }
 
+    return capabilities;
+
+};
+
+/**
+ *
+ * @param browserList - Browsers to open
+ * @param openBrowserList - Already open browsers
+ * @param cb
+ */
+SelLib.prototype.openBrowsers = function(browserList, openBrowserList, cb) {
+
+    var capabilities,
+        webdriver,
+        browserToOpen,
+        self = this,
+        webdriverConfObj = {};
+
+    if (browserList && browserList.length > 0) {
+
+        browserToOpen = browserList[0];
+
+        browserList.shift();
+
+        if (openBrowserList.indexOf(browserToOpen) !== -1) {
+            logger.info('Browser ' + browserToOpen + ' is already open');
+            self.openBrowsers(browserList, openBrowserList, cb);
+        } else {
+            logger.info('Opening browser..' + browserToOpen);
+
+            capabilities = self.getCapabilityObject(self.capabilities, browserToOpen);
+
+            // Build webdriver object
+            webdriverConfObj.seleniumHost = self.config["seleniumHost"];
+            webdriverConfObj.capabilities = capabilities;
+            webdriver = self.buildWebDriver(webdriverConfObj);
+
+            webdriver.getCapabilities().then(function(sessionCaps) {
+
+                console.log(sessionCaps);
+
+                openBrowserList.push(browserToOpen);
+                logger.info('Session created for the browser ' + browserToOpen);
+                // Open another browser, if asked for
+                self.openBrowsers(browserList, openBrowserList, cb);
+
+            }, function(err) {
+                logger.error('Error encountered while opening browser ' + browserToOpen +  ' - Error :'  + err);
+                // Open another browser, if asked for
+                self.openBrowsers(browserList, openBrowserList, cb);
+            });
+
+        }
+
+    } else {
+        cb();
+    }
+
+};
+
+/**
+ * Get browser name for the webdriver object
+ * @param webdriver
+ * @param cb
+ */
+SelLib.prototype.getBrowserName = function(webdriver, cb) {
+
+    if (webdriver) {
+
+        webdriver.getCapabilities().then(function(val) {
+
+            if (val) {
+                var browserName = val.get("browserName");
+                cb(browserName);
+            }
+
+        }, function(err) {
+            logger.error('Error in getBrowserName getting browser name :' + err);
+            cb();
+        });
+    } else {
+        cb();
+    }
+
+};
+
+/**
+ *
+ * @param arrSessions - Already open sessions
+ * @param openBrowserList - List of open browsers
+ * @param cb
+ */
+SelLib.prototype.getListOfOpenBrowsers = function(arrSessions, openBrowserList, cb) {
+
+    var
+        webdriver,
+        self = this,
+        sessionId;
+
+//    console.log('**In getListOfOpenBrowsers..' + JSON.stringify(arrSessions));
+
+    if (arrSessions.length === 0) {
+//        console.log('**open browsers::' + openBrowserList);
+        cb(openBrowserList);
+    } else {
+
+        sessionId = arrSessions[0];
+//        console.log('**sessionId::' + sessionId);
+        arrSessions.shift();
+
+        webdriver = new wd.Builder().
+            usingServer(self.config["seleniumHost"]).
+            usingSession(sessionId).
+            build();
+
+        self.getBrowserName(webdriver, function(browserName) {
+            if (browserName) {
+                openBrowserList.push(browserName);
+            }
+            self.getListOfOpenBrowsers(arrSessions, openBrowserList, cb);
+        });
+    }
+};
+
+/**
+ *
+ * @param arrSessions
+ * @param cb
+ */
+SelLib.prototype.closeBrowsers = function (arrSessions, cb) {
+
+    var
+        sessionId,
+        self = this,
+        webdriver;
+
+    if (arrSessions) {
+
+        if (arrSessions.length === 0) {
+            cb();
+        } else {
+
+            sessionId = arrSessions[0];
+            arrSessions.shift();
+
+            webdriver  = new wd.Builder().
+                usingServer(self.config["seleniumHost"]).
+                usingSession(sessionId).
+                build();
+            logger.info("Killing Session ID :" + sessionId);
+
+            webdriver.quit().then(function() {
+                self.closeBrowsers(arrSessions, cb);
+            }, function(err) {
+                logger.info("Error in Killing Session ID :" + sessionId + " , error :" + err);
+                self.closeBrowsers(arrSessions, cb);
+            });
+
+        }
+
+    }
+
+};
+
+/**
+ *
+ * @param browsers - comma separated list of arguments to --open e.g firefox,chrome
+ */
+SelLib.prototype.open = function (browsers, capabilities) {
+
+    var self = this;
+
+    self.capabilities = capabilities;
+
+    self.hub.getSessions(function (error, arrSessions) {
+
+        var browserList = browsers.split(","),
+            openBrowserList = [];
+
+        if (arrSessions) {
+            logger.info("Found " + arrSessions.length + " Browsers.");
+        }
+
+        self.getListOfOpenBrowsers(arrSessions, openBrowserList, function(openBrowserList) {
+
+            self.openBrowsers(browserList, openBrowserList, function() {
+                logger.info('Done opening all browsers...' + browsers.split(","));
+            });
+
+        });
+
+    }, true);
+
+};
+
+/**
+ * Close all open browsers
+ */
+SelLib.prototype.close = function () {
+
+    var self = this;
+    self.hub.getSessions(function (error, arrSessions) {
+
+        if (error) {
+            logger.info(error);
+        } else if (arrSessions && arrSessions.length > 0) {
+
+            logger.info("Found " + arrSessions.length + " Browsers.");
+            self.closeBrowsers(arrSessions, function() {
+                logger.info('Closed all open browsers');
+            });
+        }
+    });
+
+};
+
+/**
+ * List all open sessions
+ */
+SelLib.prototype.list = function () {
+
+    var self = this;
+    self.hub.getSessions(function (error, arrSessions) {
+        if (error) {
+            logger.info(error);
+        } else {
+            self.listSessions(arrSessions, function() {
+                logger.info('Listed all sessions');
+            });
+        }
+    }, false);
 
 };
 

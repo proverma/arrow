@@ -28,5 +28,16 @@ arrowSetup.setuplog4js();
 arrowSetup.setupSeleniumHost();
 logger.info("Selenium host: " + config["seleniumHost"]);
 
-var selLib = new SelLib(config,argv);
-selLib.seleniumSessionSetup(); //TODO - Method rename
+var selLib = new SelLib(config);
+
+if (argv.ls || argv.list) {
+    selLib.list();
+} else if (argv.open) {
+    selLib.open(argv.open, argv.capabilities);
+} else if (argv.close) {
+    selLib.close();
+} else if (argv.help) {
+    selLib.listHelp();
+} else {
+    selLib.listHelp();
+}
