@@ -18,13 +18,11 @@ var logger = log4js.getLogger("selLib");
 /**
  *
  * @param config
- * @param capabilities
  * @constructor
  */
-function SelLib(config, capabilities) {
+function SelLib(config) {
     this.config = config;
     this.hub = new WdSession(config);
-    this.capabilities = capabilities;
 }
 
 /**
@@ -70,7 +68,7 @@ SelLib.prototype.listSessions = function (arrSessions, cb) {
         arrSessions.shift();
 
         // Build webdriver object
-        webdriverConfObj.seleniumHost = self.config["seleniumHost"];
+        webdriverConfObj.seleniumHost = self.config.seleniumHost;
         webdriverConfObj.sessionId = sessionId;
         webdriver = self.buildWebDriver(webdriverConfObj);
 
@@ -121,6 +119,7 @@ SelLib.prototype.getCapabilityObject = function(capabilities, browserName) {
     var caps,
         cm;
 
+    // If user has passed capabilities
     if (capabilities) {
         caps = {
             "platform": "ANY",
@@ -136,12 +135,13 @@ SelLib.prototype.getCapabilityObject = function(capabilities, browserName) {
 
         cm = new CapabilityManager();
         capabilities = cm.getCapability(capabilities, caps.browserName);
+
         if (capabilities === null) {
             logger.error("No related capability for " + caps.browserName + " in " + capabilities);
             process.exit(1);
         }
     } else {
-
+        // default capabilities
         capabilities = {
             "browserName": browserName,
             "version": "",
@@ -149,7 +149,7 @@ SelLib.prototype.getCapabilityObject = function(capabilities, browserName) {
             "javascriptEnabled": true
         };
     }
-
+    logger.info('Capabilities::' + JSON.stringify(capabilities));
     return capabilities;
 
 };
@@ -158,12 +158,12 @@ SelLib.prototype.getCapabilityObject = function(capabilities, browserName) {
  *
  * @param browserList - Browsers to open
  * @param openBrowserList - Already open browsers
+ * @param capabilities - capabilities object
  * @param cb
  */
-SelLib.prototype.openBrowsers = function(browserList, openBrowserList, cb) {
+SelLib.prototype.openBrowsers = function(browserList, openBrowserList, capabilities, cb) {
 
-    var capabilities,
-        webdriver,
+    var webdriver,
         browserToOpen,
         self = this,
         webdriverConfObj = {};
@@ -176,30 +176,29 @@ SelLib.prototype.openBrowsers = function(browserList, openBrowserList, cb) {
 
         if (openBrowserList.indexOf(browserToOpen) !== -1) {
             logger.info('Browser ' + browserToOpen + ' is already open');
-            self.openBrowsers(browserList, openBrowserList, cb);
+            self.openBrowsers(browserList, openBrowserList, capabilities, cb);
         } else {
             logger.info('Opening browser..' + browserToOpen);
 
-            capabilities = self.getCapabilityObject(self.capabilities, browserToOpen);
+            capabilities = self.getCapabilityObject(capabilities, browserToOpen);
 
             // Build webdriver object
-            webdriverConfObj.seleniumHost = self.config["seleniumHost"];
+            webdriverConfObj.seleniumHost = self.config.seleniumHost;
             webdriverConfObj.capabilities = capabilities;
             webdriver = self.buildWebDriver(webdriverConfObj);
 
             webdriver.getCapabilities().then(function(sessionCaps) {
-
                 console.log(sessionCaps);
 
                 openBrowserList.push(browserToOpen);
                 logger.info('Session created for the browser ' + browserToOpen);
                 // Open another browser, if asked for
-                self.openBrowsers(browserList, openBrowserList, cb);
+                self.openBrowsers(browserList, openBrowserList, capabilities, cb);
 
             }, function(err) {
                 logger.error('Error encountered while opening browser ' + browserToOpen +  ' - Error :'  + err);
                 // Open another browser, if asked for
-                self.openBrowsers(browserList, openBrowserList, cb);
+                self.openBrowsers(browserList, openBrowserList, capabilities, cb);
             });
 
         }
@@ -257,7 +256,7 @@ SelLib.prototype.getListOfOpenBrowsers = function(arrSessions, openBrowserList, 
         arrSessions.shift();
 
         webdriver = new wd.Builder().
-            usingServer(self.config["seleniumHost"]).
+            usingServer(self.config.seleniumHost).
             usingSession(sessionId).
             build();
 
@@ -318,7 +317,7 @@ SelLib.prototype.open = function (browsers, capabilities) {
 
     var self = this;
 
-    self.capabilities = capabilities;
+//    self.capabilities = capabilities;
 
     self.hub.getSessions(function (error, arrSessions) {
 
@@ -326,12 +325,12 @@ SelLib.prototype.open = function (browsers, capabilities) {
             openBrowserList = [];
 
         if (arrSessions) {
-            logger.info("Found " + arrSessions.length + " Browsers.");
+            logger.info("Found " + arrSessions.length + " browsers.");
         }
 
         self.getListOfOpenBrowsers(arrSessions, openBrowserList, function(openBrowserList) {
 
-            self.openBrowsers(browserList, openBrowserList, function() {
+            self.openBrowsers(browserList, openBrowserList, capabilities, function() {
                 logger.info('Done opening all browsers...' + browsers.split(","));
             });
 
@@ -353,9 +352,9 @@ SelLib.prototype.close = function () {
             logger.info(error);
         } else if (arrSessions && arrSessions.length > 0) {
 
-            logger.info("Found " + arrSessions.length + " Browsers.");
+            logger.info("Found " + arrSessions.length + " browsers.");
             self.closeBrowsers(arrSessions, function() {
-                logger.info('Closed all open browsers');
+                logger.info('Closed all open browsers on host ' + self.config.seleniumHost);
             });
         }
     });
