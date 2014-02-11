@@ -149,7 +149,6 @@ SelLib.prototype.getCapabilityObject = function(capabilities, browserName) {
             "javascriptEnabled": true
         };
     }
-    logger.info('Capabilities::' + JSON.stringify(capabilities));
     return capabilities;
 
 };
@@ -166,7 +165,8 @@ SelLib.prototype.openBrowsers = function(browserList, openBrowserList, capabilit
     var webdriver,
         browserToOpen,
         self = this,
-        webdriverConfObj = {};
+        webdriverConfObj = {},
+        caps;
 
     if (browserList && browserList.length > 0) {
 
@@ -179,12 +179,14 @@ SelLib.prototype.openBrowsers = function(browserList, openBrowserList, capabilit
             self.openBrowsers(browserList, openBrowserList, capabilities, cb);
         } else {
             logger.info('Opening browser..' + browserToOpen);
+//            logger.info('capabilities..' + JSON.stringify(capabilities));
 
-            capabilities = self.getCapabilityObject(capabilities, browserToOpen);
+            caps = self.getCapabilityObject(capabilities, browserToOpen);
+            logger.info('Capabilities::' + JSON.stringify(caps));
 
             // Build webdriver object
             webdriverConfObj.seleniumHost = self.config.seleniumHost;
-            webdriverConfObj.capabilities = capabilities;
+            webdriverConfObj.capabilities = caps;
             webdriver = self.buildWebDriver(webdriverConfObj);
 
             webdriver.getCapabilities().then(function(sessionCaps) {
@@ -246,7 +248,8 @@ SelLib.prototype.getListOfOpenBrowsers = function(arrSessions, openBrowserList, 
     var
         webdriver,
         self = this,
-        sessionId;
+        sessionId,
+        webdriverConfObj = {};
 
     if (arrSessions.length === 0) {
         cb(openBrowserList);
@@ -255,10 +258,10 @@ SelLib.prototype.getListOfOpenBrowsers = function(arrSessions, openBrowserList, 
         sessionId = arrSessions[0];
         arrSessions.shift();
 
-        webdriver = new wd.Builder().
-            usingServer(self.config.seleniumHost).
-            usingSession(sessionId).
-            build();
+        // Build webdriver object
+        webdriverConfObj.seleniumHost = self.config.seleniumHost;
+        webdriverConfObj.sessionId = sessionId;
+        webdriver = self.buildWebDriver(webdriverConfObj);
 
         self.getBrowserName(webdriver, function(browserName) {
             if (browserName) {
@@ -279,7 +282,8 @@ SelLib.prototype.closeBrowsers = function (arrSessions, cb) {
     var
         sessionId,
         self = this,
-        webdriver;
+        webdriver,
+        webdriverConfObj = {};
 
     if (arrSessions) {
 
@@ -290,10 +294,11 @@ SelLib.prototype.closeBrowsers = function (arrSessions, cb) {
             sessionId = arrSessions[0];
             arrSessions.shift();
 
-            webdriver  = new wd.Builder().
-                usingServer(self.config["seleniumHost"]).
-                usingSession(sessionId).
-                build();
+            // Build webdriver object
+            webdriverConfObj.seleniumHost = self.config.seleniumHost;
+            webdriverConfObj.sessionId = sessionId;
+            webdriver = self.buildWebDriver(webdriverConfObj);
+
             logger.info("Killing Session ID :" + sessionId);
 
             webdriver.quit().then(function() {
@@ -312,7 +317,7 @@ SelLib.prototype.closeBrowsers = function (arrSessions, cb) {
 /**
  *
  * @param browsers - comma separated list of arguments to --open e.g firefox,chrome
- * @param capabilities
+ * @param capabilities - passed by the user
  */
 SelLib.prototype.open = function (browsers, capabilities, cb) {
 
