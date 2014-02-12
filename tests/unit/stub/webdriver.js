@@ -60,26 +60,40 @@ Builder.prototype.usingSession = function (id) {
     this.sessionId = id;
     return this;
 };
-Builder.prototype.withCapabilities = function () {
+Builder.prototype.withCapabilities = function (caps) {
+    this.caps = caps;
     return this;
 };
 Builder.prototype.build = function () {
-    return new WebDriver();
+    console.log('***In build..');
+//    return this;
+    return new WebDriver(this.sessionId, this.caps);
 };
 
 Builder.prototype.getServerUrl = function () {
     return this.host;
 };
 
-var WebDriver = function () {
+var WebDriver = function (sessionId, caps) {
     var self = this;
     this.By = By;
     this.Application = Application;
 
-    this.sessionId = 101;
+    if (sessionId) {
+        self.sessionId = sessionId;
+    } else {
+        self.sessionId = 101;
+    }
+
+    if (caps) {
+        self.caps = caps;
+    } else {
+        self.caps = {browserName: 'browser'};
+    }
+
     this.session_ = {
         then: function (cb) {
-            cb({id: self.sessionId, capabilities: {browserName: 'browser'}});
+            cb({id: self.sessionId, capabilities: self.caps});
         }
     };
 
@@ -217,9 +231,12 @@ WebDriver.prototype.quit = function () {
 };
 
 WebDriver.prototype.getCapabilities = function () {
+    var self = this;
+    console.log('******In getCapabilities.XX...' + JSON.stringify(self.caps));
     return {
         then: function (cb) {
-            cb({});
+            console.log('***Calling back..' + cb);
+            cb(self.caps);
         }
     };
 }

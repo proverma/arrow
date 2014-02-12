@@ -48,6 +48,48 @@ YUI.add('selLib-tests', function (Y, NAME) {
             A.areEqual("{\"browserName\":\"firefox\",\"version\":\"\",\"platform\":\"ANY\",\"javascriptEnabled\":true}", JSON.stringify(caps), 'Capability doesnt match');
         }
 
+//        'test getBrowserName': function () {
+//
+//            var wdMock = require(arrowRoot + '/tests/unit/stub/webdriver'),
+//                selLib = new SelLib(),
+//                webdriver,
+//                webdriverConfObj = {
+//                    "seleniumHost": "http://wd/hub",
+//                    "caps": {
+//                        "platform": "ANY",
+//                        "javascriptEnabled": true,
+//                        "seleniumProtocol": "WebDriver",
+//                        "browserName": "mybrowser"
+//                    }
+//
+//                };
+//
+//            A.isTrue(true);
+////
+////
+//            mockery.registerMock('../lib/util/wd-wrapper', wdMock);
+//            mockery.enable();
+////
+//            webdriver = new wdMock.Builder().
+//                usingServer(webdriverConfObj.seleniumHost).
+//                withCapabilities(webdriverConfObj.caps).
+//                build();
+//
+//            console.log('\n\n\n*******************Here....');
+//
+////            webdriver.seleniumHost = webdriverConfObj.seleniumHost;
+////            webdriver.caps = webdriverConfObj.caps;
+//
+//            selLib.getBrowserName(webdriver, function (browserName) {
+//                console.log('****Browsername is ' + browserName);
+//                A.isEqual("myBrowse22r", browserName, "Browser name should be mybrowser");
+//                mockery.disable();
+//                mockery.deregisterAll();
+//
+//            });
+//
+//        }
+
 //        ,'test build web driver': function () {
 //
 //            var selLib,

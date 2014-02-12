@@ -111,13 +111,29 @@ SelLib.prototype.listHelp = function () {
 /**
  *
  * @param capabilities
- * @param browserName
+ * @param browser
  * @returns capability object based on pass capabilities and browser
  */
-SelLib.prototype.getCapabilityObject = function(capabilities, browserName) {
+SelLib.prototype.getCapabilityObject = function(capabilities, browser) {
 
     var caps,
-        cm;
+        cm,
+        browserInfo,
+        browserName,
+        browserVersion;
+
+    if (browser) {
+
+        browserInfo = browser.split("-", 2);
+        if (browserInfo.length > 1) {
+            browserName = browserInfo[0];
+            browserVersion = browserInfo[1];
+        } else {
+            browserName = browser;
+            browserVersion = '';
+        }
+
+    }
 
     // If user has passed capabilities
     if (capabilities) {
@@ -127,6 +143,7 @@ SelLib.prototype.getCapabilityObject = function(capabilities, browserName) {
             "seleniumProtocol": "WebDriver"
         };
         caps.browserName = browserName;
+        caps.browserVersion = browserVersion;
 
         if (!caps.browserName) {
             logger.error("No Browser is specified");
@@ -144,7 +161,7 @@ SelLib.prototype.getCapabilityObject = function(capabilities, browserName) {
         // default capabilities
         capabilities = {
             "browserName": browserName,
-            "version": "",
+            "version": browserVersion,
             "platform": "ANY",
             "javascriptEnabled": true
         };
@@ -187,6 +204,7 @@ SelLib.prototype.openBrowsers = function(browserList, openBrowserList, capabilit
             // Build webdriver object
             webdriverConfObj.seleniumHost = self.config.seleniumHost;
             webdriverConfObj.capabilities = caps;
+
             webdriver = self.buildWebDriver(webdriverConfObj);
 
             webdriver.getCapabilities().then(function(sessionCaps) {
@@ -219,11 +237,11 @@ SelLib.prototype.openBrowsers = function(browserList, openBrowserList, capabilit
 SelLib.prototype.getBrowserName = function(webdriver, cb) {
 
     if (webdriver) {
-
         webdriver.getCapabilities().then(function(val) {
 
             if (val) {
                 var browserName = val.get("browserName");
+                console.log('****browserName..' + JSON.stringify(browserName));
                 cb(browserName);
             }
 
