@@ -180,14 +180,23 @@ SelLib.prototype.getCapabilityObject = function(capabilities, browser) {
 SelLib.prototype.openBrowsers = function(browserList, openBrowserList, capabilities, cb) {
 
     var webdriver,
+        browser,
         browserToOpen,
         self = this,
         webdriverConfObj = {},
-        caps;
+        caps,
+        browserInfo = [];
 
     if (browserList && browserList.length > 0) {
 
-        browserToOpen = browserList[0];
+        browser = browserList[0];
+
+        browserInfo = browser.split("-", 2);
+        if (browserInfo.length > 1) {
+            browserToOpen = browserInfo[0];
+        } else {
+            browserToOpen = browser;
+        }
 
         browserList.shift();
 
@@ -196,7 +205,6 @@ SelLib.prototype.openBrowsers = function(browserList, openBrowserList, capabilit
             self.openBrowsers(browserList, openBrowserList, capabilities, cb);
         } else {
             logger.info('Opening browser..' + browserToOpen);
-//            logger.info('capabilities..' + JSON.stringify(capabilities));
 
             caps = self.getCapabilityObject(capabilities, browserToOpen);
             logger.info('Capabilities::' + JSON.stringify(caps));
@@ -335,6 +343,7 @@ SelLib.prototype.closeBrowsers = function (arrSessions, cb) {
  *
  * @param browsers - comma separated list of arguments to --open e.g firefox,chrome
  * @param capabilities - passed by the user
+ * @param cb - callback
  */
 SelLib.prototype.open = function (browsers, capabilities, cb) {
 
@@ -374,6 +383,7 @@ SelLib.prototype.open = function (browsers, capabilities, cb) {
 
 /**
  * Close all open browsers
+ * @param cb - callback
  */
 SelLib.prototype.close = function (cb) {
     var self = this;
