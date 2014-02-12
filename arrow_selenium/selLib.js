@@ -241,7 +241,6 @@ SelLib.prototype.getBrowserName = function(webdriver, cb) {
 
             if (val) {
                 var browserName = val.get("browserName");
-                console.log('****browserName..' + JSON.stringify(browserName));
                 cb(browserName);
             }
 
