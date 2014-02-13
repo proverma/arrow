@@ -110,58 +110,63 @@ SelLib.prototype.listHelp = function () {
 
 /**
  *
+ * @param browser
+ * @returns {{}} - Object with browser name and browser version information
+ */
+SelLib.prototype.getBrowserInfo = function(browser) {
+
+    var browserInfo = {},
+        infoArr;
+
+    if (browser) {
+        infoArr = browser.split("-", 2);
+        if (infoArr && infoArr.length > 1) {
+            browserInfo.browserName = infoArr[0];
+            browserInfo.browserVersion = infoArr[1];
+        } else {
+            browserInfo.browserName = infoArr[0];
+            browserInfo.browserVersion = '';
+        }
+    }
+    return browserInfo;
+
+};
+
+/**
+ *
  * @param capabilities
  * @param browser
  * @returns capability object based on pass capabilities and browser
  */
 SelLib.prototype.getCapabilityObject = function(capabilities, browser) {
 
-    var caps,
+    var
+        self = this,
         cm,
-        browserInfo,
-        browserName,
-        browserVersion;
+        browserInfo;
 
-    if (browser) {
-
-        browserInfo = browser.split("-", 2);
-        if (browserInfo.length > 1) {
-            browserName = browserInfo[0];
-            browserVersion = browserInfo[1];
-        } else {
-            browserName = browser;
-            browserVersion = '';
-        }
-
-    }
+    browserInfo = self.getBrowserInfo(browser);
 
     // If user has passed capabilities
     if (capabilities) {
-        caps = {
-            "platform": "ANY",
-            "javascriptEnabled": true,
-            "seleniumProtocol": "WebDriver"
-        };
-        caps.browserName = browserName;
-        caps.browserVersion = browserVersion;
 
-        if (!caps.browserName) {
+        if (!browserInfo.browserName) {
             logger.error("No Browser is specified");
             process.exit(1);
         }
 
         cm = new CapabilityManager();
-        capabilities = cm.getCapability(capabilities, caps.browserName);
+        capabilities = cm.getCapability(capabilities, browserInfo.browserName);
 
         if (capabilities === null) {
-            logger.error("No related capability for " + caps.browserName + " in " + capabilities);
+            logger.error("No related capability for " + browserInfo.browserName + " in " + capabilities);
             process.exit(1);
         }
     } else {
         // default capabilities
         capabilities = {
-            "browserName": browserName,
-            "version": browserVersion,
+            "browserName": browserInfo.browserName,
+            "version": browserInfo.browserVersion,
             "platform": "ANY",
             "javascriptEnabled": true
         };
@@ -185,18 +190,14 @@ SelLib.prototype.openBrowsers = function(browserList, openBrowserList, capabilit
         self = this,
         webdriverConfObj = {},
         caps,
-        browserInfo = [];
+        browserInfo;
 
     if (browserList && browserList.length > 0) {
 
         browser = browserList[0];
 
-        browserInfo = browser.split("-", 2);
-        if (browserInfo.length > 1) {
-            browserToOpen = browserInfo[0];
-        } else {
-            browserToOpen = browser;
-        }
+        browserInfo = self.getBrowserInfo(browser);
+        browserToOpen = browserInfo.browserName;
 
         browserList.shift();
 

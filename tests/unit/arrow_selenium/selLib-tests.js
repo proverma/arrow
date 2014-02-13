@@ -37,16 +37,48 @@ YUI.add('selLib-tests', function (Y, NAME) {
 
             var
                 caps,
-                selLib;
-            selLib = new SelLib();
-            A.isTrue(true, "Should be true");
+                selLib = new SelLib(),
+                capObj;
 
             caps = selLib.getCapabilityObject(null, "firefox");
-            console.log(JSON.stringify(caps));
 
             A.isNotNull(caps, "Caps is null");
             A.areEqual("{\"browserName\":\"firefox\",\"version\":\"\",\"platform\":\"ANY\",\"javascriptEnabled\":true}", JSON.stringify(caps), 'Capability doesnt match');
+
+            caps = selLib.getCapabilityObject(path.join(arrowRoot, "/tests/unit/arrow_selenium/caps.json"), "firefox");
+
+            A.isNotNull(caps, "Caps is null");
+            A.areEqual("{\"browserName\":\"firefox\",\"version\":\"\",\"platform\":\"ANY\",\"javascriptEnabled\":true}", JSON.stringify(caps), 'Capability doesnt match');
+        },
+
+        'test get browser info': function () {
+
+            var
+                caps,
+                selLib = new SelLib(),
+                browserInfo,
+                browser;
+
+            browserInfo = selLib.getBrowserInfo("firefox-x");
+            A.areEqual("firefox", browserInfo.browserName);
+            A.areEqual("x", browserInfo.browserVersion);
+
+            browserInfo = selLib.getBrowserInfo("firefox");
+            A.areEqual("firefox", browserInfo.browserName);
+            A.areEqual("", browserInfo.browserVersion);
+
+            browserInfo = selLib.getBrowserInfo("firefox-");
+            A.areEqual("firefox", browserInfo.browserName);
+            A.areEqual("", browserInfo.browserVersion);
+
+            browserInfo = selLib.getBrowserInfo(undefined);
+            A.isUndefined(browserInfo.browserName);
+            A.isUndefined(browserInfo.browserVersion);
         }
+
+
+
+
 
 //        'test getBrowserName': function () {
 //
