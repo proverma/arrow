@@ -49,6 +49,7 @@ var By = {
     }
 };
 
+
 var Builder = function () {
 };
 
@@ -61,6 +62,7 @@ Builder.prototype.usingSession = function (id) {
     return this;
 };
 Builder.prototype.withCapabilities = function (caps) {
+
     this.caps = caps;
     return this;
 };
@@ -230,13 +232,38 @@ WebDriver.prototype.quit = function () {
     };
 };
 
-WebDriver.prototype.getCapabilities = function () {
+WebDriver.prototype.getCapabilities = function (cb) {
+
+
     var self = this;
     console.log('******In getCapabilities.XX...' + JSON.stringify(self.caps));
     return {
         then: function (cb) {
-            console.log('***Calling back..' + cb);
-            cb(self.caps);
+
+            var Capabilities = function () {
+                console.log('****In capabilities constructor..');
+            };
+
+            Capabilities.prototype.set = function (caps) {
+                console.log('***In getCapabilities set');
+                self.caps = caps;
+            };
+
+            Capabilities.prototype.get = function (key) {
+                console.log('***In getCapabilities get');
+                var val;
+                if (self.caps.hasOwnProperty(key)) {
+                    val = self.caps[key];
+                }
+                return val;
+
+            };
+
+            self.capabilities = new Capabilities();
+            self.capabilities.set(self.caps);
+
+            cb(self.capabilities);
+
         }
     };
 }
