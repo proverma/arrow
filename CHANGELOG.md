@@ -2,7 +2,7 @@
 
 # 0.3.3
 
- * Fixed appium compatibility
+ * Fixed appium and android driver compatibility
  * Removed raw github links, which were failing mocha tests on IE8.
 
 # 0.3.2
