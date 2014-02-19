@@ -67,7 +67,6 @@ Builder.prototype.withCapabilities = function (caps) {
     return this;
 };
 Builder.prototype.build = function () {
-    console.log('***In build..');
 //    return this;
     return new WebDriver(this.sessionId, this.caps);
 };
@@ -236,21 +235,17 @@ WebDriver.prototype.getCapabilities = function (cb) {
 
 
     var self = this;
-    console.log('******In getCapabilities.XX...' + JSON.stringify(self.caps));
     return {
         then: function (cb) {
 
             var Capabilities = function () {
-                console.log('****In capabilities constructor..');
             };
 
             Capabilities.prototype.set = function (caps) {
-                console.log('***In getCapabilities set');
                 self.caps = caps;
             };
 
             Capabilities.prototype.get = function (key) {
-                console.log('***In getCapabilities get');
                 var val;
                 if (self.caps.hasOwnProperty(key)) {
                     val = self.caps[key];

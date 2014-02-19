@@ -26,7 +26,6 @@ YUI.add('wdsession-tests', function (Y) {
             var wds = new wdSession({"seleniumHost" :"http://localhost:" + port + "/wd/hub"}),
                 test = this;
             wds.getSessions(function (error) {
-                console.log('***Error::' + error);
                 A.areEqual(error.toString(),"connect ECONNREFUSED", "Error should be 'connect ECONNREFUSED'");
                 test.resume();
             },true);
