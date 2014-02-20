@@ -1,27 +1,31 @@
 #!/usr/bin/env node
 
-/*jslint forin:true sub:true anon:true, sloppy:true, stupid:true nomen:true, node:true continue:true*/
-
+/*jslint forin:true sub:true unparam:true, sloppy:true, stupid:true nomen:true, node:true continue:true es5:true*/
+/*global boolean, alias, demand, describe, default, check, usage*/
 /*
  * Copyright (c) 2012, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
-
-var nopt = require("nopt");
 var log4js = require("log4js");
-
+var nomnom = require("nomnom");
 var Properties = require("../lib/util/properties");
 var ArrowSetup = require('../lib/util/arrowsetup');
-var SelLib = require('./selLib');
-//getting command line args
-var argv = nopt();
-
 var wd = require("../lib/util/wd-wrapper");
+var logger = log4js.getLogger("selenium");
+var SelLib = require('./selLib');
+var SelOptions = require('./selOptions');
+
+//getting command line args
+var selOptions = new SelOptions();
+var argv = selOptions.getOptions();
+
+//Validate arg
+selOptions.validateArgs(argv);
+
 //setup config
 var prop = new Properties(__dirname + "/../config/config.js", argv.config, argv);
 var config = prop.getAll();
-var logger = log4js.getLogger("selenium");
 
 // Setup log4js and selenium host
 var arrowSetup = new ArrowSetup(config, argv);
@@ -35,11 +39,12 @@ var selLib = new SelLib(config);
 if (argv.ls || argv.list) {
     selLib.list(); // List open sessions
 } else if (argv.open) {
-    selLib.open(argv.open, argv.capabilities); // Open sessions
+    selLib.open(argv.open, argv.capabilities, function() {
+        //TODO ??
+//    console.log('Browsers open');
+    }); // Open sessions
 } else if (argv.close) { // Close sessions
-    selLib.close();
-} else if (argv.help) { // Help
-    selLib.listHelp();
-} else {
-    selLib.listHelp(); // Help
+    selLib.close(function(){
+        //TODO ??
+    });
 }

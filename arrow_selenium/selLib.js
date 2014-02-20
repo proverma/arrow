@@ -27,7 +27,7 @@ function SelLib(config) {
 
 /**
  *  Build webdriver object based on properties set in webdriverConfObj
- * @param webdriverConfObj
+ * @param webdriverConfObj - supported properties - seleniumHost,sessionId,capabilities
  * @returns webdriver object
  */
 SelLib.prototype.buildWebDriver = function(webdriverConfObj) {
@@ -47,11 +47,11 @@ SelLib.prototype.buildWebDriver = function(webdriverConfObj) {
 };
 
 /**
- * Lists the open sessions
+ * Prints the open sessions
  * @param arrSessions
  * @param cb
  */
-SelLib.prototype.listSessions = function (arrSessions, cb) {
+SelLib.prototype.printSessions = function (arrSessions, cb) {
 
     if (!arrSessions) {
         logger.info('No sessions found');
@@ -78,11 +78,11 @@ SelLib.prototype.listSessions = function (arrSessions, cb) {
                 console.log('\n');
                 console.log(sessionCaps.toJSON());
             }
-            self.listSessions(arrSessions, cb);
+            self.printSessions(arrSessions, cb);
 
         }, function(err) {
             logger.error('Error while listing sessions:' + err);
-            self.listSessions(arrSessions, cb);
+            self.printSessions(arrSessions, cb);
         });
 
     } else {
@@ -94,17 +94,22 @@ SelLib.prototype.listSessions = function (arrSessions, cb) {
 /**
  * Help !!
  */
-SelLib.prototype.listHelp = function () {
+SelLib.prototype.printHelp = function () {
     console.info("\nCommandline Options :" + "\n" +
-        "--list : Lists all selenium browser sessions" + "\n" +
-        "--open=<browser1[, browser2]> : Comma seperated list of browsers to launch" + "\n" +
+        "-l | --list : Lists all selenium browser sessions" + "\n" +
+        "-o | --open : --open=<browser1[, browser2]> : Comma seperated list of browsers to launch" + "\n" +
         "--open=<browser> : browser to choose from capabilities.json" + " --capabilities= path to capabilities.json" + "\n" +
-        "--close : Close all selenium controller browser sessions" + "\n\n" +
+        "-c | --close : Close all selenium controller browser sessions" + "\n" +
+        "-p | --capabilities : Path to capabilities file ( optional) " + "\n\n" +
         "Examples:\n" +
-        "Open Firefox and Chrome browser instances:\n" +
-        "arrow_selenium --open=firefox,chrome\n"  +
-        "Open Firefox with given capabilities:\n" +
-        "arrow_selenium --open=firefox --capabilities=./cap.json\n"
+        "Open Firefox and Chrome browser instances:     " +
+        "arrow_selenium -o firefox,chrome\n"  +
+        "Open Firefox with given capabilities:     " +
+        "arrow_selenium -o firefox -p cap.json\n" +
+        "List open sessions:     " +
+        "arrow_selenium -l\n" +
+        "Close open sessions:     " +
+        "arrow_selenium -c\n"
         );
 };
 
@@ -159,7 +164,7 @@ SelLib.prototype.getCapabilityObject = function(capabilities, browser) {
         capabilities = cm.getCapability(capabilities, browserInfo.browserName);
 
         if (capabilities === null) {
-            logger.error("No related capability for " + browserInfo.browserName + " in " + capabilities);
+            logger.fatal("Capability " + capabilities + " does not contain related information for " + browserInfo.browserName);
             process.exit(1);
         }
     } else {
@@ -309,7 +314,8 @@ SelLib.prototype.closeBrowsers = function (arrSessions, cb) {
         sessionId,
         self = this,
         webdriver,
-        webdriverConfObj = {};
+        webdriverConfObj = {},
+        browserName;
 
     if (arrSessions) {
 
@@ -325,15 +331,18 @@ SelLib.prototype.closeBrowsers = function (arrSessions, cb) {
             webdriverConfObj.sessionId = sessionId;
             webdriver = self.buildWebDriver(webdriverConfObj);
 
-            logger.info("Killing Session ID :" + sessionId);
+            self.getBrowserName(webdriver, function(browserName) {
 
-            webdriver.quit().then(function() {
-                self.closeBrowsers(arrSessions, cb);
-            }, function(err) {
-                logger.info("Error in Killing Session ID :" + sessionId + " , error :" + err);
-                self.closeBrowsers(arrSessions, cb);
+                logger.info("Killing browser: " + browserName);
+
+                webdriver.quit().then(function() {
+                    self.closeBrowsers(arrSessions, cb);
+                }, function(err) {
+                    logger.info("Error in Killing browser :" + browserName + " , error :" + err);
+                    self.closeBrowsers(arrSessions, cb);
+                });
+
             });
-
         }
 
     }
@@ -416,7 +425,7 @@ SelLib.prototype.list = function () {
         if (error) {
             logger.info(error);
         } else {
-            self.listSessions(arrSessions, function() {
+            self.printSessions(arrSessions, function() {
                 logger.info('Listed all sessions');
             });
         }
