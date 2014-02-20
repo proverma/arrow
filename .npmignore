@@ -5,3 +5,13 @@
 CVS/
 .DS_Store
 package.json.pl
+coverage
+tests
+docs
+demo
+results.xml
+lcov-report
+tmp
+.travis.yml
+ytestrunner.json
+lcov.info
