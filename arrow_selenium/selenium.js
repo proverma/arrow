@@ -38,13 +38,16 @@ var selLib = new SelLib(config);
 
 if (argv.ls || argv.list) {
     selLib.list(); // List open sessions
-} else if (argv.open) {
-    selLib.open(argv.open, argv.capabilities, function() {
-        //TODO ??
-//    console.log('Browsers open');
-    }); // Open sessions
+} else if (argv.open) { // Open sessions
+    selLib.open(argv.open, argv.capabilities, function(error) {
+        if (error) {
+            logger.error('Error while opening browser :' + error);
+        }
+    });
 } else if (argv.close) { // Close sessions
-    selLib.close(function(){
-        //TODO ??
+    selLib.close(function(error){
+        if (error) {
+            logger.error('Error while opening browser :' + error);
+        }
     });
 }
