@@ -156,7 +156,7 @@ SelLib.prototype.getCapabilityObject = function(capabilities, browser) {
     if (capabilities) {
 
         if (!browserInfo.browserName) {
-            logger.error("No Browser is specified");
+            logger.fatal("No Browser is specified");
             process.exit(1);
         }
 
