@@ -8,7 +8,6 @@
  * See the accompanying LICENSE file for terms.
  */
 var log4js = require("log4js");
-var nomnom = require("nomnom");
 var Properties = require("../lib/util/properties");
 var ArrowSetup = require('../lib/util/arrowsetup');
 var wd = require("../lib/util/wd-wrapper");

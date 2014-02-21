@@ -119,9 +119,6 @@
     "clone": {
       "version": "0.1.0"
     },
-      "nomnom": {
-          "version": "1.6.1"
-      },
       "useragent": {
       "version": "1.1.0",
       "dependencies": {

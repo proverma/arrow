@@ -7,10 +7,10 @@
  * Parses the command line arguments
  */
 
-var nomnom = require("nomnom");
 var log4js = require("log4js");
 var logger = log4js.getLogger("selenium");
 var SelLib = require('./selLib');
+var nopt = require("nopt");
 /**
  *
  * @constructor
@@ -24,33 +24,7 @@ function SelOptions() {
  */
 SelOptions.prototype.getOptions = function () {
 
-    var argv = nomnom.
-        script("arrow_selenium").
-        option('list', {
-            abbr: 'l',
-            flag: true,
-            help: 'Lists all selenium browser sessions'
-        }).
-        option('close', {
-            abbr: 'c',
-            flag: true,
-            help: ' Close all selenium controller browser sessions'
-        }).
-        option('open', {
-            abbr: 'o',
-            help: '--open=&lt;browser1[, browser2]&gt : Comma separated list of browsers to launch,' +
-                '--open=&lt;browser&gt; : browser to choose from capabilities.json --capabilities= path to capabilities.json'
-        }).
-        option('capabilities', {
-            abbr: 'p',
-            help: '--open=&lt;browser1[, browser2]&gt : Comma separated list of browsers to launch,' +
-                '--open=&lt;browser&gt; : browser to choose from capabilities.json --capabilities= path to capabilities.json' +
-                '\n Examples \n (1) arrow_selenium -o firefox -p caps.json' +
-                '\n (2) arrow_selenium -o firefox,chrome' +
-                '\n (3) arrow_selenium -c'
-        }).
-        parse();
-
+    var argv = nopt();
     return argv;
 
 };
