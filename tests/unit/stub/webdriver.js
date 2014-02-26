@@ -49,6 +49,7 @@ var By = {
     }
 };
 
+
 var Builder = function () {
 };
 
@@ -60,26 +61,40 @@ Builder.prototype.usingSession = function (id) {
     this.sessionId = id;
     return this;
 };
-Builder.prototype.withCapabilities = function () {
+Builder.prototype.withCapabilities = function (caps) {
+
+    this.caps = caps;
     return this;
 };
 Builder.prototype.build = function () {
-    return new WebDriver();
+//    return this;
+    return new WebDriver(this.sessionId, this.caps);
 };
 
 Builder.prototype.getServerUrl = function () {
     return this.host;
 };
 
-var WebDriver = function () {
+var WebDriver = function (sessionId, caps) {
     var self = this;
     this.By = By;
     this.Application = Application;
 
-    this.sessionId = 101;
+    if (sessionId) {
+        self.sessionId = sessionId;
+    } else {
+        self.sessionId = 101;
+    }
+
+    if (caps) {
+        self.caps = caps;
+    } else {
+        self.caps = {browserName: 'browser'};
+    }
+
     this.session_ = {
         then: function (cb) {
-            cb({id: self.sessionId, capabilities: {browserName: 'browser'}});
+            cb({id: self.sessionId, capabilities: self.caps});
         }
     };
 
@@ -216,10 +231,34 @@ WebDriver.prototype.quit = function () {
     };
 };
 
-WebDriver.prototype.getCapabilities = function () {
+WebDriver.prototype.getCapabilities = function (cb) {
+
+
+    var self = this;
     return {
         then: function (cb) {
-            cb({});
+
+            var Capabilities = function () {
+            };
+
+            Capabilities.prototype.set = function (caps) {
+                self.caps = caps;
+            };
+
+            Capabilities.prototype.get = function (key) {
+                var val;
+                if (self.caps.hasOwnProperty(key)) {
+                    val = self.caps[key];
+                }
+                return val;
+
+            };
+
+            self.capabilities = new Capabilities();
+            self.capabilities.set(self.caps);
+
+            cb(self.capabilities);
+
         }
     };
 }

@@ -30,7 +30,7 @@ Options
 --driver
 	selenium|phantomjs|browser. (default: phantomjs)
 --browser
-	firefox|chrome|opera|reuse.  Specify browser version with a hypen, ex.: firefox-4.0 or opera-11.0 (default: firefox)
+	firefox|chrome|opera.  Specify browser version with a hypen, ex.: firefox-4.0 or opera-11.0 (default: firefox)
 --engine
     (optional) engine is kind of which test runner you want to use according to your test case,default yui testrunner,Arrow also integrate with other test runner ,now yui,mocha,jasmine,qunit is supported
 --engineConfig
