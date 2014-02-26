@@ -1,0 +1,48 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name" : "tabview",
+
+        "commonlib" : "./test-lib.js",
+ 
+        "config" :{
+            "baseUrl" : "http://www.doctor46.com"
+        },
+
+        "dataprovider" : {
+            
+
+
+           "dom_int" : {
+                "params" : {
+                    "test" : "test-func.js",
+                    "page" : "$$config.baseUrl$$/tabview.html"
+                  },
+                "group" : "smoke"
+            },
+
+            "int" : {
+                "params" : {
+                    "test" : "test-int.js",
+                    "page" : "$$config.baseUrl$$/tabview.html"
+                },
+                "group" : "smoke"
+            },
+            "int1" : {
+                "params" : {
+                    "test" : "test-int-simple.js",
+                    "page" : "$$config.baseUrl$$/tabview.html"
+                },
+                "group" : "smoke"
+            }
+
+        }
+        
+    },
+
+    {
+        "settings": [ "environment:development" ]
+    }
+
+]

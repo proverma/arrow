@@ -1,0 +1,7 @@
+{
+    "autos.yahoo.com" : "yourhost/linux machine",
+    "yahoo.com" : {
+        "newHost" : "yourhost/linux machine"
+    }
+    }
+}

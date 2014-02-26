@@ -1,0 +1,26 @@
+    {
+    "author": "Yahoo!",
+    "name": "arrow-functional-tests",
+    "description": "Arrow Functional Tests",
+    "version": "0.0.0",
+    "homepage": "https://github.com/yahoo/arrow",
+    "repository": {
+    "type": "git",
+    "url": "https://github.com/yahoo/arrow.git"
+    },
+    "scripts": {
+        "pretest" : "rm -rf report.xml; ./arrow_commands.sh ",
+        "test": "./node_modules/.bin/nodeunit ./tests/nodeunit/test*.js --reporter junit --output report_xml"
+
+    },
+    "yahoo": {
+        "bugzilla": {
+            "product": "Lego QE Platform",
+            "component": "Arrow"
+        }
+    },
+    "engines": [ "node >=0.6" ],
+    "dependencies": {
+        "nodeunit": "*"
+    }
+}

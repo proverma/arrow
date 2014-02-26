@@ -1,0 +1,29 @@
+{
+    "router": {
+        "movie.yahoo.com": {
+            "newHost": "x.x.x.x (your new host ip/name)",
+            "headers": [
+                {
+                    "param": "<param>",
+                    "value": "<val>"
+                }
+            ],
+            "record": true
+        },
+        "login.yahoo.com": {
+            "newHost": "login.yahoo.com",
+            "headers": [
+                {
+                    "param": "user-agent",
+                    "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:20.0) Gecko/20100101 Firefox/20.0"
+                }
+            ],
+            "record": true
+        }
+    },
+    "coverage": {
+        "clientSideCoverage": true,
+        "coverageExclude": ["^http://yui.yahooapis.com.*\\.js$",".*login.yahoo.com"],
+        "timeout":5000
+    }
+}

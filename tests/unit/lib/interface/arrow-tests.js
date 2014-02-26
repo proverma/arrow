@@ -12,6 +12,7 @@ YUI.add('arrow-tests', function (Y, NAME) {
         Arrow = require(arrowRoot + '/lib/interface/arrow'),
         StubDriver = require(arrowRoot + '/tests/unit/stub/driver.js');
         controllerName = 'tests/unit/stub/controller.js';
+        controllerNameAbsolute = path.join(arrowRoot, controllerName);
         suite = new Y.Test.Suite(NAME),
         A = Y.Assert;
    
@@ -31,6 +32,15 @@ YUI.add('arrow-tests', function (Y, NAME) {
 
             arrow = new Arrow();
             arrow.runController(controllerName, {}, {param: "value"}, driver, function (errMsg, data, controller) {
+                executed = true;
+                A.isTrue(!errMsg, 'Should have successfully executed controller');
+                A.areEqual(controller.testParams.param, "value", "Controller should get the parameter");
+            });
+
+            A.isTrue(executed, 'Should have executed controller');
+            
+            executed = false;
+            arrow.runController(controllerNameAbsolute, {}, {param: "value"}, driver, function (errMsg, data, controller) {
                 executed = true;
                 A.isTrue(!errMsg, 'Should have successfully executed controller');
                 A.areEqual(controller.testParams.param, "value", "Controller should get the parameter");

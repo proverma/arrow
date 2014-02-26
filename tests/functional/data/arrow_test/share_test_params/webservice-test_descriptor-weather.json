@@ -1,0 +1,37 @@
+[
+    {
+        "settings": [ "master" ],
+        "name": "webservice controller test",
+        "config": {
+            "baseUrl": "http://login.yahoo.com"
+        },
+        "dataprovider" : {
+
+            "share testParams from webservice controller" : {
+                "group" : "func",
+                "params" :{
+                    "scenario": [
+                        {
+                            "controller": "webservice-controller",
+                            "params": {
+                                "url": "http://weather.yahooapis.com/forecastrss?p=94089"
+                            }
+                        },
+                        {
+                            "test": "../../../../../lib/common/tests/webservice-test.js",
+                            "assertStatusCode": "200",
+                            "assertHeaders": {
+                                "content-type": "text/xml;charset=UTF-8",
+                                "server": "YTS/1.20.13"
+                            },
+                            "assertPresent": ["$..xmlns:yweather", "$..title"]
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "settings": [ "environment:development" ]
+    }
+]

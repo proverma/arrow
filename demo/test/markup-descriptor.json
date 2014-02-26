@@ -1,0 +1,18 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name" : "markup-test",
+
+        "dataprovider" : {
+              "Generic Markup Test" : {
+                  "group" : "smoke",
+                  "params" : {
+                      "test" : "../../lib/common/tests/markup-test.js",
+                      "page" : "http://yahoo.github.io/debugCSS/playgrounds/accessibility.html",
+                      "warnOnly" : false
+                  }
+              }
+          }
+      }
+]

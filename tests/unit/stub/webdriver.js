@@ -1,144 +1,269 @@
 // Stub webdriver to use with several test cases
+/*jslint forin:true sub:true anon:true, sloppy:true, stupid:true nomen:true, node:true, continue:true*/
 
 /*
-* Copyright (c) 2012, Yahoo! Inc.  All rights reserved.
-* Copyrights licensed under the New BSD License.
-* See the accompanying LICENSE file for terms.
-*/
+ * Copyright (c) 2012, Yahoo! Inc. All rights reserved.
+ * Copyrights licensed under the New BSD License.
+ * See the accompanying LICENSE file for terms.
+ */
 
-var wdApp = function() {
 
-    var promise = {};
-    var Application = function () {
-        this.callbacks = {};
+
+var Application = function () {
+    this.callbacks = {};
+};
+Application.getInstance = function () {
+    return new Application();
+};
+Application.prototype.on = function (eventName, callback) {
+    this.callbacks[eventName] = callback;
+};
+Application.prototype.notify = function (eventName, data) {
+    if (this.callbacks[eventName]) {
+        this.callbacks[eventName].call(this, data);
+    }
+};
+
+var promise = {};
+promise.controlFlow = function () {
+    return new Application();
+};
+
+
+promise.createFlow = function (callback) {
+    callback();
+};
+
+var By = {
+    id: function (x) {
+        return x;
+    },
+    name: function (x) {
+        return x;
+    },
+    css: function (x) {
+        return x;
+    },
+    xpath: function (x) {
+        return x;
+    }
+};
+
+var Builder = function () {
+};
+
+Builder.prototype.usingServer = function (url) {
+    this.host = url;
+    return this;
+};
+Builder.prototype.usingSession = function (id) {
+    this.sessionId = id;
+    return this;
+};
+Builder.prototype.withCapabilities = function () {
+    return this;
+};
+Builder.prototype.build = function () {
+    return new WebDriver();
+};
+
+Builder.prototype.getServerUrl = function () {
+    return this.host;
+};
+
+var WebDriver = function () {
+    var self = this;
+    this.By = By;
+    this.Application = Application;
+
+    this.sessionId = 101;
+    this.session_ = {
+        then: function (cb) {
+            cb({id: self.sessionId, capabilities: {browserName: 'browser'}});
+        }
     };
-    promise.Application = Application;
 
-    var By = {
-        id: function () {},
-        name: function () {},
-        css: function () {},
-        xpath: function () {}
+    this.currentUrl = "about:blank";
+    this.scriptResults = [];
+    this._actions = [];
+    this.error = error;
+
+};
+
+WebDriver.prototype.manage = function() {
+
+    var mgr = function () {
+
     };
-    var WebDriver = function () {
-        var self = this;
 
-        this.By = By;
-        this.Application = Application;
+    mgr.prototype.timeouts = function () {
+        var to = function () {
 
-        this.sessionId = 101;
-        this.session_ = {
-            then: function (cb) {
-                cb({id: self.sessionId, capabilities: {browserName: 'browser'}});
-            }
+        }
+
+        to.prototype.pageLoadTimeout = function (ms) {
+            console.log("Page Load Timeout :" + ms);
+        }
+
+        to.prototype.setScriptTimeout = function (ms) {
+            console.log("Script Timeout :" + ms);
+        }
+
+        to.prototype.implicitlyWait = function (ms) {
+            console.log("implicitlyWait Timeout :" + ms);
+        }
+        return new to();
+    }
+
+    mgr.prototype.window = function(){
+        var win = function(){
+
         };
 
-        this.currentUrl = "about:blank";
-        this.scriptResults = [];
-        this.actions = [];
-    };
-    var Builder = function () {
-    };
-
-    Application.getInstance = function () {
-        return Application._instance || (Application._instance = new Application());
+        win.prototype.maximize = function(){
+            console.log("Mocked window.maximize call");
+        }
+        return new win();
     }
-    Application.prototype.on = function (eventName, callback) {
-        this.callbacks[eventName] = callback;
-    };
-    Application.prototype.notify = function (eventName, data) {
-        if (this.callbacks[eventName]) {
-            this.callbacks[eventName].call(this, data);
-        }
-    };
 
-    Builder.prototype.usingServer = function () {
-        return this;
-    };
-    Builder.prototype.usingSession = function (id) {
-        this.sessionId = id;
-        return this;
-    };
-    Builder.prototype.withCapabilities = function () {
-        return this;
-    };
-    Builder.prototype.build = function () {
-        return new WebDriver();
-    };
+    return new mgr();
 
-    WebDriver.prototype.findElement = function () {
-        var self = this;
-        return {
-            clear: function () {},
-            sendKeys: function (value) {
-                self.actions.push({ "name": "sendKeys", "value": value });
-                return {
-                    then: function (cb) { cb(); }
-                }
-            },
-            click: function (value) {
-                self.actions.push({ "name": "click" });
-                return {
-                    then: function (cb) { cb(); }
-                }
-            },
-        }
-    };
-
-    WebDriver.prototype.get = function (url) {
-        this.currentUrl = url;
-        this.actions.push({ "name": "get", "value": url });
-        return {
-            then: function (cb) { cb(); }
-        }
-    };
-
-    WebDriver.prototype.executeScript = function (script) {
-        var self = this;
-        this.actions.push({ "name": "script", "value": script });
-        return {
-            then: function (cb) { 
-                if (self.scriptResults.hasOwnProperty(script)) {
-                    cb(self.scriptResults[script]); 
-                } else {
-                    cb(''); 
-                }
-            }
-        }
-    };
-
-    WebDriver.prototype.waitForNextPage = function () {
-        return {
-            then: function (cb) { cb(); }
-        }
-    };
-
-    WebDriver.prototype.waitForElementPresent = function () {
-        return {
-            then: function (cb) { cb(); }
-        }
-    };
-
-    WebDriver.prototype.getCurrentUrl = function () {
-        var self = this;
-        return {
-            then: function (cb) {
-                cb(self.currentUrl);
-            }
-        }
-    };
-
-    WebDriver.prototype.quit = function () {
-        return {
-            then: function (cb) { cb(); }
-        }
-    };
-
-    this["promise"] = promise;
-    this["By"] = By;
-    this["Builder"] = Builder;
-    this["WebDriver"] = WebDriver;
 }
 
-module.exports = wdApp;
+WebDriver.prototype.findElement = function () {
+    var self = this;
+    return {
+        clear: function () {
+        },
+        sendKeys: function (value) {
+            self._actions.push({ "name": "sendKeys", "value": value });
+            return {
+                then: function (cb) {
+                    cb();
+                }
+            };
+        },
+        click: function (value) {
+            self._actions.push({ "name": "click" });
+            return {
+                then: function (cb) {
+                    cb();
+                }
+            };
+        }
+    };
+};
 
+WebDriver.prototype.get = function (url) {
+    this.currentUrl = url;
+    this._actions.push({ "name": "get", "value": url });
+    return {
+        then: function (cb) {
+            cb();
+        }
+    };
+};
+
+WebDriver.prototype.executeScript = function (script) {
+    var self = this;
+    this._actions.push({ "name": "script", "value": script });
+    return {
+        then: function (cb) {
+            if (self.scriptResults.hasOwnProperty(script)) {
+                cb(self.scriptResults[script]);
+            } else {
+                cb('');
+            }
+        }
+    };
+};
+
+WebDriver.prototype.waitForNextPage = function () {
+    return {
+        then: function (cb) {
+            cb();
+        }
+    };
+};
+
+WebDriver.prototype.waitForElementPresent = function () {
+    return {
+        then: function (cb) {
+            cb();
+        }
+    };
+};
+
+WebDriver.prototype.getCurrentUrl = function () {
+    var self = this, promise = {
+        then: function (cb, err) {
+            if (cb) {
+                cb(self.currentUrl);
+            } else if (err && self.error.message) {
+                err(self.error.message);
+            }
+            return promise;
+        }
+    };
+    return promise;
+};
+
+WebDriver.prototype.quit = function () {
+    return {
+        then: function (cb) {
+            cb();
+        }
+    };
+};
+
+WebDriver.prototype.getCapabilities = function () {
+    return {
+        then: function (cb) {
+            cb({});
+        }
+    };
+}
+
+WebDriver.prototype.actions = function () {
+    var self = this, promise = {
+        then: function (cb, err) {
+            if (cb) {
+                cb(self.currentUrl);
+            } else if (err && self.error.message) {
+                err(self.error.message);
+            }
+            return promise;
+        }
+    };
+    return {
+        mouseMove: function (element) {
+            return {
+                perform: function () {
+                    self._actions.push({ "name": "mouseMove.perform" });
+                    return promise;
+                }
+            };
+        }
+    };
+};
+
+WebDriver.attachToSession = function () {
+    return this;
+};
+
+WebDriver.createSession = function () {
+    return this;
+};
+
+
+var error = { message: undefined };
+
+function w(){
+
+};
+
+this.promise = promise;
+this.By = By;
+this.Builder = Builder;
+this.WebDriver = WebDriver;
+this.error = error;

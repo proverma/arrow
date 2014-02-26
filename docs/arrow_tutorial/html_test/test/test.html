@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Greeter test</title>
+
+  <script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+  <script src="../src/greeter.js"></script>
+</head>
+
+<body>
+Greeter test
+<script language="javascript">
+YUI({ useBrowserConsole: true }).use("media-greeter", "test", function(Y) {
+    //Create a basic test suite
+    //We're calling it "unit test suite"
+    var suite = new Y.Test.Suite("unit test suite");
+
+    //Add a test case to the suite; "test greet"
+    suite.add(new Y.Test.Case({
+        "test greet": function() {
+            var greeter = new Y.Media.Greeter();
+
+            //The method we are testing will inverse the firstname and lastname
+            //Our test will check for that inversion
+            Y.Assert.areEqual(greeter.greet("Joe", "Smith"), "Smith, Joe");
+        }
+    }));
+
+    Y.Test.Runner.add(suite);
+    Y.Test.Runner.run();
+});
+</script>
+
+</body>
+
+</html>

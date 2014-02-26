@@ -1,0 +1,32 @@
+[
+    {
+        "settings":[ "master" ],
+
+        "name":"controllers",
+
+        "startProxyServer" : true,
+
+        "routerProxyConfig" : "./router-extended.json",
+
+        "config":{
+            "baseUrl":"http://news.yahoo.com"
+        },
+
+        "dataprovider":{
+
+            "Test proxy Controller":{
+                "group":"func",
+                "controller":"./proxy-controller-record.js",
+                "params":{
+                    "page":"$$config.baseUrl$$",
+
+                    "test":"./test-proxy.js"
+
+                }
+            }
+        }
+    },
+    {
+        "settings":[ "environment:development" ]
+    }
+]

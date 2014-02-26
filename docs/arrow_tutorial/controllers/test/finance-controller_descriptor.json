@@ -1,0 +1,36 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name": "controllers",
+
+        "config": {
+            "baseUrl": "http://finance.yahoo.com"
+        },
+
+        "dataprovider" : {
+
+            "Test YHOO Ticker using Finance Controller" : {
+                "group" : "func",
+                "params" :{
+                    "scenario": [
+                        {
+                            "controller": "finance-controller.js",
+                            "params": {
+                                "page" : "$$config.baseUrl$$",
+                                "txtLocator": ".yucs-search-input",
+                                "typeText": "yhoo",
+                                "btnLocator": "#yucs-sprop_button",
+                                "test": "test-quote.js",
+                                "quote": "Yahoo! Inc. (YHOO)"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "settings": [ "environment:development" ]
+    }
+]

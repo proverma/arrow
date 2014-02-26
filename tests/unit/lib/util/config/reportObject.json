@@ -1,0 +1,232 @@
+{
+    "arrTestSessions": [
+        {
+            "logger": {
+                "category": "TestSession",
+                "_events": {}
+            },
+            "args": {
+                "config": {},
+                "params": {
+                    "lib": "/Users/pranavp/Documents/arrow/lib/common/yui-arrow.js,../src/greeter.js",
+                    "report": true,
+                    "argv": {
+                        "remain": [
+                            "test-greeter.js"
+                        ],
+                        "cooked": [
+                            "test-greeter.js",
+                            "--lib",
+                            "../src/greeter.js",
+                            "--report",
+                            "true"
+                        ],
+                        "original": [
+                            "test-greeter.js",
+                            "--lib=../src/greeter.js",
+                            "--report=true"
+                        ]
+                    },
+                    "test": "test-greeter.js",
+                    "page": "/Users/pranavp/Documents/arrow/lib/client/testHost.html",
+                    "customController": false
+                },
+                "testName": "Default",
+                "browser": ""
+            },
+            "config": {
+                "seleniumHost": "http://localhost:4444/wd/hub",
+                "phantomHost": "http://localhost:4445/wd/hub",
+                "context": "",
+                "defaultAppHost": "",
+                "logLevel": "INFO",
+                "browser": "firefox",
+                "parallel": false,
+                "baseUrl": "",
+                "arrowModuleRoot": "/Users/pranavp/Documents/arrow/",
+                "dimensions": "/Users/pranavp/Documents/arrow/config/dimensions.json",
+                "defaultTestHost": "/Users/pranavp/Documents/arrow/lib/client/testHost.html",
+                "defaultAppSeed": "http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js",
+                "testSeed": "/Users/pranavp/Documents/arrow/lib/client/yuitest-seed.js",
+                "testRunner": "/Users/pranavp/Documents/arrow/lib/client/yuitest-runner.js",
+                "autolib": "/Users/pranavp/Documents/arrow/lib/common",
+                "descriptorName": "test_descriptor.json",
+                "minPort": 10000,
+                "maxPort": 11000,
+                "coverage": false,
+                "coverageExclude": "",
+                "exitCode": false,
+                "retryCount": 0,
+                "keepIstanbulCoverageJson": false,
+                "color": true
+            },
+            "driverName": "nodejs",
+            "testConfig": {},
+            "retryCount": 0,
+            "testParams": {
+                "lib": "/Users/pranavp/Documents/arrow/lib/common/yui-arrow.js,../src/greeter.js",
+                "report": true,
+                "argv": {
+                    "remain": [
+                        "test-greeter.js"
+                    ],
+                    "cooked": [
+                        "test-greeter.js",
+                        "--lib",
+                        "../src/greeter.js",
+                        "--report",
+                        "true"
+                    ],
+                    "original": [
+                        "test-greeter.js",
+                        "--lib=../src/greeter.js",
+                        "--report=true"
+                    ]
+                },
+                "test": "test-greeter.js",
+                "page": "/Users/pranavp/Documents/arrow/lib/client/testHost.html",
+                "customController": false
+            },
+            "driver": {
+                "logger": {
+                    "category": "NodeDriver",
+                    "_events": {}
+                },
+                "config": {
+                    "seleniumHost": "http://localhost:4444/wd/hub",
+                    "phantomHost": "http://localhost:4445/wd/hub",
+                    "context": "",
+                    "defaultAppHost": "",
+                    "logLevel": "INFO",
+                    "browser": "firefox",
+                    "parallel": false,
+                    "baseUrl": "",
+                    "arrowModuleRoot": "/Users/pranavp/Documents/arrow/",
+                    "dimensions": "/Users/pranavp/Documents/arrow/config/dimensions.json",
+                    "defaultTestHost": "/Users/pranavp/Documents/arrow/lib/client/testHost.html",
+                    "defaultAppSeed": "http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js",
+                    "testSeed": "/Users/pranavp/Documents/arrow/lib/client/yuitest-seed.js",
+                    "testRunner": "/Users/pranavp/Documents/arrow/lib/client/yuitest-runner.js",
+                    "autolib": "/Users/pranavp/Documents/arrow/lib/common",
+                    "descriptorName": "test_descriptor.json",
+                    "minPort": 10000,
+                    "maxPort": 11000,
+                    "coverage": false,
+                    "coverageExclude": "",
+                    "exitCode": false,
+                    "retryCount": 0,
+                    "keepIstanbulCoverageJson": false,
+                    "color": true
+                },
+                "webdriver": null,
+                "testName": "Default",
+                "args": {
+                    "config": {},
+                    "params": {
+                        "lib": "/Users/pranavp/Documents/arrow/lib/common/yui-arrow.js,../src/greeter.js",
+                        "report": true,
+                        "argv": {
+                            "remain": [
+                                "test-greeter.js"
+                            ],
+                            "cooked": [
+                                "test-greeter.js",
+                                "--lib",
+                                "../src/greeter.js",
+                                "--report",
+                                "true"
+                            ],
+                            "original": [
+                                "test-greeter.js",
+                                "--lib=../src/greeter.js",
+                                "--report=true"
+                            ]
+                        },
+                        "test": "test-greeter.js",
+                        "page": "/Users/pranavp/Documents/arrow/lib/client/testHost.html",
+                        "customController": false
+                    },
+                    "testName": "Default",
+                    "browser": ""
+                },
+                "reports": {
+                    "logger": {
+                        "category": "ReportStack",
+                        "_events": {}
+                    },
+                    "report": {
+                        "results": [
+                            {
+                                "name": "Our First Test",
+                                "passed": 1,
+                                "failed": 0,
+                                "errors": 0,
+                                "ignored": 0,
+                                "total": 1,
+                                "duration": 1,
+                                "type": "report",
+                                "testCase1360302864138": {
+                                    "name": "testCase1360302864138",
+                                    "passed": 1,
+                                    "failed": 0,
+                                    "errors": 0,
+                                    "ignored": 0,
+                                    "total": 1,
+                                    "duration": 0,
+                                    "type": "testcase",
+                                    "test greet": {
+                                        "result": "pass",
+                                        "message": "Test passed",
+                                        "type": "test",
+                                        "name": "test greet",
+                                        "duration": 0
+                                    }
+                                },
+                                "timestamp": "Thu Feb 07 2013 21:54:24 GMT-0800 (PST)",
+                                "ua": "nodejs"
+                            }
+                        ]
+                    },
+                    "stkReportAtom": [
+                        {
+                            "results": [
+                                {
+                                    "name": "Our First Test",
+                                    "passed": 1,
+                                    "failed": 0,
+                                    "errors": 0,
+                                    "ignored": 0,
+                                    "total": 1,
+                                    "duration": 1,
+                                    "type": "report",
+                                    "testCase1360302864138": {
+                                        "name": "testCase1360302864138",
+                                        "passed": 1,
+                                        "failed": 0,
+                                        "errors": 0,
+                                        "ignored": 0,
+                                        "total": 1,
+                                        "duration": 0,
+                                        "type": "testcase",
+                                        "test greet": {
+                                            "result": "pass",
+                                            "message": "Test passed",
+                                            "type": "test",
+                                            "name": "test greet",
+                                            "duration": 0
+                                        }
+                                    },
+                                    "timestamp": "Thu Feb 07 2013 21:54:24 GMT-0800 (PST)",
+                                    "ua": "nodejs"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "arrowServerBase": ""
+            }
+        }
+    ],
+    "arrWDSessions": [],
+    "reportFolder": "./config/reportFolder"
+}
