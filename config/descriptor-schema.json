@@ -11,9 +11,25 @@
         "config" : {
             "type" : "object"
         },
+
         "importDescriptor":{
-            "type":"object"
+            "type":"array",
+            "items":[
+                {
+                    "path":"Path of the imported file",
+                    "type":"string"
+                },
+                {
+                    "group":"Group of tests to import",
+                    "type":"string"
+                },
+                {
+                    "testName":"test names to import",
+                    "type":"array"
+                }
+            ]
         },
+
         "dataprovider" : {
                 "type":"object",
                 "required":true,
