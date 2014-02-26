@@ -11,6 +11,9 @@
         "config" : {
             "type" : "object"
         },
+        "importDescriptor":{
+            "type":"object"
+        },
         "dataprovider" : {
                 "type":"object",
                 "required":true,
