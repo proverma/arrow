@@ -1,0 +1,44 @@
+[
+    {
+        "settings": [ "master" ],
+        "name" : "tabview",
+        "commonlib" : "./test-lib.js",
+        "config" :{
+            "baseUrl" : "my.com",
+            "testsValue": "sometest.js"
+        },
+
+        "importDescriptor":[
+            {
+                "path" : "./importDescriptor.json",
+                "importGroup":"smoke"
+            }
+        ],
+
+        "dataprovider" : {
+
+            "base test 1" : {
+                "params" : {
+                    "test" : "test-func.js",
+                    "page" : "testMock.html"
+                },
+                "group" : "unit"
+            },
+
+            "base test 2" : {
+                "params" : {
+                    "test" : "$$config.testsValue$$",
+                    "page" : "$$config.baseUrl$$/testMock.html"
+                },
+                "group" : "func"
+            }
+       }
+    },
+    {
+        "settings": [ "environment:development" ],
+
+        "config" :{
+            "baseUrl" : "http://dimensions.url.override.com"
+        }
+    }
+]

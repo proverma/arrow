@@ -20,11 +20,11 @@
                     "type":"string"
                 },
                 {
-                    "group":"Group of tests to import",
+                    "importGroup":"Group of tests to import",
                     "type":"string"
                 },
                 {
-                    "testName":"test names to import",
+                    "importTest":"test names to import",
                     "type":"array"
                 }
             ]

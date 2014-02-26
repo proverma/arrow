@@ -1,0 +1,35 @@
+[
+    {
+        "settings":[ "master" ],
+
+        "name":"controllers",
+
+        "config":{
+            "baseUrl":"http://finance.yahoo.com"
+        },
+
+        "dataprovider":{
+
+            "imported test 1":{
+                "group":"func",
+                "params":{
+                    "page":"$$config.baseUrl$$",
+                    "test":"test.js"
+                }
+            },
+
+            "imported test 2":{
+                "group":"smoke",
+                "params":{
+                    "page":"$$config.baseUrl$$",
+                    "test":"test.js"
+                }
+            }
+
+        }
+    },
+    {
+        "settings":[ "environment:development" ]
+    }
+]
+
