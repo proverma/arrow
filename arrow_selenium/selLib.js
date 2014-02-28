@@ -390,7 +390,6 @@ SelLib.prototype.open = function (browsers, capabilities, cb) {
                     }
                 });
 
-
             });
 
         }
