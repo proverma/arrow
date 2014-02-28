@@ -139,24 +139,22 @@ SelLib.prototype.getBrowserInfo = function(browser) {
 
 /**
  *
- * @param capabilities
  * @param browser
- * @returns capability object based on pass capabilities and browser
+ * @param capsPath - Path of the capabilities file
+ * @returns  - capability object based on pass capabilities and browser
  */
-SelLib.prototype.getCapabilityObject = function(capabilities, browser) {
+SelLib.prototype.getCapabilityObject = function(browser, capsPath) {
 
     var
         self = this,
         cm,
-        browserInfo;
+        browserInfo,
+        capabilities;
 
     browserInfo = self.getBrowserInfo(browser);
 
     // If user has passed capabilities
-    if (capabilities) {
-
-        console.log('****Capabilities::' + capabilities);
-        console.log('****browser::' + browser);
+    if (capsPath) {
 
         if (!browserInfo.browserName) {
             logger.fatal("No Browser is specified");
@@ -164,18 +162,12 @@ SelLib.prototype.getCapabilityObject = function(capabilities, browser) {
         }
 
         cm = new CapabilityManager();
-        capabilities = cm.getCapability(capabilities, browser);
+        capabilities = cm.getCapability(capsPath, browser);
 
         if (capabilities === null) {
-            logger.fatal("Capability " + capabilities + " does not contain related information for " + browserInfo.browserName);
+            logger.fatal("Capability in " + capsPath + " does not contain related information for " + browserInfo.browserName);
             process.exit(1);
         }
-
-        // Set default values for capabilities, if not passed by user
-        capabilities.version = browserInfo.browserVersion ? browserInfo.browserVersion : "latest";
-        capabilities.platform = capabilities.platform ? capabilities.platform : "ANY";
-        capabilities.javascriptEnabled = capabilities.javascriptEnabled ? capabilities.javascriptEnabled : true;
-        capabilities.seleniumProtocol = capabilities.seleniumProtocol ? capabilities.seleniumProtocol : "WebDriver";
 
     } else {
         // default capabilities
@@ -222,11 +214,11 @@ SelLib.prototype.openBrowsers = function(browserList, openBrowserList, capabilit
         } else {
             logger.info('Opening browser..' + browserToOpen);
 
-            if (capabilities) {
+            if (capabilities) { // Pass the browser as it is as passed by the user
                 console.log('***Capabilities XX:: ' + browser);
-                caps = self.getCapabilityObject(capabilities, browser);
+                caps = self.getCapabilityObject(browser, capabilities);
             } else {
-                caps = self.getCapabilityObject(capabilities, browserToOpen);
+                caps = self.getCapabilityObject(browserToOpen);
             }
 
             logger.info('Capabilities::' + JSON.stringify(caps));
@@ -385,12 +377,6 @@ SelLib.prototype.open = function (browsers, capabilities, cb) {
         } else {
             var browserList = browsers.split(","),
                 openBrowserList = [];
-
-            // If browser is reuse and no sessions found, exit
-//            if (browserList.indexOf("reuse") > -1 && ( !arrSessions || arrSessions.length === 0) ){
-//                logger.fatal("No active sessions found. Please use --reuseSession=true to create sessions automatically.");
-//                process.exit(1);
-//            }
 
             if (arrSessions) {
                 logger.info("Found " + arrSessions.length + " browsers.");
