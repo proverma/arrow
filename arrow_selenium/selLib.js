@@ -215,7 +215,6 @@ SelLib.prototype.openBrowsers = function(browserList, openBrowserList, capabilit
             logger.info('Opening browser..' + browserToOpen);
 
             if (capabilities) { // Pass the browser as it is as passed by the user
-                console.log('***Capabilities XX:: ' + browser);
                 caps = self.getCapabilityObject(browser, capabilities);
             } else {
                 caps = self.getCapabilityObject(browserToOpen);
