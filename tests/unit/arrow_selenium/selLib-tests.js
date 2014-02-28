@@ -44,7 +44,7 @@ YUI.add('selLib-tests', function (Y, NAME) {
             caps = selLib.getCapabilityObject(path.join(arrowRoot, "/tests/unit/arrow_selenium/caps.json"), "firefox");
 
             A.isNotNull(caps, "Caps is null");
-            A.areEqual("{\"browserName\":\"firefox\",\"version\":\"\",\"platform\":\"ANY\",\"javascriptEnabled\":true}", JSON.stringify(caps), 'Capability doesnt match');
+            A.areEqual("{\"browserName\":\"firefox\",\"version\":\"latest\",\"platform\":\"ANY\",\"javascriptEnabled\":true,\"seleniumProtocol\":\"WebDriver\"}", JSON.stringify(caps), 'Capability doesnt match');
         },
 
         'test get browser info': function () {

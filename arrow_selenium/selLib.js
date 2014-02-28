@@ -170,6 +170,13 @@ SelLib.prototype.getCapabilityObject = function(capabilities, browser) {
             logger.fatal("Capability " + capabilities + " does not contain related information for " + browserInfo.browserName);
             process.exit(1);
         }
+
+        // Set default values for capabilities, if not passed by user
+        capabilities.version = browserInfo.browserVersion ? browserInfo.browserVersion : "latest";
+        capabilities.platform = capabilities.platform ? capabilities.platform : "ANY";
+        capabilities.javascriptEnabled = capabilities.javascriptEnabled ? capabilities.javascriptEnabled : true;
+        capabilities.seleniumProtocol = capabilities.seleniumProtocol ? capabilities.seleniumProtocol : "WebDriver";
+
     } else {
         // default capabilities
         capabilities = {
