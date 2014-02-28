@@ -156,7 +156,7 @@ SelLib.prototype.getCapabilityObject = function(capabilities, browser) {
     if (capabilities) {
 
         console.log('****Capabilities::' + capabilities);
-        console.log('****browserInfo.browserName::' + browserInfo.browserName);
+        console.log('****browser::' + browser);
 
         if (!browserInfo.browserName) {
             logger.fatal("No Browser is specified");
@@ -164,7 +164,7 @@ SelLib.prototype.getCapabilityObject = function(capabilities, browser) {
         }
 
         cm = new CapabilityManager();
-        capabilities = cm.getCapability(capabilities, browserInfo.browserName);
+        capabilities = cm.getCapability(capabilities, browser);
 
         if (capabilities === null) {
             logger.fatal("Capability " + capabilities + " does not contain related information for " + browserInfo.browserName);
@@ -222,7 +222,13 @@ SelLib.prototype.openBrowsers = function(browserList, openBrowserList, capabilit
         } else {
             logger.info('Opening browser..' + browserToOpen);
 
-            caps = self.getCapabilityObject(capabilities, browserToOpen);
+            if (capabilities) {
+                console.log('***Capabilities XX:: ' + browser);
+                caps = self.getCapabilityObject(capabilities, browser);
+            } else {
+                caps = self.getCapabilityObject(capabilities, browserToOpen);
+            }
+
             logger.info('Capabilities::' + JSON.stringify(caps));
 
             // Build webdriver object
@@ -381,33 +387,24 @@ SelLib.prototype.open = function (browsers, capabilities, cb) {
                 openBrowserList = [];
 
             // If browser is reuse and no sessions found, exit
-            if (browserList.indexOf("reuse") > -1 && ( !arrSessions || arrSessions.length === 0) ){
-                logger.fatal("No active sessions found. Please use --reuseSession=true to create sessions automatically.");
-                process.exit(1);
-            }
+//            if (browserList.indexOf("reuse") > -1 && ( !arrSessions || arrSessions.length === 0) ){
+//                logger.fatal("No active sessions found. Please use --reuseSession=true to create sessions automatically.");
+//                process.exit(1);
+//            }
 
             if (arrSessions) {
                 logger.info("Found " + arrSessions.length + " browsers.");
             }
             self.getListOfOpenBrowsers(arrSessions, openBrowserList, function(openBrowserList) {
 
-                if (browserList.indexOf("reuse") > -1) {
+                self.openBrowsers(browserList, openBrowserList, capabilities, function() {
+                    logger.info('Done opening all browsers...' + browsers.split(","));
 
                     if (cb) {
                         cb();
                     }
+                });
 
-                }
-                else {
-                    self.openBrowsers(browserList, openBrowserList, capabilities, function() {
-                        logger.info('Done opening all browsers...' + browsers.split(","));
-
-                        if (cb) {
-                            cb();
-                        }
-                    });
-
-                }
 
             });
 
