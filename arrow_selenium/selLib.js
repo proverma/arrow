@@ -370,18 +370,34 @@ SelLib.prototype.open = function (browsers, capabilities, cb) {
             var browserList = browsers.split(","),
                 openBrowserList = [];
 
+            // If browser is reuse and no sessions found, exit
+            if (browserList.indexOf("reuse") > -1 && ( !arrSessions || arrSessions.length === 0) ){
+                logger.fatal("No active sessions found. Please use --reuseSession=true to create sessions automatically.");
+                process.exit(1);
+            }
+
             if (arrSessions) {
                 logger.info("Found " + arrSessions.length + " browsers.");
             }
             self.getListOfOpenBrowsers(arrSessions, openBrowserList, function(openBrowserList) {
 
-                self.openBrowsers(browserList, openBrowserList, capabilities, function() {
-                    logger.info('Done opening all browsers...' + browsers.split(","));
+                if (browserList.indexOf("reuse") > -1) {
 
                     if (cb) {
                         cb();
                     }
-                });
+
+                }
+                else {
+                    self.openBrowsers(browserList, openBrowserList, capabilities, function() {
+                        logger.info('Done opening all browsers...' + browsers.split(","));
+
+                        if (cb) {
+                            cb();
+                        }
+                    });
+
+                }
 
             });
 
