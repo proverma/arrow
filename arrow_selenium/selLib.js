@@ -165,7 +165,7 @@ SelLib.prototype.getCapabilityObject = function(browser, capsPath) {
         capabilities = cm.getCapability(capsPath, browser);
 
         if (capabilities === null) {
-            logger.fatal("Capabilities object in " + capsPath + " does not contain property for " + browser);
+            logger.fatal("Capabilities object in " + capsPath + " does not contain property named " + browser);
             process.exit(1);
         }
 
