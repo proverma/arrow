@@ -29,19 +29,19 @@ YUI.add('selLib-tests', function (Y, NAME) {
 
     suite.add(new Y.Test.Case({
 
-//
+
         'test get capability object': function () {
 
             var
                 caps,
                 selLib = new SelLib();
 
-            caps = selLib.getCapabilityObject(null, "firefox");
+            caps = selLib.getCapabilityObject("firefox",null);
 
             A.isNotNull(caps, "Caps is null");
             A.areEqual("{\"browserName\":\"firefox\",\"version\":\"\",\"platform\":\"ANY\",\"javascriptEnabled\":true}", JSON.stringify(caps), 'Capability doesnt match');
 
-            caps = selLib.getCapabilityObject(path.join(arrowRoot, "/tests/unit/arrow_selenium/caps.json"), "firefox");
+            caps = selLib.getCapabilityObject("firefox", path.join(arrowRoot, "/tests/unit/arrow_selenium/caps.json"));
 
             A.isNotNull(caps, "Caps is null");
             A.areEqual("{\"browserName\":\"firefox\",\"version\":\"\",\"platform\":\"ANY\",\"javascriptEnabled\":true}", JSON.stringify(caps), 'Capability doesnt match');

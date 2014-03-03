@@ -117,6 +117,36 @@ YUI.add('testsession-tests', function (Y) {
 
     suite.add(new Y.Test.Case({
 
+        name : "Check isMobile method with various browserName",
+
+        testIsMobile: function(){
+            var ts = new testSession({},{},null),
+                arrow = new StubArrow();
+
+            Arrow.instance = arrow;
+
+            A.isTrue(ts.isMobile("iphone"));
+        },
+        testIsMobileWithBadParam: function(){
+            var ts = new testSession({},{},null),
+                arrow = new StubArrow();
+
+            Arrow.instance = arrow;
+
+            A.isFalse(ts.isMobile("invalid-browser-name"));
+        },
+        testIsMobileWithDesktopBrowser: function(){
+            var ts = new testSession({},{},null),
+                arrow = new StubArrow();
+
+            Arrow.instance = arrow;
+
+            A.isFalse(ts.isMobile("firefox"));
+        }
+    }));
+
+    suite.add(new Y.Test.Case({
+
         name : "Get Artifact Paths test with report Folder",
 
         "test GetArtifactPaths Test with report folder": function(){

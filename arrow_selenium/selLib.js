@@ -139,21 +139,22 @@ SelLib.prototype.getBrowserInfo = function(browser) {
 
 /**
  *
- * @param capabilities
  * @param browser
- * @returns capability object based on pass capabilities and browser
+ * @param capsPath - Path of the capabilities file
+ * @returns  - capability object based on pass capabilities and browser
  */
-SelLib.prototype.getCapabilityObject = function(capabilities, browser) {
+SelLib.prototype.getCapabilityObject = function(browser, capsPath) {
 
     var
         self = this,
         cm,
-        browserInfo;
+        browserInfo,
+        capabilities;
 
     browserInfo = self.getBrowserInfo(browser);
 
     // If user has passed capabilities
-    if (capabilities) {
+    if (capsPath) {
 
         if (!browserInfo.browserName) {
             logger.fatal("No Browser is specified");
@@ -161,12 +162,13 @@ SelLib.prototype.getCapabilityObject = function(capabilities, browser) {
         }
 
         cm = new CapabilityManager();
-        capabilities = cm.getCapability(capabilities, browserInfo.browserName);
+        capabilities = cm.getCapability(capsPath, browser);
 
         if (capabilities === null) {
-            logger.fatal("Capability " + capabilities + " does not contain related information for " + browserInfo.browserName);
+            logger.fatal("Capabilities object in " + capsPath + " does not contain property named " + browser);
             process.exit(1);
         }
+
     } else {
         // default capabilities
         capabilities = {
@@ -212,7 +214,12 @@ SelLib.prototype.openBrowsers = function(browserList, openBrowserList, capabilit
         } else {
             logger.info('Opening browser..' + browserToOpen);
 
-            caps = self.getCapabilityObject(capabilities, browserToOpen);
+            if (capabilities) { // Pass the browser as it is as passed by the user
+                caps = self.getCapabilityObject(browser, capabilities);
+            } else {
+                caps = self.getCapabilityObject(browserToOpen);
+            }
+
             logger.info('Capabilities::' + JSON.stringify(caps));
 
             // Build webdriver object
