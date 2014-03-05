@@ -22,7 +22,7 @@ YUI.add('sessionfactory-tests', function (Y) {
         name : "Check Constructor",
 
         testConstructor: function() {
-            var ss = new SessionFactory({"browser": "firefox"}, { "group": "smoke", "testName": "SuperTest"});
+            var ss = new SessionFactory({}, { "group": "smoke", "testName": "SuperTest","browser": "firefox"});
             A.areEqual(ss.browser, "firefox", "browserName should be 'firefox'");
             A.areEqual(ss.group, "smoke", "browserName should be 'smoke'");
             A.areEqual(ss.testName, "SuperTest", "browserName should be 'SuperTest'");
@@ -67,7 +67,7 @@ YUI.add('sessionfactory-tests', function (Y) {
         name : "Call getBrowser with multiple browser but no matching session browser",
 
         testGetBrowserWithMultipleBrowserNoMatchingSessionBrowser: function() {
-            var ss = new SessionFactory({"browser" : "opera"}, {}),
+            var ss = new SessionFactory({}, {"browser" : "opera"}),
                 b = ss.getBrowsers({"browser" : "firefox,chrome"});
             A.areEqual(b.join(), "", "Browser names should be empty string");
         }
@@ -78,7 +78,7 @@ YUI.add('sessionfactory-tests', function (Y) {
         name : "Call getBrowser with multiple browser but with one matching session browser",
 
         testGetBrowserWithMultipleBrowserWithOneMatchingSessionBrowser: function() {
-            var ss = new SessionFactory({"browser" : "chrome"}, {}),
+            var ss = new SessionFactory({}, {"browser" : "chrome"}),
                 b = ss.getBrowsers({"browser" : "firefox,chrome"});
             A.areEqual(b.join(), "chrome", "One Browser name should be returned");
         }
