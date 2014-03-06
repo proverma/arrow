@@ -1,0 +1,20 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name" : "markup-test",
+
+        "dataprovider" : {
+              "Generic Markup Test" : {
+                  "group" : "smoke",
+                  "params" : {
+                      "test" : "../../../lib/common/tests/markup-test-mocha.js",
+                      "page" : "http://yahoo.github.io/debugCSS/playgrounds/accessibility.html",
+                      "engine" : "mocha",
+                      "engineConfig" : "./mocha-config.json",
+                      "warnOnly" : false
+                  }
+              }
+          }
+      }
+]

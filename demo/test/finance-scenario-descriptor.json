@@ -9,9 +9,12 @@
         },
 
         "dataprovider" : {
+
             "Test YHOO Ticker" : {
                 "group" : "func",
+
                 "params" :{
+
                     "scenario": [
                         {
                             "page": "$$config.baseUrl$$"
@@ -20,14 +23,7 @@
                             "controller": "locator",
                             "params": {
                                 "value": "#txtQuotes",
-                                "text": "yhoo"
-                            }
-                        },
-                        {
-                            "controller": "locator",
-                            "params": {
-                                "value": "#btnQuotes",
-                                "click": true
+                                "text": "yhoo\n"
                             }
                         },
                         {
@@ -36,6 +32,7 @@
                         }
                     ]
                 }
+
             }
         }
     },

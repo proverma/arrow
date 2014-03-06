@@ -9,12 +9,25 @@ YUI.add('selenium-tests', function (Y, NAME) {
     var path = require('path'),
         mockery = require('mockery'),
         arrowRoot = path.join(__dirname, '../../../..'),
-        DriverClass = require(arrowRoot + '/lib/driver/selenium.js'),
-        CapabilityManagerClass = require(arrowRoot + '/lib/util/capabilitymanager.js'),
         suite = new Y.Test.Suite(NAME),
-        A = Y.Assert;
+        A = Y.Assert,
+        DriverClass,
+        CapabilityManagerClass;
 
-    DriverClass.wdAppPath = arrowRoot + '/tests/unit/stub/webdriver.js';
+    //DriverClass.wdAppPath = arrowRoot + '/tests/unit/stub/webdriver.js';
+    suite.setUp = function () {
+        var wdMock = require(arrowRoot + '/tests/unit/stub/webdriver');
+        mockery.registerMock('../util/wd-wrapper', wdMock);
+        mockery.enable();
+        DriverClass = require(arrowRoot + '/lib/driver/selenium.js');
+        CapabilityManagerClass = require(arrowRoot + '/lib/util/capabilitymanager.js');
+
+    };
+
+    suite.tearDown = function () {
+        mockery.disable();
+        mockery.deregisterAll();
+    };
 
     suite.add(new Y.Test.Case({
 
@@ -225,14 +238,13 @@ YUI.add('selenium-tests', function (Y, NAME) {
             driver.start(function (errMsg) {
                 var webdriver = driver.getWebDriver();
                 webdriver.scriptResults['return ARROW.testReport;'] = '{"name": "functest", "failed": 0, "passed": 0}';
-
                 driver.executeTest({}, {page: 'http://page', test: 'test.js', customController: false}, function (errMsg) {
-                    console.log(errMsg);
                     executed = !errMsg;
                     validate();
                 });
             });
         },
+
 
         'test execute with no page load': function () {
             var self = this,
@@ -351,10 +363,11 @@ YUI.add('selenium-tests', function (Y, NAME) {
         'test getArrowServerBase': function () {
             var self = this,
                 driver,
-                config = {browser: 'mybrowser', seleniumHost: 'http://wdhub'},
+                config = {},
+                args = {browser: 'mybrowser', seleniumHost: 'http://wdhub'},
                 executed = false;
 
-            driver = new DriverClass(config, {});
+            driver = new DriverClass(config, args);
             A.isFalse(driver.getArrowServerBase(), "When Arrow Server is not running, getArrowServerBase should return false");
         },
 
@@ -492,8 +505,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
                         driverjs.indexOf("/tests/unit/lib/driver/config/libs/lib-three.js") != -1);
             });
 
-            mockery.disable();
-            mockery.deregisterAll();
+
 
         },
 

@@ -25,10 +25,10 @@ YUI.add('wdsession-tests', function (Y) {
             Y.log(port);
             var wds = new wdSession({"seleniumHost" :"http://localhost:" + port + "/wd/hub"}),
                 test = this;
-            wds.getSessions(this, function (error, self, arrSessions) {
+            wds.getSessions(function (error) {
                 A.areEqual(error.toString(),"connect ECONNREFUSED", "Error should be 'connect ECONNREFUSED'");
                 test.resume();
-            });
+            },true);
             this.wait(5000);
         }
     }));
@@ -43,7 +43,7 @@ YUI.add('wdsession-tests', function (Y) {
             var wds = new wdSession({"seleniumHost" :"http://localhost:" + port + "/wd/hub"}),
                 test = this;
 
-            wds.getSessions(test, function (error, self, arrSessions) {
+            wds.getSessions(function (error) {
                 A.areEqual(error.toString(),"Error : No active selenium session found", "Error should be 'Error : No active selenium session found'");
                 test.resume();
                 test.server.stopServer();
@@ -63,7 +63,7 @@ YUI.add('wdsession-tests', function (Y) {
             var wds = new wdSession({"seleniumHost" :"http://localhost:" + port + "/wd/hub"}),
                 test = this;
 
-            wds.getSessions(test, function (error, self, arrSessions) {
+            wds.getSessions(function (error, arrSessions) {
                 A.isNull(error);
                 A.areEqual(arrSessions.length, 1, " There should be only one session id returned");
                 A.areEqual(arrSessions[0], 1000000000000, "Session ID value should be 1000000000000");
@@ -71,7 +71,7 @@ YUI.add('wdsession-tests', function (Y) {
                 Y.log(arrSessions);
                 test.resume();
                 test.server.stopServer();
-            });
+            }, true);
             this.wait(5000);
         }
     }));
@@ -87,7 +87,7 @@ YUI.add('wdsession-tests', function (Y) {
             var wds = new wdSession({"seleniumHost" :"http://localhost:" + port + "/wd/hub"}),
                 test = this;
 
-            wds.getSessions(test, function (error, self, arrSessions) {
+            wds.getSessions(function (error, arrSessions) {
 
                 A.isNull(error);
                 A.areEqual(arrSessions.length, 5, " There should be only one session id returned");

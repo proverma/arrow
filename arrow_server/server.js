@@ -19,7 +19,7 @@ var express = require("express");
 var log4js = require("log4js");
 var portchecker = require('../ext-lib/portchecker');
 
-log4js.setGlobalLogLevel("INFO");
+log4js.setGlobalLogLevel("ERROR");
 var logger = log4js.getLogger("ArrowServer");
 
 var debug = false;
@@ -76,7 +76,7 @@ if (parsed["debug"]) {
 }
 
 var app = express();
-app.use(express.logger());
+app.use(log4js.connectLogger(logger));
 app.use(express.cookieParser());
 app.use(express.bodyParser());
 

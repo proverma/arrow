@@ -454,66 +454,66 @@ YUI.add('errormanager-tests', function(Y) {
             mockery.disable();
             mockery.deregisterAll();
         },
-        'SeleniumDriver should handle error "Issue with loading page"': function() {
-            var started = false, DriverClass = require(arrowRoot+'/lib/driver/selenium.js'),
-            callback = function (errMsg) {
-                started = true;
-                Y.Assert.isNull(errMsg, 'Should have no error message');
-            };
-            DriverClass.wdAppPath = arrowRoot + '/tests/unit/stub/webdriver.js';
-            seleniumDriver = new DriverClass({browser: 'mybrowser', seleniumHost: 'http://wdhub'}, {});
-            seleniumDriver.mock = mocks;
-            seleniumDriver.start(callback);
-            Y.Assert.isTrue(started, 'Should have started driver');
-            msg[1002].name = 'EREPORTEST';
-            msg[1004].name = "EUNDEFTEST";
-            try {
-                throw new Error("Issue with loading testing page");
-            } catch(e) {
-                callback = function (errMsg) {
-                    started = true;
-
-                    Y.Assert.areSame('Error: Issue with loading testing page',errMsg);
+//        'SeleniumDriver should handle error "Issue with loading page"': function() {
+//            var started = false, DriverClass = require(arrowRoot+'/lib/driver/selenium.js'),
+//            callback = function (errMsg) {
+//                started = true;
+//                Y.Assert.isNull(errMsg, 'Should have no error message');
+//            };
+//            DriverClass.wdAppPath = arrowRoot + '/tests/unit/stub/webdriver.js';
+//            seleniumDriver = new DriverClass({browser: 'mybrowser', seleniumHost: 'http://wdhub'}, {});
+//            seleniumDriver.mock = mocks;
+//            seleniumDriver.start(callback);
+//            Y.Assert.isTrue(started, 'Should have started driver');
+//            msg[1002].name = 'EREPORTEST';
+//            msg[1004].name = "EUNDEFTEST";
+//            try {
+//                throw new Error("Issue with loading testing page");
+//            } catch(e) {
+//                callback = function (errMsg) {
+//                    started = true;
+//
+//                    Y.Assert.areSame('Error: Issue with loading testing page',errMsg);
+////                    Y.Assert.areSame(
+////                        '1004 (EUNDEFTEST) Issue with loading testing page about:blank\n' +
+////                            'Possible cause :\n' +
+////                            'The page got redirected before completing the test, this happens if your page has auto-redirects ' +
+////                            'or your tests perform some UI action resulting into page change event. Please use a custom controller for these kind of issues.\n' +
+////                            'If you are already using custom controller, please check that you are using waitForElement(s) to ensure page is ready for executing test.\n' +
+////                            'For Arrow Usage, please refer to https://github.com/yahoo/arrow/blob/master/docs/arrow_cookbook/README.rst',
+////                        errMsg);
+//                };
+//                started = false;
+//                seleniumDriver.errorCheck(e, callback);
+//                Y.Assert.isTrue(started, 'Should callback with error message');
+//            }
+//            try {
+//                throw new Error("ECONNREFUSED");
+//            } catch(e) {
+//                callback = function (errMsg) {
+//                    started = true;
 //                    Y.Assert.areSame(
-//                        '1004 (EUNDEFTEST) Issue with loading testing page about:blank\n' +
-//                            'Possible cause :\n' +
-//                            'The page got redirected before completing the test, this happens if your page has auto-redirects ' +
-//                            'or your tests perform some UI action resulting into page change event. Please use a custom controller for these kind of issues.\n' +
-//                            'If you are already using custom controller, please check that you are using waitForElement(s) to ensure page is ready for executing test.\n' +
-//                            'For Arrow Usage, please refer to https://github.com/yahoo/arrow/blob/master/docs/arrow_cookbook/README.rst',
+//                        '1002 (EREPORTEST) Error: ECONNREFUSED while collecting test result on testing page "page URL is not available".\n',
 //                        errMsg);
-                };
-                started = false;
-                seleniumDriver.errorCheck(e, callback);
-                Y.Assert.isTrue(started, 'Should callback with error message');
-            }
-            try {
-                throw new Error("ECONNREFUSED");
-            } catch(e) {
-                callback = function (errMsg) {
-                    started = true;
-                    Y.Assert.areSame(
-                        '1002 (EREPORTEST) Error: ECONNREFUSED while collecting test result on testing page "page URL is not available".\n',
-                        errMsg);
-                };
-                started = false;
-                seleniumDriver.errorCheck(e, callback);
-                Y.Assert.isTrue(started, 'Should callback with error message');
-            }
-            try {
-                throw new Error("This error message should be unknown to error manager.\nThis is second line.");
-            } catch(e) {
-                callback = function (errMsg) {
-                    started = true;
-                    Y.Assert.areSame(
-                        'Error: This error message should be unknown to error manager.\nThis is second line.',
-                        errMsg);
-                };
-                started = false;
-                seleniumDriver.errorCheck(e, callback);
-                Y.Assert.isTrue(started, 'Should callback with error message');
-            }
-        }
+//                };
+//                started = false;
+//                seleniumDriver.errorCheck(e, callback);
+//                Y.Assert.isTrue(started, 'Should callback with error message');
+//            }
+//            try {
+//                throw new Error("This error message should be unknown to error manager.\nThis is second line.");
+//            } catch(e) {
+//                callback = function (errMsg) {
+//                    started = true;
+//                    Y.Assert.areSame(
+//                        'Error: This error message should be unknown to error manager.\nThis is second line.',
+//                        errMsg);
+//                };
+//                started = false;
+//                seleniumDriver.errorCheck(e, callback);
+//                Y.Assert.isTrue(started, 'Should callback with error message');
+//            }
+//        }
     }));
 
     Y.Test.Runner.add(suite);

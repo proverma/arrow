@@ -77,7 +77,6 @@ Now you can begin. Here is a sample implementation of what such a *custom contro
               //Navigate the page as necessary
               webdriver.findElement(webdriver.By.css(txtLocator)).sendKeys(typeText);
               webdriver.findElement(webdriver.By.css(btnLocator)).click();
-              self.testParams.page=null;
               webdriver.getTitle().then(function(title) {
 
                   //Execute the test

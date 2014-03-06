@@ -7,7 +7,7 @@
 
         "startProxyServer" : true,
 
-        "routerProxyConfig" : "router.json",
+        "routerProxyConfig" : "router-extended.json",
 
         "config" :{
             "baseUrl" : "http://www.yahoo.com"

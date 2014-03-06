@@ -12,7 +12,7 @@ Arrow Usage
 --shareLibPath		comma separated list of directories to be scan for share libraries
 --page			(optional) path to the mock or production html page, for example: http://www.yahoo.com or mock.html
 --driver		(optional) selenium|phantomjs|browser, default: phantomjs
---browser		(optional) firefox|chrome|opera|reuse, default: firefox
+--browser		(optional) firefox|chrome|opera, default: firefox
 --controller	(optional) a custom controller javascript file
 --engine :      (optional) engine is kind of which test runner you want to use according to your test case,default yui testrunner,Arrow also integrate with other test runner ,now yui,mocha,jasmine,qunit is supported
 --engineConfig :(optional) the file path to config file or a config string

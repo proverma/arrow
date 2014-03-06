@@ -1,7 +1,6 @@
-
 #Arrow
 
-[![Build Status](https://secure.travis-ci.org/yahoo/arrow.png?branch=master)](http://travis-ci.org/yahoo/arrow)
+[![Build Status](https://secure.travis-ci.org/yahoo/arrow.png?branch=master)](http://travis-ci.org/yahoo/arrow)[![NPM version](https://badge.fury.io/js/yahoo-arrow.png)](http://badge.fury.io/js/yahoo-arrow)
 
 ##Overview
 
@@ -126,6 +125,8 @@ arrow --controller=custom-controller.js --driver=selenium
 
 
 ##Arrow Dependencies
+
+[![Dependency Status](https://david-dm.org/yahoo/arrow.png)](https://david-dm.org/yahoo/arrow)
 
 NPM Dependencies
 * **glob** https://github.com/isaacs/node-glob

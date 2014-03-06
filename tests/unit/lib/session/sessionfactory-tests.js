@@ -22,7 +22,7 @@ YUI.add('sessionfactory-tests', function (Y) {
         name : "Check Constructor",
 
         testConstructor: function() {
-            var ss = new SessionFactory({}, {"browser": "firefox", "group": "smoke", "testName": "SuperTest"});
+            var ss = new SessionFactory({}, { "group": "smoke", "testName": "SuperTest","browser": "firefox"});
             A.areEqual(ss.browser, "firefox", "browserName should be 'firefox'");
             A.areEqual(ss.group, "smoke", "browserName should be 'smoke'");
             A.areEqual(ss.testName, "SuperTest", "browserName should be 'SuperTest'");

@@ -1,0 +1,44 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name": "controllers",
+
+        "config": {
+            "baseUrl": "http://finance.yahoo.com"
+        },
+
+        "dataprovider" : {
+            "Test YHOO Ticker" : {
+                "group" : "func",
+                "params" :{
+
+                    "scenario": [
+                        {
+                            "page": "$$config.baseUrl$$"
+                        },
+                        {
+                            "controller": "locator",
+                            "params": {
+                                "value": "#txtQuotes",
+                                "text": "yhoo\n"
+                            }
+                        },
+                        {
+                            "test": "test-quote-mocha.js",
+                            "quote": "Yahoo! Inc. (YHOO)",
+                            "engine" : "mocha",
+                            "engineConfig" : "./mocha-config.json"
+
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "settings": [ "environment:development" ]
+    }
+
+]
+

@@ -688,7 +688,6 @@ Based on the scenario above, our test descriptor file would look like this:
            webdriver.findElement(webdriver.By.css(txtLocator)).sendKeys(typeText);
            webdriver.findElement(webdriver.By.css(btnLocator)).click();
            webdriver.waitForElementPresent(webdriver.By.css(".title")).then(function() {
-               self.testParams.page=null;
                self.driver.executeTest(self.testConfig, self.testParams, function(error, report) {
                    callback();
                });
@@ -741,7 +740,6 @@ Custom controller best practice
 
 1.    Make sure to include “var log4js = require(“yahoo-arrow”).log4js;” and “var Controller = require(“yahoo-arrow”).controller” to access yahoo-arrow.
 2.    Make sure to include “waitForElementPresent(webdriver.By.css(”.title”))” before calling the callback() to return to the test or else sometime, “ARROW is not defined” error will appear since the test try to execute before even loading the page completely.
-3.    Make sure to include “self.testParams.page=null;” if you are on the page you want to be before calling your test
 
 
 Test Engine
@@ -1308,7 +1306,7 @@ router.json
     }
  }
 
-The recorded traffic is in JSON format and can be read from the controller using self.getProxyRecord(). The record can be reset by invoking self.resetProxyRecord().
+The recorded traffic can be read from the controller using self.getProxyRecord() as a string. The record can be reset by invoking self.resetProxyRecord().
 
 Note: The proxy record is per routerProxyConfig. If multiple tests use same routerProxyConfig and the tests are run in parallel, using resetProxyRecord() might end up resetting proxy record for other test.
 
@@ -1340,7 +1338,7 @@ Example -
 
             webdriver.waitForElementPresent(webdriver.By.css(".title")).then(function() {
 
-                var record = self.getProxyRecord(); // Get the proxy record
+                var record = JSON.parse(self.getProxyRecord()); // Get the proxy record
 
                 self.testParams.proxyManagerRecord=record;
                 self.testParams.page=null;

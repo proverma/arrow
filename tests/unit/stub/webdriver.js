@@ -29,6 +29,11 @@ promise.controlFlow = function () {
     return new Application();
 };
 
+
+promise.createFlow = function (callback) {
+    callback();
+};
+
 var By = {
     id: function (x) {
         return x;
@@ -44,34 +49,52 @@ var By = {
     }
 };
 
+
 var Builder = function () {
 };
 
-Builder.prototype.usingServer = function () {
+Builder.prototype.usingServer = function (url) {
+    this.host = url;
     return this;
 };
 Builder.prototype.usingSession = function (id) {
     this.sessionId = id;
     return this;
 };
-Builder.prototype.withCapabilities = function () {
+Builder.prototype.withCapabilities = function (caps) {
+
+    this.caps = caps;
     return this;
 };
 Builder.prototype.build = function () {
-    return new WebDriver();
+//    return this;
+    return new WebDriver(this.sessionId, this.caps);
 };
 
-var error = { message: undefined };
+Builder.prototype.getServerUrl = function () {
+    return this.host;
+};
 
-var WebDriver = function () {
+var WebDriver = function (sessionId, caps) {
     var self = this;
     this.By = By;
     this.Application = Application;
 
-    this.sessionId = 101;
+    if (sessionId) {
+        self.sessionId = sessionId;
+    } else {
+        self.sessionId = 101;
+    }
+
+    if (caps) {
+        self.caps = caps;
+    } else {
+        self.caps = {browserName: 'browser'};
+    }
+
     this.session_ = {
         then: function (cb) {
-            cb({id: self.sessionId, capabilities: {browserName: 'browser'}});
+            cb({id: self.sessionId, capabilities: self.caps});
         }
     };
 
@@ -82,7 +105,7 @@ var WebDriver = function () {
 
 };
 
-WebDriver.prototype.manage = function(){
+WebDriver.prototype.manage = function() {
 
     var mgr = function () {
 
@@ -105,6 +128,17 @@ WebDriver.prototype.manage = function(){
             console.log("implicitlyWait Timeout :" + ms);
         }
         return new to();
+    }
+
+    mgr.prototype.window = function(){
+        var win = function(){
+
+        };
+
+        win.prototype.maximize = function(){
+            console.log("Mocked window.maximize call");
+        }
+        return new win();
     }
 
     return new mgr();
@@ -197,6 +231,38 @@ WebDriver.prototype.quit = function () {
     };
 };
 
+WebDriver.prototype.getCapabilities = function (cb) {
+
+
+    var self = this;
+    return {
+        then: function (cb) {
+
+            var Capabilities = function () {
+            };
+
+            Capabilities.prototype.set = function (caps) {
+                self.caps = caps;
+            };
+
+            Capabilities.prototype.get = function (key) {
+                var val;
+                if (self.caps.hasOwnProperty(key)) {
+                    val = self.caps[key];
+                }
+                return val;
+
+            };
+
+            self.capabilities = new Capabilities();
+            self.capabilities.set(self.caps);
+
+            cb(self.capabilities);
+
+        }
+    };
+}
+
 WebDriver.prototype.actions = function () {
     var self = this, promise = {
         then: function (cb, err) {
@@ -218,6 +284,21 @@ WebDriver.prototype.actions = function () {
             };
         }
     };
+};
+
+WebDriver.attachToSession = function () {
+    return this;
+};
+
+WebDriver.createSession = function () {
+    return this;
+};
+
+
+var error = { message: undefined };
+
+function w(){
+
 };
 
 this.promise = promise;

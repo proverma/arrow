@@ -1,0 +1,34 @@
+[
+    {
+        "settings":[ "master" ],
+
+        "name":"controllers",
+
+        "startProxyServer" : true,
+
+        "routerProxyConfig" : "./router-extended.json",
+
+        "config":{
+            "baseUrl":"http://news.yahoo.com"
+        },
+
+        "dataprovider":{
+
+            "Test proxy Controller":{
+                "group":"func",
+                "controller":"./proxy-controller-record-mocha.js",
+                "params":{
+                    "page":"$$config.baseUrl$$",
+                    "test":"./test-proxy-mocha.js",
+                    "engine" : "mocha",
+                    "engineConfig" : "./mocha-config.json"
+
+
+                }
+            }
+        }
+    },
+    {
+        "settings":[ "environment:development" ]
+    }
+]

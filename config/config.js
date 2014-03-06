@@ -15,6 +15,7 @@ config.logLevel = "INFO";
 config.browser = "firefox";
 config.parallel = false;
 config.baseUrl = "";
+
 // Framework config
 config.arrowModuleRoot = global.appRoot + "/";
 config.dimensions = config.arrowModuleRoot + "config/dimensions.json";
@@ -62,5 +63,10 @@ config.report = true;
 config.testTimeOut = 30000; // if test does not get over in these many ms, Arrow fails the test.
 
 config.ignoreSslErrorsPhantomJs = true;
+config.startPhantomJs = false;
+config.startArrowServer = false;
+
+config.lib = "";
+config.artifactsUrl = ""
 
 module.exports = config;
