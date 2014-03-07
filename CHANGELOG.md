@@ -1,5 +1,10 @@
 # Change Log
 
+# 0.4.0
+
+ * Support for starting reusable browser session from Arrow command
+ * Fix for Mocha test failures on on IE8.
+
 # 0.3.3
 
  * Fixed appium and android driver compatibility
