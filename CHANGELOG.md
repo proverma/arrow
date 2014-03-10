@@ -1,5 +1,12 @@
 # Change Log
 
+# 0.4.1
+
+ * Using cdnjs link for chai.js and protocol independent urls for mocha & expect
+ * Adding support for SSL proxy and adding more error event listeners for better error handling
+ * Setting nodejs back as default driver
+ * Not maximizing browsers for mobile tests
+
 # 0.4.0
 
  * Support for starting reusable browser session from Arrow command
