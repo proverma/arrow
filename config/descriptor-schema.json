@@ -44,6 +44,7 @@
                         "testTimeOut" : { "type" : "integer" },
                         "hasTest" : { "type" : "boolean" },
                         "reuseSession" : { "type" : "boolean" },
+                        "relativePath" : { "type" : "string" },
                         "params" : {"type" : "object",
                             "properties" : {
                                 "page" : { "type" : "string" },
