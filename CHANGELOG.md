@@ -1,5 +1,10 @@
 # Change Log
 
+# 0.4.2
+
+ * Turn off socket connection limiting in http.request() [ Details - https://github.com/yahoo/arrow/pull/195 ]
+ * Changing require path for executors [ Details - https://github.com/yahoo/arrow/pull/197 ]
+
 # 0.4.1
 
  * Using cdnjs link for chai.js and protocol independent urls for mocha & expect
