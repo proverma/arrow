@@ -1,5 +1,9 @@
 # Change Log
 
+# 0.4.3
+
+ * adding path method to return installed arrow directory [ Details - https://github.com/yahoo/arrow/pull/199 ]
+
 # 0.4.2
 
  * Turn off socket connection limiting in http.request() [ Details - https://github.com/yahoo/arrow/pull/195 ]
