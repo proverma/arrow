@@ -1,0 +1,25 @@
+[
+    {
+        "settings": [ "master" ],
+        "name" : "tabview",
+        "commonlib" : "./test-lib.js",
+        "config" :{
+            "baseUrl" : "my.com",
+            "testsValue": "sometest.js"
+        },
+
+        "importDescriptor":[
+            {
+                "path" : "./importDescriptor.json"
+            }
+        ]
+
+    },
+    {
+        "settings": [ "environment:development" ],
+
+        "config" :{
+            "baseUrl" : "http://dimensions.url.override.com"
+        }
+    }
+]
