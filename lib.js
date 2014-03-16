@@ -14,3 +14,7 @@ this.log4js = require('log4js');
 
 //expose classes for multiple selenium sessions creation
 this.webdrivermanager = require('./lib/util/webdrivermanager');
+
+exports.path = function() {
+    return __dirname;
+};
