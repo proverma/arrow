@@ -17,7 +17,8 @@
             "items":[
                 {
                     "path":"Path of the imported file",
-                    "type":"string"
+                    "type":"string",
+                    "required":true
                 },
                 {
                     "importGroup":"Group of tests to import",
