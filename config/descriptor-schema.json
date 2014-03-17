@@ -21,11 +21,11 @@
                     "required":true
                 },
                 {
-                    "importGroup":"Group of tests to import",
+                    "group":"Group of tests to import",
                     "type":"string"
                 },
                 {
-                    "importTest":"test names to import",
+                    "test":"test names to import",
                     "type":"array"
                 }
             ]

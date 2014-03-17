@@ -11,7 +11,7 @@
         "importDescriptor":[
             {
                 "path" : "./importDescriptor.json",
-                "importGroup":"smoke"
+                "group":"smoke"
             }
         ],
 

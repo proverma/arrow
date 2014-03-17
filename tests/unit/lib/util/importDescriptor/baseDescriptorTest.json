@@ -11,7 +11,7 @@
         "importDescriptor":[
             {
                 "path" : "./importDescriptor.json",
-                "importTest":["imported test 1"]
+                "test":["imported test 1"]
             }
 
         ],
