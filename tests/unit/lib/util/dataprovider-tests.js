@@ -15,13 +15,14 @@ YUI.add('dataprovider-tests', function (Y) {
         "dimensions": __dirname + "/dimensions.json",
         "context": ""
     };
+    var args = {};
     var fs = require("fs");
     var path = require('path'),
         arrowRoot = path.join(__dirname, '../../../..'),
         dataProv = require(arrowRoot+'/lib/util/dataprovider.js'),
         suite = new Y.Test.Suite("Data Provider test suite");
 
-    var dp = new dataProv(conf, __dirname + "/testDescriptor.json");
+    var dp = new dataProv(conf, args, __dirname + "/testDescriptor.json");
     var dpvalues = dp.getTestData();
 
     suite.add(new Y.Test.Case({
@@ -63,9 +64,10 @@ YUI.add('dataprovider-tests', function (Y) {
                 "arrowModuleRoot": __dirname + "/",
                 "dimensions": __dirname + "/dimensions.json",
                 "context": ""
-            };
+            },
+                args = {};
 
-            var dp = new dataProv(conf, __dirname + "/testDescriptor.json");
+            var dp = new dataProv(conf, args, __dirname + "/testDescriptor.json");
             var dpvalues = dp.getTestData();
 
             Y.Assert.areEqual("http://overridebase.url.com/testMock.html", dpvalues.dataprovider.test2.params.page);
@@ -83,9 +85,10 @@ YUI.add('dataprovider-tests', function (Y) {
                 "context": "environment:development",
                 "replaceParamJSON" : __dirname + "/replaceParams/replaceParam.json",
                 "defaultParamJSON" : __dirname + "/replaceParams/defaultParam.json"
-            };
+            },
+                args = {};
 
-            var dp = new dataProv(conf, __dirname + "/testDescriptor.json");
+            var dp = new dataProv(conf, args,__dirname + "/testDescriptor.json");
             var dpvalues = dp.getTestData();
 
             Y.Assert.areEqual("http://overridebase.url.com/testMock.html", dpvalues.dataprovider.test2.params.page);
@@ -96,9 +99,10 @@ YUI.add('dataprovider-tests', function (Y) {
 
     suite.add(new Y.Test.Case({
         "blank json string": function() {
-            var conf = {};
+            var conf = {},
+                args = {};
 
-            var dp = new dataProv(conf, __dirname + "/testDescriptor.json"),
+            var dp = new dataProv(conf, args,__dirname + "/testDescriptor.json"),
                 blankJson = dp.readAndValidateJSON('');
 
             Y.Assert.areEqual(blankJson, undefined);
@@ -107,9 +111,10 @@ YUI.add('dataprovider-tests', function (Y) {
 
     suite.add(new Y.Test.Case({
         "Empty json string": function() {
-            var conf = {};
+            var conf = {},
+                args = {};
 
-            var dp = new dataProv(conf, __dirname + "/testDescriptor.json"),
+            var dp = new dataProv(conf, args, __dirname + "/testDescriptor.json"),
                 emptyJson = dp.readAndValidateJSON('{}');
 
             Y.Assert.areEqual(JSON.stringify(emptyJson), '{}');
@@ -118,9 +123,10 @@ YUI.add('dataprovider-tests', function (Y) {
 
     suite.add(new Y.Test.Case({
         "Valid json string": function() {
-            var conf = {};
+            var conf = {},
+                args = {};
 
-            var dp = new dataProv(conf, __dirname + "/testDescriptor.json"),
+            var dp = new dataProv(conf, args,__dirname + "/testDescriptor.json"),
                 validJson = dp.readAndValidateJSON('{"key1":"value1","key2":"value2"}');
 
             Y.Assert.areEqual(JSON.stringify(validJson), '{"key1":"value1","key2":"value2"}');
@@ -129,9 +135,10 @@ YUI.add('dataprovider-tests', function (Y) {
 
     suite.add(new Y.Test.Case({
         "Valid json from file": function() {
-            var conf = {};
+            var conf = {},
+                args = {};
 
-            var dp = new dataProv(conf, __dirname + "/testDescriptor.json"),
+            var dp = new dataProv(conf, args,__dirname + "/testDescriptor.json"),
                 validJson = dp.readAndValidateJSON(__dirname + '/replaceParams/replaceParam.json');
 
             Y.Assert.areEqual(JSON.stringify(validJson), '{"site":"yahoo","property":"news"}');
@@ -146,9 +153,10 @@ YUI.add('dataprovider-tests', function (Y) {
                 "dimensions": __dirname + "/dimensions.json",
                 "context": "environment:development",
                 "replaceParamJSON" : __dirname + "/replaceParams/replaceParam.json"
-            };
+            },
+                args = {};
 
-            var dp = new dataProv(conf, __dirname + "/testDescriptorWithParams.json"),
+            var dp = new dataProv(conf, args,__dirname + "/testDescriptorWithParams.json"),
                 descriptorJsonStr = fs.readFileSync(__dirname + "/testDescriptorWithParams.json", "utf-8"),
                 descriptorJson = JSON.parse(descriptorJsonStr),
                 descriptorWithReplacedParams = dp.getDescriptorWithReplacedParams(descriptorJson);
@@ -170,9 +178,10 @@ YUI.add('dataprovider-tests', function (Y) {
                 "replaceParamJSON" : __dirname + "/replaceParams/replaceParam.json",
                 "defaultParamJSON" : __dirname + "/replaceParams/defaultParam.json"
 
-            };
+            },
+                args = {};
 
-            var dp = new dataProv(conf, __dirname + "/testDescriptorWithParams.json"),
+            var dp = new dataProv(conf, args, __dirname + "/testDescriptorWithParams.json"),
                 descriptorJsonStr = fs.readFileSync(__dirname + "/testDescriptorWithParams.json", "utf-8"),
                 descriptorJson = JSON.parse(descriptorJsonStr),
                 descriptorWithReplacedParams = dp.getDescriptorWithReplacedParams(descriptorJson);
@@ -193,9 +202,10 @@ YUI.add('dataprovider-tests', function (Y) {
                 "context": "environment:development",
                 "defaultParamJSON" : __dirname + "/replaceParams/defaultParam.json"
 
-            };
+            },
+                args = {};
 
-            var dp = new dataProv(conf, __dirname + "/testDescriptorWithParams.json"),
+            var dp = new dataProv(conf, args,__dirname + "/testDescriptorWithParams.json"),
                 descriptorJsonStr = fs.readFileSync(__dirname + "/testDescriptorWithParams.json", "utf-8"),
                 descriptorJson = JSON.parse(descriptorJsonStr),
                 descriptorWithReplacedParams = dp.getDescriptorWithReplacedParams(descriptorJson);
@@ -216,9 +226,10 @@ YUI.add('dataprovider-tests', function (Y) {
                 "context": "environment:development",
                 "replaceParamJSON" : __dirname + "/replaceParams/replaceParam2.json",
                 "defaultParamJSON" : __dirname + "/replaceParams/defaultParam.json"
-            };
+            },
+                args = {};
 
-            var dp = new dataProv(conf, __dirname + "/testDescriptorWithParams.json"),
+            var dp = new dataProv(conf, args,__dirname + "/testDescriptorWithParams.json"),
                 descriptorJsonStr = fs.readFileSync(__dirname + "/testDescriptorWithParams.json", "utf-8"),
                 descriptorJson = JSON.parse(descriptorJsonStr),
                 descriptorWithReplacedParams = dp.getDescriptorWithReplacedParams(descriptorJson);

@@ -1,0 +1,19 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name" : "import_test",
+
+        "config": {
+            "baseUrl": "http://finance.yahoo.com"
+        },
+
+        "importDescriptor":[
+            {
+                "path" : "../importTests/finance-descriptor.json",
+                "group":"func"
+            }
+
+        ]
+    }
+]

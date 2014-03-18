@@ -398,7 +398,7 @@ YUI.add('errormanager-tests', function(Y) {
             em.dimensionsFile = "./config/dimensions.json";
             msg[1003].name = "EDSCENVTEST";
             try {
-                dataProvider = new DataProvider({dimensions:"./config/dimensions.json"},"test-descriptor.json");
+                dataProvider = new DataProvider({dimensions:"./config/dimensions.json"},{},"test-descriptor.json");
                 dataProvider.mock = mocks;
                 dataProvider.getTestData();
             }
@@ -430,7 +430,7 @@ YUI.add('errormanager-tests', function(Y) {
                 {"settings": [ "unknown" ], "config":{}}
             ];
             try {
-                dataProvider = new DataProvider({context:"environment:testing",dimensions:"./config/dimensions.json"},"test-descriptor.json");
+                dataProvider = new DataProvider({context:"environment:testing",dimensions:"./config/dimensions.json"},{},"test-descriptor.json");
                 dataProvider.mock = mocks;
                 dataProvider.getTestData();
             }
