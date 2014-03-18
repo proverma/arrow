@@ -57,7 +57,7 @@
         "async": "~0.2.5",
         "xml2js": "0.1.14",
         "mkdirp": "0.3.5",
-        "selenium-webdriver": "2.39.0"
+        "selenium-webdriver": "2.40.0"
     },
     "optionalDependencies": {
         "mocha": "1.7.4",
