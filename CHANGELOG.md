@@ -3,7 +3,7 @@
 # 0.5.0
 
  * Adding feature to Import tests from other descriptors based test or group [ Details - https://github.com/yahoo/arrow/pull/200 ]
- * Adding support for webdriver key object and improved error messaging [ Details - https://github.com/yahoo/arrow/pull/200 ]
+ * Adding support for webdriver key object and improved error messaging [ Details - https://github.com/yahoo/arrow/pull/201 ]
 
 # 0.4.3
 
