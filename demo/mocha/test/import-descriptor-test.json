@@ -11,7 +11,7 @@
         "importDescriptor":[
             {
                 "path" : "../importTests/finance-descriptor.json",
-                "Test":["Test YHOO Ticker"]
+                "test":["Test YHOO Ticker"]
             }
 
         ],
