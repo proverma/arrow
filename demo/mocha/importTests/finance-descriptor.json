@@ -31,7 +31,32 @@
                         }
                     ]
                 }
+            },
+
+            "Test AAPL Ticker" : {
+                "group" : "smoke",
+                "params" :{
+
+                    "scenario": [
+                        {
+                            "page": "$$config.baseUrl$$"
+                        },
+                        {
+                            "controller": "locator",
+                            "params": {
+                                "value": "#txtQuotes",
+                                "text": "aapl\n"
+                            }
+                        },
+                        {
+                            "test": "../test/test-quote-mocha.js",
+                            "quote": "Apple Inc. (AAPL)"
+
+                        }
+                    ]
+                }
             }
+
         }
     },
     {
