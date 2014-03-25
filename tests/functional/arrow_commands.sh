@@ -396,4 +396,15 @@ if [ $? != 0 ]; then
 	echo "RESULT: $RESULT"
 } fi
 
+let "CNT=$CNT+1" # TEST 33
+echo "TEST$CNT: window size test"
+CMD=`$ARROWCI ./data/arrow_test/window_size_test/window_size_test.json |  tail $TAILCOUNT | head $HEADCOUNT `
+echo_and_save $CNT "$CMD"
+if [ $? != 0 ]; then
+{
+    echo "ERROR!"
+    echo "CMD: "$CMD""
+    echo "RESULT: $RESULT"
+} fi
+
 echo "===== Arrow test done! ====="
