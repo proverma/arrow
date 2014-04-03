@@ -34,7 +34,7 @@ ProxyCustomController.prototype.execute = function (callback) {
             console.log(record);
             self.testParams.proxyManagerRecord = record;
             self.driver.executeTest(self.testConfig, self.testParams, function (error, report) {
-                callback();
+                callback(error);
             });
 
         });
