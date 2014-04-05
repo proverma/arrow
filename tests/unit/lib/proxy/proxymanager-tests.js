@@ -403,14 +403,50 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
                 data;
 
             proxyManager.fileName = proxyLogfile;
+            proxyManager.logLimit = 1;
 
-            proxyManager.writeLog(proxyMsg);
+            for (var i = 0; i < proxyManager.logLimit; i+=1) {
+                timestamp = new Date().getTime();
+                proxyMsg = "This is proxy log" + timestamp;
+                proxyManager.writeLog(proxyMsg);
+            }
 
-            data = fs.readFileSync(proxyManager.fileName, 'utf8');
-            A.areEqual(proxyMsg + '\n', data, 'Proxy logs doesn\'t match - expected :' + proxyMsg + '\n' + ' , got this:' + data);
-            fs.unlinkSync(proxyManager.fileName);
+            setTimeout(function(){
+                data = fs.readFileSync(proxyManager.fileName, 'utf8');
+
+                A.isNotNull(data,"Failed to read from proxy log file");
+                console.log('data:' + data);
+
+                var logArr = data.split(',');
+
+                A.areEqual(1 ,logArr.length,'No. of lines in log file does not match , actual - ' + logArr.length + ' , expected - 1001');
+
+                fs.unlinkSync(proxyManager.fileName);
+
+            }, 1000);
+
 
         }
+
+        /**
+         *
+         */
+        function testWriteLogLessThan1000Lines() {
+
+            var proxyManager = new ProxyManager(null, {}),
+                fs = require("fs"),
+                timestamp = new Date().getTime(),
+                proxyLogfile = "proxy_" + timestamp + ".log",
+                proxyMsg = "This is proxy log" + timestamp,
+                data;
+
+            proxyManager.fileName = proxyLogfile;
+            proxyManager.writeLog(proxyMsg);
+
+            A.areEqual(proxyMsg + '\n', proxyManager.logBuffer[0], 'Proxy logs doesn\'t match - expected :' + proxyMsg + '\n' + ' , got this:' + proxyManager.logBuffer[0]);
+
+        }
+
 
 
         /**
@@ -521,6 +557,10 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
             'test proxy manager writeLog': function () {
                 testWriteLog();
+            },
+
+            'test proxy manager writeLog Less than 1000 lines': function () {
+                testWriteLogLessThan1000Lines();
             },
 
             'test proxy manager get options': function () {
