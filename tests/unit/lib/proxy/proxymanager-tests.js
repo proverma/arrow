@@ -31,27 +31,6 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
             return proxyFileName;
         }
 
-        function getProxyStream(proxyFile) {
-
-            var fs = require('fs');
-
-            if (!proxyFile) {
-                proxyFile = getProxyFileName();
-//                var timestamp = new Date().getTime();
-//                   proxyFile = "proxy_" + timestamp + ".log";
-            }
-
-            try {
-                fs.openSync(proxyFile,"w");
-                proxyStream = fs.createWriteStream(proxyFile, { flags : 'a' });
-            }
-            catch(e) {
-                logger.error('Error in creating proxy stream ' + e);
-            }
-            return proxyStream;
-
-        }
-
         /**
          * If port is available, proxy server should be started
          */
@@ -64,12 +43,8 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
                 maxPort = 10900,
                 hostName = "localhost",
                 routerJsonPath = __dirname + "/config/router.json",
-                proxyStream,
                 proxyFile,
                 fs = require('fs');
-
-//            var timestamp = new Date().getTime();
-//            proxyFile = "proxy_" + timestamp + ".log";
 
             proxyFile = getProxyFileName();
 
@@ -83,7 +58,6 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
                     A.areNotEqual(proxyHostMsg, 'localhost:' + minPort, 'Proxy host should not match');
                     A.areEqual(proxyHostMsg, localhostip + ':' + minPort, 'Proxy host doesn\'t match');
-//                    fileUtil.deleteFile(proxyFile);
                     callback();
 
                 });
@@ -441,10 +415,6 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
         function testPortsAvailable(test) {
 
             var proxyFile = getProxyFileName();
-//            var timestamp = new Date().getTime();
-//            var proxyFile = "proxy_" + timestamp + ".log";
-
-            var proxyStream = getProxyStream(proxyFile);
 
             var
             // TODO - Check the first available port here starting from minPort
@@ -482,12 +452,9 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
          */
         function testWriteLog() {
 
-            var fs = require("fs");
-            var
+            var fs = require("fs"),
                 proxyFile = getProxyFileName(),
-                timestamp = new Date().getTime(),
-//                proxyFile = "proxy_" + timestamp + ".log",
-                proxyStream;
+                timestamp = new Date().getTime();
 
             try {
 
@@ -497,25 +464,21 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
                     proxyMsg = "This is proxy log" + timestamp,
                     data;
 
-                proxyManager.writeLog(proxyMsg, function(){
+                proxyManager.writeLog(proxyMsg);
 
-                    data = fs.readFileSync(proxyFile, 'utf8');
+                data = fs.readFileSync(proxyFile, 'utf8');
 
-                    A.isNotNull(data,"Failed to read from proxy log file");
-                    console.log('data:' + data);
+                A.isNotNull(data,"Failed to read from proxy log file");
+                console.log('data:' + data);
 
-                    A.areEqual(proxyMsg + '\n', data, "Proxy log doesnt match");
-                    fileUtil.deleteFile(proxyFile,function(){
-
-                    });
-
+                A.areEqual(proxyMsg + '\n', data, "Proxy log doesnt match");
+                fileUtil.deleteFile(proxyFile,function(){
                 });
+
             }
             catch(e) {
                 self.logger.error('Error in creating stream for proxy log');
             }
-
-
 
         }
 
@@ -524,8 +487,6 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
          */
         function testGetOptions() {
             var proxyFile = getProxyFileName();
-//            var timestamp = new Date().getTime();
-//            var proxyFile = "proxy_" + timestamp + ".log";
 
             var
                 proxyManager = new ProxyManager(__dirname + "/config/router.json", {"coverage": true}, proxyFile),
@@ -605,23 +566,6 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
             'tearDown': function () {
 
-//                var glob = require('glob');
-//                var fs = require('fs');
-//                var logFiles = glob.sync('proxy*.log');
-//                setTimeout(function(){
-//                    logFiles.forEach(function(logFile){
-//                        try {
-//                            fs.unlinkSync(logFile);
-//                        }
-//                        catch(e) {
-//                            logger.error('Error in removing ' + logFile +  ' ,e :' + e);
-//                        }
-//
-//                    });
-//
-//                }, 5000);
-
-                //logger.info('>>>teardown Proxymanager tests');
             },
 
 
