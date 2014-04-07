@@ -181,7 +181,7 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
                     });
 
-                }, 4000);
+                }, 2000);
             });
 
 
