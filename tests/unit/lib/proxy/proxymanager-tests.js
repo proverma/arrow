@@ -450,35 +450,25 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
         /**
          *
          */
+        /**
+         *
+         */
         function testWriteLog() {
 
-            var fs = require("fs"),
-                proxyFile = getProxyFileName(),
-                timestamp = new Date().getTime();
+            var proxyManager = new ProxyManager(null, {}),
+                fs = require("fs"),
+                timestamp = new Date().getTime(),
+                proxyLogfile = "proxy_" + timestamp + ".log",
+                proxyMsg = "This is proxy log" + timestamp,
+                data;
 
-            try {
+            proxyManager.proxyLogFile = proxyLogfile;
 
-                fs.openSync(proxyFile, "w");
+            proxyManager.writeLog(proxyMsg);
 
-                var proxyManager = new ProxyManager(null, {}, proxyFile),
-                    proxyMsg = "This is proxy log" + timestamp,
-                    data;
-
-                proxyManager.writeLog(proxyMsg);
-
-                data = fs.readFileSync(proxyFile, 'utf8');
-
-                A.isNotNull(data,"Failed to read from proxy log file");
-                console.log('data:' + data);
-
-                A.areEqual(proxyMsg + '\n', data, "Proxy log doesnt match");
-                fileUtil.deleteFile(proxyFile,function(){
-                });
-
-            }
-            catch(e) {
-                self.logger.error('Error in creating stream for proxy log');
-            }
+            data = fs.readFileSync(proxyManager.proxyLogFile, 'utf8');
+            A.areEqual(proxyMsg + '\n', data, 'Proxy logs doesn\'t match - expected :' + proxyMsg + '\n' + ' , got this:' + data);
+            fs.unlinkSync(proxyManager.proxyLogFile);
 
         }
 
