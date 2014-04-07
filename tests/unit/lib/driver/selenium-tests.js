@@ -150,12 +150,16 @@ YUI.add('selenium-tests', function (Y, NAME) {
         'test navigation': function () {
             var driver,
                 config,
-                actions;
+                actions,
+                params;
 
             config = {browser: 'mybrowser', seleniumHost: 'http://wdhub'};
             driver = new DriverClass(config, {});
+            params = {
+                page: 'http://mypage'
+            };
             driver.start(function (errMsg) {
-                driver.navigate('http://mypage', function () {
+                driver.navigate(params, function () {
                     driver.stop(function (errMsg) {
                     });
                 });
@@ -168,12 +172,16 @@ YUI.add('selenium-tests', function (Y, NAME) {
         'test navigation invalid page': function () {
             var driver,
                 config,
-                actions;
+                actions,
+                params;
 
             config = {browser: 'mybrowser', seleniumHost: 'wdhub'};
             driver = new DriverClass(config, {});
+            params = {
+                page: 'http://mypage'
+            };
             driver.start(function (errMsg) {
-                driver.navigate('http://mypage', function () {
+                driver.navigate(params, function () {
                     driver.stop(function (errMsg) {
                     });
                 });
@@ -187,12 +195,16 @@ YUI.add('selenium-tests', function (Y, NAME) {
         'test navigation arrow server not running': function () {
             var driver,
                 config,
-                actions;
+                actions,
+                params;
 
             config = {browser: 'mybrowser', seleniumHost: 'wdhub'};
             driver = new DriverClass(config, {});
+            params = {
+                page: 'mypage'
+            };
             driver.start(function (errMsg) {
-                driver.navigate('mypage', function () {
+                driver.navigate(params, function () {
                     driver.stop(function (errMsg) {
                     });
                 });
