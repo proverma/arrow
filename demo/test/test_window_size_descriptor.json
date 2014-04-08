@@ -1,0 +1,28 @@
+[
+    {
+        "settings": [ "master" ],
+        "name" : "descriptor",
+        "config": {
+            "baseUrl": "http://login.yahoo.com"
+        },
+
+        "dataprovider" : {
+
+            "Set browser size" : {
+                "group" : "func",
+                "browser":"firefox",
+                "params" :{
+                    "page": "$$config.baseUrl$$",
+                    "test": "test-browser-size.js",
+                    "windowSize": {
+                        "width": "512",
+                        "height": 512
+                    }
+                }
+            }
+        }
+    },
+    {
+        "settings": [ "environment:development" ]
+    }
+]
