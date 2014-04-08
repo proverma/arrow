@@ -396,19 +396,19 @@ YUI.add('proxymanager-tests', function (Y, NAME) {
 
             var proxyManager = new ProxyManager(null, {}),
                 fs = require("fs"),
-                proxyFileData,
                 timestamp = new Date().getTime(),
                 proxyLogfile = "proxy_" + timestamp + ".log",
                 proxyMsg = "This is proxy log" + timestamp,
                 data;
 
-            proxyManager.fileName = proxyLogfile;
-
+            proxyManager.proxyLogFile = proxyLogfile;
+            console.log('\n\nProxy Logfile::' + proxyManager.proxyLogFile);
             proxyManager.writeLog(proxyMsg);
-
-            data = fs.readFileSync(proxyManager.fileName, 'utf8');
+            console.log('Written');
+            data = fs.readFileSync(proxyManager.proxyLogFile, 'utf8');
+            console.log('data' + data);
             A.areEqual(proxyMsg + '\n', data, 'Proxy logs doesn\'t match - expected :' + proxyMsg + '\n' + ' , got this:' + data);
-            fs.unlinkSync(proxyManager.fileName);
+            fs.unlinkSync(proxyManager.proxyLogFile);
 
         }
 

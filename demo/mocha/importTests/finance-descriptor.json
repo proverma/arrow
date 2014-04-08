@@ -1,0 +1,67 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name": "controllers",
+
+        "config": {
+            "baseUrl": "http://finance.yahoo.com"
+        },
+
+        "dataprovider" : {
+            "Test YHOO Ticker" : {
+                "group" : "func",
+                "params" :{
+
+                    "scenario": [
+                        {
+                            "page": "$$config.baseUrl$$"
+                        },
+                        {
+                            "controller": "locator",
+                            "params": {
+                                "value": "#txtQuotes",
+                                "text": "yhoo\n"
+                            }
+                        },
+                        {
+                            "test": "../test/test-quote-mocha.js",
+                            "quote": "Yahoo! Inc. (YHOO)"
+
+                        }
+                    ]
+                }
+            },
+
+            "Test AAPL Ticker" : {
+                "group" : "smoke",
+                "params" :{
+
+                    "scenario": [
+                        {
+                            "page": "$$config.baseUrl$$"
+                        },
+                        {
+                            "controller": "locator",
+                            "params": {
+                                "value": "#txtQuotes",
+                                "text": "aapl\n"
+                            }
+                        },
+                        {
+                            "test": "../test/test-quote-mocha.js",
+                            "quote": "Apple Inc. (AAPL)"
+
+                        }
+                    ]
+                }
+            }
+
+        }
+    },
+    {
+        "settings": [ "environment:development" ]
+    }
+
+]
+

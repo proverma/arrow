@@ -150,12 +150,16 @@ YUI.add('selenium-tests', function (Y, NAME) {
         'test navigation': function () {
             var driver,
                 config,
-                actions;
+                actions,
+                params;
 
             config = {browser: 'mybrowser', seleniumHost: 'http://wdhub'};
             driver = new DriverClass(config, {});
+            params = {
+                page: 'http://mypage'
+            };
             driver.start(function (errMsg) {
-                driver.navigate('http://mypage', function () {
+                driver.navigate(params, function () {
                     driver.stop(function (errMsg) {
                     });
                 });
@@ -168,12 +172,16 @@ YUI.add('selenium-tests', function (Y, NAME) {
         'test navigation invalid page': function () {
             var driver,
                 config,
-                actions;
+                actions,
+                params;
 
             config = {browser: 'mybrowser', seleniumHost: 'wdhub'};
             driver = new DriverClass(config, {});
+            params = {
+                page: 'http://mypage'
+            };
             driver.start(function (errMsg) {
-                driver.navigate('http://mypage', function () {
+                driver.navigate(params, function () {
                     driver.stop(function (errMsg) {
                     });
                 });
@@ -187,12 +195,16 @@ YUI.add('selenium-tests', function (Y, NAME) {
         'test navigation arrow server not running': function () {
             var driver,
                 config,
-                actions;
+                actions,
+                params;
 
             config = {browser: 'mybrowser', seleniumHost: 'wdhub'};
             driver = new DriverClass(config, {});
+            params = {
+                page: 'mypage'
+            };
             driver.start(function (errMsg) {
-                driver.navigate('mypage', function () {
+                driver.navigate(params, function () {
                     driver.stop(function (errMsg) {
                     });
                 });
@@ -299,67 +311,6 @@ YUI.add('selenium-tests', function (Y, NAME) {
             });
         },
 
-
-        'test action': function () {
-            var self = this,
-                driver,
-                config = {browser: 'mybrowser', seleniumHost: 'http://wdhub'},
-                executed = false;
-
-            function createDriverJs(params, cb) {
-                cb(null, 'driverjs');
-            }
-
-            function validate() {
-                var actions = driver.getWebDriver()._actions;
-                A.isTrue(executed, 'Should have successfully executed action');
-                A.areEqual(actions[0].value, 'http://page', 'Should have navigated before test');
-            }
-
-            driver = new DriverClass(config, {});
-            driver.createDriverJs = createDriverJs;
-            driver.start(function (errMsg) {
-                var webdriver = driver.getWebDriver();
-                webdriver.scriptResults['return ARROW.actionReport;'] = '{}';
-
-                driver.executeAction({}, {page: 'http://page', action: 'action.js'}, function (errMsg) {
-                    executed = !errMsg;
-                    validate();
-                });
-            });
-        },
-
-
-        'test action error': function () {
-            var self = this,
-                driver,
-                config = {browser: 'mybrowser', seleniumHost: 'http://wdhub'},
-                executed = false;
-
-            function createDriverJs(params, cb) {
-                cb(null, 'driverjs');
-            }
-
-            function validate() {
-                var actions = driver.getWebDriver()._actions;
-                A.isTrue(executed, 'Should have successfully executed action');
-            }
-
-            driver = new DriverClass(config, {});
-            driver.createDriverJs = createDriverJs;
-// driver.maxAttempt = 1;//Added for test
-            driver.start(function (errMsg) {
-                var webdriver = driver.getWebDriver();
-                webdriver.scriptResults['return ARROW.actionReport;'] = '{"error": "action error"}';
-
-                driver.executeAction({}, {action: 'action.js'}, function (errMsg) {
-                    executed = !!errMsg; // error must not be empty
-                    validate();
-                });
-            });
-        },
-
-
         'test getArrowServerBase': function () {
             var self = this,
                 driver,
@@ -389,7 +340,6 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 testRunnerJs = arrowRoot + '/tests/unit/lib/driver/config/testRunner.js',
                 libJs = arrowRoot + '/tests/unit/lib/driver/config/lib.js',
                 seedJs = arrowRoot + '/tests/unit/lib/driver/config/seed.js',
-                actionJs = arrowRoot + '/tests/unit/lib/driver/config/action.js',
                 testHtml = arrowRoot + '/tests/unit/lib/driver/config/test.html',
                 config = {
                     arrowModuleRoot: arrowRoot,
@@ -414,20 +364,20 @@ YUI.add('selenium-tests', function (Y, NAME) {
             };
             driver = new DriverClass(config, {});
             driver.createDriverJs({"test": testRunnerJs,
-                "lib": "," + libJs, "action": actionJs}, function (e) {
+                "lib": "," + libJs}, function (e) {
                 A.areEqual(null, e, "There should be no error");
             });
 
             // Without test
             driver = new DriverClass(config, {});
-            driver.createDriverJs({ "lib": "," + libJs, "action": actionJs}, function (e) {
-                A.areEqual(null, e, "There should be no error");
+            driver.createDriverJs({ "lib": "," + libJs}, function (e) {
+                A.areEqual("The test js must be specified", e, "Message should be - The test js must be specified");
             });
 
             // with html test
             driver = new DriverClass(config, {});
             driver.createDriverJs({"test": testHtml,
-                "lib": "," + libJs, "action": actionJs}, function (e) {
+                "lib": "," + libJs}, function (e) {
                 A.areEqual(null, e, "There should be no error");
             });
 
@@ -438,7 +388,6 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 testRunnerJs = arrowRoot + '/tests/unit/lib/driver/config/testRunner.js',
                 libJs = arrowRoot + '/tests/unit/lib/driver/config/libs/lib-one.js,' + arrowRoot + '/tests/unit/lib/driver/config/libs/lib-two.js',
                 seedJs = arrowRoot + '/tests/unit/lib/driver/config/seed.js',
-                actionJs = arrowRoot + '/tests/unit/lib/driver/config/action.js',
                 testHtml = arrowRoot + '/tests/unit/lib/driver/config/test.html',
                 config = {
                     arrowModuleRoot: arrowRoot,
@@ -476,7 +425,6 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 testRunnerJs = arrowRoot + '/tests/unit/lib/driver/config/testRunner.js',
                 libJs = arrowRoot + '/tests/unit/lib/driver/config/libs/lib-one.js,' + arrowRoot + '/tests/unit/lib/driver/config/libs/lib-two.js',
                 seedJs = arrowRoot + '/tests/unit/lib/driver/config/seed.js',
-                actionJs = arrowRoot + '/tests/unit/lib/driver/config/action.js',
                 testHtml = arrowRoot + '/tests/unit/lib/driver/config/test.html',
                 config = {
                     arrowModuleRoot: arrowRoot,
@@ -515,7 +463,6 @@ YUI.add('selenium-tests', function (Y, NAME) {
                 testRunnerJs = arrowRoot + '/tests/unit/lib/driver/config/testRunner.js',
                 libJs = arrowRoot + '/tests/unit/lib/driver/config/libs/lib-one.js,' + arrowRoot + '/tests/unit/lib/driver/config/libs/lib-two.js',
                 seedJs = arrowRoot + '/tests/unit/lib/driver/config/seed.js',
-                actionJs = arrowRoot + '/tests/unit/lib/driver/config/action.js',
                 testHtml = arrowRoot + '/tests/unit/lib/driver/config/test.html',
                 config = {
                     arrowModuleRoot: arrowRoot,

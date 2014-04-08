@@ -37,10 +37,6 @@ Driver.prototype.navigate = function (page, cb) {
     }
 };
 
-Driver.prototype.executeAction = function (config, params, cb) {
-    cb();
-};
-
 Driver.prototype.executeTest = function (config, params, cb) {
     cb();
 };

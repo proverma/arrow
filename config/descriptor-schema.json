@@ -11,6 +11,26 @@
         "config" : {
             "type" : "object"
         },
+
+        "importDescriptor":{
+            "type":"array",
+            "items":[
+                {
+                    "path":"Path of the imported file",
+                    "type":"string",
+                    "required":true
+                },
+                {
+                    "group":"Group of tests to import",
+                    "type":"string"
+                },
+                {
+                    "test":"test names to import",
+                    "type":"array"
+                }
+            ]
+        },
+
         "dataprovider" : {
                 "type":"object",
                 "required":true,
@@ -25,6 +45,7 @@
                         "testTimeOut" : { "type" : "integer" },
                         "hasTest" : { "type" : "boolean" },
                         "reuseSession" : { "type" : "boolean" },
+                        "relativePath" : { "type" : "string" },
                         "params" : {"type" : "object",
                             "properties" : {
                                 "page" : { "type" : "string" },

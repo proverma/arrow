@@ -5,7 +5,7 @@ Arrow is a test framework designed to promote test-driven JavaScript development
 
 Arrow aims to completely remove the line between development's Unit tests, and QE's functional and integration tests, by providing a uniform way to create and execute both.
 
-Arrow itself, is a thin, extensible layer that marriages JavaScript, NodeJS, PhantomJS and Selenium. Arrow allows you to write tests using YUI-Test and execute those tests using NodeJS, PhantomJS or Selenium. Additionally, Arrow provides a rich mechanism for building, organizing and executing tests and test scenarios.
+Arrow itself, is a thin, extensible layer that marries JavaScript, NodeJS, PhantomJS and Selenium. Arrow allows you to write tests using YUI-Test and execute those tests using NodeJS, PhantomJS or Selenium. Additionally, Arrow provides a rich mechanism for building, organizing and executing tests and test scenarios.
 
 Why Use Arrow
 -------------
@@ -30,7 +30,7 @@ Core components:
 
 User-facing Components:
 
-* Controllers: If drivers allow you to dictate *where* to execute your tests, controllers, or scenario atoms allow you to dictate *when* to execute your tests. Arrow's default controller or scenario atom opens the page and executes the test. This works well for a large number of tests.However, if you require more complex scenario or more granular control, you can **easily** create your **own** controllers and **control** how and when your tests are executed.
+* Controllers: If drivers allow you to dictate *where* to execute your tests, controllers, or scenario atoms allow you to dictate *when* to execute your tests. Arrow's default controller or scenario atom opens the page and executes the test. This works well for a large number of tests. However, if you require more complex scenario or more granular control, you can **easily** create your **own** controllers and **control** how and when your tests are executed.
 * Libs: Libs, or dependencies, are a way to include any necessary dependencies needed by your test. These can be things such as libraries you've created, the source code against which you are testing etc.
 
 .. image:: DetailedArchitectureDiagram.jpg

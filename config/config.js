@@ -67,6 +67,6 @@ config.startPhantomJs = false;
 config.startArrowServer = false;
 
 config.lib = "";
-config.artifactsUrl = ""
+config.artifactsUrl = "";
 
 module.exports = config;

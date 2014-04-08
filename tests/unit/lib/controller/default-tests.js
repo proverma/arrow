@@ -81,7 +81,6 @@ YUI.add('default-tests', function (Y, NAME) {
             var driver = new StubDriver(),
                 dc,
                 testExecuted = false,
-                actionExecuted = false,
                 navExecuted = false;
                 
             dc = new DefaultController({}, {}, driver);
@@ -92,10 +91,6 @@ YUI.add('default-tests', function (Y, NAME) {
             dc = new DefaultController({}, {test: 'test.js'}, driver);
             dc.execute(function() {
                 testExecuted = true;
-            });
-            dc = new DefaultController({}, {action: 'action.js'}, driver);
-            dc.execute(function() {
-                actionExecuted = true;
             });
             dc = new DefaultController({}, {page: 'test.html'}, driver);
             dc.execute(function (errMsg) {
@@ -110,7 +105,6 @@ YUI.add('default-tests', function (Y, NAME) {
             });
 
             A.isTrue(testExecuted, "test should be executed");
-            A.isTrue(actionExecuted, "action should be executed");
             A.isTrue(navExecuted, "nav should be executed");
         }
     }));

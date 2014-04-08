@@ -1,5 +1,31 @@
 # Change Log
 
+# 0.5.0
+
+ * Adding feature to Import tests from other descriptors based test or group [ Details - https://github.com/yahoo/arrow/pull/200 ]
+ * Adding support for webdriver key object and improved error messaging [ Details - https://github.com/yahoo/arrow/pull/201 ]
+
+# 0.4.3
+
+ * adding path method to return installed arrow directory [ Details - https://github.com/yahoo/arrow/pull/199 ]
+
+# 0.4.2
+
+ * Turn off socket connection limiting in http.request() [ Details - https://github.com/yahoo/arrow/pull/195 ]
+ * Changing require path for executors [ Details - https://github.com/yahoo/arrow/pull/197 ]
+
+# 0.4.1
+
+ * Using cdnjs link for chai.js and protocol independent urls for mocha & expect
+ * Adding support for SSL proxy and adding more error event listeners for better error handling
+ * Setting nodejs back as default driver
+ * Not maximizing browsers for mobile tests
+
+# 0.4.0
+
+ * Support for starting reusable browser session from Arrow command
+ * Fix for Mocha test failures on on IE8.
+
 # 0.3.3
 
  * Fixed appium and android driver compatibility
