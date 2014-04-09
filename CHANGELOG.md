@@ -1,5 +1,11 @@
 # Change Log
 
+# 0.5.1
+
+ * Adding support for Android browser [PR](https://github.com/yahoo/arrow/pull/219)
+ * Adding support to resize the browser window [PR](https://github.com/yahoo/arrow/pull/205)
+ * Fixing the issue - Error: EMFILE, too many open files 'node/proxy.log  [Issue](https://github.com/yahoo/arrow/issues/217) [PR](https://github.com/yahoo/arrow/pull/218)
+
 # 0.5.0
 
  * Adding feature to Import tests from other descriptors based test or group [ Details - https://github.com/yahoo/arrow/pull/200 ]
