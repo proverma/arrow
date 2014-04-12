@@ -18,9 +18,9 @@ Unit Tests
 The demo includes a *unit_test* folder and includes two files:
 
 +---------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------+
-| `unit_test/src/greeter.js `_       | Simple YUI module that takes two parameters as input, inverses their order, and returns them as output |
+| ``unit_test/src/greeter.js``                                                                                        | Simple YUI module that takes two parameters as input, inverses their order, and returns them as output |
 +---------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------+
-| `unit_test/test/test-unit.js >`_ |	Unit test to validate the function.                                                                    |
+| ``unit_test/test/test-unit.js``                                                                                     |	Unit test to validate the function.                                                                    |
 +---------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------+
 
 In the world of JS, unit tests validate JS functions/classes which do not interact with the DOM. Functionality which interacts with the DOM is usually considered to be functional and should be tested as such.
