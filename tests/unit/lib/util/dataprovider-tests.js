@@ -34,25 +34,25 @@ YUI.add('dataprovider-tests', function (Y) {
     //Test getting all values in a descriptor
     suite.add(new Y.Test.Case({
         "Confirm Config params": function(){
-            Y.Assert.areEqual("tabview", dpvalues.name);
-            Y.Assert.areEqual("./test-lib.js", dpvalues.commonlib);
-            Y.Assert.areEqual("<yourhostname>:8033", dpvalues.config.baseUrl);
+            Y.Assert.areEqual("tabview", dpvalues[0].name);
+            Y.Assert.areEqual("./test-lib.js", dpvalues[0].commonlib);
+            Y.Assert.areEqual("<yourhostname>:8033", dpvalues[0].config.baseUrl);
         }
     }));
 
     suite.add(new Y.Test.Case({
         "Confirm dataprovider values": function(){
-            Y.Assert.areEqual("test-func.js", dpvalues.dataprovider.test1.params.test);
-            Y.Assert.areEqual("testMock.html", dpvalues.dataprovider.test1.params.page);
-            Y.Assert.areEqual("unit", dpvalues.dataprovider.test1.group);
+            Y.Assert.areEqual("test-func.js", dpvalues[0].dataprovider.test1.params.test);
+            Y.Assert.areEqual("testMock.html", dpvalues[0].dataprovider.test1.params.page);
+            Y.Assert.areEqual("unit", dpvalues[0].dataprovider.test1.group);
         }
     }));
 
     //Test overriding values in the descriptor using $$ value
     suite.add(new Y.Test.Case({
         "Confirm you can share config values within descriptor": function(){
-            Y.Assert.areEqual("<yourhostname>:8033/testMock.html", dpvalues.dataprovider.test2.params.page);
-            Y.Assert.areEqual("sometest.js", dpvalues.dataprovider.test2.params.test);
+            Y.Assert.areEqual("<yourhostname>:8033/testMock.html", dpvalues[0].dataprovider.test2.params.page);
+            Y.Assert.areEqual("sometest.js", dpvalues[0].dataprovider.test2.params.test);
         }
     }));
 
@@ -70,8 +70,8 @@ YUI.add('dataprovider-tests', function (Y) {
             var dp = new dataProv(conf, args, __dirname + "/testDescriptor.json");
             var dpvalues = dp.getTestData();
 
-            Y.Assert.areEqual("http://overridebase.url.com/testMock.html", dpvalues.dataprovider.test2.params.page);
-            Y.Assert.areEqual("sometest.js", dpvalues.dataprovider.test2.params.test);
+            Y.Assert.areEqual("http://overridebase.url.com/testMock.html", dpvalues[0].dataprovider.test2.params.page);
+            Y.Assert.areEqual("sometest.js", dpvalues[0].dataprovider.test2.params.test);
         }
     }));
 
@@ -91,8 +91,8 @@ YUI.add('dataprovider-tests', function (Y) {
             var dp = new dataProv(conf, args,__dirname + "/testDescriptor.json");
             var dpvalues = dp.getTestData();
 
-            Y.Assert.areEqual("http://overridebase.url.com/testMock.html", dpvalues.dataprovider.test2.params.page);
-            Y.Assert.areEqual("sometest.js", dpvalues.dataprovider.test2.params.test);
+            Y.Assert.areEqual("http://overridebase.url.com/testMock.html", dpvalues[0].dataprovider.test2.params.page);
+            Y.Assert.areEqual("sometest.js", dpvalues[0].dataprovider.test2.params.test);
         }
     }));
 

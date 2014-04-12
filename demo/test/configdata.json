@@ -1,0 +1,11 @@
+{
+    "config": [
+        {
+            "baseUrl": "http://finance.yahoo.com"
+        },
+        {
+            "baseUrl": "http://yahoo.com"
+        }
+    ]
+
+}

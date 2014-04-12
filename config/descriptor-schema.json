@@ -12,6 +12,8 @@
             "type" : "object"
         },
 
+        "dataDriver":{"type": "string"},
+
         "importDescriptor":{
             "type":"array",
             "items":[
