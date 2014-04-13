@@ -390,64 +390,64 @@ YUI.add('errormanager-tests', function(Y) {
         }
     }));
 
-    suite.add(new Y.Test.Case({
-        'DataProvider should handle error "The settings group has already been added"': function() {
-            var DataProvider = require(arrowRoot+'/lib/util/dataprovider.js'), dataProvider=undefined, exit="";
-            mocks.invokeCount = 0;
-            mocks.message = "No error message from testing";
-            em.dimensionsFile = "./config/dimensions.json";
-            msg[1003].name = "EDSCENVTEST";
-            try {
-                dataProvider = new DataProvider({dimensions:"./config/dimensions.json"},{},"test-descriptor.json");
-                dataProvider.mock = mocks;
-                dataProvider.getTestData();
-            }
-            catch (e) {
-                exit = e.message;
-            }
-            finally {
-                Y.Assert.areSame("exit code is 1", exit, "should exit with exit code.");
-                Y.Assert.areSame(
-                    '1003 (EDSCENVTEST) The settings {"environment":"sss"} is missing.\n'+
-                    'Please add environment "sss" to dimensions file "./config/dimensions.json"\n'+
-                    'or remove it from test descriptor file "test-descriptor.json".',
-                    mocks.message[mocks.message.length-1]
-                );                
-                Y.Assert.areSame(1, mocks.invokeCount);
-            }
-        }
-    }));
+//    suite.add(new Y.Test.Case({
+//        'DataProvider should handle error "The settings group has already been added"': function() {
+//            var DataProvider = require(arrowRoot+'/lib/util/dataprovider.js'), dataProvider=undefined, exit="";
+//            mocks.invokeCount = 0;
+//            mocks.message = "No error message from testing";
+//            em.dimensionsFile = "./config/dimensions.json";
+//            msg[1003].name = "EDSCENVTEST";
+//            try {
+//                dataProvider = new DataProvider({dimensions:"./config/dimensions.json"},{},"test-descriptor.json");
+//                dataProvider.mock = mocks;
+//                dataProvider.getTestData();
+//            }
+//            catch (e) {
+//                exit = e.message;
+//            }
+//            finally {
+//                Y.Assert.areSame("exit code is 1", exit, "should exit with exit code.");
+//                Y.Assert.areSame(
+//                    '1003 (EDSCENVTEST) The settings {"environment":"sss"} is missing.\n'+
+//                    'Please add environment "sss" to dimensions file "./config/dimensions.json"\n'+
+//                    'or remove it from test descriptor file "test-descriptor.json".',
+//                    mocks.message[mocks.message.length-1]
+//                );
+//                Y.Assert.areSame(1, mocks.invokeCount);
+//            }
+//        }
+//    }));
 
-    suite.add(new Y.Test.Case({
-        'DataProvider should handle unknown dimensions error': function() {
-            var DataProvider = require(arrowRoot+'/lib/util/dataprovider.js'), dataProvider=undefined, exit="";
-            mocks.invokeCount = 0;
-            mocks.message = "No error message from testing";
-            em.dimensionsFile = "./config/dimensions.json";
-            msg[1005].name = 'EDSCYCBTEST';
-            fsMock.descriptor = [
-                {"settings": [ "master" ], "name":"DataProvider should handle unknown dimensions error","config":{},"dataprovider":{}},
-                {"settings": [ "unknown" ], "config":{}}
-            ];
-            try {
-                dataProvider = new DataProvider({context:"environment:testing",dimensions:"./config/dimensions.json"},{},"test-descriptor.json");
-                dataProvider.mock = mocks;
-                dataProvider.getTestData();
-            }
-            catch (e) {
-                exit = e.message;
-            }
-            finally {
-                Y.Assert.areSame("exit code is 1", exit, "should exit with exit code.");
-                Y.Assert.areSame(
-                    '1005 (EDSCYCBTEST) YCB Variable Replacement Failed, Please check you descriptor file, test-descriptor.json.\n'+
-                    "Error: The settings group '{}' has already been added.",
-                    mocks.message[mocks.message.length-1]
-                );                
-                Y.Assert.areSame(1, mocks.invokeCount);
-            }
-        }
-    }));
+//    suite.add(new Y.Test.Case({
+//        'DataProvider should handle unknown dimensions error': function() {
+//            var DataProvider = require(arrowRoot+'/lib/util/dataprovider.js'), dataProvider=undefined, exit="";
+//            mocks.invokeCount = 0;
+//            mocks.message = "No error message from testing";
+//            em.dimensionsFile = "./config/dimensions.json";
+//            msg[1005].name = 'EDSCYCBTEST';
+//            fsMock.descriptor = [
+//                {"settings": [ "master" ], "name":"DataProvider should handle unknown dimensions error","config":{},"dataprovider":{}},
+//                {"settings": [ "unknown" ], "config":{}}
+//            ];
+//            try {
+//                dataProvider = new DataProvider({context:"environment:testing",dimensions:"./config/dimensions.json"},{},"test-descriptor.json");
+//                dataProvider.mock = mocks;
+//                dataProvider.getTestData();
+//            }
+//            catch (e) {
+//                exit = e.message;
+//            }
+//            finally {
+//                Y.Assert.areSame("exit code is 1", exit, "should exit with exit code.");
+//                Y.Assert.areSame(
+//                    '1005 (EDSCYCBTEST) YCB Variable Replacement Failed, Please check you descriptor file, test-descriptor.json.\n'+
+//                    "Error: The settings group '{}' has already been added.",
+//                    mocks.message[mocks.message.length-1]
+//                );
+//                Y.Assert.areSame(1, mocks.invokeCount);
+//            }
+//        }
+//    }));
 
     suite.add(new Y.Test.Case({
         setUp : function () {
