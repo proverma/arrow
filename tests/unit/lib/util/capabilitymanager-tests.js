@@ -22,7 +22,7 @@ YUI.add('capabilitymanager-tests', function(Y) {
     }));
 
     suite.add(new Y.Test.Case({
-        "Confirm getCapability works": function(){
+        "Confirm getCapability works if JSON filepath passed": function(){
             var expectedString = {"browserName":"firefox","platform":"WINDOWS","version":"6.0","javascriptEnabled":"true"};
             var cap = cm.getCapability(__dirname + "/capabilities.json", "win_xp_ff_6");
             Y.Assert.areEqual(JSON.stringify(expectedString), JSON.stringify(cap), "Confirm the same JSON is returned");
@@ -32,6 +32,147 @@ YUI.add('capabilitymanager-tests', function(Y) {
             Y.Assert.isNull(cap, "Confirm null is returned if invalid cap is given");
         }
     }));
+
+
+    suite.add(new Y.Test.Case({
+        "Confirm getCapability is null if both JSON blob or filePath is invalid": function(){
+            var expectedString = {"browserName":"firefox","platform":"WINDOWS","version":"6.0","javascriptEnabled":"true"};
+            var cap = cm.getCapability(__dirname + "/capabilities2.json", "win_xp_ff_6");
+            Y.Assert.areEqual(null, cap, "Caps JSON shall be null");
+
+        }
+    }));
+
+
+    suite.add(new Y.Test.Case({
+        "Confirm getCapability works if JSON blob passed": function(){
+            var caps = "{\"capabilities\": {\"win_xp_ff_6\": {\"browserName\": \"firefox\",\"platform\": \"WINDOWS\",\"version\": \"6.0\"},\"mac_chrome_18\": {"
+                     + "\"browserName\": \"chrome\",\"platform\": \"MAC\",\"version\": \"18.0\"}},\"common_capabilities\": {\"javascriptEnabled\": \"true\"}}";
+            var expectedString = {"browserName":"firefox","platform":"WINDOWS","version":"6.0","javascriptEnabled":"true"};
+            var cap = cm.getCapability(caps, "win_xp_ff_6");
+            Y.Assert.areEqual(JSON.stringify(expectedString), JSON.stringify(cap), "Confirm the same JSON is returned");
+
+            //Make sure null is returned and invalid capability is given
+            cap = cm.getCapability("", "invalid");
+            Y.Assert.isNull(cap, "Confirm null is returned if invalid cap is given");
+        }
+    }));
+
+
+    suite.add(new Y.Test.Case({
+        "Test proxy capabilities - proxy true": function(){
+
+           var args = {},
+               caps = {};
+
+           args.proxyUrl='someHost:10000';
+           args.proxy = true;
+
+           caps = cm.setProxyCaps(caps, args);
+
+            Y.Assert.areEqual('someHost:10000',caps.proxy.httpProxy,"Http Proxy url doesnt match");
+            Y.Assert.areEqual('someHost:10000',caps.proxy.sslProxy,"Ssl Proxy url doesnt match");
+            Y.Assert.areEqual('manual',caps.proxy.proxyType,"proxy type doesnt match");
+
+        }
+    }));
+
+
+    suite.add(new Y.Test.Case({
+        "Test proxy capabilities - proxy undefined": function(){
+
+            var args = {},
+                caps = {};
+
+            args.proxyUrl='someHost:10000';
+
+            caps = cm.setProxyCaps(caps, args);
+
+            Y.Assert.areEqual('someHost:10000',caps.proxy.httpProxy,"Http Proxy url doesnt match");
+            Y.Assert.areEqual('someHost:10000',caps.proxy.sslProxy,"Ssl Proxy url doesnt match");
+            Y.Assert.areEqual('manual',caps.proxy.proxyType,"proxy type doesnt match");
+
+        }
+    }));
+
+
+    suite.add(new Y.Test.Case({
+        "Test proxy capabilities - proxy false": function(){
+
+            var args = {},
+                caps = {};
+
+            args.proxyUrl='someHost:10000';
+            args.proxy = false;
+
+            caps = cm.setProxyCaps(caps, args);
+            Y.Assert.isUndefined(caps.proxy, ' Caps proxy should be undefined if proxy set to false');
+
+        }
+    }));
+
+
+    suite.add(new Y.Test.Case({
+        "Test proxy capabilities": function(){
+
+            var args = {},
+                caps = {};
+
+            args.proxyUrl='someHost:10000';
+            args.proxy = true;
+
+            caps = cm.setProxyCaps(caps, args);
+
+            Y.Assert.areEqual('someHost:10000',caps.proxy.httpProxy,"Http Proxy url doesnt match");
+            Y.Assert.areEqual('someHost:10000',caps.proxy.sslProxy,"Ssl Proxy url doesnt match");
+            Y.Assert.areEqual('manual',caps.proxy.proxyType,"proxy type doesnt match");
+
+        }
+    }));
+
+
+    suite.add(new Y.Test.Case({
+        "Test mobile capabilities": function(){
+
+            var args = {},
+                caps = {};
+
+            caps.browserName = "iphone";
+            caps.version = "latest";
+
+            args.proxyUrl='someHost:10000';
+            args.proxy = true;
+
+            caps = cm.setMobileCaps(caps);
+
+            Y.Assert.areEqual('iphone',caps.device,"Caps device should be iphone");
+            Y.Assert.areEqual('safari',caps.app,"Caps app should be safari");
+        }
+    }));
+
+
+    suite.add(new Y.Test.Case({
+        "Test browser caps for reuse and proxy": function(){
+
+            var args = {},
+                caps = {},
+                config = {};
+
+            caps.browserName = "reuse";
+            caps.proxy = {
+                "httpProxy": "someHost:10000",
+                "sslProxy": "someHost:10000",
+                "proxyType": "manual"
+            };
+
+            caps = cm.setBrowserCaps(caps, args, config);
+
+            Y.Assert.areEqual('firefox',caps.browserName,"Caps browser should be firefox");
+            Y.Assert.areEqual('latest',caps.version,"Caps version should be latest");
+        }
+    }));
+
+
 
 
     Y.Test.Runner.add(suite);
