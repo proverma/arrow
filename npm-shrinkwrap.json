@@ -116,9 +116,6 @@
         }
       }
     },
-    "clone": {
-      "version": "0.1.0"
-    },
       "useragent": {
       "version": "1.1.0",
       "dependencies": {
@@ -234,6 +231,9 @@
     },
     "selenium-webdriver": {
       "version": "2.39.0"
+    },
+    "underscore": {
+          "version": "1.6.0"
     },
     "mocha": {
       "version": "1.7.4",
