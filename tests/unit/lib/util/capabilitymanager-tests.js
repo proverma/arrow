@@ -173,6 +173,31 @@ YUI.add('capabilitymanager-tests', function(Y) {
     }));
 
 
+    suite.add(new Y.Test.Case({
+
+        "Test process user capabilities": function(){
+
+            var caps = {
+                "platform": "ANY",
+                "javascriptEnabled": true,
+                "seleniumProtocol": "WebDriver"
+            };
+            caps.browserName = "mac_chrome_18";
+
+            var config = {};
+            config.capabilities = __dirname + "/capabilities.json";
+            config.browser = "mac_chrome_18";
+
+            caps = cm.processUserCapabilities(caps,config);
+
+            Y.Assert.areEqual('WebDriver',caps.seleniumProtocol,"Caps seleniumProtocol should be WebDriver");
+            Y.Assert.isTrue(true,caps.javascriptEnabled,"Caps javascriptEnabled should be true");
+            Y.Assert.areEqual('chrome',caps.browserName,"Caps browserName should be chrome");
+            Y.Assert.areEqual('MAC',caps.platform,"Caps platform should be MAC");
+            Y.Assert.areEqual('18.0',caps.version,"Caps version should be 18.0");
+
+        }
+    }));
 
 
     Y.Test.Runner.add(suite);

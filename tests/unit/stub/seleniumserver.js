@@ -7,7 +7,7 @@
  */
 
 var express = require("express"),
-    clone = require('clone');
+    _ = require('underscore');
 
 function SeleniumServer(port) {
 
@@ -78,7 +78,7 @@ SeleniumServer.prototype.setActiveSessionCount = function(sessionCount) {
 
     for(i = 0 ; i < sessionCount ; i = i + 1) {
         obj = null;
-        obj = clone(this.sessionObj);
+        obj = _.clone(this.sessionObj);
         obj.id = this.sessionsID;
         this.sessionsID += 1;
         this.sessions.value.push(obj)
