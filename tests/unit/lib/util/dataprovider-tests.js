@@ -25,6 +25,12 @@ YUI.add('dataprovider-tests', function (Y) {
     var dp = new dataProv(conf, args, __dirname + "/testDescriptor.json");
     var dpvalues = dp.getTestData();
 
+    dp.mock = {
+        exit: function (code) {
+            throw new Error("exit code is "+code);
+        }
+    }
+
     suite.add(new Y.Test.Case({
         "Confirm constructor works": function(){
             Y.Assert.isNotNull(dp, "Confirm initiallizing does not return null");
@@ -144,6 +150,42 @@ YUI.add('dataprovider-tests', function (Y) {
             Y.Assert.areEqual(JSON.stringify(validJson), '{"site":"yahoo","property":"news"}');
         }
     }));
+
+
+    suite.add(new Y.Test.Case({
+
+        "Invalid json from file": function() {
+
+            var    msg;
+
+            try {
+                dp.readAndValidateJSON(__dirname + '/invalid.json');
+            }
+            catch(e) {
+                msg = e;
+            }
+            Y.Assert.areEqual( "exit code is 1", msg.message);
+        }
+    }));
+
+
+    suite.add(new Y.Test.Case({
+
+        "Invalid json ": function() {
+
+            var msg;
+
+            try {
+                dp.readAndValidateJSON('{\'a\'}');
+            }
+            catch(e) {
+                msg = e;
+            }
+            Y.Assert.areEqual( "exit code is 1", msg.message);
+        }
+    }));
+
+
 
     suite.add(new Y.Test.Case({
         "Replace params": function(){
