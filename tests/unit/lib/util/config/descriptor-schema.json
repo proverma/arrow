@@ -4,24 +4,57 @@
     "properties" : {
         "name" : { "type" : "string", "required" :true },
         "commonlib" : { "type" : "string"},
+        "useSSL" : { "type" : "boolean"},
+        "extends" : { "type" : "string"},
+        "startProxyServer" : { "type" : "boolean"},
+        "routerProxyConfig" : { "type" : "string"},
         "config" : {
             "type" : "object"
         },
+
+        "dataDriver":{"type": "string"},
+
+        "importDescriptor":{
+            "type":"array",
+            "items":[
+                {
+                    "path":"Path of the imported file",
+                    "type":"string",
+                    "required":true
+                },
+                {
+                    "group":"Group of tests to import",
+                    "type":"string"
+                },
+                {
+                    "test":"test names to import",
+                    "type":"array"
+                }
+            ]
+        },
+
         "dataprovider" : {
             "type":"object",
             "required":true,
             "additionalProperties" : {
                 "type" : "object",
                 "properties" : {
-                    "enabled" : { "type" : "boolean" },
+                    "enabled" : { "type" : "boolean | string" },
                     "controller" : { "type" : "string" },
                     "group" : { "type" : "string" },
+                    "proxy" : { "type" : "boolean" },
                     "browser" : { "type" : "string" },
+                    "testTimeOut" : { "type" : "integer" },
+                    "hasTest" : { "type" : "boolean" },
+                    "reuseSession" : { "type" : "boolean" },
+                    "relativePath" : { "type" : "string" },
                     "params" : {"type" : "object",
                         "properties" : {
                             "page" : { "type" : "string" },
                             "test" : { "type" : "string" },
-                            "lib" : { "type" : "string" }
+                            "lib" : { "type" : "string" },
+                            "engine" :{ "type" : "string" },
+                            "engineConfig" :{ "type" : "string" }
                         }
 
                     }

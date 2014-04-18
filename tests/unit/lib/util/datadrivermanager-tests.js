@@ -24,17 +24,72 @@ YUI.add('datadrivermanager-tests', function (Y) {
 
     suite.add(new Y.Test.Case({
 
+        "get config data from file": function() {
+
+            var
+                descPath = __dirname + '/datadriven-descriptor.json',
+                relativePath = path.dirname(descPath),
+                descriptorJsonStr = fs.readFileSync(descPath, 'utf-8'),
+                descriptorJson,
+                configArr;
+
+            try {
+
+                descriptorJson = JSON.parse(descriptorJsonStr);
+                configArr = dataDriverMgr.getConfigData(relativePath, descriptorJson);
+            }catch(e) {
+
+            }
+
+            Y.Assert.isNotUndefined(configArr, "Config array is undefined ( getting from file)");
+            Y.Assert.areEqual(2, configArr.length);
+
+            Y.Assert.areEqual('http://finance.yahoo.com', configArr[0].baseUrl, "Config baseurl ( 0th element doesn't match");
+            Y.Assert.areEqual('http://yahoo.com', configArr[1].baseUrl, "Config baseurl ( 1st element doesn't match");
+
+
+        },
+
+        "get config data from array": function() {
+
+            var
+                descPath = __dirname + '/datadriven-descriptor-config.json',
+                relativePath = path.dirname(descPath),
+                descriptorJsonStr = fs.readFileSync(descPath, 'utf-8'),
+                descriptorJson,
+                configArr;
+
+            try {
+                descriptorJson = JSON.parse(descriptorJsonStr);
+                configArr = dataDriverMgr.getConfigData(relativePath, descriptorJson);
+            }catch(e) {
+
+            }
+
+            Y.Assert.isNotUndefined(configArr, "Config array is undefined (getting from config array)");
+            Y.Assert.areEqual(2, configArr.length);
+
+            Y.Assert.areEqual('http://finance.yahoo.com', configArr[0].baseUrl, "Config baseurl ( 0th element doesn't match");
+            Y.Assert.areEqual('http://yahoo.com', configArr[1].baseUrl, "Config baseurl ( 1st element doesn't match");
+
+        }
+
+    }));
+
+    suite.add(new Y.Test.Case({
+
         "process data driver ": function() {
 
             var
-                dataDriverPath = __dirname + '/configdata.json',
-                descriptorJsonStr = fs.readFileSync(__dirname + '/datadriven-descriptor.json', 'utf-8'),
+                descPath = __dirname + '/datadriven-descriptor.json',
+                relativePath = path.dirname(descPath),
+                descriptorJsonStr = fs.readFileSync(descPath, 'utf-8'),
                 descriptorJson,
                 descriptorArr = [];
 
                 try {
                     descriptorJson = JSON.parse(descriptorJsonStr);
-                    descriptorArr = dataDriverMgr.processDataDriver(dataDriverPath, descriptorJson);
+                    descriptorArr = dataDriverMgr.processDataDriver(relativePath, descriptorJson);
 
                     var desc0 = '[{"settings":["master"],"name":"controllers - 0","dataprovider":{"Test Data Driven Descriptor":{"group":"func","params":{"scenario":[{"page":"$$config.baseUrl$$"},{"test":"dummytest.js"}]}}},"config":{"baseUrl":"http://finance.yahoo.com"}},{"settings":["environment:development"]}]';
                     var desc1 = '[{"settings":["master"],"name":"controllers - 1","dataprovider":{"Test Data Driven Descriptor":{"group":"func","params":{"scenario":[{"page":"$$config.baseUrl$$"},{"test":"dummytest.js"}]}}},"config":{"baseUrl":"http://yahoo.com"}},{"settings":["environment:development"]}]';
@@ -52,19 +107,21 @@ YUI.add('datadrivermanager-tests', function (Y) {
         }
     }));
 
-
     suite.add(new Y.Test.Case({
 
-        "process data driver invalid data driven descriptor ": function() {
+        "process data driver invalid config file": function() {
 
             var
-                dataDriverPath = __dirname + '/invalid.json',
+                descPath = __dirname + '/datadriven-descriptor-invalid.json',
+                relativePath = path.dirname(descPath),
+                descriptorJsonStr = fs.readFileSync(descPath, 'utf-8'),
                 descriptorJson,
                 msg;
 
             try {
-                descriptorJson = '[{"settings":["master"],"name":"controllers","dataDriver":"./configdata.json","dataprovider":{"Test Data Driven Descriptor":{"group":"func","params":{"scenario":[{"page":"$$config.baseUrl$$"},{"test":"dummytest.js"}]}}}},{"settings":["environment:development"]}]';
-                dataDriverMgr.processDataDriver(dataDriverPath, JSON.parse(descriptorJson));
+
+                descriptorJson = JSON.parse(descriptorJsonStr);
+                dataDriverMgr.getConfigData(relativePath, descriptorJson);
 
             }catch(e) {
                 msg = e.message;

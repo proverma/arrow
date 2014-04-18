@@ -156,7 +156,7 @@ YUI.add('dataprovider-tests', function (Y) {
 
         "Invalid json from file": function() {
 
-            var    msg;
+            var msg;
 
             try {
                 dp.readAndValidateJSON(__dirname + '/invalid.json');
@@ -185,8 +185,6 @@ YUI.add('dataprovider-tests', function (Y) {
         }
     }));
 
-
-
     suite.add(new Y.Test.Case({
         "Replace params": function(){
             var conf = {
@@ -208,7 +206,6 @@ YUI.add('dataprovider-tests', function (Y) {
 
         }
     }));
-
 
     suite.add(new Y.Test.Case({
         "Replace params and default params": function(){
