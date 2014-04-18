@@ -29,7 +29,7 @@ YUI.add('dataprovider-tests', function (Y) {
         exit: function (code) {
             throw new Error("exit code is "+code);
         }
-    }
+    };
 
     suite.add(new Y.Test.Case({
         "Confirm constructor works": function(){
@@ -281,6 +281,31 @@ YUI.add('dataprovider-tests', function (Y) {
 
         }
     }));
+
+    suite.add(new Y.Test.Case({
+
+        "Data driven descriptor test": function(){
+
+            var conf = {
+                    "baseUrl": "http://overridebase.url.com",
+                    "arrowModuleRoot": __dirname + "/",
+                    "dimensions": __dirname + "/dimensions.json",
+                    "context": ""
+                },
+                args = {};
+
+            var dp = new dataProv(conf, args, __dirname + "/datadriven-descriptor.json");
+            var dpvalues = dp.getTestData();
+
+            Y.Assert.areEqual(2, dpvalues.length, 'Number of data driven descriptors dont match');
+
+//            Y.Assert.areEqual("http://overridebase.url.com/testMock.html", dpvalues[0].dataprovider.test2.params.page);
+//            Y.Assert.areEqual("sometest.js", dpvalues[0].dataprovider.test2.params.test);
+
+        }
+    }));
+
+
 
     Y.Test.Runner.add(suite);
 }, '0.0.1', {requires:['test']});
