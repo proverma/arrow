@@ -164,7 +164,7 @@ YUI.add('dataprovider-tests', function (Y) {
             catch(e) {
                 msg = e;
             }
-            Y.Assert.areEqual( "exit code is 1", msg.message);
+            Y.Assert.areEqual( "exit code is 1", msg.message,"readAndValidateJSON() did not throw exception for invalid JSON from file");
         }
     }));
 
@@ -181,7 +181,55 @@ YUI.add('dataprovider-tests', function (Y) {
             catch(e) {
                 msg = e;
             }
-            Y.Assert.areEqual( "exit code is 1", msg.message);
+            Y.Assert.areEqual( "exit code is 1", msg.message, "readAndValidateJSON() did not throw exception for invalid JSON");
+        }
+    }));
+
+
+
+    suite.add(new Y.Test.Case({
+
+        "Validate descriptor against schema ": function() {
+
+            var msg,
+                descriptor;
+
+            try {
+
+                descriptor = fs.readFileSync(__dirname + '/testDescriptorInvalidSchema.json','utf-8');
+                descriptor = JSON.parse(descriptor);
+                dp.validateDescriptor(descriptor, __dirname + "/config/descriptor-schema.json");
+
+            }
+            catch(e) {
+                msg = e;
+            }
+
+            Y.Assert.areEqual( "exit code is 1", msg.message, "validateDescriptor() did not throw exception for invalid schema");
+
+        }
+    }));
+
+    suite.add(new Y.Test.Case({
+
+        "Validate descriptor against schema - wrong path for schema ": function() {
+
+            var msg,
+                descriptor;
+
+            try {
+
+                descriptor = fs.readFileSync(__dirname + '/testDescriptorInvalidSchema.json','utf-8');
+                descriptor = JSON.parse(descriptor);
+                dp.validateDescriptor(descriptor, __dirname + "/config/descriptor-schema-invalid.json");
+
+            }
+            catch(e) {
+                msg = e;
+            }
+
+            Y.Assert.areEqual( "exit code is 1", msg.message, "validateDescriptor() did not throw exception for invalid schema file");
+
         }
     }));
 
