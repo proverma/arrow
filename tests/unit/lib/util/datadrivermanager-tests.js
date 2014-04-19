@@ -28,8 +28,8 @@ YUI.add('datadrivermanager-tests', function (Y) {
 
             var
                 descPath = __dirname + '/datadriven-descriptor.json',
-                relativePath = path.dirname(descPath),
                 descriptorJsonStr = fs.readFileSync(descPath, 'utf-8'),
+                relativePath = path.dirname(descPath),
                 descriptorJson,
                 configArr;
 
@@ -47,21 +47,19 @@ YUI.add('datadrivermanager-tests', function (Y) {
             Y.Assert.areEqual('http://finance.yahoo.com', configArr[0].baseUrl, "Config baseurl ( 0th element doesn't match");
             Y.Assert.areEqual('http://yahoo.com', configArr[1].baseUrl, "Config baseurl ( 1st element doesn't match");
 
-
         },
 
         "get config data from array": function() {
 
             var
                 descPath = __dirname + '/datadriven-descriptor-config.json',
-                relativePath = path.dirname(descPath),
                 descriptorJsonStr = fs.readFileSync(descPath, 'utf-8'),
                 descriptorJson,
                 configArr;
 
             try {
                 descriptorJson = JSON.parse(descriptorJsonStr);
-                configArr = dataDriverMgr.getConfigData(relativePath, descriptorJson);
+                configArr = dataDriverMgr.getConfigData(descPath, descriptorJson);
             }catch(e) {
 
             }
@@ -71,6 +69,28 @@ YUI.add('datadrivermanager-tests', function (Y) {
 
             Y.Assert.areEqual('http://finance.yahoo.com', configArr[0].baseUrl, "Config baseurl ( 0th element doesn't match");
             Y.Assert.areEqual('http://yahoo.com', configArr[1].baseUrl, "Config baseurl ( 1st element doesn't match");
+
+        },
+
+        "empty configuration": function() {
+
+            var
+                descPath = __dirname + '/datadriven-descriptor-config-empty.json',
+                descriptorJsonStr = fs.readFileSync(descPath, 'utf-8'),
+                descriptorJson,
+                descriptorArr,
+                msg;
+
+            try {
+                descriptorJson = JSON.parse(descriptorJsonStr);
+                descriptorArr = dataDriverMgr.processDataDriver(descPath, descriptorJson);
+            }catch(e) {
+
+                msg = e.message;
+            }
+
+            Y.Assert.areEqual("exit code is 1", msg);
+
 
         }
 
@@ -82,14 +102,13 @@ YUI.add('datadrivermanager-tests', function (Y) {
 
             var
                 descPath = __dirname + '/datadriven-descriptor.json',
-                relativePath = path.dirname(descPath),
                 descriptorJsonStr = fs.readFileSync(descPath, 'utf-8'),
                 descriptorJson,
                 descriptorArr = [];
 
                 try {
                     descriptorJson = JSON.parse(descriptorJsonStr);
-                    descriptorArr = dataDriverMgr.processDataDriver(relativePath, descriptorJson);
+                    descriptorArr = dataDriverMgr.processDataDriver(descPath, descriptorJson);
 
                     var desc0 = '[{"settings":["master"],"name":"controllers - 0","dataprovider":{"Test Data Driven Descriptor":{"group":"func","params":{"scenario":[{"page":"$$config.baseUrl$$"},{"test":"dummytest.js"}]}}},"config":{"baseUrl":"http://finance.yahoo.com"}},{"settings":["environment:development"]}]';
                     var desc1 = '[{"settings":["master"],"name":"controllers - 1","dataprovider":{"Test Data Driven Descriptor":{"group":"func","params":{"scenario":[{"page":"$$config.baseUrl$$"},{"test":"dummytest.js"}]}}},"config":{"baseUrl":"http://yahoo.com"}},{"settings":["environment:development"]}]';
@@ -113,7 +132,6 @@ YUI.add('datadrivermanager-tests', function (Y) {
 
             var
                 descPath = __dirname + '/datadriven-descriptor-invalid.json',
-                relativePath = path.dirname(descPath),
                 descriptorJsonStr = fs.readFileSync(descPath, 'utf-8'),
                 descriptorJson,
                 msg;
@@ -121,7 +139,7 @@ YUI.add('datadrivermanager-tests', function (Y) {
             try {
 
                 descriptorJson = JSON.parse(descriptorJsonStr);
-                dataDriverMgr.getConfigData(relativePath, descriptorJson);
+                dataDriverMgr.getConfigData(descPath, descriptorJson);
 
             }catch(e) {
                 msg = e.message;

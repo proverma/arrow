@@ -74,6 +74,13 @@ YUI.add('dataprovider-tests', function (Y) {
                 args = {};
 
             var dp = new dataProv(conf, args, __dirname + "/testDescriptor.json");
+
+            dp.mock = {
+                exit: function (code) {
+                    throw new Error("exit code is "+code);
+                }
+            };
+
             var dpvalues = dp.getTestData();
 
             Y.Assert.areEqual("http://overridebase.url.com/testMock.html", dpvalues[0].dataprovider.test2.params.page);
@@ -95,6 +102,11 @@ YUI.add('dataprovider-tests', function (Y) {
                 args = {};
 
             var dp = new dataProv(conf, args,__dirname + "/testDescriptor.json");
+            dp.mock = {
+                exit: function (code) {
+                    throw new Error("exit code is "+code);
+                }
+            };
             var dpvalues = dp.getTestData();
 
             Y.Assert.areEqual("http://overridebase.url.com/testMock.html", dpvalues[0].dataprovider.test2.params.page);
@@ -185,6 +197,32 @@ YUI.add('dataprovider-tests', function (Y) {
         }
     }));
 
+
+    suite.add(new Y.Test.Case({
+
+        "Invalid descriptorjson ": function() {
+
+            var conf = {},
+                args = {};
+
+            var dp = new dataProv(conf, args,__dirname + "/invalid.json");
+            var msg;
+            dp.mock = {
+                exit: function (code) {
+                    throw new Error("exit code is "+code);
+                }
+            };
+
+
+            try {
+                dp.getTestData();
+            }
+            catch(e) {
+                msg = e;
+            }
+            Y.Assert.areEqual( "exit code is 1", msg.message, "getTestData() did not throw exception for invalid JSON");
+        }
+    }));
 
 
     suite.add(new Y.Test.Case({
@@ -340,6 +378,11 @@ YUI.add('dataprovider-tests', function (Y) {
                 args = {};
 
             var dp = new dataProv(conf, args, __dirname + "/datadriven-descriptor.json");
+            dp.mock = {
+                exit: function (code) {
+                    throw new Error("exit code is "+code);
+                }
+            };
             var dpvalues = dp.getTestData();
 
             Y.Assert.areEqual(2, dpvalues.length, 'Number of data driven descriptors dont match');
