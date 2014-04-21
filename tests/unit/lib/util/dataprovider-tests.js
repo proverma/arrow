@@ -393,6 +393,32 @@ YUI.add('dataprovider-tests', function (Y) {
         }
     }));
 
+    suite.add(new Y.Test.Case({
+
+        "Test extends": function(){
+
+            var conf = {
+                    "baseUrl": "http://mybaseurl.com",
+                    "arrowModuleRoot": __dirname + "/",
+                    "dimensions": __dirname + "/dimensions.json",
+                    "context": "environment:development",
+                    "replaceParamJSON" : __dirname + "/replaceParams/replaceParam.json",
+                    "defaultParamJSON" : __dirname + "/replaceParams/defaultParam.json"
+                },
+                args = {};
+
+            var descPath = __dirname + '/testDescriptorExtends.json';
+            var dp = new dataProv(conf, args,descPath);
+            var descriptor = JSON.parse(fs.readFileSync(descPath,'utf-8'));
+            var relativePath = path.dirname(dp.testDataPath);
+
+            descriptor = dp.extendDescriptor(descriptor, __dirname, relativePath);
+            Y.Assert.isNotUndefined(descriptor,'Descriptor is undefined after extends');
+            Y.Assert.areEqual(2, descriptor.length,'Length of descriptor Array shall be 2');
+            Y.Assert.areEqual('{"settings":["environment:new"],"config":{"baseUrl":"http://newurl.com"}}', JSON.stringify(descriptor[1]), "descriptor[1] doesnt match the expected value after extending");
+        }
+    }));
+
 
 
     Y.Test.Runner.add(suite);
