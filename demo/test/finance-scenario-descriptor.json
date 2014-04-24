@@ -17,9 +17,11 @@
 
                     "scenario": [
                         {
+                            "comment":"Load finance page",
                             "page": "$$config.baseUrl$$"
                         },
                         {
+                            "comment":"Type yhoo in #txtquotes",
                             "controller": "locator",
                             "params": {
                                 "value": "#txtQuotes",
@@ -27,6 +29,7 @@
                             }
                         },
                         {
+                            "comment":"Verify if the quote symbol matches",
                             "test": "test-quote.js",
                             "quote": "Yahoo! Inc. (YHOO)"
                         }
