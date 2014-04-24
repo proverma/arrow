@@ -7,12 +7,12 @@
         "config": {
             "baseUrl": "http://finance.yahoo.com"
         },
-
+        "comment":"Tests for finance",
         "dataprovider" : {
 
             "Test YHOO Ticker" : {
                 "group" : "func",
-
+                "comment":"Ticker test",
                 "params" :{
 
                     "scenario": [
