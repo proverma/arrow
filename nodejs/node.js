@@ -15,9 +15,9 @@ var coverage = require('../lib/util/coverage');
 ARROW = {};
 var testReport = null;
 var args = process.argv;
-console.log(args);
+//console.log(args);
 var testSpecStr = decodeURI(args[2]);
-console.log(testSpecStr);
+//console.log(testSpecStr);
 var testSpec = JSON.parse(testSpecStr);
 if (!testSpec) {
     logger.error("Invalid node test args: " + testSpecStr);
