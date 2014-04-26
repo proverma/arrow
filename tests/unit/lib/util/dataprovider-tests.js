@@ -419,7 +419,28 @@ YUI.add('dataprovider-tests', function (Y) {
         }
     }));
 
+    suite.add(new Y.Test.Case({
 
+        "Apply YCB substitution - Settings has already been added test ": function() {
+
+            var msg,
+                descriptor,
+                contextObj = {};
+
+            try {
+
+                descriptor = fs.readFileSync(__dirname + '/descriptor-invalid-settings.json', 'utf-8');
+                descriptor = JSON.parse(descriptor);
+                dp.applyYcbSubstitution(descriptor, contextObj);
+
+            } catch (e) {
+                msg = e;
+            }
+
+            Y.Assert.areEqual("exit code is 1", msg.message, "validateDescriptor() did not throw exception for invalid schema file");
+
+        }
+    }));
 
     Y.Test.Runner.add(suite);
 }, '0.0.1', {requires:['test']});
