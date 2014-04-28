@@ -338,7 +338,7 @@ YUI.add('selenium-tests', function (Y, NAME) {
         'test createDriverJs ': function () {
             var self = this,
                 testRunnerJs = arrowRoot + '/tests/unit/lib/driver/config/testRunner.js',
-                libJs = arrowRoot + '/tests/unit/lib/driver/config/lib.js',
+                libJs = arrowRoot + '/tests/unit/lib/driver/config/lib.js' + ' , ' + arrowRoot + '/tests/unit/lib/driver/config/lib.js',
                 seedJs = arrowRoot + '/tests/unit/lib/driver/config/seed.js',
                 testHtml = arrowRoot + '/tests/unit/lib/driver/config/test.html',
                 config = {
