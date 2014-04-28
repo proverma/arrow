@@ -101,7 +101,7 @@
       "version": "3.x",
       "dependencies": {
         "request": {
-          "version": "2.9.202"
+          "version": "2.34.0"
         }
       }
     },
