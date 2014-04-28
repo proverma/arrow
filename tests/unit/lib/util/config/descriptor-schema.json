@@ -4,6 +4,7 @@
     "properties" : {
         "name" : { "type" : "string", "required" :true },
         "commonlib" : { "type" : "string"},
+        "comment" : { "type" : "string"},
         "config" : {
             "type" : "object"
         },
@@ -13,6 +14,7 @@
             "additionalProperties" : {
                 "type" : "object",
                 "properties" : {
+                    "comment" : { "type" : "string"},
                     "enabled" : { "type" : "boolean" },
                     "controller" : { "type" : "string" },
                     "group" : { "type" : "string" },

@@ -8,6 +8,7 @@
         "extends" : { "type" : "string"},
         "startProxyServer" : { "type" : "boolean"},
         "routerProxyConfig" : { "type" : "string"},
+        "comment" : { "type" : "string"},
         "config" : {
             "type" : "object"
         },
@@ -36,7 +37,9 @@
                 "required":true,
                 "additionalProperties" : {
                     "type" : "object",
+
                     "properties" : {
+                        "comment" : { "type" : "string"},
                         "enabled" : { "type" : "boolean | string" },
                         "controller" : { "type" : "string" },
                         "group" : { "type" : "string" },

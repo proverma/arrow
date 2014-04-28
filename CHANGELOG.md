@@ -1,5 +1,10 @@
 # Change Log
 
+# 0.5.2
+
+ * Using cdnjs link for yui [PR](https://github.com/yahoo/arrow/pull/228)
+ * Adding support to pass capabilities as JSON object, merging default capabilities with user defined capabilities [PR](https://github.com/yahoo/arrow/pull/227)
+
 # 0.5.1
 
  * Adding support for Android browser [PR](https://github.com/yahoo/arrow/pull/219)

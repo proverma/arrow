@@ -1,7 +1,7 @@
 {
     "name": "yahoo-arrow",
     "description": "FrontEnd Testing Framework",
-    "version": "0.5.1",
+    "version": "0.5.2",
     "homepage": "https://github.com/yahoo/arrow",
     "repository": {
         "type": "git",
@@ -56,7 +56,8 @@
         "xml2js": "0.1.14",
         "mkdirp": "0.3.5",
         "selenium-webdriver": "2.39.0",
-        "underscore": "1.6.0"
+        "underscore": "1.6.0",
+        "clone":"0.1.11"
     },
     "peerDependencies":{
         "yui": "3.x"

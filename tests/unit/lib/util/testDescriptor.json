@@ -7,9 +7,11 @@
             "baseUrl" : "<yourhostname>:8033",
             "testsValue": "sometest.js"
         },
+        "comment":"This is the comment for master",
         "dataprovider" : {
 
             "test1" : {
+                "comment":"This is comment for test1",
                 "params" : {
                     "test" : "test-func.js",
                     "page" : "testMock.html"
@@ -18,6 +20,7 @@
             },
 
             "test2" : {
+                "comment":"This is comment for test2",
                 "params" : {
                     "test" : "$$config.testsValue$$",
                     "page" : "$$config.baseUrl$$/testMock.html"
@@ -27,6 +30,7 @@
        }
     },
     {
+        "comment":"This is the comment for development",
         "settings": [ "environment:development" ],
 
         "config" :{
