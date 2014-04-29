@@ -8,7 +8,8 @@
 
 var fs = require('fs');
 var path = require('path');
-var logger = require("log4js").getLogger("runNodejsTest");
+var log4js = require("log4js");
+var logger = log4js.getLogger("runNodejsTest");
 var coverage = require('../lib/util/coverage');
 
 ARROW = {};
@@ -35,6 +36,7 @@ var waitForExitTimeout = 1000;
 var receivedShareData = undefined;
 var waitForShareDataTimeout = 1000;
 var waitForShareDataInterval = 100;
+
 process.on('message', function(m) {
     if (m.shared) {
         logger.debug("Received shared data.");
@@ -48,6 +50,9 @@ var depFiles = libs.split(",");
 var testTimeOut = testSpec.testTimeOut;
 testTimeOut = typeof testTimeOut === "string" ? parseInt(testTimeOut) : testTimeOut;
 coverage.configure(testSpec);
+
+// Set logLevel passed from parent process
+setLogLevel(testSpec.logLevel);
 
 function getReportStatus() {
     logger.info("Waiting for the test report");
@@ -137,6 +142,15 @@ function runTest() {
 
     require(seed);
 
+}
+
+/**
+ * set logLevel passed from parent process
+ * @param logLevel
+ */
+function setLogLevel(logLevel){
+    log4js.setGlobalLogLevel(logLevel);
+    log4js.restoreConsole();
 }
 
 if (coverageFlag) {

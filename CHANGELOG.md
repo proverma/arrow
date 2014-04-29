@@ -1,5 +1,11 @@
 # Change Log
 
+# 0.5.3
+
+ * Adding support for specifying comments in descriptor [PR](https://github.com/yahoo/arrow/pull/232)
+ * Making nodejs tests honor logLevel [PR](https://github.com/yahoo/arrow/pull/232)
+ * Fixed the issue - space after a comma in the 'commonLib' string in 'test-descriptor.json' causes a fail [Issue](https://github.com/yahoo/arrow/issues/206) [PR](https://github.com/yahoo/arrow/pull/233)
+
 # 0.5.2
 
  * Using cdnjs link for yui [PR](https://github.com/yahoo/arrow/pull/228)

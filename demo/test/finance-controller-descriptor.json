@@ -7,12 +7,15 @@
         "config":{
             "baseUrl":"http://finance.yahoo.com"
         },
+        "comment":"Tests for finance",
 
         "dataprovider":{
 
             "Test YHOO Ticker using Finance Controller":{
+                "comment":"This is a finance test for Yahoo ticker",
                 "group":"func",
                 "controller":"finance-controller.js",
+
                 "params":{
                     "page":"$$config.baseUrl$$",
                     "txtLocator":"#txtQuotes",
