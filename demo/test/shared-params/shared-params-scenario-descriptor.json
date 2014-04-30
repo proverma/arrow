@@ -6,8 +6,6 @@
 
         "config": {
 
-            "baseUrl": "http://finance.yahoo.com",
-
             "descriptorSharedParams" :{
                 "yhooquote": "Yahoo! Inc. (YHOO)",
                 "applequote": "Apple Inc. (AAPL)"
