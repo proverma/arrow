@@ -106,7 +106,47 @@ YUI.add('default-tests', function (Y, NAME) {
 
             A.isTrue(testExecuted, "test should be executed");
             A.isTrue(navExecuted, "nav should be executed");
+        },
+
+
+        'test descriptorSharedParams': function () {
+
+            var driver = new StubDriver(),
+                arrow = new StubArrow(),
+                dc,
+                scenario,
+                executed = false,
+                controllers,
+                testParams = {};
+
+            Arrow.instance = arrow;
+            scenario = [
+                {
+                    page: 'test.html'
+                },
+                {
+                    controller: 'controller.js'
+                }
+            ];
+            testParams.scenario = scenario;
+            testParams.descriptorSharedParams = {};
+            testParams.descriptorSharedParams.a = "A";
+            testParams.descriptorSharedParams.b = "B";
+
+            dc = new DefaultController({}, testParams, driver);
+
+            dc.execute(function (errMsg) {
+                executed = true;
+                A.isTrue(!errMsg, 'Should have executed scenario');
+            });
+
+            A.isTrue(executed, 'Scenario should be executed');
+            controllers = arrow.controllers;
+            A.areEqual(controllers[0].params.page, 'test.html', 'First atom should have a page');
+            A.areEqual(controllers[1].controller, 'controller.js', 'Second atom should have a controller');
         }
+
+
     }));
     
     Y.Test.Runner.add(suite);    

@@ -1,0 +1,9 @@
+[
+    {
+        "settings": [ "environment:new" ],
+
+        "config" :{
+            "baseUrl" : "http://newurl.com"
+        }
+    }
+]

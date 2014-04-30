@@ -1,0 +1,57 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name": "controllers",
+
+        "dataDriver" : "./configData.json",
+
+        "dataprovider" : {
+
+            "Test Data Driven Descriptor" : {
+                "group" : "func",
+
+                "params" :{
+
+                    "scenario": [
+                        {
+                            "page": "$$config.baseUrl$$"
+                        },
+                        {
+                            "test": "dummytest.js"
+                        }
+                    ]
+                }
+
+            }
+        }
+    },
+    {
+        "settings": [ "master" ],
+
+        "name": "controllers",
+
+        "dataDriver" : "./configData.json",
+
+        "dataprovider" : {
+
+            "Test Data Driven Descriptor" : {
+                "group" : "func",
+
+                "params" :{
+
+                    "scenario": [
+                        {
+                            "page": "$$config.baseUrl$$"
+                        },
+                        {
+                            "test": "dummytest.js"
+                        }
+                    ]
+                }
+
+            }
+        }
+    }
+]
+
