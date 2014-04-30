@@ -13,14 +13,10 @@
 
                 "params" :{
 
-                    "scenario": [
-                        {
-                            "page": "$$config.baseUrl$$"
-                        },
-                        {
-                            "test": "dataDriventest.js"
-                        }
-                    ]
+                    "page": "$$config.baseUrl$$",
+                    "test": "dataDriventest.js",
+                    "searchBtnId":"$$config.searchBtnId$$"
+
                 }
 
             }

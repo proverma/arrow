@@ -6,10 +6,13 @@
 
         "config": [
             {
-                "baseUrl": "http://finance.yahoo.com"
+                "baseUrl": "http://finance.yahoo.com",
+                "searchBtnId":"#mnp-search_box"
             },
             {
-                "baseUrl": "http://yahoo.com"
+                "baseUrl": "http://yahoo.com",
+                "searchBtnId":"#p_13838465-p"
+
             }
         ],
 
@@ -20,14 +23,10 @@
 
                 "params" :{
 
-                    "scenario": [
-                        {
-                            "page": "$$config.baseUrl$$"
-                        },
-                        {
-                            "test": "dataDriventest.js"
-                        }
-                    ]
+                    "page": "$$config.baseUrl$$",
+                    "test": "dataDriventest.js",
+                    "searchBtnId":"$$config.searchBtnId$$"
+
                 }
 
             }
