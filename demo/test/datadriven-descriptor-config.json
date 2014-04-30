@@ -25,7 +25,7 @@
                             "page": "$$config.baseUrl$$"
                         },
                         {
-                            "test": "dummytest.js"
+                            "test": "dataDriventest.js"
                         }
                     ]
                 }
