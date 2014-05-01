@@ -6,13 +6,16 @@
 
         "config": [
             {
-                "baseUrl": "http://finance.yahoo.com",
-                "searchBtnId":"#mnp-search_box"
+                "finance": {
+                    "baseUrl": "http://finance.yahoo.com",
+                    "searchBtnId": "#mnp-search_box"
+                }
             },
             {
-                "baseUrl": "http://yahoo.com",
-                "searchBtnId":"#p_13838465-p"
-
+                "yahoo": {
+                    "baseUrl": "http://yahoo.com",
+                    "searchBtnId": "#p_13838465-p"
+                }
             }
         ],
 

@@ -44,8 +44,8 @@ YUI.add('datadrivermanager-tests', function (Y) {
             Y.Assert.isNotUndefined(configArr, "Config array is undefined ( getting from file)");
             Y.Assert.areEqual(2, configArr.length);
 
-            Y.Assert.areEqual('http://finance.yahoo.com', configArr[0].baseUrl, "Config baseurl ( 0th element doesn't match");
-            Y.Assert.areEqual('http://yahoo.com', configArr[1].baseUrl, "Config baseurl ( 1st element doesn't match");
+            Y.Assert.areEqual('http://finance.yahoo.com', configArr[0]['finance']['baseUrl'], "Config baseurl ( 0th element doesn't match )");
+            Y.Assert.areEqual('http://yahoo.com', configArr[1]['yahoo']['baseUrl'], "Config baseurl ( 1st element doesn't match )");
 
         },
 
@@ -67,8 +67,8 @@ YUI.add('datadrivermanager-tests', function (Y) {
             Y.Assert.isNotUndefined(configArr, "Config array is undefined (getting from config array)");
             Y.Assert.areEqual(2, configArr.length);
 
-            Y.Assert.areEqual('http://finance.yahoo.com', configArr[0].baseUrl, "Config baseurl ( 0th element doesn't match");
-            Y.Assert.areEqual('http://yahoo.com', configArr[1].baseUrl, "Config baseurl ( 1st element doesn't match");
+            Y.Assert.areEqual('http://finance.yahoo.com', configArr[0]['finance']['baseUrl'], "Config baseurl ( 0th element doesn't match");
+            Y.Assert.areEqual('http://yahoo.com', configArr[1]['yahoo']['baseUrl'], "Config baseurl ( 1st element doesn't match");
 
         },
 

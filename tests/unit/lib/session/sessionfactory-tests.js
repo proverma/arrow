@@ -194,6 +194,23 @@ YUI.add('sessionfactory-tests', function (Y) {
         }
     }));
 
+
+    suite.add(new Y.Test.Case({
+
+        name : "Call getFactoryTests with data driven descriptor - verify descriptor name contains key",
+
+        testGetFactoryTestVerifyDescriptorNameContainsKey: function() {
+
+            var ss = new SessionFactory({"dimensions" : arrowRoot + "/config/dimensions.json", "arrowModuleRoot" : arrowRoot + "/", "arrDescriptor" : [__dirname + "/testdata/datadriven-descriptor.json"]},{}),
+                t,
+                t = ss.getFactoryTests();
+            A.areEqual(2 , t.length, "2 test objects should be returned");
+
+            A.isTrue(Y.JSON.stringify(t[0].descriptorName).indexOf('- controllers - finance') > 0, "");
+            A.isTrue(Y.JSON.stringify(t[1].descriptorName).indexOf('- controllers - yahoo') > 0, "");
+        }
+    }));
+
     suite.add(new Y.Test.Case({
 
         name : "Call getFactoryTests with valid descriptor path and matching testName",
