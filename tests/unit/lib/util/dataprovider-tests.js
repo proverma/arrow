@@ -412,7 +412,7 @@ YUI.add('dataprovider-tests', function (Y) {
             var descriptor = JSON.parse(fs.readFileSync(descPath,'utf-8'));
             var relativePath = path.dirname(dp.testDataPath);
 
-            descriptor = dp.extendDescriptor(descriptor, __dirname, relativePath);
+            descriptor = dp.processExtendDescriptor(descriptor, __dirname, relativePath);
             Y.Assert.isNotUndefined(descriptor,'Descriptor is undefined after extends');
             Y.Assert.areEqual(2, descriptor.length,'Length of descriptor Array shall be 2');
             Y.Assert.areEqual('{"settings":["environment:new"],"config":{"baseUrl":"http://newurl.com"}}', JSON.stringify(descriptor[1]), "descriptor[1] doesnt match the expected value after extending");
