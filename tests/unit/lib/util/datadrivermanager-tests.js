@@ -92,7 +92,54 @@ YUI.add('datadrivermanager-tests', function (Y) {
             Y.Assert.areEqual("exit code is 1", msg);
 
 
+        },
+
+        "duplicate keys in config data": function() {
+
+            var
+                descPath = __dirname + '/configdata-duplicatekeys.json',
+                configDataStr = fs.readFileSync(descPath, 'utf-8'),
+                configObj,
+                errMsg;
+
+            try {
+                configObj = JSON.parse(configDataStr);
+                dataDriverMgr.checkForDuplicateKeys(configObj.config);
+            }catch(e) {
+                errMsg = e.message;
+            }
+
+//            Y.Assert.isTrue(errMsg.indexOf('Duplicate key \'yahoo\' in the object') > -1);
+
+            Y.Assert.isNotUndefined(errMsg, "Process data driver with duplicate keys in config data shall throw exception");
+            if (errMsg) {
+                Y.Assert.isTrue(errMsg.indexOf('Duplicate key \'yahoo\' in the object') > -1);
+            }
+
+
         }
+
+
+        ,"unique keys in config data": function() {
+
+            var
+                descPath = __dirname + '/configdata.json',
+                configDataStr = fs.readFileSync(descPath, 'utf-8'),
+                configObj,
+                errMsg;
+
+            try {
+                configObj = JSON.parse(configDataStr);
+                dataDriverMgr.checkForDuplicateKeys(configObj.config);
+            }catch(e) {
+                errMsg = e.message;
+            }
+
+            Y.Assert.isUndefined(errMsg, "No exception shall be thrown when keys are unique");
+
+        }
+
+
 
     }));
 
@@ -123,7 +170,33 @@ YUI.add('datadrivermanager-tests', function (Y) {
             Y.Assert.areEqual( 2, descriptorArr.length);
 
 
+        },
+
+        "process data driver duplicate keys ": function() {
+
+            var
+                descPath = __dirname + '/datadriven-descriptor-dup-keys.json',
+                descriptorJsonStr = fs.readFileSync(descPath, 'utf-8'),
+                descriptorJson,
+                descriptorArr = [],
+                errMsg;
+
+            try {
+                descriptorJson = JSON.parse(descriptorJsonStr);
+                descriptorArr = dataDriverMgr.processDataDriver(descPath, descriptorJson);
+
+            }catch(e) {
+                errMsg = e.message;
+            }
+
+            Y.Assert.isNotUndefined(errMsg, "Process data driver with duplicate keys in config data shall throw exception");
+
+            if (errMsg) {
+                Y.Assert.isTrue(errMsg.indexOf("exit code is 1") > -1);
+            }
+
         }
+
     }));
 
     suite.add(new Y.Test.Case({
