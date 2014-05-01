@@ -10,6 +10,6 @@ var config = {};
 config.parallel = true;
 config.baseUrl = "http://new.base.url.com";
 // Framework config
-config.descriptorName = "new_test_descriptor.json";
+config.qualifiedDescriptorPath = "new_test_descriptor.json";
 
 module.exports = config;
