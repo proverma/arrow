@@ -1,5 +1,11 @@
 # Change Log
 
+# 0.6.0
+
+ * Adding support for data driven descriptors [PR](https://github.com/yahoo/arrow/pull/237) [Documentation](http://yahoo.github.io/arrow/arrow_FAQs.html#how-can-I-reuse-same-descriptor-with-different-sets-of-data)
+ * Adding support for sharing parameters from descriptors [PR](https://github.com/yahoo/arrow/pull/237) [Documentation](http://yahoo.github.io/arrow/arrow_FAQs.html#how-can-I-share-params-from-my-descriptor)
+ * Error handling for JSON parsing in webservice controller [PR](https://github.com/yahoo/arrow/pull/235)
+
 # 0.5.3
 
  * Adding support for specifying comments in descriptor [PR](https://github.com/yahoo/arrow/pull/232)
