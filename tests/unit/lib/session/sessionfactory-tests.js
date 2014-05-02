@@ -194,6 +194,23 @@ YUI.add('sessionfactory-tests', function (Y) {
         }
     }));
 
+
+    suite.add(new Y.Test.Case({
+
+        name : "Call getFactoryTests with data driven descriptor - verify descriptor name contains key",
+
+        testGetFactoryTestVerifyDescriptorNameContainsKey: function() {
+
+            var ss = new SessionFactory({"dimensions" : arrowRoot + "/config/dimensions.json", "arrowModuleRoot" : arrowRoot + "/", "arrDescriptor" : [__dirname + "/testdata/datadriven-descriptor.json"]},{}),
+                t,
+                t = ss.getFactoryTests();
+            A.areEqual(2 , t.length, "2 test objects should be returned");
+
+            A.isTrue(Y.JSON.stringify(t[0].qualifiedDescriptorPath).indexOf('- finance') > 0, "QualifiedDescriptorPath shall contain the data driver key - finance");
+            A.isTrue(Y.JSON.stringify(t[1].qualifiedDescriptorPath).indexOf('- yahoo') > 0, "QualifiedDescriptorPath shall contain the data driver key - yahoo");
+        }
+    }));
+
     suite.add(new Y.Test.Case({
 
         name : "Call getFactoryTests with valid descriptor path and matching testName",
@@ -286,6 +303,23 @@ YUI.add('sessionfactory-tests', function (Y) {
 //
 //        }
 //    }));
+
+    suite.add(new Y.Test.Case({
+
+        name : "Call getFactoryTests with descriptor shared params",
+
+        testGetFactoryTestWithDescriptorSharedParams: function() {
+            var ss = new SessionFactory({"dimensions" : arrowRoot + "/config/dimensions.json", "arrowModuleRoot" : arrowRoot + "/", "arrDescriptor": [__dirname + "/testdata/test_descriptor_shared_params.json"]},
+                    {}),
+                t;
+            t = ss.getFactoryTests();
+            A.areEqual(1, t.length, "There should be 1 test objects");
+
+            A.areEqual("Yahoo", t[0].params.descriptorSharedParams['yhooquote'], "DescriptorSharedParams - YHOO Quote doesn't match");
+            A.areEqual("Apple", t[0].params.descriptorSharedParams['applequote'], "DescriptorSharedParams - AAPL Quote doesn't match");
+
+        }
+    }));
 
 
     Y.Test.Runner.add(suite);

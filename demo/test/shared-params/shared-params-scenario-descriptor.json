@@ -1,0 +1,62 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name": "controllers",
+
+        "config": {
+
+            "descriptorSharedParams" :{
+                "yhooquote": "Yahoo! Inc. (YHOO)",
+                "applequote": "Apple Inc. (AAPL)"
+            }
+        },
+
+        "dataprovider" : {
+
+            "Test YHOO Ticker" : {
+                "group" : "func",
+
+                "params" :{
+
+                    "scenario": [
+                        {
+                            "page": "http://finance.yahoo.com"
+                        },
+                        {
+                            "controller": "locator",
+                            "params": {
+                                "value": "#txtQuotes",
+                                "text": "yhoo\n"
+                            }
+                        },
+                        {
+                            "test": "test-quote-yhoo-shared-params.js"
+                        },
+
+                        {
+                            "page": "http://finance.yahoo.com"
+                        },
+                        {
+                            "controller": "locator",
+                            "params": {
+                                "value": "#txtQuotes",
+                                "text": "aapl\n"
+                            }
+                        },
+                        {
+                            "test": "test-quote-aapl-shared-params.js"
+                        }
+
+                    ]
+                }
+
+            }
+        }
+    },
+    {
+        "settings": [ "environment:development" ]
+    }
+
+]
+

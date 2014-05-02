@@ -407,8 +407,71 @@ YUI.add('reportmanager-tests', function(Y) {
                     }
                 });
 
-        }
+        },
 
+        "writeReports With Result Report for data driver" : function() {
+            var testSessionObj,
+                arrowRoot = path.join(__dirname, '../../../..'),
+                TestSession = require(arrowRoot + '/tests/unit/lib/util/testSession.js'),
+                report = JSON.parse(fs.readFileSync(__dirname + "/config/resultreport.json")),
+                testSessionsArr = [],
+                rm,
+                i,
+                reportObj,
+                fileUtil = new FileUtil();
+
+
+            testSessionObj = new TestSession(report);
+            testSessionObj.args = {};
+            testSessionObj.args.browser = "dummyBrowser";
+
+            testSessionsArr.push(testSessionObj);
+
+            // Instantiate report manager with report object
+
+            reportObj = {
+                "arrTestSessions" : testSessionsArr,
+                "arrWDSessions" : "",
+                "descriptor" : "dummyDescriptor.json",
+                "reuseSession" : "dummyReuseSession",
+                "testSuiteName" : "dummyTestSuite",
+                "driver" : "dummyDriver",
+                "browser" : "dummyBrowser",
+                "group" : "dummyGroup",
+                "testName" : "dummyTestname",
+                dataDriverKey:"dataDriverKey"
+
+            };
+            global.reportFolder =  "reportFolder";
+            global.workingDirectory = process.cwd();
+            fileUtil.createDirectory(path.resolve(global.workingDirectory, global.reportFolder, 'arrow-report'));
+
+            rm = new RepManager(reportObj);
+
+
+            rm.writeReports();
+
+            // Clean up
+
+            fs.unlink(path.resolve(global.workingDirectory, global.reportFolder, 'arrow-report', 'dummyDescriptor.json-dataDriverKey-report.json'),
+                function(err) {
+                    if (err) {
+                        console.log('Can\'t cleanup the dummy descriptor json report file..' + err);
+                    } else {
+                        console.log('Cleaned up the dummy descriptor json report file..');
+                    }
+                });
+
+            fs.unlink(path.resolve(global.workingDirectory, global.reportFolder, 'arrow-report', 'dummyDescriptor.json-dataDriverKey-report.xml'),
+                function(err) {
+                    if (err) {
+                        console.log('Can\'t cleanup the dummy descriptor xml report file..' + err);
+                    } else {
+                        console.log('Cleaned up the dummy descriptor xml report file..');
+                    }
+                });
+
+        },
 
 
 
