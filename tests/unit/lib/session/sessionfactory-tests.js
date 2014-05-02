@@ -206,8 +206,8 @@ YUI.add('sessionfactory-tests', function (Y) {
                 t = ss.getFactoryTests();
             A.areEqual(2 , t.length, "2 test objects should be returned");
 
-            A.isTrue(Y.JSON.stringify(t[0].qualifiedDescriptorPath).indexOf('- controllers - finance') > 0, "");
-            A.isTrue(Y.JSON.stringify(t[1].qualifiedDescriptorPath).indexOf('- controllers - yahoo') > 0, "");
+            A.isTrue(Y.JSON.stringify(t[0].qualifiedDescriptorPath).indexOf('- finance') > 0, "QualifiedDescriptorPath shall contain the data driver key - finance");
+            A.isTrue(Y.JSON.stringify(t[1].qualifiedDescriptorPath).indexOf('- yahoo') > 0, "QualifiedDescriptorPath shall contain the data driver key - yahoo");
         }
     }));
 
