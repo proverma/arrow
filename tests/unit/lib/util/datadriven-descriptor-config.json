@@ -1,0 +1,45 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name": "controllers",
+
+        "config": [
+            {
+                "finance": {
+                    "baseUrl": "http://finance.yahoo.com"
+                }
+            },
+            {
+                "yahoo": {
+                    "baseUrl": "http://yahoo.com"
+                }
+            }
+        ],
+
+        "dataprovider" : {
+
+            "Test Data Driven Descriptor" : {
+                "group" : "func",
+
+                "params" :{
+
+                    "scenario": [
+                        {
+                            "page": "$$config.baseUrl$$"
+                        },
+                        {
+                            "test": "dummytest.js"
+                        }
+                    ]
+                }
+
+            }
+        }
+    },
+    {
+        "settings": [ "environment:development" ]
+    }
+
+]
+

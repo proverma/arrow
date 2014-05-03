@@ -1,0 +1,22 @@
+[
+    {
+        "settings": [ "master" ],
+        "name" : "tabview",
+        "commonlib" : "./test-lib.js",
+        "extends":"./base.json",
+        "config" :{
+            "baseUrl" : "<yourhostname>:8033",
+            "testsValue": "sometest.js"
+        },
+        "dataprovider" : {
+
+            "test1" : {
+                "params" : {
+                    "test" : "test-func.js",
+                    "page" : "testMock.html"
+                },
+                "group" : "unit"
+            }
+       }
+    }
+]

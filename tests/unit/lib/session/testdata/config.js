@@ -22,6 +22,6 @@ config.defaultAppSeed = "http://yui.yahooapis.com/3.4.1/build/yui/yui-min.js";
 config.testSeed = config.arrowModuleRoot + "lib/client/yuitest-seed.js";
 config.testRunner = config.arrowModuleRoot + "lib/client/yuitest-runner.js";
 config.autolib = config.arrowModuleRoot + "lib/common";
-config.descriptorName = "test_descriptor.json";
+config.descriptorPath = "test_descriptor.json";
 
 module.exports = config;

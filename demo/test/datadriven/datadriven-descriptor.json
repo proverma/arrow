@@ -1,0 +1,30 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name": "controllers",
+
+        "dataDriver" : "./configdata.json",
+
+        "dataprovider" : {
+
+            "Test Data Driven Descriptor" : {
+                "group" : "func",
+
+                "params" :{
+
+                    "page": "$$config.baseUrl$$",
+                    "test": "dataDriventest.js",
+                    "searchBtnId":"$$config.searchBtnId$$"
+
+                }
+
+            }
+        }
+    },
+    {
+        "settings": [ "environment:development" ]
+    }
+
+]
+

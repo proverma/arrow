@@ -1,0 +1,34 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name": "controllers",
+
+        "dataDriver" : "./fileDoesNotExist.json",
+
+        "dataprovider" : {
+
+            "Test Data Driven Descriptor" : {
+                "group" : "func",
+
+                "params" :{
+
+                    "scenario": [
+                        {
+                            "page": "$$config.baseUrl$$"
+                        },
+                        {
+                            "test": "dummytest.js"
+                        }
+                    ]
+                }
+
+            }
+        }
+    },
+    {
+        "settings": [ "environment:development" ]
+    }
+
+]
+

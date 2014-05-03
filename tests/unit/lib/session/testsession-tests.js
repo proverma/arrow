@@ -160,7 +160,7 @@ YUI.add('testsession-tests', function (Y) {
             var obj = {};
             obj.count = 1;
             obj.testName = "Test-1";
-            obj.descriptorPath = "descriptorPath";
+            obj.qualifiedDescriptorPath = "descriptorPath";
             obj.reportDir = "myReport/arrow-target";
             obj.screenShotsDir = "screenshots";
 
@@ -197,7 +197,7 @@ YUI.add('testsession-tests', function (Y) {
             var obj = {};
             obj.count = 1;
             obj.testName = "Test-1";
-            obj.descriptorPath = "descriptorPath";
+            obj.qualifiedDescriptorPath = "descriptorPath";
             obj.reportDir = "myReport/arrow-target";
             obj.screenShotsDir = "screenshots";
             obj.artifactsUrl = "http://ci.com/artifacts/tests/arrow/node/myReport/arrow-target";
@@ -250,7 +250,7 @@ YUI.add('testsession-tests', function (Y) {
             var obj = {};
             obj.count = 1;
             obj.testName = "Test-1";
-            obj.descriptorPath = "descriptorPath";
+            obj.qualifiedDescriptorPath = "descriptorPath";
             obj.reportDir = "arrow-target";
             obj.screenShotsDir = "screenshots";
 
@@ -289,7 +289,7 @@ YUI.add('testsession-tests', function (Y) {
             var obj = {};
             obj.count = 1;
             obj.testName = "Test-1";
-            obj.descriptorPath = "descriptorPath";
+            obj.qualifiedDescriptorPath = "descriptorPath";
             obj.reportDir = "arrow-target";
             obj.screenShotsDir = "screenshots";
             obj.artifactsUrl = "http://ci.com/artifacts/tests/arrow/node/arrow-target";
