@@ -98,10 +98,10 @@
       }
     },
     "yui": {
-      "version": "3.x",
+      "version": "3.8.0",
       "dependencies": {
         "request": {
-          "version": "2.34.0"
+          "version": "2.9.202"
         }
       }
     },

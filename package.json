@@ -60,7 +60,7 @@
         "clone":"0.1.11"
     },
     "peerDependencies":{
-        "yui": "3.x"
+        "yui": "3.8.0"
     },
     "optionalDependencies": {
         "mocha": "1.7.4",
