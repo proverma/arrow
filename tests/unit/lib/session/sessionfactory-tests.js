@@ -313,10 +313,26 @@ YUI.add('sessionfactory-tests', function (Y) {
                     {}),
                 t;
             t = ss.getFactoryTests();
-            A.areEqual(1, t.length, "There should be 1 test objects");
+            A.areEqual(1, t.length, "There should be 1 test object");
 
             A.areEqual("Yahoo", t[0].params.descriptorSharedParams['yhooquote'], "DescriptorSharedParams - YHOO Quote doesn't match");
             A.areEqual("Apple", t[0].params.descriptorSharedParams['applequote'], "DescriptorSharedParams - AAPL Quote doesn't match");
+
+        }
+    }));
+
+
+    suite.add(new Y.Test.Case({
+
+        name : "Call getFactoryTests with no config",
+
+        testGetFactoryTestWithDescriptorSharedParams: function() {
+            var ss = new SessionFactory({"dimensions" : arrowRoot + "/config/dimensions.json", "arrowModuleRoot" : arrowRoot + "/", "arrDescriptor": [__dirname + "/testdata/test_descriptor_noConfig.json"]},
+                    {}),
+                t;
+            t = ss.getFactoryTests();
+            A.areEqual(2, t.length, "There should be 2 test objects");
+
 
         }
     }));
