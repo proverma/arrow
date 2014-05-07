@@ -8,7 +8,7 @@
             "args": {
                 "config": {},
                 "params": {
-                    "lib": "/Users/pranavp/Documents/arrow/lib/common/yui-arrow.js,../src/greeter.js",
+                    "lib": "myDir/arrow/lib/common/yui-arrow.js,../src/greeter.js",
                     "report": true,
                     "argv": {
                         "remain": [
@@ -28,7 +28,7 @@
                         ]
                     },
                     "test": "test-greeter.js",
-                    "page": "/Users/pranavp/Documents/arrow/lib/client/testHost.html",
+                    "page": "myDir/arrow/lib/client/testHost.html",
                     "customController": false
                 },
                 "testName": "Default",
@@ -43,13 +43,13 @@
                 "browser": "firefox",
                 "parallel": false,
                 "baseUrl": "",
-                "arrowModuleRoot": "/Users/pranavp/Documents/arrow/",
-                "dimensions": "/Users/pranavp/Documents/arrow/config/dimensions.json",
-                "defaultTestHost": "/Users/pranavp/Documents/arrow/lib/client/testHost.html",
+                "arrowModuleRoot": "myDir/arrow/",
+                "dimensions": "myDir/arrow/config/dimensions.json",
+                "defaultTestHost": "myDir/arrow/lib/client/testHost.html",
                 "defaultAppSeed": "http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js",
-                "testSeed": "/Users/pranavp/Documents/arrow/lib/client/yuitest-seed.js",
-                "testRunner": "/Users/pranavp/Documents/arrow/lib/client/yuitest-runner.js",
-                "autolib": "/Users/pranavp/Documents/arrow/lib/common",
+                "testSeed": "myDir/arrow/lib/client/yuitest-seed.js",
+                "testRunner": "myDir/arrow/lib/client/yuitest-runner.js",
+                "autolib": "myDir/arrow/lib/common",
                 "descriptorName": "test_descriptor.json",
                 "minPort": 10000,
                 "maxPort": 11000,
@@ -64,7 +64,7 @@
             "testConfig": {},
             "retryCount": 0,
             "testParams": {
-                "lib": "/Users/pranavp/Documents/arrow/lib/common/yui-arrow.js,../src/greeter.js",
+                "lib": "myDir/arrow/lib/common/yui-arrow.js,../src/greeter.js",
                 "report": true,
                 "argv": {
                     "remain": [
@@ -84,7 +84,7 @@
                     ]
                 },
                 "test": "test-greeter.js",
-                "page": "/Users/pranavp/Documents/arrow/lib/client/testHost.html",
+                "page": "myDir/arrow/lib/client/testHost.html",
                 "customController": false
             },
             "driver": {
@@ -101,13 +101,13 @@
                     "browser": "firefox",
                     "parallel": false,
                     "baseUrl": "",
-                    "arrowModuleRoot": "/Users/pranavp/Documents/arrow/",
-                    "dimensions": "/Users/pranavp/Documents/arrow/config/dimensions.json",
-                    "defaultTestHost": "/Users/pranavp/Documents/arrow/lib/client/testHost.html",
+                    "arrowModuleRoot": "myDir/arrow/",
+                    "dimensions": "myDir/arrow/config/dimensions.json",
+                    "defaultTestHost": "myDir/arrow/lib/client/testHost.html",
                     "defaultAppSeed": "http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js",
-                    "testSeed": "/Users/pranavp/Documents/arrow/lib/client/yuitest-seed.js",
-                    "testRunner": "/Users/pranavp/Documents/arrow/lib/client/yuitest-runner.js",
-                    "autolib": "/Users/pranavp/Documents/arrow/lib/common",
+                    "testSeed": "myDir/arrow/lib/client/yuitest-seed.js",
+                    "testRunner": "myDir/arrow/lib/client/yuitest-runner.js",
+                    "autolib": "myDir/arrow/lib/common",
                     "descriptorName": "test_descriptor.json",
                     "minPort": 10000,
                     "maxPort": 11000,
@@ -123,7 +123,7 @@
                 "args": {
                     "config": {},
                     "params": {
-                        "lib": "/Users/pranavp/Documents/arrow/lib/common/yui-arrow.js,../src/greeter.js",
+                        "lib": "myDir/arrow/lib/common/yui-arrow.js,../src/greeter.js",
                         "report": true,
                         "argv": {
                             "remain": [
@@ -143,7 +143,7 @@
                             ]
                         },
                         "test": "test-greeter.js",
-                        "page": "/Users/pranavp/Documents/arrow/lib/client/testHost.html",
+                        "page": "myDir/arrow/lib/client/testHost.html",
                         "customController": false
                     },
                     "testName": "Default",
