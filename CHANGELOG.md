@@ -1,5 +1,10 @@
 # Change Log
 
+# 0.6.1
+
+ * Fix for exitCode not working for unit tests [PR](https://github.com/yahoo/arrow/pull/239)
+ * Fixing condition for descriptorSharedParams [PR](https://github.com/yahoo/arrow/pull/238)
+
 # 0.6.0
 
  * Adding support for data driven descriptors [PR](https://github.com/yahoo/arrow/pull/237) [Documentation](http://yahoo.github.io/arrow/arrow_FAQs.html#how-can-I-reuse-same-descriptor-with-different-sets-of-data)
