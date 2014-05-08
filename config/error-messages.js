@@ -53,7 +53,14 @@ var pathNotFound = "Path is not defined", empty = "", error = {
 	1006 : {
 		name : 'ENULLARG',
 		text : 'Argument "{0}" is "{1}".'
-	}
+	},
+    1007 : {
+        name : 'EMISSINGYUIDEPENDENCY',
+        text :'Missing YUI dependency.YUI is a peer dependency of Arrow.For details about peer dependency, see http://blog.nodejs.org/2013/02/07/peer-dependencies/\n' +
+            'If you are using global installation of Arrow, please install YUI globally. ' +
+            '\nIf you are running using local installation of Arrow, please add YUI as a dependency in your package.json.',
+        0 : empty
+    }
 };
 
 module.exports = error;
