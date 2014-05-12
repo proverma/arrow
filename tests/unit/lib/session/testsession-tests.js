@@ -147,6 +147,26 @@ YUI.add('testsession-tests', function (Y) {
 
     suite.add(new Y.Test.Case({
 
+        name : "Check for invalid driver",
+
+        testInvalidDriver: function(){
+            var config = {},
+                args = {};
+
+            args.params = {};
+            args.params.driver="invalid";
+            var ts = new testSession(config,args,null);
+
+            ts.setup(function(msg){
+                A.isTrue(msg.indexOf("ERROR :invalid is not a supported test driver, Please provide \"selenium\" or \"nodejs\" as driver.") > -1 , "Should return invalid driver");
+            });
+
+        }
+    }));
+
+
+    suite.add(new Y.Test.Case({
+
         name : "Get Artifact Paths test with report Folder",
 
         "test GetArtifactPaths Test with report folder": function(){
