@@ -1,5 +1,10 @@
 # Change Log
 
+# 0.6.2
+
+ * Restarting phantomjs before retry, if it crashed while test execution [PR](https://github.com/yahoo/arrow/pull/243) [Issue](https://github.com/yahoo/arrow/issues/240)
+ * Add additional checks for markup-test.js [PR](https://github.com/yahoo/arrow/pull/244)
+
 # 0.6.1
 
  * Fix for exitCode not working for unit tests [PR](https://github.com/yahoo/arrow/pull/239)
