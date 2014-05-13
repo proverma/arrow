@@ -45,6 +45,7 @@
         "nopt": "2.0.0",
         "colors": "0.6.0-1",
         "express": "3.0.0",
+        "yui": "3.8.0",
         "JSV": "4.0.2",
         "log4js": "0.5.1",
         "useragent": "1.1.0",
@@ -52,15 +53,12 @@
         "uglify-js": "1.3.4",
         "xml-writer": "1.2.3",
         "ycb": "1.0.5",
-        "async": "0.8.0",
+        "async": "~0.2.5",
         "xml2js": "0.1.14",
         "mkdirp": "0.3.5",
         "selenium-webdriver": "2.39.0",
         "underscore": "1.6.0",
         "clone":"0.1.11"
-    },
-    "peerDependencies":{
-        "yui": "3.x"
     },
     "optionalDependencies": {
         "mocha": "1.7.4",
@@ -73,7 +71,6 @@
     },
     "devDependencies": {
         "ytestrunner": "0.3.3",
-        "yui": "3.8.0",
         "mockery": "1.4.0",
         "JSONPath": "0.9.1"
     }

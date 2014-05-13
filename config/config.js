@@ -20,7 +20,7 @@ config.baseUrl = "";
 config.arrowModuleRoot = global.appRoot + "/";
 config.dimensions = config.arrowModuleRoot + "config/dimensions.json";
 config.defaultTestHost = config.arrowModuleRoot + "lib/client/testHost.html";
-config.defaultAppSeed = "//cdnjs.cloudflare.com/ajax/libs/yui/3.16.0/yui-min.js";
+config.defaultAppSeed = "//cdnjs.cloudflare.com/ajax/libs/yui/3.15.0/yui-min.js";
 config.autolib = config.arrowModuleRoot + "lib/common";
 
 //for yui sandbox
