@@ -402,6 +402,25 @@ YUI.add('sessionfactory-tests', function (Y) {
         }
     }));
 
+    suite.add(new Y.Test.Case({
+
+        name : "Call getFactoryTests with descriptor importing",
+
+        testGetFactoryTestWithDescriptorImporting: function() {
+            Y.log("dir:" + __dirname);
+            var ss = new SessionFactory({"dimensions" : arrowRoot + "/config/dimensions.json", "arrowModuleRoot" : arrowRoot + "/", "arrDescriptor" : [__dirname + "/testdata/test_descriptor_importDescriptor.json"]}, {}),
+                t,
+                expectedLibPath = __dirname + "/testdata/lib/test-imported-lib.js";
+
+            global.workingDirectory = arrowRoot;
+
+            t = ss.getFactoryTests();
+            
+            A.areEqual(3, t.length, "There should be 3 test objects");
+            A.areEqual(expectedLibPath, t[2].params.lib, "lib of imprted descriptor should be composed with correct relative path");
+        }
+    }));
+
 
     Y.Test.Runner.add(suite);
 
