@@ -1,5 +1,9 @@
 # Change Log
 
+# 0.6.3
+
+ * Fix to avoid ECONNRESET issue with Nodejs 10 [PR](https://github.com/yahoo/arrow/pull/250)
+
 # 0.6.2
 
  * Restarting phantomjs before retry, if it crashed while test execution [PR](https://github.com/yahoo/arrow/pull/243) [Issue](https://github.com/yahoo/arrow/issues/240)
