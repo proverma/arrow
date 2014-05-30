@@ -10,10 +10,12 @@
 
         "importDescriptor":[
             {
-                "path" : "./importTests/finance-descriptor.json"
+                "path" : "./importTests/finance-descriptor.json",
+                "group" : ["func"]
             },
             {
-                "path" : "./importTests/finance-descriptor2.json"
+                "path" : "./importTests/finance-descriptor2.json",
+                "group" : ["func"]
             }
         ],
 
