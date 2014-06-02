@@ -23,6 +23,7 @@
                 "params" :{
                     "page": "$$config.baseUrl$$",
                     "test": "../test-browser-size.js",
+                    "lib": "../test-lib.js",
                     "windowSize": {
                         "width": "512",
                         "height": 512
