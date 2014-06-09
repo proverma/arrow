@@ -12,7 +12,7 @@
             "Test Aseert" : {
                 "group" : "smoke",
                 "params" :{
-                    "test" : "../test-assert-2.js",
+                    "test" : "../test-assert-3.js",
                     "page" : "$$config.baseUrl$$"
                 }
             },

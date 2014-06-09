@@ -23,7 +23,7 @@
             
            "dom_int" : {
                 "params" : {
-                    "test" : "test-assert-1.js",
+                    "test" : "test-assert-3.js",
                     "page" : "$$config.baseUrl$$"
                   },
                 "group" : "smoke"
