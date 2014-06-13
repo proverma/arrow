@@ -1,5 +1,10 @@
 # Change Log
 
+# 0.6.4
+
+ * Setting rejectUnauthorized to false for webservice controller [PR](https://github.com/yahoo/arrow/pull/266)
+ * Setting express version to 3.x and Mocha to ~1.18.2 [PR](https://github.com/yahoo/arrow/pull/252)
+
 # 0.6.3
 
  * Fix to avoid ECONNRESET issue with Nodejs 10 [PR](https://github.com/yahoo/arrow/pull/250)
