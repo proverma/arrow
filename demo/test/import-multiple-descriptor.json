@@ -1,0 +1,40 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name" : "tabview",
+
+        "config" :{
+            "baseUrl" : "http://finance.yahoo.com"
+        },
+
+        "importDescriptor":[
+            {
+                "path" : "./importTests/finance-descriptor.json",
+                "group" : ["func"]
+            },
+            {
+                "path" : "./importTests/finance-descriptor2.json",
+                "group" : ["func"]
+            }
+        ],
+
+        "dataprovider" : {
+            
+           "dom_int" : {
+                "params" : {
+                    "test" : "test-assert-3.js",
+                    "page" : "$$config.baseUrl$$"
+                  },
+                "group" : "smoke"
+            }
+
+        }
+        
+    },
+
+    {
+        "settings": [ "environment:development" ]
+    }
+
+]

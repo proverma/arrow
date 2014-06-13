@@ -1,0 +1,40 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name": "controllers",
+
+        "config": {
+            "baseUrl": "http://finance.yahoo.com"
+        },
+
+        "dataprovider" : {
+            "Test Aseert" : {
+                "group" : "smoke",
+                "params" :{
+                    "test" : "../test-assert-3.js",
+                    "page" : "$$config.baseUrl$$"
+                }
+            },
+
+            "Test Window Size" : {
+                "group" : "func",
+                "browser":"firefox",
+                "params" :{
+                    "page": "$$config.baseUrl$$",
+                    "test": "../test-browser-size.js",
+                    "lib": "../test-lib.js",
+                    "windowSize": {
+                        "width": "512",
+                        "height": 512
+                    }
+                }
+            }
+
+        }
+    },
+    {
+        "settings": [ "environment:development" ]
+    }
+
+]
