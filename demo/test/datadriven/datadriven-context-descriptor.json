@@ -1,0 +1,52 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name": "controllers",
+
+        "config": [
+            {
+                "finance": {
+                    "baseUrl": "http://finance.yahoo.com"
+                }
+            },
+            {
+                "yahoo": {
+                    "baseUrl": "http://yahoo.com"
+                }
+            }
+        ],
+
+        "dataprovider" : {
+
+            "Test Data Driven Descriptor" : {
+                "group" : "func",
+
+                "params" :{
+
+                    "page": "$$config.baseUrl$$",
+                    "test": "./test.js"
+
+                }
+
+            }
+        }
+    },
+    {
+        "settings": [ "environment:development" ],
+        "config": [
+            {
+                "finance": {
+                    "baseUrl": "http://uk.finance.yahoo.com"
+                }
+            },
+            {
+                "yahoo": {
+                    "baseUrl": "http://uk.yahoo.com"
+                }
+            }
+        ]
+
+    }
+
+]

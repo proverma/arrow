@@ -153,22 +153,52 @@ YUI.add('datadrivermanager-tests', function (Y) {
                 descriptorJson,
                 descriptorArr = [];
 
-                try {
-                    descriptorJson = JSON.parse(descriptorJsonStr);
-                    descriptorArr = dataDriverMgr.processDataDriver(descPath, descriptorJson);
+            try {
+                descriptorJson = JSON.parse(descriptorJsonStr);
+                descriptorArr = dataDriverMgr.processDataDriver(descPath, descriptorJson);
 
-                    var desc0 = '[{"settings":["master"],"name":"controllers - 0","dataprovider":{"Test Data Driven Descriptor":{"group":"func","params":{"scenario":[{"page":"$$config.baseUrl$$"},{"test":"dummytest.js"}]}}},"config":{"baseUrl":"http://finance.yahoo.com"}},{"settings":["environment:development"]}]';
-                    var desc1 = '[{"settings":["master"],"name":"controllers - 1","dataprovider":{"Test Data Driven Descriptor":{"group":"func","params":{"scenario":[{"page":"$$config.baseUrl$$"},{"test":"dummytest.js"}]}}},"config":{"baseUrl":"http://yahoo.com"}},{"settings":["environment:development"]}]';
+                Y.Assert.areEqual( 2, descriptorArr.length);
 
-                    Y.Assert.areEqual(desc0, JSON.stringify(descriptorArr[0]));
-                    Y.Assert.areEqual(desc1, JSON.stringify(descriptorArr[1]));
+                var desc0 = '[{"settings":["master"],"name":"controllers","dataDriver":"./configdata.json","dataprovider":{"Test Data Driven Descriptor":{"group":"func","params":{"scenario":[{"page":"$$config.baseUrl$$"},{"test":"dummytest.js"}]}}},"config":{"baseUrl":"http://finance.yahoo.com"},"dataDriverKey":"finance"},{"settings":["environment:development"]}]';
+                Y.Assert.areEqual(desc0, JSON.stringify(descriptorArr[0]));
 
-                }catch(e) {
+                var desc1 = '[{"settings":["master"],"name":"controllers","dataDriver":"./configdata.json","dataprovider":{"Test Data Driven Descriptor":{"group":"func","params":{"scenario":[{"page":"$$config.baseUrl$$"},{"test":"dummytest.js"}]}}},"config":{"baseUrl":"http://yahoo.com"},"dataDriverKey":"yahoo"},{"settings":["environment:development"]}]';
 
-                }
+                Y.Assert.areEqual(desc1, JSON.stringify(descriptorArr[1]));
 
-            Y.Assert.areEqual( 2, descriptorArr.length);
+            }catch(e) {
+                Y.Assert.fail(e);
+            }
 
+        },
+
+
+        "process data driver with context": function() {
+
+            var
+                descPath = __dirname + '/datadriven-descriptor-config-context.json',
+                descriptorJsonStr = fs.readFileSync(descPath, 'utf-8'),
+                descriptorJson,
+                descriptorArr = [];
+
+            try {
+
+                descriptorJson = JSON.parse(descriptorJsonStr);
+                descriptorArr = dataDriverMgr.processDataDriver(descPath, descriptorJson);
+
+                Y.Assert.areEqual( 2, descriptorArr.length);
+
+                var desc0 = '[{"settings":["master"],"name":"controllers","config":{"baseUrl":"http://finance.yahoo.com"},"dataprovider":{"Test Data Driven Descriptor":{"group":"func","params":{"scenario":[{"page":"$$config.baseUrl$$"},{"test":"dummytest.js"}]}}},"dataDriverKey":"finance"},{"settings":["environment:development"],"config":{"baseUrl":"http://uk.finance.yahoo.com"}}]';
+                var desc1 = '[{"settings":["master"],"name":"controllers","config":{"baseUrl":"http://yahoo.com"},"dataprovider":{"Test Data Driven Descriptor":{"group":"func","params":{"scenario":[{"page":"$$config.baseUrl$$"},{"test":"dummytest.js"}]}}},"dataDriverKey":"yahoo"},{"settings":["environment:development"],"config":{"baseUrl":"http://uk.yahoo.com"}}]';
+
+                Y.Assert.areEqual(desc0, JSON.stringify(descriptorArr[0]), "Descriptor Array 0 value doesn't match");
+                Y.Assert.areEqual(desc1, JSON.stringify(descriptorArr[1]) , "Descriptor Array 0 value doesn't match");
+
+
+
+            }catch(e) {
+                Y.Assert.fail(e);
+            }
 
         },
 
