@@ -1,5 +1,9 @@
 # Change Log
 
+# 0.6.5
+
+ * Fix for supporting context with datadriven descriptors and fixing shrinkwrap [PR](https://github.com/yahoo/arrow/pull/267)
+
 # 0.6.4
 
  * Setting rejectUnauthorized to false for webservice controller [PR](https://github.com/yahoo/arrow/pull/266)
