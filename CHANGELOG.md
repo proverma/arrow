@@ -1,5 +1,9 @@
 # Change Log
 
+# 0.6.6
+
+ * Fix for screenshots getting overwritten if there are multiple test failures in one descriptor [PR](https://github.com/yahoo/arrow/pull/270) [Issue](https://github.com/yahoo/arrow/issues/269)
+
 # 0.6.5
 
  * Fix for supporting context with datadriven descriptors and fixing shrinkwrap [PR](https://github.com/yahoo/arrow/pull/267)
