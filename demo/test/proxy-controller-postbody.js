@@ -33,7 +33,7 @@ ProxyCustomController.prototype.execute = function (callback) {
         webdriver.waitForElementPresent(webdriver.By.css("#yucsHead")).then(function () {
 
             var record = JSON.parse(self.getProxyRecord());
-console.log(record);
+
             self.testParams.networkTrafficRecord = record;
             self.driver.executeTest(self.testConfig, self.testParams, function (error, report) {
                 callback();

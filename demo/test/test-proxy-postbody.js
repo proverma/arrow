@@ -17,6 +17,7 @@ YUI.add("test-proxy-postbody-tests", function (Y) {
             Y.Assert.isNotNull(record, "The value of network record is null");
             for (i = 0; i < record.length; i += 1) {
                 if (record[i].body && record[i].body.text) {
+                    Y.Assert.isTrue(record[i].body.text.indexOf('q=select') === 0, "The content of POST body should start with 'q=select' ! " + record[i].body.text);
                     hasPostBody = true;
                 }
             }
