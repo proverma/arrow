@@ -1,5 +1,9 @@
 # Change Log
 
+# 0.6.7
+
+ * Add the capacity to record POST body and access it from proxy manager's record [PR](https://github.com/yahoo/arrow/pull/271)
+
 # 0.6.6
 
  * Fix for screenshots getting overwritten if there are multiple test failures in one descriptor [PR](https://github.com/yahoo/arrow/pull/270) [Issue](https://github.com/yahoo/arrow/issues/269)
