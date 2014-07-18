@@ -145,8 +145,10 @@ YUI.add('capabilitymanager-tests', function(Y) {
 
             caps = cm.setMobileCaps(caps);
 
-            Y.Assert.areEqual('iphone',caps.device,"Caps device should be iphone");
-            Y.Assert.areEqual('safari',caps.app,"Caps app should be safari");
+            Y.Assert.areEqual('iphone',caps.deviceName,"Caps deviceName should be iphone");
+            Y.Assert.areEqual('iOS',caps.platformName,"Caps platformName should be iOS");
+            Y.Assert.areEqual('Safari',caps.browserName,"Caps browserName should be Safari");
+
         }
     }));
 
