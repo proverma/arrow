@@ -1,5 +1,9 @@
 # Change Log
 
+# 0.6.8
+
+ * Updating capabilities for iOS [PR](https://github.com/yahoo/arrow/pull/275)
+
 # 0.6.7
 
  * Add the capacity to record POST body and access it from proxy manager's record [PR](https://github.com/yahoo/arrow/pull/271)
