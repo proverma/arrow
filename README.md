@@ -1,3 +1,6 @@
+
+***NOTE: This project is under maintenance mode and is not actively worked upon. We will only work on severe issues/bugs,if and when needed. Please feel free to fork it if you want to add a feature or make any enhancement.
+
 #Arrow
 
 [![Build Status](https://secure.travis-ci.org/yahoo/arrow.png?branch=master)](http://travis-ci.org/yahoo/arrow)[![NPM version](https://badge.fury.io/js/yahoo-arrow.png)](http://badge.fury.io/js/yahoo-arrow)
