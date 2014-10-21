@@ -23,16 +23,16 @@
             "component": "Arrow"
         }
     },
-    "author": "Pranav Verma <vpranav@yahoo-inc.com>",
+    "author": "Pranav V",
     "contributors": [
-        "Sushant Kumar <sushantk@yahoo-inc.com>",
-        "Ivan Alonso <ivana@yahoo-inc.com>",
-        "Payal Shah <payshah@yahoo-inc.com>",
-        "Pranav Parikh <pranavp@yahoo-inc.com>",
-        "Jintao Qiao <jintao@yahoo-inc.com>",
-        "Ji Liang <jiliang@yahoo-inc.com>",
-        "Jun Wang <junwang@yahoo-inc.com>",
-        "Ares Huang <aresyhoo@yahoo-inc.com>"
+        "Sushant K",
+        "Ivan A",
+        "Payal S",
+        "Pranav P",
+        "Jintao Q",
+        "Ji L",
+        "Jun W",
+        "Ares H"
     ],
     "bin": {
         "arrow": "./index.js",
