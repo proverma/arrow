@@ -257,6 +257,72 @@ YUI.add('selenium-tests', function (Y, NAME) {
             });
         },
 
+        'test execute with page load w/ sauceLabs': function () {
+            var self = this,
+                driver,
+                config = {
+                    browser: 'mybrowser',
+                    seleniumHost: 'http://wdhub',
+                    coverage: true,
+                    isSauceLabs: true
+                },
+                executed = false,
+                wdMock = require(arrowRoot + '/tests/unit/stub/webdriver');
+
+                wdMock.WebDriver.prototype.getCapabilities = function (cb) {
+                    var self = this;
+                    return {
+                        then: function (cb) {
+                            var Capabilities = function () {
+                            };
+
+                            Capabilities.prototype.set = function (caps) {
+                                self.caps = caps;
+                            };
+
+                            Capabilities.prototype.get = function (key) {
+                                var val;
+                                if (self.caps.hasOwnProperty(key)) {
+                                    val = self.caps[key];
+                                }
+                                return val;
+
+                            };
+
+                            self.capabilities = new Capabilities();
+                            self.capabilities.set(self.caps);
+                            self.capabilities.caps_ = {};
+                            self.capabilities.caps_['webdriver.remote.sessionid'] =
+                                'sauceSessionId';
+                            cb(self.capabilities);
+
+                        }
+                    };
+                };
+
+                mockery.registerMock('../util/wd-wrapper', wdMock);
+                mockery.enable({ useCleanCache: true });
+
+                driver = new DriverClass(config, {});
+                driver.createDriverJs = function (params, cb) {
+                    cb(null, 'driverjs');
+                };
+
+                function validate() {
+                    var actions = driver.getWebDriver()._actions;
+                    A.isTrue(executed, 'Should have successfully executed test');
+                    A.areEqual(actions[0].value, 'http://page', 'Should have navigated before test');
+                }
+
+            driver.start(function (errMsg) {
+                var webdriver = driver.getWebDriver();
+                webdriver.scriptResults['return ARROW.testReport;'] = '{"name": "functest", "failed": 0, "passed": 0}';
+                driver.executeTest({}, {page: 'http://page', test: 'test.js', customController: false}, function (errMsg) {
+                    executed = !errMsg;
+                    validate();
+                });
+            });
+        },
 
         'test execute with no page load': function () {
             var self = this,
