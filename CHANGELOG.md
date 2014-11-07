@@ -1,5 +1,9 @@
 # Change Log
 
+# 0.6.9
+
+ * Adding support to show sauce labs report url in report [PR](https://github.com/yahoo/arrow/pull/278)
+
 # 0.6.8
 
  * Updating capabilities for iOS [PR](https://github.com/yahoo/arrow/pull/275)
