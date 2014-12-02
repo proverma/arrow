@@ -346,6 +346,36 @@ YUI.add('testsession-tests', function (Y) {
       }
     }));
 
+    suite.add(new Y.Test.Case({
+
+        name : "Update Sauce labs result",
+
+        testUpdateSauceLabsPass: function() {
+
+            var ts = new testSession({},{},null),
+                log4js = require("log4js"),
+                mockery = require('mockery'),
+                logger = log4js.getLogger("TestSession"),
+                sauceLabsMock = require(arrowRoot + '/tests/unit/stub/SauceLabs');
+
+            sauceLabsMock.prototype.updateJob = function(result, id, callback){
+                callback(null);
+            }
+
+            mockery.registerMock('saucelabs', sauceLabsMock);
+            mockery.enable();
+
+            ts.updateSauceLabs("pass","testName", "SessionId", "username", "accesskey",
+                logger, function(error){
+                    A.isNull(error);
+                    mockery.deregisterMock('sauceLabs');
+                    mockery.disable();
+                });
+
+        }
+
+    }));
+
     Y.Test.Runner.add(suite);
 
 }, '0.0.1', {requires:['test']});
