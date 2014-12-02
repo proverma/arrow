@@ -1,5 +1,9 @@
 # Change Log
 
+# 0.6.10
+
+ * Update sauce labs dashboard with test results [PR](https://github.com/yahoo/arrow/pull/282)
+
 # 0.6.9
 
  * Adding support to show sauce labs report url in report [PR](https://github.com/yahoo/arrow/pull/278)
