@@ -200,7 +200,6 @@ YUI.add('testsession-tests', function (Y) {
             try {
                 var fileUtil = new FileUtil();
                 fileUtil.removeDirectory(path.resolve(process.cwd(), "myReport/arrow-target"));
-                console.log('Cleaned up arrow-target dir.');
             }
             catch(e){
             }
@@ -245,7 +244,6 @@ YUI.add('testsession-tests', function (Y) {
             try {
                 var fileUtil = new FileUtil();
                 fileUtil.removeDirectory(path.resolve(process.cwd(), "myReport/arrow-target"));
-                console.log('Cleaned up arrow-target dir.');
             }
             catch(e){
             }
@@ -291,7 +289,6 @@ YUI.add('testsession-tests', function (Y) {
             try {
                 var fileUtil = new FileUtil();
                 fileUtil.removeDirectory(path.resolve(process.cwd(), "myReport/arrow-target"));
-                console.log('Cleaned up arrow-target dir.');
             }
             catch(e){
             }
@@ -337,7 +334,6 @@ YUI.add('testsession-tests', function (Y) {
           try {
               var fileUtil = new FileUtil();
               fileUtil.removeDirectory(path.resolve(process.cwd(), "myReport/arrow-target"));
-              console.log('Cleaned up arrow-target dir.');
           }
           catch(e){
           }
@@ -371,7 +367,6 @@ YUI.add('testsession-tests', function (Y) {
                     mockery.deregisterMock('sauceLabs');
                     mockery.disable();
                 });
-
         }
 
     }));
