@@ -711,6 +711,10 @@
       "version": "1.11.0",
       "from": "qunitjs@1.11.0"
     },
+    "saucelabs": {
+        "version": "0.1.1",
+        "from": "saucelabs@"
+    },
     "selenium-webdriver": {
       "version": "2.39.0",
       "from": "selenium-webdriver@2.39.0"
