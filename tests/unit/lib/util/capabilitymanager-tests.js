@@ -201,6 +201,56 @@ YUI.add('capabilitymanager-tests', function(Y) {
         }
     }));
 
+    suite.add(new Y.Test.Case({
+        "Test Sauce capabilities - passed in config": function(){
+           var args = {},
+               caps = {},
+               config = {};
+           config.isSauceLabs = true;
+           config.sauceUsername = "sauceuser";
+           config.sauceAccesskey = "saucekey";
+
+           caps = cm.setSauceCaps(caps, config);
+
+            Y.Assert.areEqual('sauceuser',caps.username, "Capabilities username doesnt match when passed from config");
+            Y.Assert.areEqual('saucekey',caps.accessKey, "Capabilities accesskey doesnt match when passed from config");
+        }
+    }));
+
+    suite.add(new Y.Test.Case({
+        "Test Sauce capabilities - isSauceLabs false": function(){
+           var args = {},
+               caps = {},
+               config = {};
+
+           config.isSauceLabs = false;
+           caps = cm.setSauceCaps(caps, config);
+
+            Y.Assert.isUndefined(caps.username, "Capabilities username should be undefined");
+            Y.Assert.isUndefined(caps.accessKey, "Capabilities accesskey should be undefined");
+        }
+    }));
+
+
+
+    suite.add(new Y.Test.Case({
+        "Test Sauce capabilities - passed in environment": function(){
+           var args = {},
+               caps = {},
+               config = {};
+           config.isSauceLabs = true;
+           process.env.SAUCE_USERNAME = "sauceuser";
+           process.env.SAUCE_ACCESS_KEY = "saucekey";
+
+           caps = cm.setSauceCaps(caps, config);
+
+            Y.Assert.areEqual('sauceuser',caps.username, "Capabilities username doesnt match when passed from environment");
+            Y.Assert.areEqual('saucekey',caps.accessKey, "Capabilities accesskey doesnt match when passed from environment");
+
+            delete process.env.SAUCE_USERNAME;
+            delete process.env.SAUCE_ACCESS_KEY;
+        }
+    }));
 
     Y.Test.Runner.add(suite);
 
