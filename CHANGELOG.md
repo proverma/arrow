@@ -1,5 +1,9 @@
 # Change Log
 
+# 0.6.11
+
+ * Adding support for passing sauce username and accesskey in capabilities [PR](https://github.com/yahoo/arrow/pull/284)
+
 # 0.6.10
 
  * Update sauce labs dashboard with test results [PR](https://github.com/yahoo/arrow/pull/282)
