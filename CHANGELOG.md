@@ -1,5 +1,9 @@
 # Change Log
 
+# 0.6.12
+
+ * Adding support for passing sauce tunnel in capabilities [PR](https://github.com/yahoo/arrow/pull/285)
+
 # 0.6.11
 
  * Adding support for passing sauce username and accesskey in capabilities [PR](https://github.com/yahoo/arrow/pull/284)
