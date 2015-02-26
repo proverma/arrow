@@ -209,11 +209,13 @@ YUI.add('capabilitymanager-tests', function(Y) {
            config.isSauceLabs = true;
            config.sauceUsername = "sauceuser";
            config.sauceAccesskey = "saucekey";
+           config.sauceTunnel = "sauceTunnel";
 
            caps = cm.setSauceCaps(caps, config);
 
             Y.Assert.areEqual('sauceuser',caps.username, "Capabilities username doesnt match when passed from config");
             Y.Assert.areEqual('saucekey',caps.accessKey, "Capabilities accesskey doesnt match when passed from config");
+            Y.Assert.areEqual('sauceTunnel',caps['parent-tunnel'], "Capabilities parent-tunnel doesnt match when passed from config");
         }
     }));
 
@@ -228,6 +230,7 @@ YUI.add('capabilitymanager-tests', function(Y) {
 
             Y.Assert.isUndefined(caps.username, "Capabilities username should be undefined");
             Y.Assert.isUndefined(caps.accessKey, "Capabilities accesskey should be undefined");
+            Y.Assert.isUndefined(caps['parent-tunnel'], "Capabilities parent-tunnel should be undefined");
         }
     }));
 
@@ -241,11 +244,13 @@ YUI.add('capabilitymanager-tests', function(Y) {
            config.isSauceLabs = true;
            process.env.SAUCE_USERNAME = "sauceuser";
            process.env.SAUCE_ACCESS_KEY = "saucekey";
+           process.env.SAUCE_TUNNEL = "sauceTunnel";
 
            caps = cm.setSauceCaps(caps, config);
 
             Y.Assert.areEqual('sauceuser',caps.username, "Capabilities username doesnt match when passed from environment");
             Y.Assert.areEqual('saucekey',caps.accessKey, "Capabilities accesskey doesnt match when passed from environment");
+            Y.Assert.areEqual('sauceTunnel',caps['parent-tunnel'], "Capabilities accesskey doesnt match when passed from environment");
 
             delete process.env.SAUCE_USERNAME;
             delete process.env.SAUCE_ACCESS_KEY;
