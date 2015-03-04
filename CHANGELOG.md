@@ -1,4 +1,8 @@
 # Change Log
+
+# 0.6.14
+ * Updating shrinkwrap for Express update [PR](https://github.com/yahoo/arrow/pull/289)
+
 # 0.6.13
 
  * Updating Express to 4.x [PR](https://github.com/yahoo/arrow/pull/287)
