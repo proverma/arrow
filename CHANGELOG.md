@@ -1,4 +1,7 @@
 # Change Log
+# 0.6.13
+
+ * Updating Express to 4.x [PR](https://github.com/yahoo/arrow/pull/287)
 
 # 0.6.12
 
