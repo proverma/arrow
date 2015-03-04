@@ -41,8 +41,10 @@
     },
     "engines": [ "node >=0.6" ],
     "dependencies": {
+        "body-parser": "1.x",
         "glob": "3.1.11",
         "nopt": "2.0.0",
+        "cookie-parser": "1.x",
         "colors": "0.6.0-1",
         "express": "4.x",
         "yui": "3.8.0",
