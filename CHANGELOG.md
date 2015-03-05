@@ -1,5 +1,8 @@
 # Change Log
 
+# 0.6.16
+ * Fixing usage of cookie-parser and body-parser  [PR](https://github.com/yahoo/arrow/pull/291)
+
 # 0.6.15
  * Adding cookie-parser and body-parser dependencies [PR](https://github.com/yahoo/arrow/pull/290)
 
