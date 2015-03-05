@@ -79,8 +79,8 @@ if (parsed["debug"]) {
 
 var app = express();
 app.use(log4js.connectLogger(logger));
-app.use(cookieParser);
-app.use(bodyParser);
+app.use(cookieParser());
+app.use(bodyParser.json());
 
 var mimes = {
     "css":"text/css",
