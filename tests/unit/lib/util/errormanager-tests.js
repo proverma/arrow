@@ -17,26 +17,26 @@ YUI.add('errormanager-tests', function(Y) {
         em,
         msg,
         suite = new Y.Test.Suite("Error Manager test suite"),
-        origDim = 
-        [
-            {
-                "dimensions": [
-                    {
-                        "environment": {
-                            "development": {
-                                "dev": null,
-                                "test": null
-                            },
-                            "productions": {
-                                "int": null,
-                                "stage": null,
-                                "prod": null
+        origDim =
+            [
+                {
+                    "dimensions": [
+                        {
+                            "environment": {
+                                "development": {
+                                    "dev": null,
+                                    "test": null
+                                },
+                                "productions": {
+                                    "int": null,
+                                    "stage": null,
+                                    "prod": null
+                                }
                             }
                         }
-                    }
-                ]
-            }
-        ],
+                    ]
+                }
+            ],
         descSchema = {
             "name" : "test",
             "type" : "object",
@@ -111,7 +111,7 @@ YUI.add('errormanager-tests', function(Y) {
                     }
                     messages.push(message);
                 }
-                 mocks.message = messages;
+                mocks.message = messages;
             },
             exit: function (code) {
                 mocks.invokeCount = mocks.invokeCount + 1;
@@ -328,8 +328,8 @@ YUI.add('errormanager-tests', function(Y) {
                 Y.Assert.areSame(
                     '1000 (EDIMENVTEST) The environment "qa1" is missing.\nPlease add environment "qa1" to dimensions file "./config/dimensions.json".',
                     mocks.message[mocks.message.length-1]
-                );                
-                Y.Assert.areSame(1, mocks.invokeCount);                
+                );
+                Y.Assert.areSame(1, mocks.invokeCount);
             }
         }
     }));
@@ -355,8 +355,8 @@ YUI.add('errormanager-tests', function(Y) {
                 Y.Assert.areSame(
                     '1006 (ENULLARGTEST) Argument "seleniumHost" is "null".',
                     mocks.message[mocks.message.length-1]
-                );                
-                Y.Assert.areSame(1, mocks.invokeCount);                
+                );
+                Y.Assert.areSame(1, mocks.invokeCount);
             }
         }
     }));
@@ -384,8 +384,8 @@ YUI.add('errormanager-tests', function(Y) {
                 Y.Assert.areSame(
                     '1006 (ENULLARGTEST) Argument "seleniumHost" is "null".',
                     mocks.message[mocks.message.length-1]
-                );                
-                Y.Assert.areSame(1, mocks.invokeCount);                
+                );
+                Y.Assert.areSame(1, mocks.invokeCount);
             }
         }
     }));
@@ -409,10 +409,10 @@ YUI.add('errormanager-tests', function(Y) {
                 Y.Assert.areSame("exit code is 1", exit, "should exit with exit code.");
                 Y.Assert.areSame(
                     '1003 (EDSCENVTEST) The settings {"environment":"sss"} is missing.\n'+
-                    'Please add environment "sss" to dimensions file "./config/dimensions.json"\n'+
-                    'or remove it from test descriptor file "test-descriptor.json".',
+                        'Please add environment "sss" to dimensions file "./config/dimensions.json"\n'+
+                        'or remove it from test descriptor file "test-descriptor.json".',
                     mocks.message[mocks.message.length-1]
-                );                
+                );
                 Y.Assert.areSame(1, mocks.invokeCount);
             }
         }
@@ -441,9 +441,9 @@ YUI.add('errormanager-tests', function(Y) {
                 Y.Assert.areSame("exit code is 1", exit, "should exit with exit code.");
                 Y.Assert.areSame(
                     '1005 (EDSCYCBTEST) YCB Variable Replacement Failed, Please check you descriptor file, test-descriptor.json.\n'+
-                    "Error: The settings group '{}' has already been added.",
+                        "Error: The settings group '{}' has already been added.",
                     mocks.message[mocks.message.length-1]
-                );                
+                );
                 Y.Assert.areSame(1, mocks.invokeCount);
             }
         }

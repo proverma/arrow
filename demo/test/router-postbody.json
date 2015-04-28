@@ -1,0 +1,8 @@
+{
+    "storeBody" : true,
+    "sizeLimit": 4096,
+    "geo.query.yahoo.com": {
+        "method": "POST",
+        "record": true
+    }
+}

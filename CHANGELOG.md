@@ -1,5 +1,97 @@
 # Change Log
 
+# 0.6.16
+ * Fixing usage of cookie-parser and body-parser  [PR](https://github.com/yahoo/arrow/pull/291)
+
+# 0.6.15
+ * Adding cookie-parser and body-parser dependencies [PR](https://github.com/yahoo/arrow/pull/290)
+
+# 0.6.14
+ * Updating shrinkwrap for Express update [PR](https://github.com/yahoo/arrow/pull/289)
+
+# 0.6.13
+
+ * Updating Express to 4.x [PR](https://github.com/yahoo/arrow/pull/287)
+
+# 0.6.12
+
+ * Adding support for passing sauce tunnel in capabilities [PR](https://github.com/yahoo/arrow/pull/285)
+
+# 0.6.11
+
+ * Adding support for passing sauce username and accesskey in capabilities [PR](https://github.com/yahoo/arrow/pull/284)
+
+# 0.6.10
+
+ * Update sauce labs dashboard with test results [PR](https://github.com/yahoo/arrow/pull/282)
+
+# 0.6.9
+
+ * Adding support to show sauce labs report url in report [PR](https://github.com/yahoo/arrow/pull/278)
+
+# 0.6.8
+
+ * Updating capabilities for iOS [PR](https://github.com/yahoo/arrow/pull/275)
+
+# 0.6.7
+
+ * Add the capacity to record POST body and access it from proxy manager's record [PR](https://github.com/yahoo/arrow/pull/271)
+
+# 0.6.6
+
+ * Fix for screenshots getting overwritten if there are multiple test failures in one descriptor [PR](https://github.com/yahoo/arrow/pull/270) [Issue](https://github.com/yahoo/arrow/issues/269)
+
+# 0.6.5
+
+ * Fix for supporting context with datadriven descriptors and fixing shrinkwrap [PR](https://github.com/yahoo/arrow/pull/267)
+
+# 0.6.4
+
+ * Setting rejectUnauthorized to false for webservice controller [PR](https://github.com/yahoo/arrow/pull/266)
+ * Setting express version to 3.x and Mocha to ~1.18.2 [PR](https://github.com/yahoo/arrow/pull/252)
+
+# 0.6.3
+
+ * Fix to avoid ECONNRESET issue with Nodejs 10 [PR](https://github.com/yahoo/arrow/pull/250)
+
+# 0.6.2
+
+ * Restarting phantomjs before retry, if it crashed while test execution [PR](https://github.com/yahoo/arrow/pull/243) [Issue](https://github.com/yahoo/arrow/issues/240)
+ * Add additional checks for markup-test.js [PR](https://github.com/yahoo/arrow/pull/244)
+
+# 0.6.1
+
+ * Fix for exitCode not working for unit tests [PR](https://github.com/yahoo/arrow/pull/239)
+ * Fixing condition for descriptorSharedParams [PR](https://github.com/yahoo/arrow/pull/238)
+
+# 0.6.0
+
+ * Adding support for data driven descriptors [PR](https://github.com/yahoo/arrow/pull/237) [Documentation](http://yahoo.github.io/arrow/arrow_FAQs.html#how-can-I-reuse-same-descriptor-with-different-sets-of-data)
+ * Adding support for sharing parameters from descriptors [PR](https://github.com/yahoo/arrow/pull/237) [Documentation](http://yahoo.github.io/arrow/arrow_FAQs.html#how-can-I-share-params-from-my-descriptor)
+ * Error handling for JSON parsing in webservice controller [PR](https://github.com/yahoo/arrow/pull/235)
+
+# 0.5.3
+
+ * Adding support for specifying comments in descriptor [PR](https://github.com/yahoo/arrow/pull/232)
+ * Making nodejs tests honor logLevel [PR](https://github.com/yahoo/arrow/pull/232)
+ * Fixed the issue - space after a comma in the 'commonLib' string in 'test-descriptor.json' causes a fail [Issue](https://github.com/yahoo/arrow/issues/206) [PR](https://github.com/yahoo/arrow/pull/233)
+
+# 0.5.2
+
+ * Using cdnjs link for yui [PR](https://github.com/yahoo/arrow/pull/228)
+ * Adding support to pass capabilities as JSON object, merging default capabilities with user defined capabilities [PR](https://github.com/yahoo/arrow/pull/227)
+
+# 0.5.1
+
+ * Adding support for Android browser [PR](https://github.com/yahoo/arrow/pull/219)
+ * Adding support to resize the browser window [PR](https://github.com/yahoo/arrow/pull/205)
+ * Fixing the issue - Error: EMFILE, too many open files 'node/proxy.log  [Issue](https://github.com/yahoo/arrow/issues/217) [PR](https://github.com/yahoo/arrow/pull/218)
+
+# 0.5.0
+
+ * Adding feature to Import tests from other descriptors based test or group [ Details - https://github.com/yahoo/arrow/pull/200 ]
+ * Adding support for webdriver key object and improved error messaging [ Details - https://github.com/yahoo/arrow/pull/201 ]
+
 # 0.4.3
 
  * adding path method to return installed arrow directory [ Details - https://github.com/yahoo/arrow/pull/199 ]

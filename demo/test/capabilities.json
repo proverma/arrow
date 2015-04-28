@@ -1,0 +1,11 @@
+{
+    "capabilities": {
+        "mac_chrome": {
+            "browserName": "chrome",
+            "platform": "MAC"
+        }
+    },
+    "common_capabilities": {
+        "javascriptEnabled": "true"
+    }
+}

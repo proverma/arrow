@@ -54,7 +54,7 @@ FinanceCustomController.prototype.execute = function(callback) {
 
         webdriver.waitForElementPresent(webdriver.By.css(".title")).then(function() {
             self.driver.executeTest(self.testConfig, self.testParams, function(error, report) {
-                callback();
+                callback(error);
             });
 
         });

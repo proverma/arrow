@@ -1,0 +1,36 @@
+[
+    {
+        "settings":[ "master" ],
+
+        "name":"controllers",
+
+        "commonlib" : "./imported-test-lib-3.js,./imported-test-lib-4.js",
+
+        "config":{
+            "baseUrl":"http://finance.yahoo.com"
+        },
+
+        "dataprovider":{
+
+            "imported test 3":{
+                "group":"func",
+                "params":{
+                    "page":"$$config.baseUrl$$",
+                    "test":"test.js"
+                }
+            },
+
+            "imported test 4":{
+                "group":"smoke",
+                "params":{
+                    "page":"$$config.baseUrl$$",
+                    "test":"test.js"
+                }
+            }
+
+        }
+    },
+    {
+        "settings":[ "environment:development" ]
+    }
+]

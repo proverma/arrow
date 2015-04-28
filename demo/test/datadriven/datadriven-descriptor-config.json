@@ -1,0 +1,43 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name": "controllers",
+
+        "config": [
+            {
+                "finance": {
+                    "baseUrl": "http://finance.yahoo.com",
+                    "searchBtnId": "#mnp-search_box"
+                }
+            },
+            {
+                "yahoo": {
+                    "baseUrl": "http://yahoo.com",
+                    "searchBtnId": "#p_13838465-p"
+                }
+            }
+        ],
+
+    "dataprovider" : {
+
+            "Test Data Driven Descriptor" : {
+                "group" : "func",
+
+                "params" :{
+
+                    "page": "$$config.baseUrl$$",
+                    "test": "dataDriventest.js",
+                    "searchBtnId":"$$config.searchBtnId$$"
+
+                }
+
+            }
+        }
+    },
+    {
+        "settings": [ "environment:development" ]
+    }
+
+]
+

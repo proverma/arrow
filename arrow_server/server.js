@@ -16,6 +16,8 @@ var path = require("path");
 var nopt = require("nopt");
 var http = require("http");
 var express = require("express");
+var bodyParser = require("body-parser");
+var cookieParser = require("cookie-parser");
 var log4js = require("log4js");
 var portchecker = require('../ext-lib/portchecker');
 
@@ -77,8 +79,8 @@ if (parsed["debug"]) {
 
 var app = express();
 app.use(log4js.connectLogger(logger));
-app.use(express.cookieParser());
-app.use(express.bodyParser());
+app.use(cookieParser());
+app.use(bodyParser.json());
 
 var mimes = {
     "css":"text/css",
@@ -360,7 +362,7 @@ app.get("/wd/hub/session/:sessionId", function (req, res) {
 });
 
 // Delete the session
-app.del("/wd/hub/session/:sessionId", function (req, res) {
+app.delete("/wd/hub/session/:sessionId", function (req, res) {
     res.contentType("application/json");
     res.send({status:9, value:"Delete session: Not Implemented"}, 501);
 });

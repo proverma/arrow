@@ -1341,9 +1341,8 @@ Example -
                 var record = JSON.parse(self.getProxyRecord()); // Get the proxy record
 
                 self.testParams.proxyManagerRecord=record;
-                self.testParams.page=null;
                 self.driver.executeTest(self.testConfig, self.testParams, function(error, report) {
-                    callback();
+                    callback(error);
                 });
 
             });

@@ -25,6 +25,12 @@ YUI.add('dataprovider-tests', function (Y) {
     var dp = new dataProv(conf, args, __dirname + "/testDescriptor.json");
     var dpvalues = dp.getTestData();
 
+    dp.mock = {
+        exit: function (code) {
+            throw new Error("exit code is "+code);
+        }
+    };
+
     suite.add(new Y.Test.Case({
         "Confirm constructor works": function(){
             Y.Assert.isNotNull(dp, "Confirm initiallizing does not return null");
@@ -34,25 +40,25 @@ YUI.add('dataprovider-tests', function (Y) {
     //Test getting all values in a descriptor
     suite.add(new Y.Test.Case({
         "Confirm Config params": function(){
-            Y.Assert.areEqual("tabview", dpvalues.name);
-            Y.Assert.areEqual("./test-lib.js", dpvalues.commonlib);
-            Y.Assert.areEqual("<yourhostname>:8033", dpvalues.config.baseUrl);
+            Y.Assert.areEqual("tabview", dpvalues[0].name);
+            Y.Assert.areEqual("./test-lib.js", dpvalues[0].commonlib);
+            Y.Assert.areEqual("<yourhostname>:8033", dpvalues[0].config.baseUrl);
         }
     }));
 
     suite.add(new Y.Test.Case({
         "Confirm dataprovider values": function(){
-            Y.Assert.areEqual("test-func.js", dpvalues.dataprovider.test1.params.test);
-            Y.Assert.areEqual("testMock.html", dpvalues.dataprovider.test1.params.page);
-            Y.Assert.areEqual("unit", dpvalues.dataprovider.test1.group);
+            Y.Assert.areEqual("test-func.js", dpvalues[0].dataprovider.test1.params.test);
+            Y.Assert.areEqual("testMock.html", dpvalues[0].dataprovider.test1.params.page);
+            Y.Assert.areEqual("unit", dpvalues[0].dataprovider.test1.group);
         }
     }));
 
     //Test overriding values in the descriptor using $$ value
     suite.add(new Y.Test.Case({
         "Confirm you can share config values within descriptor": function(){
-            Y.Assert.areEqual("<yourhostname>:8033/testMock.html", dpvalues.dataprovider.test2.params.page);
-            Y.Assert.areEqual("sometest.js", dpvalues.dataprovider.test2.params.test);
+            Y.Assert.areEqual("<yourhostname>:8033/testMock.html", dpvalues[0].dataprovider.test2.params.page);
+            Y.Assert.areEqual("sometest.js", dpvalues[0].dataprovider.test2.params.test);
         }
     }));
 
@@ -68,10 +74,17 @@ YUI.add('dataprovider-tests', function (Y) {
                 args = {};
 
             var dp = new dataProv(conf, args, __dirname + "/testDescriptor.json");
+
+            dp.mock = {
+                exit: function (code) {
+                    throw new Error("exit code is "+code);
+                }
+            };
+
             var dpvalues = dp.getTestData();
 
-            Y.Assert.areEqual("http://overridebase.url.com/testMock.html", dpvalues.dataprovider.test2.params.page);
-            Y.Assert.areEqual("sometest.js", dpvalues.dataprovider.test2.params.test);
+            Y.Assert.areEqual("http://overridebase.url.com/testMock.html", dpvalues[0].dataprovider.test2.params.page);
+            Y.Assert.areEqual("sometest.js", dpvalues[0].dataprovider.test2.params.test);
         }
     }));
 
@@ -89,10 +102,15 @@ YUI.add('dataprovider-tests', function (Y) {
                 args = {};
 
             var dp = new dataProv(conf, args,__dirname + "/testDescriptor.json");
+            dp.mock = {
+                exit: function (code) {
+                    throw new Error("exit code is "+code);
+                }
+            };
             var dpvalues = dp.getTestData();
 
-            Y.Assert.areEqual("http://overridebase.url.com/testMock.html", dpvalues.dataprovider.test2.params.page);
-            Y.Assert.areEqual("sometest.js", dpvalues.dataprovider.test2.params.test);
+            Y.Assert.areEqual("http://overridebase.url.com/testMock.html", dpvalues[0].dataprovider.test2.params.page);
+            Y.Assert.areEqual("sometest.js", dpvalues[0].dataprovider.test2.params.test);
         }
     }));
 
@@ -145,6 +163,114 @@ YUI.add('dataprovider-tests', function (Y) {
         }
     }));
 
+
+    suite.add(new Y.Test.Case({
+
+        "Invalid json from file": function() {
+
+            var msg;
+
+            try {
+                dp.readAndValidateJSON(__dirname + '/invalid.json');
+            }
+            catch(e) {
+                msg = e;
+            }
+            Y.Assert.areEqual( "exit code is 1", msg.message,"readAndValidateJSON() did not throw exception for invalid JSON from file");
+        }
+    }));
+
+
+    suite.add(new Y.Test.Case({
+
+        "Invalid json ": function() {
+
+            var msg;
+
+            try {
+                dp.readAndValidateJSON('{\'a\'}');
+            }
+            catch(e) {
+                msg = e;
+            }
+            Y.Assert.areEqual( "exit code is 1", msg.message, "readAndValidateJSON() did not throw exception for invalid JSON");
+        }
+    }));
+
+
+    suite.add(new Y.Test.Case({
+
+        "Invalid descriptorjson ": function() {
+
+            var conf = {},
+                args = {};
+
+            var dp = new dataProv(conf, args,__dirname + "/invalid.json");
+            var msg;
+            dp.mock = {
+                exit: function (code) {
+                    throw new Error("exit code is "+code);
+                }
+            };
+
+
+            try {
+                dp.getTestData();
+            }
+            catch(e) {
+                msg = e;
+            }
+            Y.Assert.areEqual( "exit code is 1", msg.message, "getTestData() did not throw exception for invalid JSON");
+        }
+    }));
+
+
+    suite.add(new Y.Test.Case({
+
+        "Validate descriptor against schema ": function() {
+
+            var msg,
+                descriptor;
+
+            try {
+
+                descriptor = fs.readFileSync(__dirname + '/testDescriptorInvalidSchema.json','utf-8');
+                descriptor = JSON.parse(descriptor);
+                dp.validateDescriptor(descriptor, __dirname + "/config/descriptor-schema.json");
+
+            }
+            catch(e) {
+                msg = e;
+            }
+
+            Y.Assert.areEqual( "exit code is 1", msg.message, "validateDescriptor() did not throw exception for invalid schema");
+
+        }
+    }));
+
+    suite.add(new Y.Test.Case({
+
+        "Validate descriptor against schema - wrong path for schema ": function() {
+
+            var msg,
+                descriptor;
+
+            try {
+
+                descriptor = fs.readFileSync(__dirname + '/testDescriptorInvalidSchema.json','utf-8');
+                descriptor = JSON.parse(descriptor);
+                dp.validateDescriptor(descriptor, __dirname + "/config/descriptor-schema-invalid.json");
+
+            }
+            catch(e) {
+                msg = e;
+            }
+
+            Y.Assert.areEqual( "exit code is 1", msg.message, "validateDescriptor() did not throw exception for invalid schema file");
+
+        }
+    }));
+
     suite.add(new Y.Test.Case({
         "Replace params": function(){
             var conf = {
@@ -166,7 +292,6 @@ YUI.add('dataprovider-tests', function (Y) {
 
         }
     }));
-
 
     suite.add(new Y.Test.Case({
         "Replace params and default params": function(){
@@ -236,6 +361,83 @@ YUI.add('dataprovider-tests', function (Y) {
 
             Y.Assert.areEqual(JSON.stringify(descriptorWithReplacedParams),
                 '[{"config":{"baseUrl":"http://finance.yahoo.com"}}]');
+
+        }
+    }));
+
+    suite.add(new Y.Test.Case({
+
+        "Data driven descriptor test": function(){
+
+            var conf = {
+                    "baseUrl": "http://overridebase.url.com",
+                    "arrowModuleRoot": __dirname + "/",
+                    "dimensions": __dirname + "/dimensions.json",
+                    "context": ""
+                },
+                args = {};
+
+            var dp = new dataProv(conf, args, __dirname + "/datadriven-descriptor.json");
+            dp.mock = {
+                exit: function (code) {
+                    throw new Error("exit code is "+code);
+                }
+            };
+            var dpvalues = dp.getTestData();
+
+            Y.Assert.areEqual(2, dpvalues.length, 'Number of data driven descriptors dont match');
+
+//            Y.Assert.areEqual("http://overridebase.url.com/testMock.html", dpvalues[0].dataprovider.test2.params.page);
+//            Y.Assert.areEqual("sometest.js", dpvalues[0].dataprovider.test2.params.test);
+
+        }
+    }));
+
+    suite.add(new Y.Test.Case({
+
+        "Test extends": function(){
+
+            var conf = {
+                    "baseUrl": "http://mybaseurl.com",
+                    "arrowModuleRoot": __dirname + "/",
+                    "dimensions": __dirname + "/dimensions.json",
+                    "context": "environment:development",
+                    "replaceParamJSON" : __dirname + "/replaceParams/replaceParam.json",
+                    "defaultParamJSON" : __dirname + "/replaceParams/defaultParam.json"
+                },
+                args = {};
+
+            var descPath = __dirname + '/testDescriptorExtends.json';
+            var dp = new dataProv(conf, args,descPath);
+            var descriptor = JSON.parse(fs.readFileSync(descPath,'utf-8'));
+            var relativePath = path.dirname(dp.testDataPath);
+
+            descriptor = dp.processExtendDescriptor(descriptor, __dirname, relativePath);
+            Y.Assert.isNotUndefined(descriptor,'Descriptor is undefined after extends');
+            Y.Assert.areEqual(2, descriptor.length,'Length of descriptor Array shall be 2');
+            Y.Assert.areEqual('{"settings":["environment:new"],"config":{"baseUrl":"http://newurl.com"}}', JSON.stringify(descriptor[1]), "descriptor[1] doesnt match the expected value after extending");
+        }
+    }));
+
+    suite.add(new Y.Test.Case({
+
+        "Apply YCB substitution - Settings has already been added test ": function() {
+
+            var msg,
+                descriptor,
+                contextObj = {};
+
+            try {
+
+                descriptor = fs.readFileSync(__dirname + '/descriptor-invalid-settings.json', 'utf-8');
+                descriptor = JSON.parse(descriptor);
+                dp.applyYcbSubstitution(descriptor, contextObj);
+
+            } catch (e) {
+                msg = e;
+            }
+
+            Y.Assert.areEqual("exit code is 1", msg.message, "validateDescriptor() did not throw exception for invalid schema file");
 
         }
     }));

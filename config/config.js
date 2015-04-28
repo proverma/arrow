@@ -9,6 +9,9 @@ var config = {};
 // User default config
 config.seleniumHost = "";
 config.phantomHost = "http://localhost:4445/wd/hub";
+config.sauceLabsHost = "http://ondemand.saucelabs.com:80/wd/hub";
+config.sauceUsername = "";
+config.sauceAccesskey = "";
 config.context = "";
 config.defaultAppHost = "";
 config.logLevel = "INFO";
@@ -20,7 +23,7 @@ config.baseUrl = "";
 config.arrowModuleRoot = global.appRoot + "/";
 config.dimensions = config.arrowModuleRoot + "config/dimensions.json";
 config.defaultTestHost = config.arrowModuleRoot + "lib/client/testHost.html";
-config.defaultAppSeed = "http://yui.yahooapis.com/3.8.0/build/yui/yui-min.js";
+config.defaultAppSeed = "//cdnjs.cloudflare.com/ajax/libs/yui/3.15.0/yui-min.js";
 config.autolib = config.arrowModuleRoot + "lib/common";
 
 //for yui sandbox

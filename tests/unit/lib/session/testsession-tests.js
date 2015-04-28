@@ -147,6 +147,26 @@ YUI.add('testsession-tests', function (Y) {
 
     suite.add(new Y.Test.Case({
 
+        name : "Check for invalid driver",
+
+        testInvalidDriver: function(){
+            var config = {},
+                args = {};
+
+            args.params = {};
+            args.params.driver="invalid";
+            var ts = new testSession(config,args,null);
+
+            ts.setup(function(msg){
+                A.isTrue(msg.indexOf("ERROR :invalid is not a supported test driver, Please provide \"selenium\" or \"nodejs\" as driver.") > -1 , "Should return invalid driver");
+            });
+
+        }
+    }));
+
+
+    suite.add(new Y.Test.Case({
+
         name : "Get Artifact Paths test with report Folder",
 
         "test GetArtifactPaths Test with report folder": function(){
@@ -160,7 +180,7 @@ YUI.add('testsession-tests', function (Y) {
             var obj = {};
             obj.count = 1;
             obj.testName = "Test-1";
-            obj.descriptorPath = "descriptorPath";
+            obj.qualifiedDescriptorPath = "descriptorPath";
             obj.reportDir = "myReport/arrow-target";
             obj.screenShotsDir = "screenshots";
 
@@ -180,7 +200,6 @@ YUI.add('testsession-tests', function (Y) {
             try {
                 var fileUtil = new FileUtil();
                 fileUtil.removeDirectory(path.resolve(process.cwd(), "myReport/arrow-target"));
-                console.log('Cleaned up arrow-target dir.');
             }
             catch(e){
             }
@@ -197,7 +216,7 @@ YUI.add('testsession-tests', function (Y) {
             var obj = {};
             obj.count = 1;
             obj.testName = "Test-1";
-            obj.descriptorPath = "descriptorPath";
+            obj.qualifiedDescriptorPath = "descriptorPath";
             obj.reportDir = "myReport/arrow-target";
             obj.screenShotsDir = "screenshots";
             obj.artifactsUrl = "http://ci.com/artifacts/tests/arrow/node/myReport/arrow-target";
@@ -225,7 +244,6 @@ YUI.add('testsession-tests', function (Y) {
             try {
                 var fileUtil = new FileUtil();
                 fileUtil.removeDirectory(path.resolve(process.cwd(), "myReport/arrow-target"));
-                console.log('Cleaned up arrow-target dir.');
             }
             catch(e){
             }
@@ -250,7 +268,7 @@ YUI.add('testsession-tests', function (Y) {
             var obj = {};
             obj.count = 1;
             obj.testName = "Test-1";
-            obj.descriptorPath = "descriptorPath";
+            obj.qualifiedDescriptorPath = "descriptorPath";
             obj.reportDir = "arrow-target";
             obj.screenShotsDir = "screenshots";
 
@@ -271,7 +289,6 @@ YUI.add('testsession-tests', function (Y) {
             try {
                 var fileUtil = new FileUtil();
                 fileUtil.removeDirectory(path.resolve(process.cwd(), "myReport/arrow-target"));
-                console.log('Cleaned up arrow-target dir.');
             }
             catch(e){
             }
@@ -289,7 +306,7 @@ YUI.add('testsession-tests', function (Y) {
             var obj = {};
             obj.count = 1;
             obj.testName = "Test-1";
-            obj.descriptorPath = "descriptorPath";
+            obj.qualifiedDescriptorPath = "descriptorPath";
             obj.reportDir = "arrow-target";
             obj.screenShotsDir = "screenshots";
             obj.artifactsUrl = "http://ci.com/artifacts/tests/arrow/node/arrow-target";
@@ -317,13 +334,41 @@ YUI.add('testsession-tests', function (Y) {
           try {
               var fileUtil = new FileUtil();
               fileUtil.removeDirectory(path.resolve(process.cwd(), "myReport/arrow-target"));
-              console.log('Cleaned up arrow-target dir.');
           }
           catch(e){
           }
 
 
       }
+    }));
+
+    suite.add(new Y.Test.Case({
+
+        name : "Update Sauce labs result",
+
+        testUpdateSauceLabsPass: function() {
+
+            var ts = new testSession({},{},null),
+                log4js = require("log4js"),
+                mockery = require('mockery'),
+                logger = log4js.getLogger("TestSession"),
+                sauceLabsMock = require(arrowRoot + '/tests/unit/stub/SauceLabs');
+
+            sauceLabsMock.prototype.updateJob = function(result, id, callback){
+                callback(null);
+            }
+
+            mockery.registerMock('saucelabs', sauceLabsMock);
+            mockery.enable();
+
+            ts.updateSauceLabs("pass","testName", "SessionId", "username", "accesskey",
+                logger, function(error){
+                    A.isNull(error);
+                    mockery.deregisterMock('sauceLabs');
+                    mockery.disable();
+                });
+        }
+
     }));
 
     Y.Test.Runner.add(suite);

@@ -1,3 +1,6 @@
+
+***NOTE: This project is under maintenance mode and is not actively worked upon. We will only work on severe issues/bugs,if and when needed. Please feel free to fork it if you want to add a feature or make any enhancement.
+
 #Arrow
 
 [![Build Status](https://secure.travis-ci.org/yahoo/arrow.png?branch=master)](http://travis-ci.org/yahoo/arrow)[![NPM version](https://badge.fury.io/js/yahoo-arrow.png)](http://badge.fury.io/js/yahoo-arrow)
@@ -38,10 +41,12 @@ npm install -g yahoo-arrow
 * **--seleniumHost** : (optional) override selenium host url (example: --seleniumHost=http://host.com:port/wd/hub)
 * **--capabilities** : (optional) the name of a json file containing webdriver capabilities required by your project
 * **--startProxyServer** : (optional) true/false. Starts a proxy server, intercepting all selenium browser calls
-* **--routerProxyConfig** : (optional) filePath. Expects a Json file, allows users to modify host and headers for all calls being made by browser. Also supports recording of select url calls ( if you mark "record" : true)
+* **--routerProxyConfig** : (optional) filePath. Expects a Json file, allows users to modify host and headers for all calls being made by browser. Also supports recording of select url calls ( if you mark "record" : true), and also supports recording the body of POST request (if you mark "storeBody": true), the default limit size of post body is 10240 bytes, you can change it by assigning "sizeLimit" : {integer in byte}.
 
          Example Json :
                        {
+                           "storeBody" : true,
+                           "sizeLimit": 4096,
                            "router":{
                                 "yahoo.com": {
                                      "newHost": "x.x.x.x (your new host ip/name)",

@@ -11,9 +11,26 @@
         "importDescriptor":[
             {
                 "path" : "../importTests/finance-descriptor.json",
-                "importTest":["Test YHOO Ticker"]
+                "test":["Test YHOO Ticker"]
             }
 
-        ]
+        ],
+
+        "dataprovider" : {
+
+            "dummy_test" : {
+                "params" : {
+                    "engine" : "mocha",
+                    "engineConfig" : "./mocha-config.json",
+                    "test" : "test-dummy-mocha.js",
+                    "page" : "http://finance.yahoo.com"
+                },
+                "group" : "int"
+
+            }
+
+        }
+
+
     }
 ]

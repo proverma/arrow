@@ -29,7 +29,7 @@ YUI.add('libmanager-tests', function (Y) {
         }
     }));
 
-    //check getAllTests
+//    //check getAllTests
     suite.add(new Y.Test.Case({
         "Check getAllTest Method": function(){
             //Expected is concatenation of the values js and json files in config
@@ -43,6 +43,33 @@ YUI.add('libmanager-tests', function (Y) {
             //Check that when I give it a path wich includes no extension, the file is not returned
             expected = __dirname + "/badlibs/nonJsFileGoodExtension.js";
             Y.Assert.areEqual(expected, libmanager.getAllTest(badlibpath), "Check only file with JS extension is returned");
+        }
+    }));
+
+    suite.add(new Y.Test.Case({
+        "Check getAllTest Method space after comma": function(){
+            //Expected is concatenation of the values js and json files in config
+            var libPath = __dirname + "/config/configoverride.js , " + __dirname + '/config/defaultconfig.js';
+            var result = libmanager.getAllTest(libPath).split(",");
+            result.sort();
+
+            Y.Assert.areEqual(__dirname + "/config/configoverride.js", result[0], "Check Files are Returned");
+            Y.Assert.areEqual(__dirname + "/config/defaultconfig.js", result[1], "Check Files are Returned");
+        }
+    }));
+
+
+    suite.add(new Y.Test.Case({
+        "Check getAllTest Method Invalid library": function(){
+            //Expected is concatenation of the values js and json files in config
+            var libPath = __dirname + "/config/configoverride.js , ";
+            libPath += __dirname + '/config/defaultconfig.js , ';
+            libPath += __dirname + '/config/invalid.txt';
+            var result = libmanager.getAllTest(libPath).split(",");
+            result.sort();
+
+            Y.Assert.areEqual(__dirname + "/config/configoverride.js", result[0], "Check Files are Returned");
+            Y.Assert.areEqual(__dirname + "/config/defaultconfig.js", result[1], "Check Files are Returned");
         }
     }));
 

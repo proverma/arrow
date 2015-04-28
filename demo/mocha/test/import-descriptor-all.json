@@ -1,0 +1,35 @@
+[
+    {
+        "settings": [ "master" ],
+
+        "name" : "import_test",
+
+        "config": {
+            "baseUrl": "http://finance.yahoo.com"
+        },
+
+        "importDescriptor":[
+            {
+                "path" : "../importTests/finance-descriptor.json"
+            }
+
+        ],
+
+        "dataprovider" : {
+
+            "dummy_test" : {
+                "params" : {
+                    "engine" : "mocha",
+                    "engineConfig" : "./mocha-config.json",
+                    "test" : "test-dummy-mocha.js",
+                    "page" : "http://finance.yahoo.com"
+                },
+                "group" : "int"
+
+            }
+
+        }
+
+
+    }
+]
